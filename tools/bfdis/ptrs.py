@@ -19,6 +19,7 @@ Rejected (ambiguous):
 import struct, collections, bisect
 
 ROM = 0x08000000
+SOUND_LO, SOUND_HI = 0x2B8C38, 0x3C0000     # uncompressed sound region (samples + sequences)
 
 
 def classify(d, db, blocks, text_end, ro_lo, ro_hi, image_end):
@@ -53,6 +54,10 @@ def classify(d, db, blocks, text_end, ro_lo, ro_hi, image_end):
     isolated = []
     for o, w in cand.items():
         t = w - ROM
+        # dialogue step record {u16 id, u8 type=5, u8 speaker, u32 textref}: a packed text ref
+        # (bank | off<<6 | len<<21) with len 64..67 looks exactly like a ROM pointer
+        if d[o - 2] == 5 and d[o - 1] != 0x08 and (w & 0x3F) < 7 and struct.unpack_from('<H', d, o - 4)[0] < 0x400:
+            amb[o] = (w, 'textref'); continue
         if t in wstart and w % 2 == 0: acc[o] = (w, 'wfz'); continue
         if w & 1 and (w - 1) in funcs and funcs[w - 1] == 't': acc[o] = (w, 'func'); continue
         if w % 4 == 0 and w in funcs and funcs[w] == 'a': acc[o] = (w, 'func'); continue
@@ -100,4 +105,16 @@ def classify(d, db, blocks, text_end, ro_lo, ro_hi, image_end):
             acc[o] = (w, 'table_odd')
         else:
             amb[o] = (w, 'odd')
+    # words inside byte-stream objects (objects whose start is not 4-aligned: sound sequences, scripts)
+    # are data, not pointers -- unless the evidence is strong (wfz/func/code).
+    starts = sorted(set((w2 & ~0) - ROM for (w2, k2) in acc.values() if k2 not in ('func',)) | set(w2 - ROM for w2 in pool_targets))
+    for o in list(acc):
+        w, k = acc[o]
+        if k in ('wfz', 'func', 'code'): continue
+        i = bisect.bisect_right(starts, o) - 1
+        if i < 0 or starts[i] % 2 == 0 or o - starts[i] >= 0x1000: continue   # only odd-start objects
+        if not (SOUND_LO <= starts[i] < SOUND_HI): continue       # observed only for sound sequences
+        # a regular array of pointers (same field in fixed-size records) is real even inside such a region
+        if any((o + m * st) in acc and (o + 2 * m * st) in acc for st in range(4, 68, 4) for m in (-1, 1)): continue
+        del acc[o]; amb[o] = (w, 'in_bytestream')
     return acc, amb

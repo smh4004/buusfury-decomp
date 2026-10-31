@@ -112,7 +112,6 @@
 	.global gUnknown_087325E8
 	.global gUnknown_087325F8
 	.global gUnknown_08732604
-	.global gUnknown_0873A182
 	.global gUnknown_0874CA24
 	.global gUnknown_0874CA38
 	.global gUnknown_0874CA6C
@@ -26021,7 +26020,6 @@ gUnknown_0873A134:
 	.4byte gUnknown_0873963C
 	.4byte gUnknown_087396D8
 	.4byte gUnknown_0873971C
-	.set gUnknown_0873A182, . - 2
 	.4byte gUnknown_08739790
 	.4byte gUnknown_08739804
 	.4byte gUnknown_08739848

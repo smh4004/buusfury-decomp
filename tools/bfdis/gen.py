@@ -236,6 +236,7 @@ def main():
             f.write('\n'.join(hdr + [''] + lines) + '\n')
     open('config/code_files.txt', 'w').write(''.join(os.path.basename(n)[:-2] + '\n' for n, a, b, l in files if 'iwram' not in n))
     open('config/data_files.txt', 'w').write(''.join(os.path.basename(n)[:-2] + '\n' for n, a, b, l in data_files))
+    subprocess.check_call([sys.executable, 'tools/bfdis/pinned.py'])
     print('code files %d, data files %d, rodata pointers %d (ambiguous %d), rodata labels %d'
           % (len(files), len(data_files), len(acc), len(amb), len(ro_labels)))
 

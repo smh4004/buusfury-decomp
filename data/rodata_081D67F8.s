@@ -79,7 +79,6 @@
 	.global gUnknown_082015E4
 	.global gUnknown_08201B10
 	.global gUnknown_08202798
-	.global gUnknown_08202DC2
 	.global gUnknown_0820329C
 	.global gUnknown_08204920
 	.global gUnknown_08204F3C
@@ -5393,7 +5392,6 @@ gUnknown_08202D9C:
 	.4byte gUnknown_08202B48
 	.4byte gUnknown_08202D4C
 	.4byte gUnknown_08202D78
-	.set gUnknown_08202DC2, . - 2
 gUnknown_08202DC4:
 	.incbin "baserom.gba", 0x202DC4, 0x10C
 gUnknown_08202ED0:

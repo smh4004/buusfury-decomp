@@ -146,7 +146,6 @@
 	.global gUnknown_0852B1B4
 	.global gUnknown_0852C3E4
 	.global gUnknown_0852C568
-	.global gUnknown_0852C584
 	.global gUnknown_0852D6F8
 	.global gUnknown_0852DB70
 	.global gUnknown_0852E878
@@ -9902,7 +9901,6 @@ gUnknown_0852C568:
 	.4byte gUnknown_0852C518
 	.4byte gUnknown_0852C43C
 	.4byte gUnknown_0852C48C
-gUnknown_0852C584:
 	.4byte gUnknown_0852C4DC
 	.4byte gUnknown_0852C52C
 	.4byte gUnknown_0852C450

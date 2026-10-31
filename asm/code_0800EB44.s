@@ -3,7 +3,6 @@
 	.syntax unified
 	.text
 	.global _0800F1EC
-	.global _0800F900
 	.global sub_0800EB44
 	.global sub_0800EB60
 	.global sub_0800EC34

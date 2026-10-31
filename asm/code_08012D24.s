@@ -62,7 +62,6 @@
 	.global sub_08014C30
 	.global sub_08014D56
 	.global sub_08014DC2
-	.global sub_08015044
 
 
 	thumb_func_start sub_08012D24
@@ -4738,9 +4737,6 @@ _08015028:
 	ldr r1, [r6, r0]
 	ldr r0, [r5, #0x2c]
 	movs r2, #3
-
-	thumb_func_start sub_08015044
-sub_08015044: @ 0x08015044
 	bl sub_08015FFC
 _08015048:
 	ldr r0, [r7, #0x10]

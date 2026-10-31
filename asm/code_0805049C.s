@@ -3,7 +3,6 @@
 	.syntax unified
 	.text
 	.global _08050708
-	.global _08050914
 	.global _08051D78
 	.global sub_0805049C
 	.global sub_080504B4

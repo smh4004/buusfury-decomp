@@ -460,7 +460,6 @@
 	.global sub_0804FAC4
 	.global sub_0804FADC
 	.global sub_0804FAF4
-	.global sub_0804FB00
 	.global sub_0804FB0C
 	.global sub_0804FB24
 	.global sub_0804FB3C
@@ -5324,9 +5323,6 @@ sub_0804FAF4: @ 0x0804FAF4
 	ldr r3, [r2, #0x1c]
 	adds r2, r3, r2
 	bl _call_via_r2
-
-	thumb_func_start sub_0804FB00
-sub_0804FB00: @ 0x0804FB00
 	cmp r0, #0
 	beq _0804FB08
 	movs r0, #8

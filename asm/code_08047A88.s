@@ -2,8 +2,6 @@
 	.include "asm/macros.inc"
 	.syntax unified
 	.text
-	.global _08048400
-	.global _08048820
 	.global _080491F0
 	.global _0804920C
 	.global _08049238

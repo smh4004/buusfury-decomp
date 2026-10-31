@@ -14,6 +14,8 @@
  *   watch ADDR N       single-step N frames; print PC/regs whenever the byte at ADDR changes
  *   hist N             single-step N frames and print the 16 most frequent PCs (find hangs)
  *   pc                 print the CPU PC
+ *   watchon ADDR       from now on, run/tap single-step and report every change of the word at ADDR
+ *   guardon ROMEND     from now on, run/tap single-step and report the first PC outside valid memory
  *   guard N ROMEND     single-step up to N frames; stop and print the last 64 PCs when execution
  *                      leaves BIOS/EWRAM/IWRAM/ROM[0x08000000,ROMEND) (catches jumps through stale pointers)
  * Original code for the buusfury disassembly project.
@@ -32,6 +34,39 @@
 static unsigned W, H;
 static color_t* vbuf;
 static uint64_t frame_no;
+static uint32_t guard_end;           /* "guardon ROMEND": check PC on every instruction during run/tap */
+static int guard_hit;
+static uint32_t gring[64]; static int gri;
+static uint32_t watch_addr, watch_val; static int watch_on;   /* "watchon ADDR": report writes during run/tap */
+
+static void frame(struct mCore* core) {
+    if ((!guard_end || guard_hit) && !watch_on) { core->runFrame(core); return; }
+    struct ARMCore* cpu = core->cpu;
+    uint64_t fc = core->frameCounter(core);
+    while (core->frameCounter(core) == fc) {
+        core->step(core);
+        uint32_t pc = cpu->gprs[15];
+        gring[gri++ & 63] = pc;
+        if (watch_on) {
+            uint32_t v = core->busRead32(core, watch_addr);
+            if (v != watch_val) {
+                printf("watchon %08x: %08x -> %08x at frame %llu pc %08x lr %08x r0-r3 %08x %08x %08x %08x\n", watch_addr, watch_val, v,
+                       (unsigned long long) frame_no, pc, cpu->gprs[14], cpu->gprs[0], cpu->gprs[1], cpu->gprs[2], cpu->gprs[3]);
+                watch_val = v;
+            }
+        }
+        if (!guard_end || guard_hit) continue;
+        int ok = pc < 0x4000 || (pc >= 0x02000000 && pc < 0x02040000) ||
+                 (pc >= 0x03000000 && pc < 0x03008000) || (pc >= 0x08000000 && pc < guard_end);
+        if (!ok) {
+            guard_hit = 1;
+            printf("guardon: bad pc %08x at frame %llu; previous pcs:", pc, (unsigned long long) frame_no);
+            for (int k = 0; k < 64; k++) printf(" %08x", gring[(gri + k) & 63]);
+            printf("\n  regs:"); for (int r = 0; r < 16; r++) printf(" %08x", cpu->gprs[r]); printf("\n");
+            return;
+        }
+    }
+}
 
 static void quiet_log(struct mLogger* l, int cat, enum mLogLevel lvl, const char* fmt, va_list a) {
     (void) l; (void) cat; (void) lvl; (void) fmt; (void) a;
@@ -95,13 +130,15 @@ int main(int argc, char** argv) {
         char cmd[64] = "", a1[256] = "", a2[64] = "", a3[64] = "";
         if (sscanf(line, "%63s %255s %63s %63s", cmd, a1, a2, a3) < 1) continue;
         if (!strcmp(cmd, "keys")) { keys = parse_keys(a1); core->setKeys(core, keys); }
-        else if (!strcmp(cmd, "run")) { int n = atoi(a1); for (int i = 0; i < n; i++) { core->runFrame(core); frame_no++; } }
+        else if (!strcmp(cmd, "run")) { int n = atoi(a1); for (int i = 0; i < n; i++) { frame(core); frame_no++; } }
+        else if (!strcmp(cmd, "guardon")) { guard_end = strtoul(a1, 0, 16); }
+        else if (!strcmp(cmd, "watchon")) { watch_addr = strtoul(a1, 0, 16); watch_val = core->busRead32(core, watch_addr); watch_on = 1; }
         else if (!strcmp(cmd, "tap")) {
             int n = a2[0] ? atoi(a2) : 30;
             core->setKeys(core, keys | parse_keys(a1));
-            for (int i = 0; i < 4; i++) { core->runFrame(core); frame_no++; }
+            for (int i = 0; i < 4; i++) { frame(core); frame_no++; }
             core->setKeys(core, keys);
-            for (int i = 0; i < n; i++) { core->runFrame(core); frame_no++; }
+            for (int i = 0; i < n; i++) { frame(core); frame_no++; }
         }
         else if (!strcmp(cmd, "shot")) {
             char p[600]; snprintf(p, sizeof p, "%s/%s.png", argv[3], a1); shot(p);
