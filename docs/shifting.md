@@ -24,7 +24,7 @@ make SHIFT=0x2000            # just build buusfury_shift.gba
 | vtables (base-relative) | `.4byte sub_X + 1 - vtbl` | 5,214 |
 | ctor vector (entry-relative) | `.4byte sub_X + 1 - .` | 143 |
 | MI thunk literals | `.4byte sub_X + 1 - anchor` | all |
-| .rodata pointers | `.4byte gUnknown_08XXXXXX` / `sub_X + 1`, with labels placed between `incbin` pieces | 81,434 |
+| .rodata pointers | `.4byte gUnknown_08XXXXXX` / `sub_X + 1`, with labels placed between `incbin` pieces | 81,364 |
 
 The RW image (`asm/iwram.s`) is linked at 0x03000000 and loaded at `__iwram_lma`. crt0 uses `__iwram_lma`, so the image can move.
 
@@ -36,21 +36,23 @@ A word is a **candidate** if it is 4-aligned, lies outside a WFZ container, and 
 | Evidence | Accepted as | Count |
 |---|---|---:|
 | target is the first byte of a WFZ container | wfz | 17,471 |
-| odd value and target-1 is a Thumb instruction, or an ARM function | func | 15,433 |
+| odd value and target-1 is a Thumb instruction, or an ARM function | func | 15,431 |
 | target also referenced by a code literal pool | code | 1,466 |
-| target is a vtable or labelled data in the code area | label | 13 |
-| another candidate within 8 bytes, a regular-stride array, or a target pointed to twice | table | 46,534 |
-| odd target (byte streams: scripts, sound sequences) next to a strong pointer or in a stride array | table_odd | 423 |
-| isolated word within 0x20 bytes of an object start something points at (e.g. font header) | struct | 94 |
+| target is a vtable or labelled data in the code area | label | 8 |
+| another candidate within 8 bytes, a regular-stride array, or a target pointed to twice | table | 46,473 |
+| odd target (byte streams: scripts, sound sequences) next to a strong pointer or in a stride array | table_odd | 422 |
+| isolated word within 0x20 bytes of an object start something points at (e.g. font header) | struct | 93 |
 
-Everything else stays a number and is listed in **`config/ptr_ambiguous.txt`** (2,225 words):
+Everything else stays a number and is listed in **`config/ptr_ambiguous.txt`** (2,295 words):
 
 | Reason | Count | What they are |
 |---|---:|---|
-| inside_wfz | 1,270 | Value points into the middle of compressed data. Can't be a real pointer, so it's noise (PCM audio, bitmap bytes) |
-| text_unlabeled | 401 | Even value at a plain instruction address. Byte patterns such as 0x08000800 (= halfwords 0x0800 0x0800) |
-| odd | 381 | Odd value with no supporting neighbour, mostly in audio sample data (0x2B8C38-0x36FFFF) |
+| inside_wfz | 1,198 | Value points into the middle of compressed data. Can't be a real pointer, so it's noise (PCM audio, bitmap bytes) |
+| text_unlabeled | 389 | Even value at a plain instruction address. Byte patterns such as 0x08000800 (= halfwords 0x0800 0x0800) |
+| odd | 368 | Odd value with no supporting neighbour, mostly in audio sample data (0x2B8C38-0x36FFFF) |
 | isolated | 173 | Single pointer-like word far from any object start |
+| textref | 112 | Packed dialogue reference in a step record `{u16 id, 5, speaker, ref}`. Refs with length 64-67 look exactly like ROM pointers |
+| in_bytestream | 55 | Pointer-like word inside a sound sequence (see below) |
 
 ## How missed pointers were found
 `tools/harness/harness` (headless mGBA) has `guard`, `bp`, `until`, `watch`, `mem` and `hist`. `tools/harness/ramdiff.py`
@@ -62,6 +64,22 @@ value in both runs is stale. Three classes were found this way and fixed in the 
 
 The remaining "stale" RAM words after the long route are byte data that happens to look like ROM addresses
 (0x08080808, 0x08090B0F ...) or values inside decompressed buffers. None of them is ever dereferenced on the route.
+
+## Moving data *inside* .rodata (Phase 3 findings)
+Moving everything after crt0 keeps every object's neighbours. Edits move or resize single objects, which exposed three
+more classes of dependency. All three are handled now:
+1. **False pointers in byte streams.** A sound-sequence word at 0x083AE370 looked like a pointer to 0x082BD918.
+   Converting it changed music command bytes when data moved, and the game crashed in the sound command dispatcher. Words inside
+   odd-start objects in the sound region (0x2B8C38-0x3BFFFF) are no longer converted (`in_bytestream`, 55 words).
+2. **Symbol ± constant in code.** Some blobs are members of fixed-layout structs (e.g. code reads `0x0807248C - 0xC` and
+   `0x0807248C + 0x38`). `tools/bfdis/pinned.py` finds these and writes `config/pinned.txt`. The asset build never grows or moves them.
+3. **Sizes from pointer differences.** Records such as the map record at 0x08250A20 hold consecutive object pointers, and
+   the game derives sizes from `next - this`. Inserting a *gap* between such objects breaks them. Replacing an object (what
+   edits do) doesn't. That's why the test inserts padding only at the start of rodata or after crt0, not between arbitrary labels.
+
+**Stress test:** every one of the 13,183 WFZ containers was replaced by this repo's own compressor output (most change size).
+In relocate mode (9,284 objects to the appendix) and in shift mode (everything after each object moves), the long route
+is identical to the original except the 2 title-menu checkpoints.
 
 ## Known risks and open items
 * **Coverage is what the route exercises.** Battles, shops, saving, other worlds and the multiplayer menu have not been

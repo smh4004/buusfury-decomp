@@ -1237,7 +1237,7 @@ _08040FEE:
 	adds r0, r4, #0
 	ldr r2, [r1, #8]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	lsls r0, r0, #0x18
 	lsrs r0, r0, #0x18
 	cmp r0, #2
@@ -1350,7 +1350,7 @@ _080410B6:
 	adds r0, r4, #0
 	ldr r2, [r1, #4]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	strb r0, [r6]
 	b _080410F0
 _080410C6:
@@ -1452,7 +1452,7 @@ sub_08041152: @ 0x08041152
 	ldr r2, [r1, #4]
 	adds r2, r2, r1
 	adds r1, r4, #4
-	bl _call_via_r2
+	bl __call_via_r2
 	adds r1, r4, #0
 	adds r0, r6, #0
 	bl sub_08043528
@@ -1642,7 +1642,7 @@ _080412BE:
 	ldr r2, [r1, #8]
 	adds r2, r2, r1
 	adds r1, r7, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldr r0, [r7]
 	str r0, [r5, #4]
 	ldrb r0, [r6, #9]
@@ -2584,7 +2584,7 @@ _08041952:
 	ldr r2, [r1, #8]
 	adds r2, r2, r1
 	adds r1, r6, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldr r0, [r6]
 	str r0, [r5, #4]
 _08041968:
@@ -2738,7 +2738,7 @@ _08041A56:
 	adds r2, r2, r1
 	adds r1, r7, #0
 	adds r1, #8
-	bl _call_via_r2
+	bl __call_via_r2
 	adds r1, r7, #0
 	adds r0, r4, #0
 	bl sub_08043528
@@ -4995,7 +4995,7 @@ _08042A8E:
 	cmp r1, #0
 	beq _08042AA4
 	adds r0, r5, #0
-	bl _call_via_r1
+	bl __call_via_r1
 	bl sub_0804389E
 	ldrb r0, [r6, #2]
 	cmp r0, #2

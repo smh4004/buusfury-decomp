@@ -633,14 +633,14 @@ _0800041C:
 	adds r0, r5, #0
 	ldr r2, [r1, #0x7c]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 _0800042C:
 	ldr r1, [r5]
 	movs r2, #0x80
 	ldr r2, [r2, r1]
 	adds r0, r5, #0
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 _0800043A:
 	adds r1, r0, #0
 	adds r1, #0x16

@@ -606,7 +606,7 @@ _0804801A:
 	beq _0804802A
 	adds r1, r5, #0
 	adds r0, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 _0804802A:
 	movs r0, #0
 	b _08048014
@@ -2908,7 +2908,7 @@ sub_08048E8C: @ 0x08048E8C
 	ldr r2, [r1]
 	adds r2, r2, r1
 	movs r1, #1
-	bl _call_via_r2
+	bl __call_via_r2
 _08048EA2:
 	pop {r3, pc}
 _08048EA4:

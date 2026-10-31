@@ -39,6 +39,11 @@ No GCC or libgcc fingerprints were found: no `GCC:` ident strings, no `__divsi3`
 * **Decompilation (Phase 4):** needs ADS 1.2 `tcpp` (Windows, runs under Wine) with flags of the form `-O2 -Otime/-Ospace -apcs /interwork`.
   GCC-based decomp tooling (agbcc, decomp.me GBA presets) cannot match this code. See `docs/decomp_scope.md`.
 
+## Compiler experiment (Phase 4)
+The previous generation, ARM SDT 2.51 (`tcc`/`tcpp` Linux builds from the 3DO homebrew devkit), compiles a C reconstruction
+of the script-VM opcode handlers to code that is identical except for instruction scheduling, register choice and the
+ADS-only details: `push {r3, lr}` stack alignment and `pop {.., pc}` returns. It also uses the same `__call_via_rN` and
+`__rt_sdiv` helpers. That confirms an ARM Norcroft-family compiler, specifically **ADS 1.1/1.2**. See `docs/decomp_scope.md`.
+
 ## Not yet pinned down
-* Exact ADS version (1.0.1 vs 1.1 vs 1.2). The `PRESERVE8` padding suggests 1.1 or later. Matching a few functions with
-  each `tcpp` build would settle it.
+* Exact ADS version (1.1 vs 1.2) and flags. Matching a few functions with an ADS `tcpp` would settle it.

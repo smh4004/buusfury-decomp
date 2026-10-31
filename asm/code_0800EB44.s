@@ -224,7 +224,7 @@ _0800EC22:
 	ldr r2, [r1]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	adds r0, r4, #0
 	b _0800EB78
 
@@ -255,20 +255,20 @@ _0800EC58:
 	ldr r2, [r1, #0xc]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 _0800EC6A:
 	ldr r0, [r4, #0x14]
 	ldr r1, [r0]
 	ldr r2, [r1, #0xc]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldr r0, [r4, #0x18]
 	ldr r1, [r0]
 	ldr r2, [r1, #0xc]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldr r0, [r4, #0x40]
 	bl sub_0803D63C
 	ldr r0, _0800EDDC
@@ -348,7 +348,7 @@ _0800ED0C:
 	ldr r2, [r0]
 	ldr r3, [r2, #0x2c]
 	adds r2, r3, r2
-	bl _call_via_r2
+	bl __call_via_r2
 	pop {r4, pc}
 
 	thumb_func_start sub_0800ED18
@@ -361,14 +361,14 @@ sub_0800ED18: @ 0x0800ED18
 	ldr r2, [r1, #0xc]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	str r5, [r4, #0x14]
 	ldr r1, [r5]
 	adds r0, r5, #0
 	ldr r2, [r1]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	pop {r3, r4, r5, pc}
 
 	thumb_func_start sub_0800ED3E
@@ -395,14 +395,14 @@ _0800ED5E:
 	ldr r2, [r1, #0xc]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldr r0, _0800EDF4
 	str r0, [r4, #0x14]
 	ldr r1, [r0]
 	ldr r2, [r1]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	strb r5, [r4, #0x11]
 	pop {r3, r4, r5, pc}
 
@@ -416,14 +416,14 @@ sub_0800ED80: @ 0x0800ED80
 	ldr r2, [r1, #0xc]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	str r5, [r4, #0x18]
 	ldr r1, [r5]
 	adds r0, r5, #0
 	ldr r2, [r1]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	pop {r3, r4, r5, pc}
 
 	thumb_func_start sub_0800EDA6
@@ -444,7 +444,7 @@ _0800EDBA:
 	ldr r2, [r1, #0xc]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldr r0, _0800EDE8
 	subs r0, #4
 	str r0, [r4, #0x18]
@@ -452,7 +452,7 @@ _0800EDBA:
 	ldr r2, [r1]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	pop {r4, pc}
 _0800EDDC:
 	.4byte _08049680
@@ -497,7 +497,7 @@ _0800EE20:
 	ldr r2, [r1, #0xc]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldr r0, _0800F1E4
 	subs r0, #4
 	str r0, [r4, #0x18]
@@ -505,7 +505,7 @@ _0800EE20:
 	ldr r2, [r1]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldr r0, [r4, #0x58]
 	ldrh r0, [r0, #2]
 	ldrh r1, [r5, #2]
@@ -543,7 +543,7 @@ sub_0800EE78: @ 0x0800EE78
 	ldr r2, [r1, #0xc]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldr r0, _0800F1E4
 	subs r0, #4
 	str r0, [r4, #0x14]
@@ -551,7 +551,7 @@ sub_0800EE78: @ 0x0800EE78
 	ldr r2, [r1]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	pop {r4, pc}
 
 	thumb_func_start sub_0800EE9E
@@ -631,19 +631,19 @@ sub_0800EF08: @ 0x0800EF08
 	ldr r2, [r1, #4]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldr r0, [r4, #0x14]
 	ldr r1, [r0]
 	ldr r2, [r1, #4]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldr r0, [r4, #0x14]
 	ldr r1, [r0]
 	ldr r2, [r1, #8]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	pop {r4, pc}
 
 	thumb_func_start sub_0800EF38
@@ -1335,7 +1335,7 @@ _0800F442:
 	ldr r2, [r1, #0x10]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	movs r0, #0
 	b _0800F440
 _0800F45C:
@@ -1401,7 +1401,7 @@ sub_0800F4C0: @ 0x0800F4C0
 	ldr r1, [r0]
 	ldr r2, [r1, #0xc]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	cmp r0, #0
 	beq _0800F4DA
 	cmp r4, #0xe
@@ -1490,7 +1490,7 @@ sub_0800F558: @ 0x0800F558
 	ldr r2, [r1, #0xc]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldr r0, [r4, #0x24]
 	str r0, [r4, #0x14]
 	ldr r0, [r4, #0x1c]
@@ -1553,13 +1553,13 @@ sub_0800F5C6: @ 0x0800F5C6
 	ldr r2, [r1, #4]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldr r0, [r4, #0x18]
 	ldr r1, [r0]
 	ldr r2, [r1, #4]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 _0800F5EE:
 	adds r0, r4, #0
 	adds r0, #0xff
@@ -1643,7 +1643,7 @@ _0800F66A:
 _0800F67E:
 	ldr r0, [r4, #0x1c]
 	ldr r1, [r0]
-	bl _call_via_r1
+	bl __call_via_r1
 	str r6, [r5]
 	add sp, #0xdc
 	pop {r4, r5, r6, r7, pc}
@@ -1833,7 +1833,7 @@ _0800F7D4:
 
 	thumb_func_start sub_0800F7F2
 sub_0800F7F2: @ 0x0800F7F2
-	bl _call_via_r1
+	bl __call_via_r1
 _0800F7F6:
 	movs r1, #0
 	adds r0, r4, #0
@@ -2191,7 +2191,7 @@ _0800FA42:
 	ldr r0, [r0, #0x14]
 	adds r1, r4, #0
 	ldr r3, [r0, #8]
-	bl _call_via_r3
+	bl __call_via_r3
 	movs r0, #1
 	b _0800FA40
 _0800FA7C:
@@ -2328,7 +2328,7 @@ _0800FB56:
 	adds r0, r4, #0
 	ldr r2, [r1, #0xc]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	cmp r0, #0
 	bne _0800FB68
 	b _0800FB52
@@ -2590,7 +2590,7 @@ sub_0800FD34: @ 0x0800FD34
 	ldr r2, [r1, #0x48]
 	adds r2, r2, r1
 	movs r1, #1
-	bl _call_via_r2
+	bl __call_via_r2
 	pop {r3, pc}
 
 	thumb_func_start sub_0800FD44
@@ -2600,7 +2600,7 @@ sub_0800FD44: @ 0x0800FD44
 	ldr r2, [r1, #0x48]
 	adds r2, r2, r1
 	movs r1, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	pop {r3, pc}
 
 	thumb_func_start sub_0800FD54
@@ -3081,7 +3081,7 @@ _08010098:
 	adds r0, r4, #0
 	ldr r2, [r1, #0x44]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	ldrb r1, [r4, #0x11]
 	ldr r0, [r4, #0x50]
 	adds r2, r4, #0
@@ -3407,7 +3407,7 @@ sub_080102D8: @ 0x080102D8
 	adds r0, r4, #0
 	ldr r2, [r1, #0xc]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	cmp r0, #0
 	bne _0801030E
 _080102F8:
@@ -3848,7 +3848,7 @@ sub_080105FA: @ 0x080105FA
 	ldr r2, [r1, #0x5c]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	cmp r0, #0
 	beq _08010618
 	movs r0, #1
@@ -3865,7 +3865,7 @@ _08010620:
 	adds r3, r2, r1
 	adds r2, r4, #0
 	adds r1, r5, #0
-	bl _call_via_r3
+	bl __call_via_r3
 	movs r0, #0
 	pop {r4, r5, r6, pc}
 
@@ -3880,7 +3880,7 @@ sub_08010634: @ 0x08010634
 	ldr r1, [r0]
 	ldr r2, [r1, #4]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	pop {r3, pc}
 
 	thumb_func_start sub_0801064C
@@ -3891,7 +3891,7 @@ sub_0801064C: @ 0x0801064C
 	ldr r2, [r2, r1]
 	adds r4, r0, #0
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	adds r5, r0, #0
 	movs r0, #1
 	lsls r0, r0, #9
@@ -3901,7 +3901,7 @@ sub_0801064C: @ 0x0801064C
 	ldr r2, [r1, #4]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldrb r0, [r5, #0x14]
 	ldr r1, _080107E8
 	lsls r3, r0, #1
@@ -3914,7 +3914,7 @@ sub_0801064C: @ 0x0801064C
 	ldr r2, [r1]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	pop {r4, r5, r6, pc}
 
 	thumb_func_start sub_08010692
@@ -3940,7 +3940,7 @@ sub_08010692: @ 0x08010692
 	ldr r2, [r1, #4]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	ldrb r0, [r5, #0x14]
 	lsls r3, r0, #1
 	adds r0, r3, r0
@@ -3952,7 +3952,7 @@ sub_08010692: @ 0x08010692
 	ldr r2, [r1]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	adds r0, r4, #0
 	bl sub_0801064C
 	ldr r1, [r4]
@@ -3960,7 +3960,7 @@ sub_08010692: @ 0x08010692
 	ldr r2, [r1, #0x28]
 	adds r2, r2, r1
 	movs r1, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	pop {r3, r4, r5, r6, r7, pc}
 
 	thumb_func_start sub_080106F6
@@ -3974,7 +3974,7 @@ sub_080106F6: @ 0x080106F6
 	ldr r1, [r0]
 	ldr r2, [r1, #8]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	pop {r3, pc}
 
 	thumb_func_start sub_0801070E
@@ -3986,7 +3986,7 @@ sub_0801070E: @ 0x0801070E
 	movs r2, #0x80
 	ldr r2, [r2, r1]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	ldrb r0, [r0, #0x14]
 	ldr r1, _080107E8
 	ldr r7, _080107E4
@@ -4003,7 +4003,7 @@ sub_0801070E: @ 0x0801070E
 	ldr r2, [r2, r1]
 	adds r0, r4, #0
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	ldrh r0, [r0, #2]
 	lsrs r5, r0, #8
 	movs r0, #1
@@ -4014,7 +4014,7 @@ sub_0801070E: @ 0x0801070E
 	ldr r1, [r0]
 	ldr r2, [r1, #8]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	ldr r0, [r7, #8]
 	movs r2, #0x13
 	lsls r2, r2, #6
@@ -4037,7 +4037,7 @@ sub_0801070E: @ 0x0801070E
 	ldr r1, [r0]
 	ldr r2, [r1, #4]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 _0801078E:
 	movs r0, #0xff
 	adds r0, #0xcd
@@ -4197,7 +4197,7 @@ _080108AA:
 	movs r5, #0
 	adds r0, r4, #0
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	ldr r1, _08010B44
 	subs r1, #0x78
 	cmp r0, #0
@@ -4228,7 +4228,7 @@ _080108F6:
 	ldr r2, [r2, r1]
 	adds r0, r4, #0
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	bl sub_080135D2
 	str r0, [sp, #0x6c]
 	movs r0, #0
@@ -4294,7 +4294,7 @@ sub_08010974: @ 0x08010974
 	ldr r1, [r0]
 	ldr r2, [r1, #0xc]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	adds r1, r0, #0
 	adds r0, r4, #0
 	bl sub_0800ED18
@@ -4373,7 +4373,7 @@ _080109C8:
 	ldr r2, [r1]
 	adds r2, r2, r1
 	adds r1, r4, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	movs r1, #0
 	adds r0, r4, #0
 	bl sub_08010974
@@ -4506,7 +4506,7 @@ sub_08010B10: @ 0x08010B10
 	ldr r2, [r1]
 	adds r2, r2, r1
 	adds r1, r5, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	movs r1, #0
 	adds r0, r5, #0
 	bl sub_08010974

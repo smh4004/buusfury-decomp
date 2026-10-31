@@ -38,7 +38,7 @@ IWRAM bss: 0x03001004-0x030052FB (cleared by crt0). Stacks: IRQ 0x03007FA0, SYS 
 | padding | 293,570 | 3.50 | 0xFF tail and zero alignment |
 
 ## Code-area facts (from `tools/bfdis/analyze.py`)
-* 4,782 functions (4,644 Thumb, 138 ARM), about 142k instructions, 4,052 literal pools, 21 switch tables, 693 vtables / 5,214 entries.
+* 4,944 function symbols (4,803 Thumb, 141 ARM; includes entry points found through data pointers), about 142k instructions, 4,052 literal pools, 21 switch tables, 693 vtables / 5,214 entries.
 * Discovery seeds, in confidence order: crt0 entry, the `bl` call graph, the ctor vector, vtables and thunks, odd function pointers
   anywhere in the ROM, `push {..,lr}` prologues in gaps, then guesses. A weaker guess is evicted when a stronger trace needs its bytes.
   Guesses are rejected if they contain `lsrs rX, rY, #32`, which is the encoding of a pointer's high half (0x0800-0x083F).

@@ -1141,7 +1141,7 @@ sub_0804333C: @ 0x0804333C
 	ldr r2, [r4, #0x40]
 	cmp r2, #0
 	beq _0804334A
-	bl _call_via_r2
+	bl __call_via_r2
 _0804334A:
 	movs r0, #0
 	strh r0, [r4, #0x16]
@@ -1734,7 +1734,7 @@ sub_08043774: @ 0x08043774
 	bpl _0804378E
 	ldr r2, [r6, #8]
 	ldr r2, [r2]
-	bl _call_via_r2
+	bl __call_via_r2
 _0804378E:
 	ldr r0, [r6]
 	movs r4, #0
@@ -1783,7 +1783,7 @@ sub_080437C2: @ 0x080437C2
 	adds r1, r4, #0
 	ldr r2, [r0]
 	adds r0, r5, #0
-	bl _call_via_r2
+	bl __call_via_r2
 _080437E8:
 	pop {r4, r5, r7}
 	pop {r3}
@@ -4667,7 +4667,7 @@ _08044C4A:
 	ldrh r2, [r4, #4]
 	ldr r3, [r0, #4]
 	add r0, sp, #4
-	bl _call_via_r3
+	bl __call_via_r3
 	ldr r0, [r7]
 	movs r2, #0x10
 	ldrb r1, [r0]

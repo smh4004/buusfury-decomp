@@ -380,7 +380,7 @@ _08026004:
 	adds r0, r4, #0
 	ldr r2, [r1, #0x1c]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 _08026018:
 	pop {r3, r4, r5, pc}
 
@@ -474,7 +474,7 @@ _080260AC:
 	ldr r2, [r1, #0x28]
 	adds r2, r2, r1
 	movs r1, #2
-	bl _call_via_r2
+	bl __call_via_r2
 	movs r3, #1
 	lsls r3, r3, #0xc
 	add r3, sp
@@ -588,7 +588,7 @@ sub_080261C0: @ 0x080261C0
 	ldr r2, [r1]
 	adds r2, r2, r1
 	movs r1, #1
-	bl _call_via_r2
+	bl __call_via_r2
 _080261D2:
 	pop {r3, pc}
 
@@ -975,7 +975,7 @@ sub_08026498: @ 0x08026498
 	ldr r1, [r0]
 	ldr r2, [r1, #0x1c]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 _080264B0:
 	pop {r3, pc}
 	.align 2, 0
@@ -1029,7 +1029,7 @@ sub_080264EA: @ 0x080264EA
 	ldr r2, [r1, #0x28]
 	adds r2, r2, r1
 	movs r1, #0
-	bl _call_via_r2
+	bl __call_via_r2
 _0802650C:
 	add sp, #0x1c
 	pop {r4, r5, pc}
@@ -1126,7 +1126,7 @@ _080265A6:
 	ldr r2, [r1]
 	adds r2, r2, r1
 	movs r1, #1
-	bl _call_via_r2
+	bl __call_via_r2
 _080265D2:
 	add sp, #0x10
 	pop {r4, pc}
@@ -1210,7 +1210,7 @@ _0802664E:
 	ldr r2, [r1, #0x28]
 	adds r2, r2, r1
 	movs r1, #0
-	bl _call_via_r2
+	bl __call_via_r2
 _0802665C:
 	add sp, #0x18
 	pop {r4, r5, r6, pc}
@@ -1309,7 +1309,7 @@ _080266F6:
 	ldr r2, [r1]
 	adds r2, r2, r1
 	movs r1, #1
-	bl _call_via_r2
+	bl __call_via_r2
 _08026722:
 	add sp, #0x10
 	pop {r4, pc}
@@ -1374,7 +1374,7 @@ sub_0802676A: @ 0x0802676A
 	ldr r2, [r1, #0x28]
 	adds r2, r2, r1
 	movs r1, #0
-	bl _call_via_r2
+	bl __call_via_r2
 _0802678C:
 	add sp, #0x1c
 	pop {r4, r5, pc}
@@ -1471,7 +1471,7 @@ _08026826:
 	ldr r2, [r1]
 	adds r2, r2, r1
 	movs r1, #1
-	bl _call_via_r2
+	bl __call_via_r2
 _08026852:
 	add sp, #0x10
 	pop {r4, pc}
@@ -1603,7 +1603,7 @@ sub_0802692C: @ 0x0802692C
 	push {r4, lr}
 	ldr r0, [r0, #0xc]
 	ldr r2, [r0]
-	bl _call_via_r2
+	bl __call_via_r2
 	adds r4, r0, #0
 	movs r0, #0xc
 	bl sub_0803D5B8
@@ -1676,7 +1676,7 @@ sub_08026994: @ 0x08026994
 	ldr r2, [r1, #0x28]
 	adds r2, r2, r1
 	movs r1, #0
-	bl _call_via_r2
+	bl __call_via_r2
 _080269B8:
 	add sp, #0x18
 	pop {r4, r5, r6, pc}
@@ -1855,7 +1855,7 @@ _08026AF0:
 	ldr r2, [r1]
 	adds r2, r2, r1
 	movs r1, #1
-	bl _call_via_r2
+	bl __call_via_r2
 _08026B16:
 	add sp, #0x30
 	pop {r4, r5, r6, pc}
@@ -1868,7 +1868,7 @@ sub_08026B1A: @ 0x08026B1A
 	ldr r2, [r1, #0x34]
 	adds r2, r2, r1
 	movs r1, #0
-	bl _call_via_r2
+	bl __call_via_r2
 	pop {r3, pc}
 
 	thumb_func_start sub_08026B2C
@@ -4457,7 +4457,7 @@ sub_08027DF0: @ 0x08027DF0
 	ldr r2, [r1]
 	adds r2, r2, r1
 	movs r1, #1
-	bl _call_via_r2
+	bl __call_via_r2
 _08027E14:
 	pop {r3, r4, r5, pc}
 
@@ -4468,7 +4468,7 @@ sub_08027E16: @ 0x08027E16
 	ldr r1, [r0]
 	ldr r2, [r1, #8]
 	adds r1, r2, r1
-	bl _call_via_r1
+	bl __call_via_r1
 	ldr r0, _08027E44
 	ldr r0, [r0]
 	bl sub_080115B0

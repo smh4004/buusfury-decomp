@@ -13,14 +13,14 @@
 08012230 Text_LoadString        # RE_NOTES
 080122B4 Text_LoadString2       # RE_NOTES
 0803D940 Wfz_LoadContainer      # notes said 0x0803D944 (a call site); the function starts at 0x0803D940
-08046AA0 _call_via_r0           # ADS indirect-call stubs (bx rN)
-08046AA2 _call_via_r1
-08046AA4 _call_via_r2
-08046AA6 _call_via_r3
-08046AA8 _call_via_r4
-08046AAA _call_via_r5
-08046AAC _call_via_r6
-08046AAE _call_via_r7
+08046AA0 __call_via_r0           # ADS indirect-call stubs (bx rN)
+08046AA2 __call_via_r1
+08046AA4 __call_via_r2
+08046AA6 __call_via_r3
+08046AA8 __call_via_r4
+08046AAA __call_via_r5
+08046AAC __call_via_r6
+08046AAE __call_via_r7
 08046E58 __16__rt_sdiv          # Thumb entry (bx pc) of ARM signed divide; r0 = divisor, r1 = dividend
 08046E5C __rt_sdiv
 03000040 Wfz_Decompress         # IWRAM (RE_NOTES)
