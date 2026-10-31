@@ -30,5 +30,13 @@ SECTIONS
     } > IWRAM AT > ROM
     __iwram_lma = LOADADDR(.iwram);
 
+    /* make decomp: C functions go into the free space after the RW image, so no original byte moves.
+       (Their old assembly is replaced by padding of the same size; see docs/decomp.md.) */
+    .decomp ALIGN(LOADADDR(.iwram) + SIZEOF(.iwram), 4) :
+    {
+        INCLUDE "build/src_objs.ld"
+        *libgcc.a:*(.text*)
+    } > ROM
+
     /DISCARD/ : { *(.ARM.attributes) *(.comment) }
 }

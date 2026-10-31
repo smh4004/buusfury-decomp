@@ -3,10 +3,61 @@
 	.syntax unified
 	.text
 	.global Wfz_Decompress
+	.global _0300003C
+	.global _03000054
+	.global _03000060
+	.global _03000064
+	.global _030000C8
+	.global _030000CC
 	.global _030000F0
+	.global _030000F8
+	.global _03000128
+	.global _03000130
+	.global _0300015C
+	.global _0300017C
+	.global _03000180
+	.global _030001B4
+	.global _030001E8
+	.global _030001FC
+	.global _03000264
+	.global _03000278
+	.global _0300027C
+	.global _030002D4
+	.global _030002E4
+	.global _03000328
+	.global _0300032C
+	.global _03000398
+	.global _030003A0
+	.global _030004E4
+	.global _030004EC
+	.global _03000778
+	.global _03000794
+	.global _030007D4
+	.global _030007EC
 	.global _03000868
+	.global _03000A58
 	.global _03000AE0
 	.global _03000B6C
+	.global _03000CB4
+	.global _03000CC4
+	.global _03000CC8
+	.global _03000D2C
+	.global _03000D30
+	.global _03000D60
+	.global _03000D90
+	.global _03000D98
+	.global _03000DC4
+	.global _03000DE4
+	.global _03000DE8
+	.global _03000E1C
+	.global _03000E50
+	.global _03000E64
+	.global _03000ECC
+	.global _03000EE0
+	.global _03000EE4
+	.global _03000F3C
+	.global _03000F44
+	.global _03000F48
 	.global _03000F4C
 	.global _03000F50
 	.global _03000F60
@@ -16,6 +67,7 @@
 	.global _03000FFC
 	.global _03001000
 	.global sub_03000000
+	.global sub_0300028C
 	.global sub_030002DC
 	.global sub_03000388
 	.global sub_030004C0
@@ -27,6 +79,7 @@
 	.global sub_03000858
 	.global sub_03000A4C
 	.global sub_03000CA0
+	.global sub_03000EF4
 
 
 	arm_func_start sub_03000000
@@ -46,6 +99,7 @@ sub_03000000: @ 0x03000000
 	strb sb, [ip, #0x208]
 	pop {r8, sb, sl, fp}
 	bx lr
+	.align 2, 0
 _0300003C:
 	.4byte 0x03004A9C
 
@@ -263,6 +317,7 @@ _030002E4:
 	bne _030002E4
 	pop {r4, r5, r6}
 	bx lr
+	.align 2, 0
 _03000328:
 	.4byte 0x000037FF
 _0300032C:
@@ -868,6 +923,7 @@ sub_03000EF4: @ 0x03000EF4
 _03000F3C:
 	pop {r4, r5, r6, r7, r8, sb, sl, fp, lr}
 	bx lr
+	.align 2, 0
 _03000F44:
 	.4byte 0x000037FF
 _03000F48:

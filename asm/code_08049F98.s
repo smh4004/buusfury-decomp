@@ -2,7 +2,11 @@
 	.include "asm/macros.inc"
 	.syntax unified
 	.text
+	.global _08049FA8
+	.global _08049FBC
 	.global _08049FC0
+	.global _08049FD4
+	.global _08049FE8
 	.global _08049FEC
 	.global _0804A014
 	.global _0804A040
@@ -40,6 +44,10 @@
 	.global _0804A3E8
 	.global _0804A404
 	.global _0804A430
+	.global _0804A444
+	.global _0804A48C
+	.global _0804A4A0
+	.global _0804A4B4
 	.global _0804A4B8
 	.global _0804A4E8
 	.global _0804A52C
@@ -105,6 +113,8 @@
 	.global _0804ABA0
 	.global _0804ABC8
 	.global _0804ABD8
+	.global _0804ABE0
+	.global _0804AC1C
 	.global _0804AC20
 	.global _0804AC5C
 	.global _0804AC88
@@ -188,6 +198,8 @@
 	.global _0804B3D8
 	.global _0804B400
 	.global _0804B428
+	.global _0804B434
+	.global _0804B448
 	.global _0804B454
 	.global _0804B480
 	.global _0804B4AC
@@ -224,6 +236,10 @@
 	.global _0804B840
 	.global _0804B868
 	.global _0804B894
+	.global _0804B8B0
+	.global _0804B8EC
+	.global _0804B900
+	.global _0804B914
 	.global _0804B918
 	.global _0804B92C
 	.global _0804B940
@@ -568,6 +584,16 @@
 	.global _0804E444
 	.global _0804E454
 	.global _0804E47C
+	.global sub_08049F98
+	.global sub_08049FAC
+	.global sub_0804A46C
+	.global sub_0804A490
+	.global sub_0804A4A4
+	.global sub_0804AC0C
+	.global sub_0804B8C4
+	.global sub_0804B8D8
+	.global sub_0804B8F0
+	.global sub_0804B904
 
 
 	arm_func_start sub_08049F98
@@ -576,6 +602,7 @@ sub_08049F98: @ 0x08049F98
 	sub r0, r0, #0xc
 	add ip, pc, ip
 	bx ip
+	.align 2, 0
 _08049FA8:
 	.4byte sub_0804FC2C + 1 - _08049FA8
 
@@ -585,6 +612,7 @@ sub_08049FAC: @ 0x08049FAC
 	sub r1, r1, #0xc
 	add ip, pc, ip
 	bx ip
+	.align 2, 0
 _08049FBC:
 	.4byte sub_0800B354 + 1 - _08049FBC
 _08049FC0:
@@ -938,6 +966,7 @@ sub_0804A46C: @ 0x0804A46C
 	sub r0, r0, #0x114
 	add ip, pc, ip
 	bx ip
+	.align 2, 0
 _0804A48C:
 	.4byte sub_080065C0 + 1 - _0804A48C
 
@@ -947,6 +976,7 @@ sub_0804A490: @ 0x0804A490
 	sub r0, r0, #0x114
 	add ip, pc, ip
 	bx ip
+	.align 2, 0
 _0804A4A0:
 	.4byte sub_080065E4 + 1 - _0804A4A0
 
@@ -956,6 +986,7 @@ sub_0804A4A4: @ 0x0804A4A4
 	sub r0, r0, #0x114
 	add ip, pc, ip
 	bx ip
+	.align 2, 0
 _0804A4B4:
 	.4byte sub_0800660E + 1 - _0804A4B4
 _0804A4B8:
@@ -1500,6 +1531,7 @@ sub_0804AC0C: @ 0x0804AC0C
 	sub r1, r1, #0xc
 	add ip, pc, ip
 	bx ip
+	.align 2, 0
 _0804AC1C:
 	.4byte sub_08030FB8 + 1 - _0804AC1C
 _0804AC20:
@@ -2449,6 +2481,7 @@ sub_0804B8D8: @ 0x0804B8D8
 	sub r0, r0, #8
 	add ip, pc, ip
 	bx ip
+	.align 2, 0
 _0804B8EC:
 	.4byte sub_08051BE0 + 1 - _0804B8EC
 
@@ -2458,6 +2491,7 @@ sub_0804B8F0: @ 0x0804B8F0
 	sub r0, r0, #8
 	add ip, pc, ip
 	bx ip
+	.align 2, 0
 _0804B900:
 	.4byte sub_0804ED10 + 1 - _0804B900
 
@@ -2467,6 +2501,7 @@ sub_0804B904: @ 0x0804B904
 	sub r0, r0, #8
 	add ip, pc, ip
 	bx ip
+	.align 2, 0
 _0804B914:
 	.4byte sub_080211FA + 1 - _0804B914
 _0804B918:

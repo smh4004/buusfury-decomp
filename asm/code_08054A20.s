@@ -2,13 +2,54 @@
 	.include "asm/macros.inc"
 	.syntax unified
 	.text
+	.global _08054A88
+	.global _08054AA8
+	.global _08054AC4
+	.global _08054ACC
+	.global _08054AEC
+	.global _08054BEC
+	.global _08054C04
+	.global _08054C34
+	.global _08054C4C
+	.global _08054CC0
+	.global _08054DA0
+	.global _08054DA8
+	.global _08054DB8
+	.global _08054DE4
+	.global _08054E6C
+	.global _08054ED0
+	.global _08054EDC
+	.global _08054EF4
+	.global _08054F08
+	.global _08054F0C
+	.global _08054F5C
+	.global _08054F68
+	.global _08054FB0
+	.global sub_08054A20
+	.global sub_08054A24
+	.global sub_08054A48
 	.global sub_08054A4C
 	.global sub_08054A64
+	.global sub_08054A68
+	.global sub_08054AD0
+	.global sub_08054AD4
 	.global sub_08054ADC
+	.global sub_08054AE0
 	.global sub_08054B3C
+	.global sub_08054B40
+	.global sub_08054C68
+	.global sub_08054C6C
+	.global sub_08054D00
 	.global sub_08054D04
+	.global sub_08054DEC
+	.global sub_08054DF0
+	.global sub_08054DF4
+	.global sub_08054E74
 	.global sub_08054E78
+	.global sub_08054F10
 	.global sub_08054F14
+	.global sub_08054F38
+	.global sub_08054F3C
 
 
 	thumb_func_start sub_08054A20
@@ -77,6 +118,7 @@ _08054AA8:
 _08054AC4:
 	ldr ip, _08054ACC
 	b sub_08054850
+	.align 2, 0
 _08054ACC:
 	.4byte 0x04020048
 
@@ -415,6 +457,7 @@ _08054EF4:
 	ldrne r1, _08054F0C
 	movne r0, #0
 	bx lr
+	.align 2, 0
 _08054F08:
 	.4byte 0x7FC00000
 _08054F0C:

@@ -1,0 +1,398 @@
+# long.txt in game-loop time (syncpc): whole-game check for decomp builds
+syncpc 0x0803F42C
+run 600
+tap START 60
+tap START 60
+shot s01_title
+tap A 90
+shot s02_select
+tap A 90
+shot s03_newgame
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s04_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s05_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s06_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s07_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s08_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s09_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s10_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s11_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s12_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s13_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s14_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s15_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s16_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s17_intro
+keys RIGHT
+run 90
+keys
+run 10
+shot s18_walk_RIGHT
+keys DOWN
+run 90
+keys
+run 10
+shot s19_walk_DOWN
+keys LEFT
+run 90
+keys
+run 10
+shot s20_walk_LEFT
+keys UP
+run 90
+keys
+run 10
+shot s21_walk_UP
+keys RIGHT
+run 90
+keys
+run 10
+shot s22_walk_RIGHT
+keys DOWN
+run 90
+keys
+run 10
+shot s23_walk_DOWN
+tap START 60
+shot s24_menu
+tap B 60
+shot s25_back
+tap START 40
+tap RIGHT 40
+tap RIGHT 40
+tap A 40
+tap B 40
+tap RIGHT 40
+tap A 40
+tap B 40
+tap DOWN 40
+tap A 40
+tap B 40
+tap B 40
+tap B 40
+shot l100_menu
+keys LEFT
+run 30
+keys
+tap A 20
+keys RIGHT
+run 120
+keys
+tap A 20
+keys UP
+run 30
+keys
+tap A 20
+keys UP
+run 60
+keys
+tap A 20
+shot l101_walk
+keys UP
+run 120
+keys
+tap A 20
+keys DOWN
+run 30
+keys
+tap A 20
+keys UP
+run 60
+keys
+tap A 20
+keys RIGHT
+run 30
+keys
+tap A 20
+shot l102_walk
+keys DOWN
+run 30
+keys
+tap A 20
+keys RIGHT
+run 30
+keys
+tap A 20
+keys UP
+run 30
+keys
+tap A 20
+keys UP
+run 120
+keys
+tap A 20
+shot l103_walk
+keys RIGHT
+run 30
+keys
+tap A 20
+keys DOWN
+run 30
+keys
+tap A 20
+keys DOWN
+run 60
+keys
+tap A 20
+keys RIGHT
+run 30
+keys
+tap A 20
+shot l104_walk
+keys UP
+run 120
+keys
+tap A 20
+keys LEFT
+run 120
+keys
+tap A 20
+keys DOWN
+run 30
+keys
+tap A 20
+keys DOWN
+run 60
+keys
+tap A 20
+shot l105_walk
+keys UP
+run 120
+keys
+tap A 20
+keys UP
+run 120
+keys
+tap A 20
+keys UP
+run 120
+keys
+tap A 20
+keys DOWN
+run 60
+keys
+tap A 20
+shot l106_walk
+keys RIGHT
+run 60
+keys
+tap A 20
+keys RIGHT
+run 120
+keys
+tap A 20
+keys RIGHT
+run 60
+keys
+tap A 20
+keys LEFT
+run 30
+keys
+tap A 20
+shot l107_walk
+keys DOWN
+run 120
+keys
+tap A 20
+keys DOWN
+run 30
+keys
+tap A 20
+keys LEFT
+run 120
+keys
+tap A 20
+keys RIGHT
+run 60
+keys
+tap A 20
+shot l108_walk
+keys RIGHT
+run 60
+keys
+tap A 20
+keys UP
+run 30
+keys
+tap A 20
+keys RIGHT
+run 30
+keys
+tap A 20
+keys LEFT
+run 30
+keys
+tap A 20
+shot l109_walk
+keys RIGHT
+run 60
+keys
+tap A 20
+keys UP
+run 120
+keys
+tap A 20
+keys UP
+run 120
+keys
+tap A 20
+keys LEFT
+run 60
+keys
+tap A 20
+shot l110_walk
+keys LEFT
+run 120
+keys
+tap A 20
+keys RIGHT
+run 120
+keys
+tap A 20
+keys RIGHT
+run 30
+keys
+tap A 20
+keys UP
+run 60
+keys
+tap A 20
+shot l111_walk
+keys RIGHT
+run 120
+keys
+tap A 20
+keys UP
+run 30
+keys
+tap A 20
+keys LEFT
+run 120
+keys
+tap A 20
+keys RIGHT
+run 60
+keys
+tap A 20
+shot l112_walk
+keys RIGHT
+run 120
+keys
+tap A 20
+keys LEFT
+run 30
+keys
+tap A 20
+keys RIGHT
+run 60
+keys
+tap A 20
+keys DOWN
+run 120
+keys
+tap A 20
+shot l113_walk
+keys UP
+run 60
+keys
+tap A 20
+keys UP
+run 30
+keys
+tap A 20
+keys LEFT
+run 30
+keys
+tap A 20
+keys DOWN
+run 60
+keys
+tap A 20
+shot l114_walk
+keys RIGHT
+run 60
+keys
+tap A 20
+keys UP
+run 30
+keys
+tap A 20
+keys RIGHT
+run 60
+keys
+tap A 20
+keys LEFT
+run 30
+keys
+tap A 20
+shot l115_walk
+pc

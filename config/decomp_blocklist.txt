@@ -1,0 +1,4 @@
+# name  reason   (functions kept in assembly even though they pass the snapshot tests)
+sub_0803F3F4  frame-sync point used by the harness (syncpc 0x0803F42C): must stay at its original address
+sub_0800BE90  passes every snapshot (also one taken in the decomp ROM), but linking it changes the area-name sprite in game (decomp_long.txt s21/s22); suspected: a callee reads uninitialised stack left by this frame
+sub_08012960  passes the snapshot tests but changes game output on tools/harness/decomp_long.txt (found by gamebisect.py)

@@ -14,6 +14,9 @@
  *   watch ADDR N       single-step N frames; print PC/regs whenever the byte at ADDR changes
  *   hist N             single-step N frames and print the 16 most frequent PCs (find hangs)
  *   pc                 print the CPU PC
+ *   syncpc ADDR        from now on, count run/tap time in passes of the game loop through ADDR, not video frames
+ *                      (0 = video frames). Buu's Fury: 0x0803F42C, just after the VBlank wait in sub_0803F3F4
+ *   capture LIST DIR N snapshot regs + RAM/IO/VRAM at the first N entries of each listed function (hex list)
  *   watchon ADDR       from now on, run/tap single-step and report every change of the word at ADDR
  *   guardon ROMEND     from now on, run/tap single-step and report the first PC outside valid memory
  *   guard N ROMEND     single-step up to N frames; stop and print the last 64 PCs when execution
@@ -26,6 +29,7 @@
 #include <mgba/internal/arm/arm.h>
 #include <mgba-util/vfs.h>
 #include <png.h>
+#include <zlib.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -37,16 +41,60 @@ static uint64_t frame_no;
 static uint32_t guard_end;           /* "guardon ROMEND": check PC on every instruction during run/tap */
 static int guard_hit;
 static uint32_t gring[64]; static int gri;
-static uint32_t watch_addr, watch_val; static int watch_on;   /* "watchon ADDR": report writes during run/tap */
+static uint32_t watch_addr, watch_val; static int watch_on;
+/* "capture LIST OUTDIR MAXHITS": snapshot full state at entry of listed functions (Thumb, ROM) */
+static uint8_t* cap_bits; static uint16_t* cap_hits; static int cap_max; static char cap_dir[400]; static int cap_on;
+static long cap_total;
+static void snap(struct mCore* core, uint32_t pc) {
+    struct ARMCore* cpu = core->cpu;
+    uint32_t idx = (pc - 0x08000000) >> 1;
+    char p[600]; snprintf(p, sizeof p, "%s/%08X_%d.snap", cap_dir, pc, cap_hits[idx]);
+    FILE* f = fopen(p, "wb"); if (!f) return;
+    uint32_t hdr[18]; for (int r = 0; r < 16; r++) hdr[r] = cpu->gprs[r];
+    hdr[15] = pc;                                 /* entry address (gprs[15] runs one instruction ahead) */
+    hdr[16] = cpu->cpsr.packed; hdr[17] = (uint32_t) frame_no;
+    fwrite(hdr, 4, 18, f);
+    static const uint32_t reg[][2] = {{0x02000000,0x40000},{0x03000000,0x8000},{0x04000000,0x400},{0x05000000,0x400},{0x06000000,0x18000},{0x07000000,0x400}};
+    static uint8_t buf[0x40000], zb[0x50000];
+    for (int k = 0; k < 6; k++) {
+        for (uint32_t i = 0; i < reg[k][1]; i += 4) { uint32_t v = core->rawRead32(core, reg[k][0] + i, -1); memcpy(buf + i, &v, 4); }
+        uLongf zl = sizeof zb; compress2(zb, &zl, buf, reg[k][1], 1);
+        uint32_t h2[3] = {reg[k][0], reg[k][1], (uint32_t) zl}; fwrite(h2, 4, 3, f); fwrite(zb, 1, zl, f);
+    }
+    fclose(f); cap_hits[idx]++; cap_total++;
+}   /* "watchon ADDR": report writes during run/tap */
+
+static uint32_t sync_pc;              /* "syncpc ADDR": one `run` step = one pass of the game loop through ADDR */
 
 static void frame(struct mCore* core) {
-    if ((!guard_end || guard_hit) && !watch_on) { core->runFrame(core); return; }
+    if (sync_pc) {
+        /* Game-loop time instead of video time: step until the game passes its frame-sync point once (or at most
+         * 8 video frames during loads). Lag frames then don't shift when inputs arrive, so builds that run at a
+         * different speed (the C decomp build) can be compared with the original. */
+        struct ARMCore* cpu = core->cpu;
+        uint64_t f0 = core->frameCounter(core);
+        int left = 0;
+        for (;;) {
+            core->step(core);
+            uint32_t pc = cpu->gprs[15] - ((cpu->cpsr.packed & 0x20) ? 2 : 4);
+            if (pc != sync_pc) left = 1;
+            else if (left) break;
+            if (core->frameCounter(core) - f0 >= 8) break;
+        }
+        return;
+    }
+    if ((!guard_end || guard_hit) && !watch_on && !cap_on) { core->runFrame(core); return; }
     struct ARMCore* cpu = core->cpu;
     uint64_t fc = core->frameCounter(core);
     while (core->frameCounter(core) == fc) {
         core->step(core);
         uint32_t pc = cpu->gprs[15];
         gring[gri++ & 63] = pc;
+        /* mGBA keeps gprs[15] one Thumb instruction ahead (pipeline): the next instruction is at pc - 2 */
+        if (cap_on && pc >= 0x08000002 && pc < 0x08100002 && (cpu->cpsr.packed & 0x20)) {
+            uint32_t idx = (pc - 2 - 0x08000000) >> 1;
+            if ((cap_bits[idx >> 3] >> (idx & 7) & 1) && cap_hits[idx] < cap_max) snap(core, pc - 2);
+        }
         if (watch_on) {
             uint32_t v = core->busRead32(core, watch_addr);
             if (v != watch_val) {
@@ -132,6 +180,15 @@ int main(int argc, char** argv) {
         if (!strcmp(cmd, "keys")) { keys = parse_keys(a1); core->setKeys(core, keys); }
         else if (!strcmp(cmd, "run")) { int n = atoi(a1); for (int i = 0; i < n; i++) { frame(core); frame_no++; } }
         else if (!strcmp(cmd, "guardon")) { guard_end = strtoul(a1, 0, 16); }
+        else if (!strcmp(cmd, "syncpc")) { sync_pc = strtoul(a1, 0, 16); }
+        else if (!strcmp(cmd, "capture")) {
+            cap_bits = calloc(0x80000 / 8, 1); cap_hits = calloc(0x80000, 2);
+            FILE* lf = fopen(a1, "r"); char ln[64];
+            while (lf && fgets(ln, sizeof ln, lf)) { uint32_t ad = strtoul(ln, 0, 16); if (ad >= 0x08000000 && ad < 0x08100000) { uint32_t i = (ad - 0x08000000) >> 1; cap_bits[i >> 3] |= 1 << (i & 7); } }
+            if (lf) fclose(lf);
+            strncpy(cap_dir, a2, sizeof cap_dir - 1); cap_max = atoi(a3); cap_on = 1;
+        }
+        else if (!strcmp(cmd, "capstat")) printf("captured %ld snapshots\n", cap_total);
         else if (!strcmp(cmd, "watchon")) { watch_addr = strtoul(a1, 0, 16); watch_val = core->busRead32(core, watch_addr); watch_on = 1; }
         else if (!strcmp(cmd, "tap")) {
             int n = a2[0] ? atoi(a2) : 30;
@@ -147,7 +204,7 @@ int main(int argc, char** argv) {
         else if (!strcmp(cmd, "hash")) printf("hash frame %llu %016llx\n", (unsigned long long) frame_no, (unsigned long long) fhash());
         else if (!strcmp(cmd, "pc")) {
             struct ARMCore* cpu = core->cpu;
-            printf("pc %08x frame %llu\n", (unsigned) cpu->gprs[15], (unsigned long long) frame_no);
+            printf("pc %08x frame %llu video %llu\n", (unsigned) cpu->gprs[15], (unsigned long long) frame_no, (unsigned long long) core->frameCounter(core));
         }
         else if (!strcmp(cmd, "guard")) {
             int n = atoi(a1); uint32_t romend = strtoul(a2, 0, 16);

@@ -2,37 +2,474 @@
 	.include "asm/macros.inc"
 	.syntax unified
 	.text
+	.global _08047AC4
+	.global _08047AD8
+	.global _08047AE4
+	.global _08047AF8
+	.global _08047B3C
+	.global _08047B44
+	.global _08047BAC
+	.global _08047BD8
+	.global _08047C30
+	.global _08047C3C
+	.global _08047C48
+	.global _08047D00
+	.global _08047D8C
+	.global _08047D90
+	.global _08047D94
+	.global _08047D98
+	.global _08047DEC
+	.global _08047E08
+	.global _08047E48
+	.global _08047E64
+	.global _08047E80
+	.global _08047E9C
+	.global _08047EB8
+	.global _08047ED4
+	.global _08047F44
+	.global _08047F4C
+	.global _08047F8C
+	.global _08047F94
+	.global _08047FBC
+	.global _08048014
+	.global _0804801A
+	.global _0804802A
+	.global _08048030
+	.global _08048034
+	.global _08048050
+	.global _08048076
+	.global _08048080
+	.global _08048088
+	.global _08048090
+	.global _08048098
+	.global _080480A0
+	.global _080480AC
+	.global _080480AE
+	.global _080480BA
+	.global _080480C8
+	.global _080480CE
+	.global _080480DC
+	.global _080480EC
+	.global _080480F0
+	.global _080480F4
+	.global _08048108
+	.global _0804811C
+	.global _08048128
+	.global _08048134
+	.global _08048144
+	.global _0804815C
+	.global _08048194
+	.global _080481A4
+	.global _080481D4
+	.global _080481D8
+	.global _080481E4
+	.global _080481E8
+	.global _08048218
+	.global _0804821C
+	.global _08048228
+	.global _0804822C
+	.global _08048238
+	.global _0804823C
+	.global _08048248
+	.global _0804824C
+	.global _08048260
+	.global _0804828C
+	.global _08048290
+	.global _08048294
+	.global _080482A0
+	.global _080482AC
+	.global _080482B0
+	.global _080482BC
+	.global _080482C0
+	.global _08048348
+	.global _0804834C
+	.global _08048350
+	.global _08048354
+	.global _08048358
+	.global _0804835C
+	.global _08048360
+	.global _08048364
+	.global _08048368
+	.global _0804836C
+	.global _08048370
+	.global _08048374
+	.global _080483C4
+	.global _080483C8
+	.global _080483CC
+	.global _080483D0
+	.global _080483D4
+	.global _080483D8
+	.global _080483DC
+	.global _080483E0
+	.global _080483E4
+	.global _080483E8
+	.global _080483EC
+	.global _080483F0
+	.global _080483F4
+	.global _08048400
+	.global _0804840C
+	.global _08048410
+	.global _0804841C
+	.global _08048430
+	.global _08048434
+	.global _08048438
+	.global _08048474
+	.global _08048478
+	.global _0804847C
+	.global _08048480
+	.global _08048484
+	.global _08048490
+	.global _080484C0
+	.global _080484C4
+	.global _080484C8
+	.global _080484CC
+	.global _080484D0
+	.global _080484D4
+	.global _080484E4
+	.global _080484E8
+	.global _080484F8
+	.global _080484FC
+	.global _08048508
+	.global _0804850C
+	.global _08048518
+	.global _0804851C
+	.global _08048538
+	.global _0804853C
+	.global _08048540
+	.global _0804854C
+	.global _08048550
+	.global _0804855C
+	.global _08048560
+	.global _0804856C
+	.global _08048570
+	.global _08048584
+	.global _08048588
+	.global _0804859C
+	.global _080485A0
+	.global _080485A4
+	.global _080485B0
+	.global _080485B4
+	.global _080485C8
+	.global _080485CC
+	.global _080485D0
+	.global _080485DC
+	.global _080485E0
+	.global _080485F4
+	.global _080485F8
+	.global _080485FC
+	.global _08048610
+	.global _08048614
+	.global _08048618
+	.global _0804862C
+	.global _08048630
+	.global _08048634
+	.global _08048640
+	.global _08048644
+	.global _08048650
+	.global _08048654
+	.global _08048660
+	.global _08048664
+	.global _08048678
+	.global _0804867C
+	.global _08048680
+	.global _0804868C
+	.global _08048690
+	.global _080486A4
+	.global _080486A8
+	.global _080486AC
+	.global _080486C0
+	.global _080486C4
+	.global _080486C8
+	.global _080486E0
+	.global _080486E4
+	.global _080486E8
+	.global _080486FC
+	.global _08048700
+	.global _08048704
+	.global _08048718
+	.global _0804871C
+	.global _08048720
+	.global _08048734
+	.global _08048738
+	.global _0804873C
+	.global _08048750
+	.global _08048754
+	.global _08048758
+	.global _0804876C
+	.global _08048770
+	.global _08048774
+	.global _08048788
+	.global _0804878C
+	.global _08048790
+	.global _0804879C
+	.global _080487A0
+	.global _080487B4
+	.global _080487B8
+	.global _080487BC
+	.global _080487C8
+	.global _080487CC
+	.global _080487E0
+	.global _080487E4
+	.global _080487E8
+	.global _080487F4
+	.global _080487F8
+	.global _08048804
+	.global _08048808
+	.global _08048820
+	.global _08048824
+	.global _08048828
+	.global _08048834
+	.global _08048838
+	.global _08048844
+	.global _08048848
+	.global _0804885C
+	.global _08048860
+	.global _08048864
+	.global _08048878
+	.global _0804887C
+	.global _08048880
+	.global _0804888C
+	.global _08048890
+	.global _0804889C
+	.global _080488A0
+	.global _080488AC
+	.global _080488B0
+	.global _080488C4
+	.global _080488C8
+	.global _080488CC
+	.global _080488E0
+	.global _080488E4
+	.global _080488E8
+	.global _080488F4
+	.global _080488F8
+	.global _08048904
+	.global _08048908
+	.global _0804891C
+	.global _08048920
+	.global _08048924
+	.global _0804893C
+	.global _08048940
+	.global _08048944
+	.global _08048950
+	.global _08048954
+	.global _08048960
+	.global _08048964
+	.global _08048974
+	.global _08048978
+	.global _0804898C
+	.global _08048990
+	.global _08048994
+	.global _080489A0
+	.global _080489A4
+	.global _080489B4
+	.global _080489B8
+	.global _080489CC
+	.global _080489D0
+	.global _080489D4
+	.global _080489E8
+	.global _080489EC
+	.global _080489F0
+	.global _08048A04
+	.global _08048A08
+	.global _08048A0C
+	.global _08048A18
+	.global _08048A1C
+	.global _08048A28
+	.global _08048A2C
+	.global _08048A38
+	.global _08048A3C
+	.global _08048A54
+	.global _08048A58
+	.global _08048A5C
+	.global _08048A60
+	.global _08048A74
+	.global _08048A78
+	.global _08048A7C
+	.global _08048A88
+	.global _08048A8C
+	.global _08048A98
+	.global _08048AA4
+	.global _08048AA8
+	.global _08048AB4
+	.global _08048AB8
+	.global _08048AC4
+	.global _08048AC8
+	.global _08048AD4
+	.global _08048AD8
+	.global _08048AE4
+	.global _08048AE8
+	.global _08048AF4
+	.global _08048AF8
+	.global _08048B10
+	.global _08048B14
+	.global _08048B18
+	.global _08048B24
+	.global _08048B28
+	.global _08048B34
+	.global _08048B38
+	.global _08048B44
+	.global _08048B48
+	.global _08048B5C
+	.global _08048B60
+	.global _08048B64
+	.global _08048B78
+	.global _08048B7C
+	.global _08048B80
+	.global _08048B94
+	.global _08048B98
+	.global _08048B9C
+	.global _08048BA8
+	.global _08048BAC
+	.global _08048BC0
+	.global _08048BC4
+	.global _08048BC8
+	.global _08048BD4
+	.global _08048BD8
+	.global _08048BE4
+	.global _08048BE8
+	.global _08048BF4
+	.global _08048BF8
+	.global _08048C0C
+	.global _08048C10
+	.global _08048C14
+	.global _08048C28
+	.global _08048C2C
+	.global _08048C30
+	.global _08048C44
+	.global _08048C48
+	.global _08048C4C
+	.global _08048C58
+	.global _08048C5C
+	.global _08048C70
+	.global _08048C74
+	.global _08048C78
+	.global _08048C84
+	.global _08048C88
+	.global _08048CA0
+	.global _08048CA4
+	.global _08048CA8
+	.global _08048CBC
+	.global _08048CC0
+	.global _08048CC4
+	.global _08048CD8
+	.global _08048CDC
+	.global _08048CE0
+	.global _08048CEC
+	.global _08048CF0
+	.global _08048CFC
+	.global _08048D00
+	.global _08048D0C
+	.global _08048D10
+	.global _08048D1C
+	.global _08048D20
+	.global _08048D2C
+	.global _08048D30
+	.global _08048D40
+	.global _08048D44
+	.global _08048D50
+	.global _08048D54
+	.global _08048D60
+	.global _08048D64
+	.global _08048D70
+	.global _08048D74
+	.global _08048D80
+	.global _08048D84
+	.global _08048D90
+	.global _08048D94
+	.global _08048DA0
+	.global _08048DA4
+	.global _08048DB0
+	.global _08048DB4
+	.global _08048DC0
+	.global _08048DC4
+	.global _08048DD0
+	.global _08048DD4
+	.global _08048DE8
+	.global _08048DEC
+	.global _08048DF0
+	.global _08048DFC
+	.global _08048E00
+	.global _08048E14
+	.global _08048E18
+	.global _08048E1C
+	.global _08048E30
+	.global _08048E34
+	.global _08048E38
+	.global _08048E44
+	.global _08048E48
+	.global _08048E54
+	.global _08048E58
+	.global _08048E6C
+	.global _08048E70
+	.global _08048E74
+	.global _08048E78
+	.global _08048E84
+	.global _08048E88
+	.global _08048EA2
+	.global _08048EA4
+	.global _08048EB4
+	.global _08048EB8
+	.global _08048ECC
+	.global _08048ED0
+	.global _08048ED4
+	.global _0804911C
+	.global _08049128
+	.global _08049134
+	.global _08049140
+	.global _0804914C
+	.global _08049158
+	.global _08049164
+	.global _08049170
+	.global _0804917C
+	.global _08049188
+	.global _08049194
+	.global _080491B0
+	.global _080491BC
+	.global _080491C8
+	.global _080491D4
+	.global _080491E0
+	.global _080491EC
 	.global _080491F0
 	.global _0804920C
 	.global _08049238
 	.global _08049264
+	.global _08049274
 	.global _0804929C
+	.global _080492B4
 	.global _080492B8
 	.global _080492D4
 	.global _080492EC
 	.global _0804930C
+	.global _0804931C
 	.global _08049320
 	.global _08049338
 	.global _08049354
 	.global _08049370
 	.global _080493B4
+	.global _080493C8
 	.global _080493E4
 	.global _080493F4
 	.global _08049410
 	.global _08049424
 	.global _08049450
 	.global _0804947C
+	.global _08049494
+	.global _080494A8
 	.global _080494AC
 	.global _080494D8
 	.global _08049504
+	.global _08049534
 	.global _08049548
 	.global _0804955C
+	.global _0804956C
 	.global _08049588
 	.global _080495B4
 	.global _080495E4
+	.global _080495F4
 	.global _08049604
 	.global _08049618
 	.global _08049644
+	.global _08049670
 	.global _08049680
 	.global _080496A8
 	.global _080496B4
@@ -43,24 +480,36 @@
 	.global _08049758
 	.global _08049784
 	.global _08049794
+	.global _080497A4
 	.global _080497B4
 	.global _080497C4
 	.global _080497D4
+	.global _080497E4
 	.global _080497F4
 	.global _08049814
+	.global _08049834
 	.global _0804984C
+	.global _0804985C
 	.global _08049880
 	.global _08049898
 	.global _080498B0
 	.global _080498C4
 	.global _080498F0
+	.global _08049904
+	.global _0804994C
+	.global _08049960
+	.global _08049974
 	.global _08049978
 	.global _080499A8
 	.global _080499D4
 	.global _080499E4
+	.global _080499FC
 	.global _08049A0C
+	.global _08049A1C
 	.global _08049A2C
 	.global _08049A3C
+	.global _08049A4C
+	.global _08049A5C
 	.global _08049A6C
 	.global _08049A7C
 	.global _08049A9C
@@ -75,7 +524,10 @@
 	.global _08049BB4
 	.global _08049BC4
 	.global _08049BD4
+	.global _08049BE4
+	.global _08049BF8
 	.global _08049C08
+	.global _08049C18
 	.global _08049C28
 	.global _08049C40
 	.global _08049C58
@@ -90,14 +542,19 @@
 	.global _08049D84
 	.global _08049D98
 	.global _08049DA8
+	.global _08049DB8
 	.global _08049DC8
 	.global _08049DD8
 	.global _08049DF0
 	.global _08049E08
 	.global _08049E20
+	.global _08049E30
+	.global _08049E40
 	.global _08049E64
 	.global _08049E84
 	.global _08049E90
+	.global _08049E9C
+	.global _08049EAC
 	.global _08049EBC
 	.global _08049ECC
 	.global _08049EEC
@@ -105,31 +562,220 @@
 	.global _08049F0C
 	.global _08049F38
 	.global _08049F60
+	.global _08049F68
+	.global _08049F7C
 	.global sub_08047A88
 	.global sub_08047D9C
+	.global sub_08047DC8
+	.global sub_08047DCC
+	.global sub_08047DD0
+	.global sub_08047DD4
+	.global sub_08047DD8
+	.global sub_08047DDC
+	.global sub_08047DE0
 	.global sub_08047EF8
+	.global sub_08047F64
+	.global sub_08047F6C
+	.global sub_08047F84
+	.global sub_08047FAE
+	.global sub_08047FB0
 	.global sub_08047FB4
 	.global sub_08047FC0
+	.global sub_08047FC4
 	.global sub_08047FD4
 	.global sub_08047FD8
+	.global sub_08047FF4
+	.global sub_08048006
+	.global sub_08048038
+	.global sub_0804803C
+	.global sub_08048054
+	.global sub_0804810C
+	.global sub_08048118
+	.global sub_08048170
+	.global sub_08048174
+	.global sub_08048186
+	.global sub_08048188
+	.global sub_0804818A
+	.global sub_0804818C
+	.global sub_08048198
+	.global sub_080481A8
+	.global sub_080481DC
+	.global sub_080481EC
+	.global sub_08048220
+	.global sub_08048230
+	.global sub_08048240
+	.global sub_08048250
+	.global sub_08048264
+	.global sub_08048298
+	.global sub_080482A4
+	.global sub_080482B4
+	.global sub_080482C4
+	.global sub_08048378
+	.global sub_080483F8
+	.global sub_08048404
+	.global sub_08048414
+	.global sub_08048420
+	.global sub_0804843C
+	.global sub_08048488
+	.global sub_08048494
+	.global sub_080484D8
+	.global sub_080484DA
+	.global sub_080484DC
+	.global sub_080484EC
+	.global sub_08048500
+	.global sub_08048510
+	.global sub_08048520
+	.global sub_08048544
+	.global sub_08048554
+	.global sub_08048564
+	.global sub_08048574
+	.global sub_0804858C
+	.global sub_080485A8
+	.global sub_080485B8
+	.global sub_080485D4
+	.global sub_080485E4
+	.global sub_08048600
+	.global sub_0804861C
+	.global sub_08048638
+	.global sub_08048648
+	.global sub_08048658
+	.global sub_08048668
+	.global sub_08048684
+	.global sub_08048694
+	.global sub_080486B0
+	.global sub_080486CC
+	.global sub_080486EC
+	.global sub_08048708
+	.global sub_08048724
+	.global sub_08048740
+	.global sub_0804875C
+	.global sub_08048778
+	.global sub_08048794
+	.global sub_080487A4
+	.global sub_080487C0
+	.global sub_080487D0
+	.global sub_080487EC
+	.global sub_080487FC
+	.global sub_0804880C
+	.global sub_0804882C
+	.global sub_0804883C
+	.global sub_0804884C
+	.global sub_08048868
+	.global sub_08048884
+	.global sub_08048894
+	.global sub_080488A4
+	.global sub_080488B4
+	.global sub_080488D0
+	.global sub_080488EC
+	.global sub_080488FC
+	.global sub_0804890C
+	.global sub_08048928
+	.global sub_08048948
+	.global sub_08048958
+	.global sub_08048968
+	.global sub_0804897C
+	.global sub_08048998
+	.global sub_080489A8
+	.global sub_080489BC
+	.global sub_080489D8
+	.global sub_080489F4
+	.global sub_08048A10
+	.global sub_08048A20
+	.global sub_08048A30
+	.global sub_08048A40
+	.global sub_08048A64
+	.global sub_08048A80
+	.global sub_08048A90
+	.global sub_08048A9C
+	.global sub_08048AAC
+	.global sub_08048ABC
+	.global sub_08048ACC
+	.global sub_08048ADC
+	.global sub_08048AEC
+	.global sub_08048AFC
+	.global sub_08048B1C
+	.global sub_08048B2C
+	.global sub_08048B3C
+	.global sub_08048B4C
+	.global sub_08048B68
+	.global sub_08048B84
+	.global sub_08048BA0
+	.global sub_08048BB0
+	.global sub_08048BCC
+	.global sub_08048BDC
+	.global sub_08048BEC
+	.global sub_08048BFC
+	.global sub_08048C18
+	.global sub_08048C34
+	.global sub_08048C50
+	.global sub_08048C60
+	.global sub_08048C7C
+	.global sub_08048C8C
+	.global sub_08048CAC
+	.global sub_08048CC8
+	.global sub_08048CE4
+	.global sub_08048CF4
+	.global sub_08048D04
+	.global sub_08048D14
+	.global sub_08048D24
+	.global sub_08048D34
+	.global sub_08048D48
+	.global sub_08048D58
+	.global sub_08048D68
+	.global sub_08048D78
+	.global sub_08048D88
+	.global sub_08048D98
+	.global sub_08048DA8
+	.global sub_08048DB8
+	.global sub_08048DC8
+	.global sub_08048DD8
+	.global sub_08048DF4
+	.global sub_08048E04
+	.global sub_08048E20
+	.global sub_08048E3C
+	.global sub_08048E4C
+	.global sub_08048E5C
+	.global sub_08048E7C
+	.global sub_08048E8C
+	.global sub_08048EA8
+	.global sub_08048EBC
 	.global sub_08049114
 	.global sub_08049120
+	.global sub_08049124
 	.global sub_0804912C
+	.global sub_08049130
 	.global sub_08049138
+	.global sub_0804913C
 	.global sub_08049144
+	.global sub_08049148
 	.global sub_08049150
+	.global sub_08049154
 	.global sub_0804915C
+	.global sub_08049160
 	.global sub_08049168
+	.global sub_0804916C
 	.global sub_08049174
+	.global sub_08049178
 	.global sub_08049180
+	.global sub_08049184
 	.global sub_0804918C
+	.global sub_08049190
 	.global sub_08049198
+	.global sub_0804919C
 	.global sub_080491A0
+	.global sub_080491A4
 	.global sub_080491A8
+	.global sub_080491AC
 	.global sub_080491B4
+	.global sub_080491B8
 	.global sub_080491C0
+	.global sub_080491C4
 	.global sub_080491CC
+	.global sub_080491D8
 	.global sub_080491E4
+	.global sub_0804992C
+	.global sub_08049950
+	.global sub_08049964
 
 
 	arm_func_start sub_08047A88
@@ -329,6 +975,7 @@ _08047D00:
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF0, 0x3F, 0x9C, 0x75, 0x00, 0x88, 0x3C, 0xE4, 0x37, 0x7E
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF0, 0xBF
 	.byte 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF8, 0x3F
+	.align 2, 0
 _08047D8C:
 	.4byte 0x0076FB70
 _08047D90:
@@ -494,6 +1141,8 @@ sub_08047F64: @ 0x08047F64
 	movs r0, r0
 	ldrb r0, [r7, #0x1f]
 
+	.ifndef DECOMP_sub_08047F6C
+
 	thumb_func_start sub_08047F6C
 sub_08047F6C: @ 0x08047F6C
 	push {r3, r4, r5, lr}
@@ -507,6 +1156,20 @@ sub_08047F6C: @ 0x08047F6C
 	add r2, sp, #0xc
 	str r4, [sp]
 	bl sub_08047F84
+	.else
+	thumb_func_start sub_08047F6C
+sub_08047F6C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08047F6C__c + 1
+	.thumb
+	.space 8
+	.endif
+
+	.ifndef DECOMP_sub_08047F84
 
 	thumb_func_start sub_08047F84
 sub_08047F84: @ 0x08047F84
@@ -532,6 +1195,18 @@ _08047F94:
 	add r1, sp, #4
 	ldm r1, {r0, r1}
 	b _08047F8C
+	.else
+	thumb_func_start sub_08047F84
+sub_08047F84:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08047F84__c + 1
+	.thumb
+	.space 26
+	.endif
 
 	thumb_func_start sub_08047FAE
 sub_08047FAE: @ 0x08047FAE
@@ -546,6 +1221,7 @@ sub_08047FB0: @ 0x08047FB0
 sub_08047FB4: @ 0x08047FB4
 	ldr r0, _08047FBC
 	bx lr
+	.align 2, 0
 _08047FBC:
 	.4byte 0x03005298
 
@@ -576,6 +1252,8 @@ sub_08047FD8: @ 0x08047FD8
 	pop {r4, lr}
 	b sub_0804803C
 
+	.ifndef DECOMP_sub_08047FF4
+
 	thumb_func_start sub_08047FF4
 sub_08047FF4: @ 0x08047FF4
 	push {r4, r5, r6, lr}
@@ -586,6 +1264,18 @@ sub_08047FF4: @ 0x08047FF4
 	add r6, pc
 	adds r0, r6, #0
 	bl sub_08048006
+	.else
+	thumb_func_start sub_08047FF4
+sub_08047FF4:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08047FF4__c + 1
+	.thumb
+	.space 2
+	.endif
 
 	thumb_func_start sub_08048006
 sub_08048006: @ 0x08048006
@@ -611,6 +1301,7 @@ _0804802A:
 	movs r0, #0
 	b _08048014
 	.align 2, 0
+	.align 2, 0
 _08048030:
 	.4byte 0xF7FB7FFD
 _08048034:
@@ -628,8 +1319,11 @@ sub_0804803C: @ 0x0804803C
 	svc #0x123456
 	bx lr
 	.byte 0x21, 0x01, 0x00, 0x00
+	.align 2, 0
 _08048050:
 	.4byte 0x00020026
+
+	.ifndef DECOMP_sub_08048054
 
 	thumb_func_start sub_08048054
 sub_08048054: @ 0x08048054
@@ -719,13 +1413,27 @@ _080480DC:
 	.align 2, 0
 _080480EC:
 	.byte 0x00, 0x00, 0x00, 0x00
+	.align 2, 0
 _080480F0:
 	.4byte 0x0076F7D0
 _080480F4:
 	.byte 0x49, 0x6E, 0x76, 0x61, 0x6C, 0x69, 0x64, 0x20, 0x4F, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6F
 	.byte 0x6E, 0x00, 0x00, 0x00
+	.align 2, 0
 _08048108:
 	.4byte 0x08000002
+	.else
+	thumb_func_start sub_08048054
+sub_08048054:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048054__c + 1
+	.thumb
+	.space 168
+	.endif
 
 	thumb_func_start sub_0804810C
 sub_0804810C: @ 0x0804810C
@@ -792,6 +1500,8 @@ _0804815C:
 sub_08048170: @ 0x08048170
 	bx lr
 
+	.ifndef DECOMP_sub_08048174
+
 	thumb_func_start sub_08048174
 sub_08048174: @ 0x08048174
 	push {r3, lr}
@@ -803,6 +1513,18 @@ sub_08048174: @ 0x08048174
 	add sp, #4
 	pop {r3}
 	bx r3
+	.else
+	thumb_func_start sub_08048174
+sub_08048174:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048174__c + 1
+	.thumb
+	.space 2
+	.endif
 
 	thumb_func_start sub_08048186
 sub_08048186: @ 0x08048186
@@ -822,8 +1544,11 @@ sub_0804818C: @ 0x0804818C
 	movs r0, #0
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048194:
 	.4byte 0x03001034
+
+	.ifndef DECOMP_sub_08048198
 
 	thumb_func_start sub_08048198
 sub_08048198: @ 0x08048198
@@ -832,8 +1557,22 @@ sub_08048198: @ 0x08048198
 	bl sub_08004838
 	pop {r3, pc}
 	.align 2, 0
+	.align 2, 0
 _080481A4:
 	.4byte 0x03001068
+	.else
+	thumb_func_start sub_08048198
+sub_08048198:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048198__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_080481A8
 
 	thumb_func_start sub_080481A8
 sub_080481A8: @ 0x080481A8
@@ -859,10 +1598,25 @@ sub_080481A8: @ 0x080481A8
 	strb r0, [r1, #4]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _080481D4:
 	.4byte 0x03001918
 _080481D8:
 	.4byte _0804ACF4
+	.else
+	thumb_func_start sub_080481A8
+sub_080481A8:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080481A8__c + 1
+	.thumb
+	.space 36
+	.endif
+
+	.ifndef DECOMP_sub_080481DC
 
 	thumb_func_start sub_080481DC
 sub_080481DC: @ 0x080481DC
@@ -870,10 +1624,24 @@ sub_080481DC: @ 0x080481DC
 	ldr r0, _080481E8
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080481E4:
 	.4byte 0x03001938
 _080481E8:
 	.4byte _08049BE4
+	.else
+	thumb_func_start sub_080481DC
+sub_080481DC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080481DC__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_080481EC
 
 	thumb_func_start sub_080481EC
 sub_080481EC: @ 0x080481EC
@@ -899,10 +1667,25 @@ sub_080481EC: @ 0x080481EC
 	strb r0, [r1, #4]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048218:
 	.4byte 0x0300193C
 _0804821C:
 	.4byte _0804C12C
+	.else
+	thumb_func_start sub_080481EC
+sub_080481EC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080481EC__c + 1
+	.thumb
+	.space 36
+	.endif
+
+	.ifndef DECOMP_sub_08048220
 
 	thumb_func_start sub_08048220
 sub_08048220: @ 0x08048220
@@ -910,10 +1693,24 @@ sub_08048220: @ 0x08048220
 	ldr r0, _0804822C
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048228:
 	.4byte 0x0300195C
 _0804822C:
 	.4byte _0804A0AC
+	.else
+	thumb_func_start sub_08048220
+sub_08048220:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048220__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048230
 
 	thumb_func_start sub_08048230
 sub_08048230: @ 0x08048230
@@ -921,10 +1718,24 @@ sub_08048230: @ 0x08048230
 	ldr r0, _0804823C
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048238:
 	.4byte 0x03001960
 _0804823C:
 	.4byte _08049534
+	.else
+	thumb_func_start sub_08048230
+sub_08048230:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048230__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048240
 
 	thumb_func_start sub_08048240
 sub_08048240: @ 0x08048240
@@ -932,10 +1743,24 @@ sub_08048240: @ 0x08048240
 	ldr r0, _0804824C
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048248:
 	.4byte 0x03001964
 _0804824C:
 	.4byte _0804BE08
+	.else
+	thumb_func_start sub_08048240
+sub_08048240:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048240__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048250
 
 	thumb_func_start sub_08048250
 sub_08048250: @ 0x08048250
@@ -947,8 +1772,23 @@ sub_08048250: @ 0x08048250
 	str r0, [r1, #0xc]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048260:
 	.4byte 0x03001990
+	.else
+	thumb_func_start sub_08048250
+sub_08048250:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048250__c + 1
+	.thumb
+	.space 4
+	.endif
+
+	.ifndef DECOMP_sub_08048264
 
 	thumb_func_start sub_08048264
 sub_08048264: @ 0x08048264
@@ -970,12 +1810,25 @@ sub_08048264: @ 0x08048264
 	bl sub_08046FF4
 	pop {r4, pc}
 	.align 2, 0
+	.align 2, 0
 _0804828C:
 	.4byte 0x030019A4
 _08048290:
 	.4byte sub_08050760 + 1
 _08048294:
 	.4byte sub_08050790 + 1
+	.else
+	thumb_func_start sub_08048264
+sub_08048264:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048264__c + 1
+	.thumb
+	.space 36
+	.endif
 
 	thumb_func_start sub_08048298
 sub_08048298: @ 0x08048298
@@ -983,8 +1836,11 @@ sub_08048298: @ 0x08048298
 	movs r0, #0
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080482A0:
 	.4byte 0x03001A6C
+
+	.ifndef DECOMP_sub_080482A4
 
 	thumb_func_start sub_080482A4
 sub_080482A4: @ 0x080482A4
@@ -992,10 +1848,24 @@ sub_080482A4: @ 0x080482A4
 	ldr r0, _080482B0
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080482AC:
 	.4byte 0x03001AF0
 _080482B0:
 	.4byte _0804AEE8
+	.else
+	thumb_func_start sub_080482A4
+sub_080482A4:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080482A4__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_080482B4
 
 	thumb_func_start sub_080482B4
 sub_080482B4: @ 0x080482B4
@@ -1003,10 +1873,24 @@ sub_080482B4: @ 0x080482B4
 	ldr r0, _080482C0
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080482BC:
 	.4byte 0x03001AF4
 _080482C0:
 	.4byte _08049A1C
+	.else
+	thumb_func_start sub_080482B4
+sub_080482B4:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080482B4__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_080482C4
 
 	thumb_func_start sub_080482C4
 sub_080482C4: @ 0x080482C4
@@ -1076,6 +1960,7 @@ sub_080482C4: @ 0x080482C4
 	pop {r4}
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048348:
 	.4byte _0804985C
 _0804834C:
@@ -1100,6 +1985,20 @@ _08048370:
 	.4byte _0804A77C
 _08048374:
 	.4byte _0804A1D0
+	.else
+	thumb_func_start sub_080482C4
+sub_080482C4:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080482C4__c + 1
+	.thumb
+	.space 164
+	.endif
+
+	.ifndef DECOMP_sub_08048378
 
 	thumb_func_start sub_08048378
 sub_08048378: @ 0x08048378
@@ -1141,6 +2040,7 @@ sub_08048378: @ 0x08048378
 	adds r1, #4
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080483C4:
 	.4byte _0804C464
 _080483C8:
@@ -1167,6 +2067,18 @@ _080483F0:
 	.4byte _0804E40C
 _080483F4:
 	.4byte _0804E374
+	.else
+	thumb_func_start sub_08048378
+sub_08048378:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048378__c + 1
+	.thumb
+	.space 112
+	.endif
 
 	thumb_func_start sub_080483F8
 sub_080483F8: @ 0x080483F8
@@ -1174,8 +2086,11 @@ sub_080483F8: @ 0x080483F8
 	movs r0, #0
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048400:
 	.4byte 0x03001B90
+
+	.ifndef DECOMP_sub_08048404
 
 	thumb_func_start sub_08048404
 sub_08048404: @ 0x08048404
@@ -1183,10 +2098,22 @@ sub_08048404: @ 0x08048404
 	ldr r0, _08048410
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _0804840C:
 	.4byte 0x03001BA4
 _08048410:
 	.4byte _0804A214
+	.else
+	thumb_func_start sub_08048404
+sub_08048404:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048404__c + 1
+	.thumb
+	.endif
 
 	thumb_func_start sub_08048414
 sub_08048414: @ 0x08048414
@@ -1194,8 +2121,11 @@ sub_08048414: @ 0x08048414
 	movs r0, #0
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _0804841C:
 	.4byte 0x03001BB0
+
+	.ifndef DECOMP_sub_08048420
 
 	thumb_func_start sub_08048420
 sub_08048420: @ 0x08048420
@@ -1207,12 +2137,27 @@ sub_08048420: @ 0x08048420
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048430:
 	.4byte _0804B2F8
 _08048434:
 	.4byte 0x03001C3C
 _08048438:
 	.4byte _0804AB6C
+	.else
+	thumb_func_start sub_08048420
+sub_08048420:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048420__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_0804843C
 
 	thumb_func_start sub_0804843C
 sub_0804843C: @ 0x0804843C
@@ -1244,6 +2189,7 @@ sub_0804843C: @ 0x0804843C
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048474:
 	.4byte 0x03001C4C
 _08048478:
@@ -1254,6 +2200,18 @@ _08048480:
 	.4byte _08049274
 _08048484:
 	.4byte _08049670
+	.else
+	thumb_func_start sub_0804843C
+sub_0804843C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_0804843C__c + 1
+	.thumb
+	.space 60
+	.endif
 
 	thumb_func_start sub_08048488
 sub_08048488: @ 0x08048488
@@ -1261,8 +2219,11 @@ sub_08048488: @ 0x08048488
 	movs r0, #0
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048490:
 	.4byte 0x03002A64
+
+	.ifndef DECOMP_sub_08048494
 
 	thumb_func_start sub_08048494
 sub_08048494: @ 0x08048494
@@ -1288,6 +2249,7 @@ sub_08048494: @ 0x08048494
 	ldr r0, _080484D4
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080484C0:
 	.4byte _0804C384
 _080484C4:
@@ -1300,6 +2262,18 @@ _080484D0:
 	.4byte _0804C3A8
 _080484D4:
 	.4byte _0804E00C
+	.else
+	thumb_func_start sub_08048494
+sub_08048494:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048494__c + 1
+	.thumb
+	.space 52
+	.endif
 
 	thumb_func_start sub_080484D8
 sub_080484D8: @ 0x080484D8
@@ -1309,16 +2283,32 @@ sub_080484D8: @ 0x080484D8
 sub_080484DA: @ 0x080484DA
 	movs r0, r0
 
+	.ifndef DECOMP_sub_080484DC
+
 	thumb_func_start sub_080484DC
 sub_080484DC: @ 0x080484DC
 	ldr r1, _080484E4
 	ldr r0, _080484E8
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080484E4:
 	.4byte 0x03002B98
 _080484E8:
 	.4byte _080497A4
+	.else
+	thumb_func_start sub_080484DC
+sub_080484DC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080484DC__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_080484EC
 
 	thumb_func_start sub_080484EC
 sub_080484EC: @ 0x080484EC
@@ -1328,10 +2318,25 @@ sub_080484EC: @ 0x080484EC
 	ldr r0, _080484FC
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080484F8:
 	.4byte 0x03002B9C
 _080484FC:
 	.4byte _0804AE14
+	.else
+	thumb_func_start sub_080484EC
+sub_080484EC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080484EC__c + 1
+	.thumb
+	.space 4
+	.endif
+
+	.ifndef DECOMP_sub_08048500
 
 	thumb_func_start sub_08048500
 sub_08048500: @ 0x08048500
@@ -1339,10 +2344,24 @@ sub_08048500: @ 0x08048500
 	ldr r0, _0804850C
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048508:
 	.4byte 0x03002BA4
 _0804850C:
 	.4byte _08049A4C
+	.else
+	thumb_func_start sub_08048500
+sub_08048500:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048500__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048510
 
 	thumb_func_start sub_08048510
 sub_08048510: @ 0x08048510
@@ -1350,10 +2369,24 @@ sub_08048510: @ 0x08048510
 	ldr r0, _0804851C
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048518:
 	.4byte 0x03002BA8
 _0804851C:
 	.4byte _080497E4
+	.else
+	thumb_func_start sub_08048510
+sub_08048510:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048510__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048520
 
 	thumb_func_start sub_08048520
 sub_08048520: @ 0x08048520
@@ -1369,12 +2402,27 @@ sub_08048520: @ 0x08048520
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048538:
 	.4byte 0x03002BB4
 _0804853C:
 	.4byte _0804CC58
 _08048540:
 	.4byte _0804DCA4
+	.else
+	thumb_func_start sub_08048520
+sub_08048520:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048520__c + 1
+	.thumb
+	.space 20
+	.endif
+
+	.ifndef DECOMP_sub_08048544
 
 	thumb_func_start sub_08048544
 sub_08048544: @ 0x08048544
@@ -1382,10 +2430,24 @@ sub_08048544: @ 0x08048544
 	ldr r0, _08048550
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _0804854C:
 	.4byte 0x03002BCC
 _08048550:
 	.4byte _0804AD78
+	.else
+	thumb_func_start sub_08048544
+sub_08048544:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048544__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048554
 
 	thumb_func_start sub_08048554
 sub_08048554: @ 0x08048554
@@ -1393,10 +2455,24 @@ sub_08048554: @ 0x08048554
 	ldr r0, _08048560
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _0804855C:
 	.4byte 0x03002BD0
 _08048560:
 	.4byte _080495F4
+	.else
+	thumb_func_start sub_08048554
+sub_08048554:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048554__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048564
 
 	thumb_func_start sub_08048564
 sub_08048564: @ 0x08048564
@@ -1404,10 +2480,24 @@ sub_08048564: @ 0x08048564
 	ldr r0, _08048570
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _0804856C:
 	.4byte 0x03002BD4
 _08048570:
 	.4byte _08049E9C
+	.else
+	thumb_func_start sub_08048564
+sub_08048564:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048564__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048574
 
 	thumb_func_start sub_08048574
 sub_08048574: @ 0x08048574
@@ -1419,10 +2509,25 @@ sub_08048574: @ 0x08048574
 	str r1, [r0, #8]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048584:
 	.4byte 0x03002BD8
 _08048588:
 	.4byte 0x03001964
+	.else
+	thumb_func_start sub_08048574
+sub_08048574:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048574__c + 1
+	.thumb
+	.space 8
+	.endif
+
+	.ifndef DECOMP_sub_0804858C
 
 	thumb_func_start sub_0804858C
 sub_0804858C: @ 0x0804858C
@@ -1434,12 +2539,27 @@ sub_0804858C: @ 0x0804858C
 	adds r1, #0x95
 	str r0, [r1, #8]
 	bx lr
+	.align 2, 0
 _0804859C:
 	.4byte _080492B4
 _080485A0:
 	.4byte 0x03002D98
 _080485A4:
 	.4byte _0804931C
+	.else
+	thumb_func_start sub_0804858C
+sub_0804858C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_0804858C__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_080485A8
 
 	thumb_func_start sub_080485A8
 sub_080485A8: @ 0x080485A8
@@ -1447,10 +2567,24 @@ sub_080485A8: @ 0x080485A8
 	ldr r0, _080485B4
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080485B0:
 	.4byte 0x03002F4C
 _080485B4:
 	.4byte _0804AA08
+	.else
+	thumb_func_start sub_080485A8
+sub_080485A8:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080485A8__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_080485B8
 
 	thumb_func_start sub_080485B8
 sub_080485B8: @ 0x080485B8
@@ -1462,12 +2596,27 @@ sub_080485B8: @ 0x080485B8
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _080485C8:
 	.4byte _0804C6FC
 _080485CC:
 	.4byte 0x03002FA8
 _080485D0:
 	.4byte _0804AD58
+	.else
+	thumb_func_start sub_080485B8
+sub_080485B8:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080485B8__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_080485D4
 
 	thumb_func_start sub_080485D4
 sub_080485D4: @ 0x080485D4
@@ -1475,10 +2624,24 @@ sub_080485D4: @ 0x080485D4
 	ldr r0, _080485E0
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080485DC:
 	.4byte 0x03002FC0
 _080485E0:
 	.4byte _080499FC
+	.else
+	thumb_func_start sub_080485D4
+sub_080485D4:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080485D4__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_080485E4
 
 	thumb_func_start sub_080485E4
 sub_080485E4: @ 0x080485E4
@@ -1490,12 +2653,27 @@ sub_080485E4: @ 0x080485E4
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _080485F4:
 	.4byte _0804ADF0
 _080485F8:
 	.4byte 0x03002FC4
 _080485FC:
 	.4byte _08049C18
+	.else
+	thumb_func_start sub_080485E4
+sub_080485E4:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080485E4__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048600
 
 	thumb_func_start sub_08048600
 sub_08048600: @ 0x08048600
@@ -1507,12 +2685,27 @@ sub_08048600: @ 0x08048600
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048610:
 	.4byte _0804CC10
 _08048614:
 	.4byte 0x03002FCC
 _08048618:
 	.4byte _0804B110
+	.else
+	thumb_func_start sub_08048600
+sub_08048600:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048600__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_0804861C
 
 	thumb_func_start sub_0804861C
 sub_0804861C: @ 0x0804861C
@@ -1524,12 +2717,27 @@ sub_0804861C: @ 0x0804861C
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _0804862C:
 	.4byte _0804BEA8
 _08048630:
 	.4byte 0x03002FD8
 _08048634:
 	.4byte _0804A6A0
+	.else
+	thumb_func_start sub_0804861C
+sub_0804861C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_0804861C__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048638
 
 	thumb_func_start sub_08048638
 sub_08048638: @ 0x08048638
@@ -1537,10 +2745,24 @@ sub_08048638: @ 0x08048638
 	ldr r0, _08048644
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048640:
 	.4byte 0x03002FE0
 _08048644:
 	.4byte _08049E30
+	.else
+	thumb_func_start sub_08048638
+sub_08048638:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048638__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048648
 
 	thumb_func_start sub_08048648
 sub_08048648: @ 0x08048648
@@ -1548,10 +2770,24 @@ sub_08048648: @ 0x08048648
 	ldr r0, _08048654
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048650:
 	.4byte 0x03002FE8
 _08048654:
 	.4byte _0804AA94
+	.else
+	thumb_func_start sub_08048648
+sub_08048648:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048648__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048658
 
 	thumb_func_start sub_08048658
 sub_08048658: @ 0x08048658
@@ -1559,10 +2795,24 @@ sub_08048658: @ 0x08048658
 	ldr r0, _08048664
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048660:
 	.4byte 0x03002FEC
 _08048664:
 	.4byte _0804A6B0
+	.else
+	thumb_func_start sub_08048658
+sub_08048658:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048658__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048668
 
 	thumb_func_start sub_08048668
 sub_08048668: @ 0x08048668
@@ -1574,12 +2824,27 @@ sub_08048668: @ 0x08048668
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048678:
 	.4byte _0804985C
 _0804867C:
 	.4byte 0x03002FF0
 _08048680:
 	.4byte _0804BD00
+	.else
+	thumb_func_start sub_08048668
+sub_08048668:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048668__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048684
 
 	thumb_func_start sub_08048684
 sub_08048684: @ 0x08048684
@@ -1587,10 +2852,24 @@ sub_08048684: @ 0x08048684
 	ldr r0, _08048690
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _0804868C:
 	.4byte 0x03002FF8
 _08048690:
 	.4byte _0804D6BC
+	.else
+	thumb_func_start sub_08048684
+sub_08048684:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048684__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048694
 
 	thumb_func_start sub_08048694
 sub_08048694: @ 0x08048694
@@ -1602,12 +2881,27 @@ sub_08048694: @ 0x08048694
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _080486A4:
 	.4byte 0x03002FFC
 _080486A8:
 	.4byte _0804A700
 _080486AC:
 	.4byte _0804AAE4
+	.else
+	thumb_func_start sub_08048694
+sub_08048694:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048694__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_080486B0
 
 	thumb_func_start sub_080486B0
 sub_080486B0: @ 0x080486B0
@@ -1619,12 +2913,27 @@ sub_080486B0: @ 0x080486B0
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _080486C0:
 	.4byte _0804D6F0
 _080486C4:
 	.4byte 0x03003004
 _080486C8:
 	.4byte _0804C164
+	.else
+	thumb_func_start sub_080486B0
+sub_080486B0:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080486B0__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_080486CC
 
 	thumb_func_start sub_080486CC
 sub_080486CC: @ 0x080486CC
@@ -1638,12 +2947,27 @@ sub_080486CC: @ 0x080486CC
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _080486E0:
 	.4byte 0x03003014
 _080486E4:
 	.4byte _0804B740
 _080486E8:
 	.4byte _0804A0D0
+	.else
+	thumb_func_start sub_080486CC
+sub_080486CC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080486CC__c + 1
+	.thumb
+	.space 16
+	.endif
+
+	.ifndef DECOMP_sub_080486EC
 
 	thumb_func_start sub_080486EC
 sub_080486EC: @ 0x080486EC
@@ -1655,12 +2979,27 @@ sub_080486EC: @ 0x080486EC
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _080486FC:
 	.4byte _0804C23C
 _08048700:
 	.4byte 0x0300301C
 _08048704:
 	.4byte _0804AA1C
+	.else
+	thumb_func_start sub_080486EC
+sub_080486EC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080486EC__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048708
 
 	thumb_func_start sub_08048708
 sub_08048708: @ 0x08048708
@@ -1672,12 +3011,27 @@ sub_08048708: @ 0x08048708
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048718:
 	.4byte _0804BE18
 _0804871C:
 	.4byte 0x03003024
 _08048720:
 	.4byte _0804A638
+	.else
+	thumb_func_start sub_08048708
+sub_08048708:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048708__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048724
 
 	thumb_func_start sub_08048724
 sub_08048724: @ 0x08048724
@@ -1689,12 +3043,27 @@ sub_08048724: @ 0x08048724
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048734:
 	.4byte _0804BE3C
 _08048738:
 	.4byte 0x03003030
 _0804873C:
 	.4byte _0804A648
+	.else
+	thumb_func_start sub_08048724
+sub_08048724:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048724__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048740
 
 	thumb_func_start sub_08048740
 sub_08048740: @ 0x08048740
@@ -1706,12 +3075,27 @@ sub_08048740: @ 0x08048740
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048750:
 	.4byte _0804C260
 _08048754:
 	.4byte 0x0300303C
 _08048758:
 	.4byte _0804AA2C
+	.else
+	thumb_func_start sub_08048740
+sub_08048740:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048740__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_0804875C
 
 	thumb_func_start sub_0804875C
 sub_0804875C: @ 0x0804875C
@@ -1723,12 +3107,27 @@ sub_0804875C: @ 0x0804875C
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _0804876C:
 	.4byte _0804C2A8
 _08048770:
 	.4byte 0x0300304C
 _08048774:
 	.4byte _0804AA4C
+	.else
+	thumb_func_start sub_0804875C
+sub_0804875C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_0804875C__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048778
 
 	thumb_func_start sub_08048778
 sub_08048778: @ 0x08048778
@@ -1740,12 +3139,27 @@ sub_08048778: @ 0x08048778
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048788:
 	.4byte _0804D37C
 _0804878C:
 	.4byte 0x0300305C
 _08048790:
 	.4byte _0804BCF0
+	.else
+	thumb_func_start sub_08048778
+sub_08048778:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048778__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048794
 
 	thumb_func_start sub_08048794
 sub_08048794: @ 0x08048794
@@ -1753,10 +3167,24 @@ sub_08048794: @ 0x08048794
 	ldr r0, _080487A0
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _0804879C:
 	.4byte 0x03003064
 _080487A0:
 	.4byte _0804C1A4
+	.else
+	thumb_func_start sub_08048794
+sub_08048794:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048794__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_080487A4
 
 	thumb_func_start sub_080487A4
 sub_080487A4: @ 0x080487A4
@@ -1768,12 +3196,27 @@ sub_080487A4: @ 0x080487A4
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _080487B4:
 	.4byte _0804D358
 _080487B8:
 	.4byte 0x03003068
 _080487BC:
 	.4byte _0804BCE0
+	.else
+	thumb_func_start sub_080487A4
+sub_080487A4:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080487A4__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_080487C0
 
 	thumb_func_start sub_080487C0
 sub_080487C0: @ 0x080487C0
@@ -1781,10 +3224,24 @@ sub_080487C0: @ 0x080487C0
 	ldr r0, _080487CC
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080487C8:
 	.4byte 0x03003070
 _080487CC:
 	.4byte _0804C1C4
+	.else
+	thumb_func_start sub_080487C0
+sub_080487C0:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080487C0__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_080487D0
 
 	thumb_func_start sub_080487D0
 sub_080487D0: @ 0x080487D0
@@ -1796,12 +3253,27 @@ sub_080487D0: @ 0x080487D0
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _080487E0:
 	.4byte _0804CD18
 _080487E4:
 	.4byte 0x03003074
 _080487E8:
 	.4byte _0804B200
+	.else
+	thumb_func_start sub_080487D0
+sub_080487D0:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080487D0__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_080487EC
 
 	thumb_func_start sub_080487EC
 sub_080487EC: @ 0x080487EC
@@ -1809,10 +3281,24 @@ sub_080487EC: @ 0x080487EC
 	ldr r0, _080487F8
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080487F4:
 	.4byte 0x0300307C
 _080487F8:
 	.4byte _0804B168
+	.else
+	thumb_func_start sub_080487EC
+sub_080487EC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080487EC__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_080487FC
 
 	thumb_func_start sub_080487FC
 sub_080487FC: @ 0x080487FC
@@ -1820,10 +3306,24 @@ sub_080487FC: @ 0x080487FC
 	ldr r0, _08048808
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048804:
 	.4byte 0x03003080
 _08048808:
 	.4byte _0804B178
+	.else
+	thumb_func_start sub_080487FC
+sub_080487FC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080487FC__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_0804880C
 
 	thumb_func_start sub_0804880C
 sub_0804880C: @ 0x0804880C
@@ -1837,12 +3337,27 @@ sub_0804880C: @ 0x0804880C
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048820:
 	.4byte 0x0300308C
 _08048824:
 	.4byte _0804CCCC
 _08048828:
 	.4byte _0804B1D0
+	.else
+	thumb_func_start sub_0804880C
+sub_0804880C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_0804880C__c + 1
+	.thumb
+	.space 16
+	.endif
+
+	.ifndef DECOMP_sub_0804882C
 
 	thumb_func_start sub_0804882C
 sub_0804882C: @ 0x0804882C
@@ -1850,10 +3365,24 @@ sub_0804882C: @ 0x0804882C
 	ldr r0, _08048838
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048834:
 	.4byte 0x030030A0
 _08048838:
 	.4byte _0804BD88
+	.else
+	thumb_func_start sub_0804882C
+sub_0804882C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_0804882C__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_0804883C
 
 	thumb_func_start sub_0804883C
 sub_0804883C: @ 0x0804883C
@@ -1861,10 +3390,24 @@ sub_0804883C: @ 0x0804883C
 	ldr r0, _08048848
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048844:
 	.4byte 0x030030A4
 _08048848:
 	.4byte _0804B158
+	.else
+	thumb_func_start sub_0804883C
+sub_0804883C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_0804883C__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_0804884C
 
 	thumb_func_start sub_0804884C
 sub_0804884C: @ 0x0804884C
@@ -1876,12 +3419,27 @@ sub_0804884C: @ 0x0804884C
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _0804885C:
 	.4byte _0804CCF4
 _08048860:
 	.4byte 0x030030A8
 _08048864:
 	.4byte _0804B1F0
+	.else
+	thumb_func_start sub_0804884C
+sub_0804884C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_0804884C__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048868
 
 	thumb_func_start sub_08048868
 sub_08048868: @ 0x08048868
@@ -1893,12 +3451,27 @@ sub_08048868: @ 0x08048868
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048878:
 	.4byte _0804D7AC
 _0804887C:
 	.4byte 0x030030B0
 _08048880:
 	.4byte _0804C1FC
+	.else
+	thumb_func_start sub_08048868
+sub_08048868:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048868__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048884
 
 	thumb_func_start sub_08048884
 sub_08048884: @ 0x08048884
@@ -1906,10 +3479,24 @@ sub_08048884: @ 0x08048884
 	ldr r0, _08048890
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _0804888C:
 	.4byte 0x030030B8
 _08048890:
 	.4byte _0804C650
+	.else
+	thumb_func_start sub_08048884
+sub_08048884:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048884__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048894
 
 	thumb_func_start sub_08048894
 sub_08048894: @ 0x08048894
@@ -1917,10 +3504,24 @@ sub_08048894: @ 0x08048894
 	ldr r0, _080488A0
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _0804889C:
 	.4byte 0x030030C0
 _080488A0:
 	.4byte _0804B0D8
+	.else
+	thumb_func_start sub_08048894
+sub_08048894:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048894__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_080488A4
 
 	thumb_func_start sub_080488A4
 sub_080488A4: @ 0x080488A4
@@ -1928,10 +3529,24 @@ sub_080488A4: @ 0x080488A4
 	ldr r0, _080488B0
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080488AC:
 	.4byte 0x030030C4
 _080488B0:
 	.4byte _0804A690
+	.else
+	thumb_func_start sub_080488A4
+sub_080488A4:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080488A4__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_080488B4
 
 	thumb_func_start sub_080488B4
 sub_080488B4: @ 0x080488B4
@@ -1943,12 +3558,27 @@ sub_080488B4: @ 0x080488B4
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _080488C4:
 	.4byte _0804D334
 _080488C8:
 	.4byte 0x030030C8
 _080488CC:
 	.4byte _0804BCD0
+	.else
+	thumb_func_start sub_080488B4
+sub_080488B4:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080488B4__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_080488D0
 
 	thumb_func_start sub_080488D0
 sub_080488D0: @ 0x080488D0
@@ -1960,12 +3590,27 @@ sub_080488D0: @ 0x080488D0
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _080488E0:
 	.4byte _0804C2F0
 _080488E4:
 	.4byte 0x030030D0
 _080488E8:
 	.4byte _0804AA74
+	.else
+	thumb_func_start sub_080488D0
+sub_080488D0:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080488D0__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_080488EC
 
 	thumb_func_start sub_080488EC
 sub_080488EC: @ 0x080488EC
@@ -1973,10 +3618,24 @@ sub_080488EC: @ 0x080488EC
 	ldr r0, _080488F8
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080488F4:
 	.4byte 0x030030D8
 _080488F8:
 	.4byte _0804D2C8
+	.else
+	thumb_func_start sub_080488EC
+sub_080488EC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080488EC__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_080488FC
 
 	thumb_func_start sub_080488FC
 sub_080488FC: @ 0x080488FC
@@ -1984,10 +3643,24 @@ sub_080488FC: @ 0x080488FC
 	ldr r0, _08048908
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048904:
 	.4byte 0x030030DC
 _08048908:
 	.4byte _0804CB38
+	.else
+	thumb_func_start sub_080488FC
+sub_080488FC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080488FC__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_0804890C
 
 	thumb_func_start sub_0804890C
 sub_0804890C: @ 0x0804890C
@@ -1999,12 +3672,27 @@ sub_0804890C: @ 0x0804890C
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _0804891C:
 	.4byte _0804DBF0
 _08048920:
 	.4byte 0x030030E0
 _08048924:
 	.4byte _0804CBA0
+	.else
+	thumb_func_start sub_0804890C
+sub_0804890C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_0804890C__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048928
 
 	thumb_func_start sub_08048928
 sub_08048928: @ 0x08048928
@@ -2018,12 +3706,27 @@ sub_08048928: @ 0x08048928
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _0804893C:
 	.4byte 0x030030EC
 _08048940:
 	.4byte _0804B7D0
 _08048944:
 	.4byte _0804A148
+	.else
+	thumb_func_start sub_08048928
+sub_08048928:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048928__c + 1
+	.thumb
+	.space 16
+	.endif
+
+	.ifndef DECOMP_sub_08048948
 
 	thumb_func_start sub_08048948
 sub_08048948: @ 0x08048948
@@ -2031,10 +3734,24 @@ sub_08048948: @ 0x08048948
 	ldr r0, _08048954
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048950:
 	.4byte 0x030030F8
 _08048954:
 	.4byte _0804BCC0
+	.else
+	thumb_func_start sub_08048948
+sub_08048948:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048948__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048958
 
 	thumb_func_start sub_08048958
 sub_08048958: @ 0x08048958
@@ -2042,10 +3759,24 @@ sub_08048958: @ 0x08048958
 	ldr r0, _08048964
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048960:
 	.4byte 0x030030FC
 _08048964:
 	.4byte _08049A5C
+	.else
+	thumb_func_start sub_08048958
+sub_08048958:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048958__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048968
 
 	thumb_func_start sub_08048968
 sub_08048968: @ 0x08048968
@@ -2055,10 +3786,25 @@ sub_08048968: @ 0x08048968
 	ldr r0, _08048978
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048974:
 	.4byte 0x03003100
 _08048978:
 	.4byte _0804CC80
+	.else
+	thumb_func_start sub_08048968
+sub_08048968:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048968__c + 1
+	.thumb
+	.space 4
+	.endif
+
+	.ifndef DECOMP_sub_0804897C
 
 	thumb_func_start sub_0804897C
 sub_0804897C: @ 0x0804897C
@@ -2070,12 +3816,27 @@ sub_0804897C: @ 0x0804897C
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _0804898C:
 	.4byte _0804BE84
 _08048990:
 	.4byte 0x03003108
 _08048994:
 	.4byte _0804A680
+	.else
+	thumb_func_start sub_0804897C
+sub_0804897C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_0804897C__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048998
 
 	thumb_func_start sub_08048998
 sub_08048998: @ 0x08048998
@@ -2083,10 +3844,24 @@ sub_08048998: @ 0x08048998
 	ldr r0, _080489A4
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080489A0:
 	.4byte 0x03003114
 _080489A4:
 	.4byte _0804AA84
+	.else
+	thumb_func_start sub_08048998
+sub_08048998:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048998__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_080489A8
 
 	thumb_func_start sub_080489A8
 sub_080489A8: @ 0x080489A8
@@ -2096,10 +3871,25 @@ sub_080489A8: @ 0x080489A8
 	ldr r0, _080489B8
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _080489B4:
 	.4byte 0x03003118
 _080489B8:
 	.4byte _0804B840
+	.else
+	thumb_func_start sub_080489A8
+sub_080489A8:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080489A8__c + 1
+	.thumb
+	.space 4
+	.endif
+
+	.ifndef DECOMP_sub_080489BC
 
 	thumb_func_start sub_080489BC
 sub_080489BC: @ 0x080489BC
@@ -2111,12 +3901,27 @@ sub_080489BC: @ 0x080489BC
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _080489CC:
 	.4byte _0804D944
 _080489D0:
 	.4byte 0x03003120
 _080489D4:
 	.4byte _0804C620
+	.else
+	thumb_func_start sub_080489BC
+sub_080489BC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080489BC__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_080489D8
 
 	thumb_func_start sub_080489D8
 sub_080489D8: @ 0x080489D8
@@ -2128,12 +3933,27 @@ sub_080489D8: @ 0x080489D8
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _080489E8:
 	.4byte _0804CBEC
 _080489EC:
 	.4byte 0x03003128
 _080489F0:
 	.4byte _0804B0A0
+	.else
+	thumb_func_start sub_080489D8
+sub_080489D8:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080489D8__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_080489F4
 
 	thumb_func_start sub_080489F4
 sub_080489F4: @ 0x080489F4
@@ -2145,12 +3965,27 @@ sub_080489F4: @ 0x080489F4
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048A04:
 	.4byte _0804DE34
 _08048A08:
 	.4byte 0x03003130
 _08048A0C:
 	.4byte _0804CFCC
+	.else
+	thumb_func_start sub_080489F4
+sub_080489F4:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_080489F4__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048A10
 
 	thumb_func_start sub_08048A10
 sub_08048A10: @ 0x08048A10
@@ -2158,10 +3993,24 @@ sub_08048A10: @ 0x08048A10
 	ldr r0, _08048A1C
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048A18:
 	.4byte 0x03003138
 _08048A1C:
 	.4byte _0804A658
+	.else
+	thumb_func_start sub_08048A10
+sub_08048A10:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048A10__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048A20
 
 	thumb_func_start sub_08048A20
 sub_08048A20: @ 0x08048A20
@@ -2169,10 +4018,24 @@ sub_08048A20: @ 0x08048A20
 	ldr r0, _08048A2C
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048A28:
 	.4byte 0x0300313C
 _08048A2C:
 	.4byte _08049BF8
+	.else
+	thumb_func_start sub_08048A20
+sub_08048A20:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048A20__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048A30
 
 	thumb_func_start sub_08048A30
 sub_08048A30: @ 0x08048A30
@@ -2180,10 +4043,24 @@ sub_08048A30: @ 0x08048A30
 	ldr r0, _08048A3C
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048A38:
 	.4byte 0x03003140
 _08048A3C:
 	.4byte _08049DB8
+	.else
+	thumb_func_start sub_08048A30
+sub_08048A30:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048A30__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048A40
 
 	thumb_func_start sub_08048A40
 sub_08048A40: @ 0x08048A40
@@ -2197,6 +4074,7 @@ sub_08048A40: @ 0x08048A40
 	subs r1, #4
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048A54:
 	.4byte 0x03003144
 _08048A58:
@@ -2205,6 +4083,20 @@ _08048A5C:
 	.4byte _0804C284
 _08048A60:
 	.4byte _0804AA3C
+	.else
+	thumb_func_start sub_08048A40
+sub_08048A40:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048A40__c + 1
+	.thumb
+	.space 20
+	.endif
+
+	.ifndef DECOMP_sub_08048A64
 
 	thumb_func_start sub_08048A64
 sub_08048A64: @ 0x08048A64
@@ -2216,12 +4108,27 @@ sub_08048A64: @ 0x08048A64
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048A74:
 	.4byte 0x03003158
 _08048A78:
 	.4byte _0804B788
 _08048A7C:
 	.4byte _0804A110
+	.else
+	thumb_func_start sub_08048A64
+sub_08048A64:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048A64__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048A80
 
 	thumb_func_start sub_08048A80
 sub_08048A80: @ 0x08048A80
@@ -2229,10 +4136,22 @@ sub_08048A80: @ 0x08048A80
 	ldr r0, _08048A8C
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048A88:
 	.4byte 0x03003170
 _08048A8C:
 	.4byte _0804CB90
+	.else
+	thumb_func_start sub_08048A80
+sub_08048A80:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048A80__c + 1
+	.thumb
+	.endif
 
 	thumb_func_start sub_08048A90
 sub_08048A90: @ 0x08048A90
@@ -2240,8 +4159,11 @@ sub_08048A90: @ 0x08048A90
 	movs r0, #0
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048A98:
 	.4byte 0x03003174
+
+	.ifndef DECOMP_sub_08048A9C
 
 	thumb_func_start sub_08048A9C
 sub_08048A9C: @ 0x08048A9C
@@ -2249,10 +4171,24 @@ sub_08048A9C: @ 0x08048A9C
 	ldr r0, _08048AA8
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048AA4:
 	.4byte 0x030031F8
 _08048AA8:
 	.4byte _0804BD78
+	.else
+	thumb_func_start sub_08048A9C
+sub_08048A9C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048A9C__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048AAC
 
 	thumb_func_start sub_08048AAC
 sub_08048AAC: @ 0x08048AAC
@@ -2260,10 +4196,24 @@ sub_08048AAC: @ 0x08048AAC
 	ldr r0, _08048AB8
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048AB4:
 	.4byte 0x030031FC
 _08048AB8:
 	.4byte _0804B148
+	.else
+	thumb_func_start sub_08048AAC
+sub_08048AAC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048AAC__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048ABC
 
 	thumb_func_start sub_08048ABC
 sub_08048ABC: @ 0x08048ABC
@@ -2271,10 +4221,24 @@ sub_08048ABC: @ 0x08048ABC
 	ldr r0, _08048AC8
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048AC4:
 	.4byte 0x03003200
 _08048AC8:
 	.4byte _0804AAD4
+	.else
+	thumb_func_start sub_08048ABC
+sub_08048ABC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048ABC__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048ACC
 
 	thumb_func_start sub_08048ACC
 sub_08048ACC: @ 0x08048ACC
@@ -2282,10 +4246,24 @@ sub_08048ACC: @ 0x08048ACC
 	ldr r0, _08048AD8
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048AD4:
 	.4byte 0x03003204
 _08048AD8:
 	.4byte _0804B710
+	.else
+	thumb_func_start sub_08048ACC
+sub_08048ACC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048ACC__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048ADC
 
 	thumb_func_start sub_08048ADC
 sub_08048ADC: @ 0x08048ADC
@@ -2293,10 +4271,24 @@ sub_08048ADC: @ 0x08048ADC
 	ldr r0, _08048AE8
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048AE4:
 	.4byte 0x03003208
 _08048AE8:
 	.4byte _0804ADB0
+	.else
+	thumb_func_start sub_08048ADC
+sub_08048ADC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048ADC__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048AEC
 
 	thumb_func_start sub_08048AEC
 sub_08048AEC: @ 0x08048AEC
@@ -2304,10 +4296,24 @@ sub_08048AEC: @ 0x08048AEC
 	ldr r0, _08048AF8
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048AF4:
 	.4byte 0x0300320C
 _08048AF8:
 	.4byte _0804C1D4
+	.else
+	thumb_func_start sub_08048AEC
+sub_08048AEC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048AEC__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048AFC
 
 	thumb_func_start sub_08048AFC
 sub_08048AFC: @ 0x08048AFC
@@ -2321,12 +4327,27 @@ sub_08048AFC: @ 0x08048AFC
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048B10:
 	.4byte 0x03003214
 _08048B14:
 	.4byte _0804CCA4
 _08048B18:
 	.4byte _0804B1B0
+	.else
+	thumb_func_start sub_08048AFC
+sub_08048AFC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048AFC__c + 1
+	.thumb
+	.space 16
+	.endif
+
+	.ifndef DECOMP_sub_08048B1C
 
 	thumb_func_start sub_08048B1C
 sub_08048B1C: @ 0x08048B1C
@@ -2334,10 +4355,24 @@ sub_08048B1C: @ 0x08048B1C
 	ldr r0, _08048B28
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048B24:
 	.4byte 0x0300321C
 _08048B28:
 	.4byte _0804C660
+	.else
+	thumb_func_start sub_08048B1C
+sub_08048B1C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048B1C__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048B2C
 
 	thumb_func_start sub_08048B2C
 sub_08048B2C: @ 0x08048B2C
@@ -2345,10 +4380,24 @@ sub_08048B2C: @ 0x08048B2C
 	ldr r0, _08048B38
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048B34:
 	.4byte 0x03003220
 _08048B38:
 	.4byte _0804D6AC
+	.else
+	thumb_func_start sub_08048B2C
+sub_08048B2C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048B2C__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048B3C
 
 	thumb_func_start sub_08048B3C
 sub_08048B3C: @ 0x08048B3C
@@ -2356,10 +4405,24 @@ sub_08048B3C: @ 0x08048B3C
 	ldr r0, _08048B48
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048B44:
 	.4byte 0x03003224
 _08048B48:
 	.4byte _0804D69C
+	.else
+	thumb_func_start sub_08048B3C
+sub_08048B3C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048B3C__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048B4C
 
 	thumb_func_start sub_08048B4C
 sub_08048B4C: @ 0x08048B4C
@@ -2371,12 +4434,27 @@ sub_08048B4C: @ 0x08048B4C
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048B5C:
 	.4byte _0804D968
 _08048B60:
 	.4byte 0x0300322C
 _08048B64:
 	.4byte _0804BD48
+	.else
+	thumb_func_start sub_08048B4C
+sub_08048B4C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048B4C__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048B68
 
 	thumb_func_start sub_08048B68
 sub_08048B68: @ 0x08048B68
@@ -2388,12 +4466,27 @@ sub_08048B68: @ 0x08048B68
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048B78:
 	.4byte _0804E064
 _08048B7C:
 	.4byte 0x03003234
 _08048B80:
 	.4byte _0804D934
+	.else
+	thumb_func_start sub_08048B68
+sub_08048B68:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048B68__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048B84
 
 	thumb_func_start sub_08048B84
 sub_08048B84: @ 0x08048B84
@@ -2405,12 +4498,27 @@ sub_08048B84: @ 0x08048B84
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048B94:
 	.4byte _0804DBCC
 _08048B98:
 	.4byte 0x0300323C
 _08048B9C:
 	.4byte _0804CB70
+	.else
+	thumb_func_start sub_08048B84
+sub_08048B84:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048B84__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048BA0
 
 	thumb_func_start sub_08048BA0
 sub_08048BA0: @ 0x08048BA0
@@ -2418,10 +4526,24 @@ sub_08048BA0: @ 0x08048BA0
 	ldr r0, _08048BAC
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048BA8:
 	.4byte 0x03003244
 _08048BAC:
 	.4byte _0804BD68
+	.else
+	thumb_func_start sub_08048BA0
+sub_08048BA0:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048BA0__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048BB0
 
 	thumb_func_start sub_08048BB0
 sub_08048BB0: @ 0x08048BB0
@@ -2433,12 +4555,27 @@ sub_08048BB0: @ 0x08048BB0
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048BC0:
 	.4byte _0804E170
 _08048BC4:
 	.4byte 0x03003248
 _08048BC8:
 	.4byte _0804BD38
+	.else
+	thumb_func_start sub_08048BB0
+sub_08048BB0:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048BB0__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048BCC
 
 	thumb_func_start sub_08048BCC
 sub_08048BCC: @ 0x08048BCC
@@ -2446,10 +4583,24 @@ sub_08048BCC: @ 0x08048BCC
 	ldr r0, _08048BD8
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048BD4:
 	.4byte 0x03003250
 _08048BD8:
 	.4byte _0804B220
+	.else
+	thumb_func_start sub_08048BCC
+sub_08048BCC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048BCC__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048BDC
 
 	thumb_func_start sub_08048BDC
 sub_08048BDC: @ 0x08048BDC
@@ -2457,10 +4608,24 @@ sub_08048BDC: @ 0x08048BDC
 	ldr r0, _08048BE8
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048BE4:
 	.4byte 0x03003254
 _08048BE8:
 	.4byte _0804D45C
+	.else
+	thumb_func_start sub_08048BDC
+sub_08048BDC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048BDC__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048BEC
 
 	thumb_func_start sub_08048BEC
 sub_08048BEC: @ 0x08048BEC
@@ -2468,10 +4633,24 @@ sub_08048BEC: @ 0x08048BEC
 	ldr r0, _08048BF8
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048BF4:
 	.4byte 0x03003258
 _08048BF8:
 	.4byte _0804AD48
+	.else
+	thumb_func_start sub_08048BEC
+sub_08048BEC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048BEC__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048BFC
 
 	thumb_func_start sub_08048BFC
 sub_08048BFC: @ 0x08048BFC
@@ -2483,12 +4662,27 @@ sub_08048BFC: @ 0x08048BFC
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048C0C:
 	.4byte _0804D310
 _08048C10:
 	.4byte 0x0300325C
 _08048C14:
 	.4byte _0804BC78
+	.else
+	thumb_func_start sub_08048BFC
+sub_08048BFC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048BFC__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048C18
 
 	thumb_func_start sub_08048C18
 sub_08048C18: @ 0x08048C18
@@ -2500,12 +4694,27 @@ sub_08048C18: @ 0x08048C18
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048C28:
 	.4byte _0804CBC8
 _08048C2C:
 	.4byte 0x03003264
 _08048C30:
 	.4byte _0804B090
+	.else
+	thumb_func_start sub_08048C18
+sub_08048C18:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048C18__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048C34
 
 	thumb_func_start sub_08048C34
 sub_08048C34: @ 0x08048C34
@@ -2517,12 +4726,27 @@ sub_08048C34: @ 0x08048C34
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048C44:
 	.4byte _0804B764
 _08048C48:
 	.4byte 0x0300326C
 _08048C4C:
 	.4byte _0804A0F0
+	.else
+	thumb_func_start sub_08048C34
+sub_08048C34:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048C34__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048C50
 
 	thumb_func_start sub_08048C50
 sub_08048C50: @ 0x08048C50
@@ -2530,10 +4754,24 @@ sub_08048C50: @ 0x08048C50
 	ldr r0, _08048C5C
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048C58:
 	.4byte 0x03003274
 _08048C5C:
 	.4byte _0804CFA8
+	.else
+	thumb_func_start sub_08048C50
+sub_08048C50:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048C50__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048C60
 
 	thumb_func_start sub_08048C60
 sub_08048C60: @ 0x08048C60
@@ -2545,12 +4783,27 @@ sub_08048C60: @ 0x08048C60
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048C70:
 	.4byte _0804C6D8
 _08048C74:
 	.4byte 0x03003278
 _08048C78:
 	.4byte _0804AD28
+	.else
+	thumb_func_start sub_08048C60
+sub_08048C60:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048C60__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048C7C
 
 	thumb_func_start sub_08048C7C
 sub_08048C7C: @ 0x08048C7C
@@ -2558,10 +4811,24 @@ sub_08048C7C: @ 0x08048C7C
 	ldr r0, _08048C88
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048C84:
 	.4byte 0x03003280
 _08048C88:
 	.4byte _0804C1B4
+	.else
+	thumb_func_start sub_08048C7C
+sub_08048C7C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048C7C__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048C8C
 
 	thumb_func_start sub_08048C8C
 sub_08048C8C: @ 0x08048C8C
@@ -2575,12 +4842,27 @@ sub_08048C8C: @ 0x08048C8C
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048CA0:
 	.4byte 0x0300328C
 _08048CA4:
 	.4byte _0804C7B4
 _08048CA8:
 	.4byte _0804AD88
+	.else
+	thumb_func_start sub_08048C8C
+sub_08048C8C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048C8C__c + 1
+	.thumb
+	.space 16
+	.endif
+
+	.ifndef DECOMP_sub_08048CAC
 
 	thumb_func_start sub_08048CAC
 sub_08048CAC: @ 0x08048CAC
@@ -2592,12 +4874,27 @@ sub_08048CAC: @ 0x08048CAC
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048CBC:
 	.4byte _0804CFF0
 _08048CC0:
 	.4byte 0x03003294
 _08048CC4:
 	.4byte _0804B630
+	.else
+	thumb_func_start sub_08048CAC
+sub_08048CAC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048CAC__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048CC8
 
 	thumb_func_start sub_08048CC8
 sub_08048CC8: @ 0x08048CC8
@@ -2609,12 +4906,27 @@ sub_08048CC8: @ 0x08048CC8
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048CD8:
 	.4byte _0804D014
 _08048CDC:
 	.4byte 0x030032A0
 _08048CE0:
 	.4byte _0804B668
+	.else
+	thumb_func_start sub_08048CC8
+sub_08048CC8:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048CC8__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048CE4
 
 	thumb_func_start sub_08048CE4
 sub_08048CE4: @ 0x08048CE4
@@ -2622,10 +4934,24 @@ sub_08048CE4: @ 0x08048CE4
 	ldr r0, _08048CF0
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048CEC:
 	.4byte 0x030032A8
 _08048CF0:
 	.4byte _0804B688
+	.else
+	thumb_func_start sub_08048CE4
+sub_08048CE4:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048CE4__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048CF4
 
 	thumb_func_start sub_08048CF4
 sub_08048CF4: @ 0x08048CF4
@@ -2633,10 +4959,24 @@ sub_08048CF4: @ 0x08048CF4
 	ldr r0, _08048D00
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048CFC:
 	.4byte 0x030032AC
 _08048D00:
 	.4byte _0804CB00
+	.else
+	thumb_func_start sub_08048CF4
+sub_08048CF4:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048CF4__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048D04
 
 	thumb_func_start sub_08048D04
 sub_08048D04: @ 0x08048D04
@@ -2644,10 +4984,24 @@ sub_08048D04: @ 0x08048D04
 	ldr r0, _08048D10
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048D0C:
 	.4byte 0x030032B0
 _08048D10:
 	.4byte _0804BC88
+	.else
+	thumb_func_start sub_08048D04
+sub_08048D04:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048D04__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048D14
 
 	thumb_func_start sub_08048D14
 sub_08048D14: @ 0x08048D14
@@ -2655,10 +5009,24 @@ sub_08048D14: @ 0x08048D14
 	ldr r0, _08048D20
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048D1C:
 	.4byte 0x030032B4
 _08048D20:
 	.4byte _0804DF74
+	.else
+	thumb_func_start sub_08048D14
+sub_08048D14:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048D14__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048D24
 
 	thumb_func_start sub_08048D24
 sub_08048D24: @ 0x08048D24
@@ -2666,10 +5034,24 @@ sub_08048D24: @ 0x08048D24
 	ldr r0, _08048D30
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048D2C:
 	.4byte 0x030032B8
 _08048D30:
 	.4byte _0804CC34
+	.else
+	thumb_func_start sub_08048D24
+sub_08048D24:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048D24__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048D34
 
 	thumb_func_start sub_08048D34
 sub_08048D34: @ 0x08048D34
@@ -2679,10 +5061,25 @@ sub_08048D34: @ 0x08048D34
 	ldr r0, _08048D44
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048D40:
 	.4byte 0x030032BC
 _08048D44:
 	.4byte _0804D3A0
+	.else
+	thumb_func_start sub_08048D34
+sub_08048D34:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048D34__c + 1
+	.thumb
+	.space 4
+	.endif
+
+	.ifndef DECOMP_sub_08048D48
 
 	thumb_func_start sub_08048D48
 sub_08048D48: @ 0x08048D48
@@ -2690,10 +5087,24 @@ sub_08048D48: @ 0x08048D48
 	ldr r0, _08048D54
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048D50:
 	.4byte 0x030032C4
 _08048D54:
 	.4byte _0804D68C
+	.else
+	thumb_func_start sub_08048D48
+sub_08048D48:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048D48__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048D58
 
 	thumb_func_start sub_08048D58
 sub_08048D58: @ 0x08048D58
@@ -2701,10 +5112,24 @@ sub_08048D58: @ 0x08048D58
 	ldr r0, _08048D64
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048D60:
 	.4byte 0x030032C8
 _08048D64:
 	.4byte _0804C3F0
+	.else
+	thumb_func_start sub_08048D58
+sub_08048D58:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048D58__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048D68
 
 	thumb_func_start sub_08048D68
 sub_08048D68: @ 0x08048D68
@@ -2712,10 +5137,24 @@ sub_08048D68: @ 0x08048D68
 	ldr r0, _08048D74
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048D70:
 	.4byte 0x030032CC
 _08048D74:
 	.4byte _0804D7F4
+	.else
+	thumb_func_start sub_08048D68
+sub_08048D68:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048D68__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048D78
 
 	thumb_func_start sub_08048D78
 sub_08048D78: @ 0x08048D78
@@ -2723,10 +5162,24 @@ sub_08048D78: @ 0x08048D78
 	ldr r0, _08048D84
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048D80:
 	.4byte 0x030032D0
 _08048D84:
 	.4byte _0804B81C
+	.else
+	thumb_func_start sub_08048D78
+sub_08048D78:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048D78__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048D88
 
 	thumb_func_start sub_08048D88
 sub_08048D88: @ 0x08048D88
@@ -2734,10 +5187,24 @@ sub_08048D88: @ 0x08048D88
 	ldr r0, _08048D94
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048D90:
 	.4byte 0x030032D4
 _08048D94:
 	.4byte _0804C680
+	.else
+	thumb_func_start sub_08048D88
+sub_08048D88:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048D88__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048D98
 
 	thumb_func_start sub_08048D98
 sub_08048D98: @ 0x08048D98
@@ -2745,10 +5212,24 @@ sub_08048D98: @ 0x08048D98
 	ldr r0, _08048DA4
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048DA0:
 	.4byte 0x030032D8
 _08048DA4:
 	.4byte _0804DE24
+	.else
+	thumb_func_start sub_08048D98
+sub_08048D98:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048D98__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048DA8
 
 	thumb_func_start sub_08048DA8
 sub_08048DA8: @ 0x08048DA8
@@ -2756,10 +5237,24 @@ sub_08048DA8: @ 0x08048DA8
 	ldr r0, _08048DB4
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048DB0:
 	.4byte 0x030032E0
 _08048DB4:
 	.4byte _0804B0E8
+	.else
+	thumb_func_start sub_08048DA8
+sub_08048DA8:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048DA8__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048DB8
 
 	thumb_func_start sub_08048DB8
 sub_08048DB8: @ 0x08048DB8
@@ -2767,10 +5262,24 @@ sub_08048DB8: @ 0x08048DB8
 	ldr r0, _08048DC4
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048DC0:
 	.4byte 0x030032E8
 _08048DC4:
 	.4byte _0804C140
+	.else
+	thumb_func_start sub_08048DB8
+sub_08048DB8:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048DB8__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048DC8
 
 	thumb_func_start sub_08048DC8
 sub_08048DC8: @ 0x08048DC8
@@ -2778,10 +5287,24 @@ sub_08048DC8: @ 0x08048DC8
 	ldr r0, _08048DD4
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048DD0:
 	.4byte 0x030032F0
 _08048DD4:
 	.4byte _0804A100
+	.else
+	thumb_func_start sub_08048DC8
+sub_08048DC8:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048DC8__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048DD8
 
 	thumb_func_start sub_08048DD8
 sub_08048DD8: @ 0x08048DD8
@@ -2793,12 +5316,27 @@ sub_08048DD8: @ 0x08048DD8
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048DE8:
 	.4byte _0804B7F8
 _08048DEC:
 	.4byte 0x030032F4
 _08048DF0:
 	.4byte _0804A158
+	.else
+	thumb_func_start sub_08048DD8
+sub_08048DD8:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048DD8__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048DF4
 
 	thumb_func_start sub_08048DF4
 sub_08048DF4: @ 0x08048DF4
@@ -2806,10 +5344,24 @@ sub_08048DF4: @ 0x08048DF4
 	ldr r0, _08048E00
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048DFC:
 	.4byte 0x030032FC
 _08048E00:
 	.4byte _0804D2D8
+	.else
+	thumb_func_start sub_08048DF4
+sub_08048DF4:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048DF4__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048E04
 
 	thumb_func_start sub_08048E04
 sub_08048E04: @ 0x08048E04
@@ -2821,12 +5373,27 @@ sub_08048E04: @ 0x08048E04
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048E14:
 	.4byte _080493C8
 _08048E18:
 	.4byte 0x0300348C
 _08048E1C:
 	.4byte _0804956C
+	.else
+	thumb_func_start sub_08048E04
+sub_08048E04:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048E04__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048E20
 
 	thumb_func_start sub_08048E20
 sub_08048E20: @ 0x08048E20
@@ -2838,12 +5405,27 @@ sub_08048E20: @ 0x08048E20
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048E30:
 	.4byte _08049834
 _08048E34:
 	.4byte 0x03004A70
 _08048E38:
 	.4byte _0804A7D0
+	.else
+	thumb_func_start sub_08048E20
+sub_08048E20:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048E20__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048E3C
 
 	thumb_func_start sub_08048E3C
 sub_08048E3C: @ 0x08048E3C
@@ -2851,10 +5433,24 @@ sub_08048E3C: @ 0x08048E3C
 	ldr r1, _08048E48
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048E44:
 	.4byte _0804984C
 _08048E48:
 	.4byte 0x03001964
+	.else
+	thumb_func_start sub_08048E3C
+sub_08048E3C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048E3C__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048E4C
 
 	thumb_func_start sub_08048E4C
 sub_08048E4C: @ 0x08048E4C
@@ -2862,10 +5458,24 @@ sub_08048E4C: @ 0x08048E4C
 	ldr r1, _08048E58
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048E54:
 	.4byte _080493E4
 _08048E58:
 	.4byte 0x03001AF0
+	.else
+	thumb_func_start sub_08048E4C
+sub_08048E4C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048E4C__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048E5C
 
 	thumb_func_start sub_08048E5C
 sub_08048E5C: @ 0x08048E5C
@@ -2877,6 +5487,7 @@ sub_08048E5C: @ 0x08048E5C
 	str r0, [r1]
 	bx lr
 	.align 2, 0
+	.align 2, 0
 _08048E6C:
 	.4byte _08049AF0
 _08048E70:
@@ -2885,6 +5496,20 @@ _08048E74:
 	.4byte _0804E454
 _08048E78:
 	.4byte 0x03002A4C
+	.else
+	thumb_func_start sub_08048E5C
+sub_08048E5C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048E5C__c + 1
+	.thumb
+	.space 16
+	.endif
+
+	.ifndef DECOMP_sub_08048E7C
 
 	thumb_func_start sub_08048E7C
 sub_08048E7C: @ 0x08048E7C
@@ -2892,10 +5517,24 @@ sub_08048E7C: @ 0x08048E7C
 	ldr r1, _08048E88
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048E84:
 	.4byte _08049AE0
 _08048E88:
 	.4byte 0x03002BD4
+	.else
+	thumb_func_start sub_08048E7C
+sub_08048E7C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048E7C__c + 1
+	.thumb
+	.endif
+
+	.ifndef DECOMP_sub_08048E8C
 
 	thumb_func_start sub_08048E8C
 sub_08048E8C: @ 0x08048E8C
@@ -2911,8 +5550,23 @@ sub_08048E8C: @ 0x08048E8C
 	bl __call_via_r2
 _08048EA2:
 	pop {r3, pc}
+	.align 2, 0
 _08048EA4:
 	.4byte 0x03002BD8
+	.else
+	thumb_func_start sub_08048E8C
+sub_08048E8C:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048E8C__c + 1
+	.thumb
+	.space 12
+	.endif
+
+	.ifndef DECOMP_sub_08048EA8
 
 	thumb_func_start sub_08048EA8
 sub_08048EA8: @ 0x08048EA8
@@ -2922,10 +5576,25 @@ sub_08048EA8: @ 0x08048EA8
 	subs r1, #4
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 _08048EB4:
 	.4byte _080491F0
 _08048EB8:
 	.4byte 0x03003490
+	.else
+	thumb_func_start sub_08048EA8
+sub_08048EA8:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048EA8__c + 1
+	.thumb
+	.space 4
+	.endif
+
+	.ifndef DECOMP_sub_08048EBC
 
 	thumb_func_start sub_08048EBC
 sub_08048EBC: @ 0x08048EBC
@@ -2936,6 +5605,7 @@ sub_08048EBC: @ 0x08048EBC
 	subs r1, #4
 	str r0, [r1]
 	bx lr
+	.align 2, 0
 	.align 2, 0
 _08048ECC:
 	.4byte _08049AE0
@@ -3086,11 +5756,24 @@ _08048ED4:
 	.4byte sub_08048E8C + 1 - .
 	.4byte sub_08048EA8 + 1 - .
 	.4byte sub_08048EBC + 1 - .
+	.else
+	thumb_func_start sub_08048EBC
+sub_08048EBC:
+	bx pc
+	nop
+	.arm
+	ldr ip, [pc]
+	bx ip
+	.4byte sub_08048EBC__c + 1
+	.thumb
+	.space 584
+	.endif
 
 	arm_func_start sub_08049114
 sub_08049114: @ 0x08049114
 	ldr ip, _0804911C
 	bx ip
+	.align 2, 0
 _0804911C:
 	.4byte sub_08046AEC + 1
 
@@ -3102,6 +5785,7 @@ sub_08049120: @ 0x08049120
 	arm_func_start sub_08049124
 sub_08049124: @ 0x08049124
 	ldr pc, _08049128
+	.align 2, 0
 _08049128:
 	.4byte Wfz_Decompress
 
@@ -3113,6 +5797,7 @@ sub_0804912C: @ 0x0804912C
 	arm_func_start sub_08049130
 sub_08049130: @ 0x08049130
 	ldr pc, _08049134
+	.align 2, 0
 _08049134:
 	.4byte sub_030007A8
 
@@ -3124,6 +5809,7 @@ sub_08049138: @ 0x08049138
 	arm_func_start sub_0804913C
 sub_0804913C: @ 0x0804913C
 	ldr pc, _08049140
+	.align 2, 0
 _08049140:
 	.4byte sub_03000768
 
@@ -3135,6 +5821,7 @@ sub_08049144: @ 0x08049144
 	arm_func_start sub_08049148
 sub_08049148: @ 0x08049148
 	ldr pc, _0804914C
+	.align 2, 0
 _0804914C:
 	.4byte sub_030007FC
 
@@ -3146,6 +5833,7 @@ sub_08049150: @ 0x08049150
 	arm_func_start sub_08049154
 sub_08049154: @ 0x08049154
 	ldr pc, _08049158
+	.align 2, 0
 _08049158:
 	.4byte sub_03000388
 
@@ -3157,6 +5845,7 @@ sub_0804915C: @ 0x0804915C
 	arm_func_start sub_08049160
 sub_08049160: @ 0x08049160
 	ldr pc, _08049164
+	.align 2, 0
 _08049164:
 	.4byte sub_030004C0
 
@@ -3168,6 +5857,7 @@ sub_08049168: @ 0x08049168
 	arm_func_start sub_0804916C
 sub_0804916C: @ 0x0804916C
 	ldr pc, _08049170
+	.align 2, 0
 _08049170:
 	.4byte sub_03000858
 
@@ -3179,6 +5869,7 @@ sub_08049174: @ 0x08049174
 	arm_func_start sub_08049178
 sub_08049178: @ 0x08049178
 	ldr pc, _0804917C
+	.align 2, 0
 _0804917C:
 	.4byte sub_03000560
 
@@ -3190,6 +5881,7 @@ sub_08049180: @ 0x08049180
 	arm_func_start sub_08049184
 sub_08049184: @ 0x08049184
 	ldr pc, _08049188
+	.align 2, 0
 _08049188:
 	.4byte sub_03000700
 
@@ -3201,6 +5893,7 @@ sub_0804918C: @ 0x0804918C
 	arm_func_start sub_08049190
 sub_08049190: @ 0x08049190
 	ldr pc, _08049194
+	.align 2, 0
 _08049194:
 	.4byte sub_030002DC
 
@@ -3230,6 +5923,7 @@ sub_080491A8: @ 0x080491A8
 	arm_func_start sub_080491AC
 sub_080491AC: @ 0x080491AC
 	ldr pc, _080491B0
+	.align 2, 0
 _080491B0:
 	.4byte sub_03000CA0
 
@@ -3241,6 +5935,7 @@ sub_080491B4: @ 0x080491B4
 	arm_func_start sub_080491B8
 sub_080491B8: @ 0x080491B8
 	ldr pc, _080491BC
+	.align 2, 0
 _080491BC:
 	.4byte sub_03000A4C
 
@@ -3252,6 +5947,7 @@ sub_080491C0: @ 0x080491C0
 	arm_func_start sub_080491C4
 sub_080491C4: @ 0x080491C4
 	ldr pc, _080491C8
+	.align 2, 0
 _080491C8:
 	.4byte sub_03000000
 
@@ -3259,6 +5955,7 @@ _080491C8:
 sub_080491CC: @ 0x080491CC
 	ldr ip, _080491D4
 	bx ip
+	.align 2, 0
 _080491D4:
 	.4byte sub_08047696 + 1
 
@@ -3266,6 +5963,7 @@ _080491D4:
 sub_080491D8: @ 0x080491D8
 	ldr ip, _080491E0
 	bx ip
+	.align 2, 0
 _080491E0:
 	.4byte sub_08047FF4 + 1
 
@@ -3273,6 +5971,7 @@ _080491E0:
 sub_080491E4: @ 0x080491E4
 	ldr ip, _080491EC
 	bx ip
+	.align 2, 0
 _080491EC:
 	.4byte sub_08047F6C + 1
 _080491F0:
@@ -3816,6 +6515,7 @@ sub_0804992C: @ 0x0804992C
 	sub r0, r0, #0x114
 	add ip, pc, ip
 	bx ip
+	.align 2, 0
 _0804994C:
 	.4byte sub_08014BE2 + 1 - _0804994C
 
@@ -3825,6 +6525,7 @@ sub_08049950: @ 0x08049950
 	sub r0, r0, #0x114
 	add ip, pc, ip
 	bx ip
+	.align 2, 0
 _08049960:
 	.4byte sub_08014C06 + 1 - _08049960
 
@@ -3834,6 +6535,7 @@ sub_08049964: @ 0x08049964
 	sub r0, r0, #0x114
 	add ip, pc, ip
 	bx ip
+	.align 2, 0
 _08049974:
 	.4byte sub_08014C30 + 1 - _08049974
 _08049978:

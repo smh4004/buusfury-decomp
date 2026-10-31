@@ -1,3 +1,8 @@
+@ In `make decomp` builds, decomp_defs.inc marks which functions are provided by C (src/).
+	.ifdef DECOMP_BUILD
+	.include "decomp_defs.inc"
+	.endif
+
 @ Assembler macros for the Buu's Fury disassembly (pret-style).
 
 	.macro thumb_func_start name

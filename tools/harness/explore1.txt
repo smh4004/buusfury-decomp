@@ -1,0 +1,3420 @@
+# Random exploration after the intro (seed 1, ~60k frames)
+run 600
+tap START 60
+tap START 60
+tap A 90
+tap A 90
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+keys RIGHT
+run 90
+keys
+run 10
+keys DOWN
+run 90
+keys
+run 10
+keys LEFT
+run 90
+keys
+run 10
+keys UP
+run 90
+keys
+run 10
+keys RIGHT
+run 90
+keys
+run 10
+keys DOWN
+run 90
+keys
+run 10
+tap START 60
+tap B 60
+tap START 40
+tap RIGHT 40
+tap RIGHT 40
+tap A 40
+tap B 40
+tap RIGHT 40
+tap A 40
+tap B 40
+tap DOWN 40
+tap A 40
+tap B 40
+tap B 40
+tap B 40
+keys LEFT
+run 30
+keys
+tap A 20
+keys RIGHT
+run 120
+keys
+tap A 20
+keys UP
+run 30
+keys
+tap A 20
+keys UP
+run 60
+keys
+tap A 20
+keys UP
+run 120
+keys
+tap A 20
+keys DOWN
+run 30
+keys
+tap A 20
+keys UP
+run 60
+keys
+tap A 20
+keys RIGHT
+run 30
+keys
+tap A 20
+keys DOWN
+run 30
+keys
+tap A 20
+keys RIGHT
+run 30
+keys
+tap A 20
+keys UP
+run 30
+keys
+tap A 20
+keys UP
+run 120
+keys
+tap A 20
+keys RIGHT
+run 30
+keys
+tap A 20
+keys DOWN
+run 30
+keys
+tap A 20
+keys DOWN
+run 60
+keys
+tap A 20
+keys RIGHT
+run 30
+keys
+tap A 20
+keys UP
+run 120
+keys
+tap A 20
+keys LEFT
+run 120
+keys
+tap A 20
+keys DOWN
+run 30
+keys
+tap A 20
+keys DOWN
+run 60
+keys
+tap A 20
+keys UP
+run 120
+keys
+tap A 20
+keys UP
+run 120
+keys
+tap A 20
+keys UP
+run 120
+keys
+tap A 20
+keys DOWN
+run 60
+keys
+tap A 20
+keys RIGHT
+run 60
+keys
+tap A 20
+keys RIGHT
+run 120
+keys
+tap A 20
+keys RIGHT
+run 60
+keys
+tap A 20
+keys LEFT
+run 30
+keys
+tap A 20
+keys DOWN
+run 120
+keys
+tap A 20
+keys DOWN
+run 30
+keys
+tap A 20
+keys LEFT
+run 120
+keys
+tap A 20
+keys RIGHT
+run 60
+keys
+tap A 20
+keys RIGHT
+run 60
+keys
+tap A 20
+keys UP
+run 30
+keys
+tap A 20
+keys RIGHT
+run 30
+keys
+tap A 20
+keys LEFT
+run 30
+keys
+tap A 20
+keys RIGHT
+run 60
+keys
+tap A 20
+keys UP
+run 120
+keys
+tap A 20
+keys UP
+run 120
+keys
+tap A 20
+keys LEFT
+run 60
+keys
+tap A 20
+keys LEFT
+run 120
+keys
+tap A 20
+keys RIGHT
+run 120
+keys
+tap A 20
+keys RIGHT
+run 30
+keys
+tap A 20
+keys UP
+run 60
+keys
+tap A 20
+keys RIGHT
+run 120
+keys
+tap A 20
+keys UP
+run 30
+keys
+tap A 20
+keys LEFT
+run 120
+keys
+tap A 20
+keys RIGHT
+run 60
+keys
+tap A 20
+keys RIGHT
+run 120
+keys
+tap A 20
+keys LEFT
+run 30
+keys
+tap A 20
+keys RIGHT
+run 60
+keys
+tap A 20
+keys DOWN
+run 120
+keys
+tap A 20
+keys UP
+run 60
+keys
+tap A 20
+keys UP
+run 30
+keys
+tap A 20
+keys LEFT
+run 30
+keys
+tap A 20
+keys DOWN
+run 60
+keys
+tap A 20
+keys RIGHT
+run 60
+keys
+tap A 20
+keys UP
+run 30
+keys
+tap A 20
+keys RIGHT
+run 60
+keys
+tap A 20
+keys LEFT
+run 30
+keys
+tap A 20
+keys UP
+run 40
+keys
+keys UP
+run 8
+keys
+tap A 20
+keys DOWN
+run 2
+keys
+keys UP,RIGHT
+run 20
+keys
+keys UP
+run 90
+keys
+keys LEFT
+run 40
+keys
+keys UP
+run 2
+keys
+keys UP
+run 20
+keys
+tap A 90
+keys LEFT
+run 180
+keys
+tap L 40
+keys LEFT
+run 90
+keys
+tap B 8
+tap A 180
+keys LEFT
+run 4
+keys
+keys LEFT
+run 2
+keys
+tap R 20
+keys UP
+run 8
+keys
+tap L 180
+keys DOWN,LEFT
+run 40
+keys
+tap START 4
+keys DOWN,LEFT
+run 20
+keys
+keys RIGHT
+run 40
+keys
+keys RIGHT
+run 2
+keys
+tap R 2
+keys DOWN,LEFT
+run 8
+keys
+keys DOWN
+run 20
+keys
+keys DOWN,LEFT
+run 90
+keys
+tap R 4
+keys UP
+run 40
+keys
+keys LEFT
+run 20
+keys
+keys LEFT
+run 20
+keys
+keys UP
+run 20
+keys
+tap R 180
+keys DOWN
+run 20
+keys
+tap START 180
+keys UP
+run 40
+keys
+keys LEFT
+run 20
+keys
+keys DOWN
+run 20
+keys
+keys LEFT
+run 90
+keys
+keys RIGHT
+run 180
+keys
+keys UP
+run 2
+keys
+keys UP
+run 2
+keys
+tap A 2
+keys DOWN
+run 4
+keys
+keys RIGHT
+run 8
+keys
+keys LEFT
+run 4
+keys
+keys LEFT
+run 90
+keys
+keys LEFT
+run 20
+keys
+tap L 20
+keys RIGHT
+run 20
+keys
+keys UP
+run 8
+keys
+tap R 4
+tap A 180
+keys LEFT
+run 2
+keys
+keys LEFT
+run 90
+keys
+tap A 90
+tap A 40
+tap A 4
+keys DOWN
+run 20
+keys
+keys UP
+run 90
+keys
+keys RIGHT
+run 90
+keys
+keys DOWN
+run 2
+keys
+keys UP
+run 8
+keys
+keys RIGHT
+run 90
+keys
+keys UP
+run 4
+keys
+shot r1_003074
+keys LEFT
+run 40
+keys
+tap B 4
+tap R 2
+keys LEFT
+run 2
+keys
+tap A 40
+keys LEFT
+run 90
+keys
+tap R 20
+shot r1_003288
+keys DOWN,LEFT
+run 8
+keys
+shot r1_003296
+keys UP
+run 180
+keys
+keys UP
+run 8
+keys
+keys DOWN
+run 90
+keys
+keys UP,RIGHT
+run 40
+keys
+tap L 180
+keys RIGHT
+run 2
+keys
+keys DOWN
+run 4
+keys
+keys DOWN
+run 8
+keys
+tap R 180
+keys DOWN
+run 8
+keys
+keys RIGHT
+run 180
+keys
+tap L 4
+keys LEFT
+run 8
+keys
+keys UP
+run 20
+keys
+keys DOWN
+run 180
+keys
+keys RIGHT
+run 40
+keys
+keys UP,RIGHT
+run 2
+keys
+keys LEFT
+run 40
+keys
+keys DOWN
+run 8
+keys
+keys RIGHT
+run 20
+keys
+keys LEFT
+run 180
+keys
+keys LEFT
+run 2
+keys
+keys UP
+run 2
+keys
+keys LEFT
+run 4
+keys
+tap A 4
+keys LEFT
+run 90
+keys
+keys LEFT
+run 20
+keys
+keys UP,RIGHT
+run 180
+keys
+keys LEFT
+run 40
+keys
+tap START 8
+keys UP
+run 2
+keys
+keys LEFT
+run 90
+keys
+tap A 20
+keys UP
+run 2
+keys
+tap B 2
+tap START 90
+keys RIGHT
+run 40
+keys
+keys UP
+run 4
+keys
+keys DOWN
+run 2
+keys
+tap A 2
+keys DOWN
+run 4
+keys
+keys RIGHT
+run 2
+keys
+keys UP
+run 180
+keys
+keys RIGHT
+run 4
+keys
+keys DOWN
+run 4
+keys
+keys RIGHT
+run 20
+keys
+keys UP
+run 90
+keys
+keys UP
+run 8
+keys
+keys LEFT
+run 20
+keys
+keys DOWN
+run 2
+keys
+keys UP
+run 2
+keys
+keys RIGHT
+run 4
+keys
+keys DOWN
+run 180
+keys
+keys RIGHT
+run 2
+keys
+keys LEFT
+run 4
+keys
+keys DOWN
+run 40
+keys
+keys LEFT
+run 180
+keys
+keys DOWN
+run 4
+keys
+keys LEFT
+run 2
+keys
+keys RIGHT
+run 8
+keys
+tap A 180
+keys UP
+run 40
+keys
+tap B 2
+keys DOWN
+run 4
+keys
+keys DOWN
+run 180
+keys
+tap A 40
+shot r1_006536
+keys LEFT
+run 40
+keys
+keys UP
+run 4
+keys
+keys DOWN
+run 20
+keys
+keys RIGHT
+run 40
+keys
+tap L 2
+keys UP
+run 40
+keys
+tap A 90
+keys LEFT
+run 4
+keys
+tap START 4
+keys DOWN
+run 40
+keys
+keys DOWN
+run 90
+keys
+keys UP
+run 180
+keys
+keys RIGHT
+run 4
+keys
+keys DOWN
+run 8
+keys
+keys RIGHT
+run 180
+keys
+keys LEFT
+run 90
+keys
+tap B 40
+keys RIGHT
+run 40
+keys
+keys UP,RIGHT
+run 4
+keys
+tap A 4
+keys RIGHT
+run 20
+keys
+keys LEFT
+run 20
+keys
+keys LEFT
+run 40
+keys
+keys LEFT
+run 40
+keys
+keys UP
+run 90
+keys
+keys DOWN
+run 4
+keys
+keys DOWN
+run 20
+keys
+keys RIGHT
+run 180
+keys
+tap A 20
+keys UP
+run 20
+keys
+tap L 4
+tap A 2
+keys DOWN
+run 4
+keys
+keys UP
+run 4
+keys
+keys DOWN
+run 2
+keys
+keys RIGHT
+run 180
+keys
+keys RIGHT
+run 8
+keys
+keys UP
+run 8
+keys
+keys UP
+run 180
+keys
+keys LEFT
+run 40
+keys
+tap A 180
+keys DOWN
+run 40
+keys
+keys DOWN
+run 8
+keys
+keys DOWN
+run 2
+keys
+keys UP
+run 40
+keys
+keys UP
+run 2
+keys
+keys RIGHT
+run 20
+keys
+keys LEFT
+run 180
+keys
+keys UP
+run 2
+keys
+tap A 8
+keys DOWN,LEFT
+run 8
+keys
+tap L 2
+keys UP,RIGHT
+run 20
+keys
+keys UP
+run 8
+keys
+tap R 4
+tap B 40
+tap A 90
+keys RIGHT
+run 90
+keys
+keys UP
+run 8
+keys
+keys UP,RIGHT
+run 40
+keys
+keys DOWN,LEFT
+run 8
+keys
+keys UP
+run 20
+keys
+keys RIGHT
+run 90
+keys
+keys LEFT
+run 90
+keys
+keys DOWN
+run 90
+keys
+keys DOWN,LEFT
+run 180
+keys
+keys RIGHT
+run 180
+keys
+keys UP
+run 8
+keys
+tap A 180
+keys RIGHT
+run 4
+keys
+keys UP
+run 20
+keys
+tap R 2
+keys LEFT
+run 90
+keys
+keys UP
+run 8
+keys
+tap A 2
+keys LEFT
+run 90
+keys
+keys DOWN
+run 40
+keys
+keys DOWN
+run 4
+keys
+keys DOWN
+run 2
+keys
+keys RIGHT
+run 20
+keys
+keys RIGHT
+run 4
+keys
+keys DOWN
+run 8
+keys
+keys LEFT
+run 20
+keys
+keys RIGHT
+run 20
+keys
+keys DOWN
+run 90
+keys
+keys RIGHT
+run 180
+keys
+keys DOWN,LEFT
+run 8
+keys
+keys RIGHT
+run 180
+keys
+keys UP
+run 90
+keys
+tap A 40
+keys DOWN
+run 40
+keys
+tap B 40
+keys UP
+run 90
+keys
+keys RIGHT
+run 180
+keys
+keys RIGHT
+run 90
+keys
+keys RIGHT
+run 2
+keys
+keys DOWN,LEFT
+run 8
+keys
+keys LEFT
+run 4
+keys
+keys DOWN
+run 180
+keys
+keys LEFT
+run 20
+keys
+tap A 8
+keys DOWN
+run 2
+keys
+keys RIGHT
+run 2
+keys
+keys LEFT
+run 20
+keys
+keys LEFT
+run 4
+keys
+keys LEFT
+run 20
+keys
+keys UP,RIGHT
+run 4
+keys
+keys UP
+run 8
+keys
+keys RIGHT
+run 4
+keys
+keys LEFT
+run 2
+keys
+tap START 8
+keys LEFT
+run 4
+keys
+keys DOWN
+run 180
+keys
+keys UP
+run 20
+keys
+keys RIGHT
+run 40
+keys
+keys UP
+run 2
+keys
+keys RIGHT
+run 2
+keys
+keys RIGHT
+run 40
+keys
+keys LEFT
+run 8
+keys
+tap A 2
+tap L 90
+keys DOWN
+run 90
+keys
+keys UP
+run 90
+keys
+keys DOWN
+run 90
+keys
+keys UP
+run 90
+keys
+keys RIGHT
+run 2
+keys
+keys RIGHT
+run 8
+keys
+keys RIGHT
+run 8
+keys
+keys UP
+run 90
+keys
+tap A 90
+keys DOWN
+run 90
+keys
+keys UP
+run 8
+keys
+keys LEFT
+run 4
+keys
+keys DOWN
+run 180
+keys
+keys LEFT
+run 2
+keys
+tap R 20
+keys LEFT
+run 8
+keys
+keys LEFT
+run 20
+keys
+keys DOWN,LEFT
+run 180
+keys
+tap A 2
+keys DOWN
+run 2
+keys
+keys UP
+run 2
+keys
+keys UP,RIGHT
+run 2
+keys
+keys UP
+run 90
+keys
+keys UP,RIGHT
+run 180
+keys
+keys RIGHT
+run 2
+keys
+keys RIGHT
+run 40
+keys
+keys DOWN
+run 8
+keys
+keys DOWN,LEFT
+run 40
+keys
+keys UP
+run 90
+keys
+keys DOWN
+run 180
+keys
+keys LEFT
+run 4
+keys
+keys UP
+run 2
+keys
+keys UP
+run 40
+keys
+keys RIGHT
+run 180
+keys
+keys UP
+run 20
+keys
+keys LEFT
+run 8
+keys
+tap R 2
+keys DOWN
+run 8
+keys
+keys UP
+run 180
+keys
+keys UP
+run 20
+keys
+tap START 20
+keys UP,RIGHT
+run 180
+keys
+keys DOWN
+run 40
+keys
+keys UP
+run 2
+keys
+keys UP
+run 180
+keys
+keys DOWN
+run 8
+keys
+keys RIGHT
+run 20
+keys
+keys DOWN
+run 40
+keys
+keys DOWN
+run 4
+keys
+keys LEFT
+run 40
+keys
+keys RIGHT
+run 4
+keys
+keys RIGHT
+run 180
+keys
+keys DOWN
+run 90
+keys
+keys UP
+run 2
+keys
+keys DOWN
+run 180
+keys
+keys DOWN
+run 90
+keys
+tap R 180
+keys RIGHT
+run 180
+keys
+keys LEFT
+run 4
+keys
+tap L 180
+keys RIGHT
+run 20
+keys
+keys RIGHT
+run 40
+keys
+keys UP
+run 180
+keys
+keys UP
+run 180
+keys
+keys UP
+run 20
+keys
+keys UP,RIGHT
+run 40
+keys
+keys UP
+run 20
+keys
+tap R 180
+tap A 2
+tap B 2
+keys RIGHT
+run 90
+keys
+keys UP
+run 40
+keys
+keys RIGHT
+run 40
+keys
+keys UP
+run 180
+keys
+keys LEFT
+run 40
+keys
+tap A 40
+keys RIGHT
+run 20
+keys
+tap R 20
+keys LEFT
+run 8
+keys
+tap A 90
+keys LEFT
+run 8
+keys
+keys LEFT
+run 90
+keys
+keys DOWN
+run 2
+keys
+keys UP
+run 20
+keys
+keys DOWN
+run 180
+keys
+tap START 180
+tap B 180
+keys LEFT
+run 4
+keys
+keys DOWN
+run 4
+keys
+keys RIGHT
+run 180
+keys
+keys LEFT
+run 20
+keys
+tap R 8
+keys DOWN
+run 20
+keys
+tap L 4
+tap L 20
+keys DOWN
+run 2
+keys
+keys DOWN
+run 4
+keys
+keys LEFT
+run 8
+keys
+keys LEFT
+run 20
+keys
+keys RIGHT
+run 180
+keys
+shot r1_018376
+tap A 40
+keys RIGHT
+run 40
+keys
+tap A 8
+keys LEFT
+run 90
+keys
+tap A 180
+keys RIGHT
+run 8
+keys
+keys RIGHT
+run 20
+keys
+keys RIGHT
+run 180
+keys
+keys DOWN
+run 180
+keys
+tap A 8
+tap L 20
+tap START 2
+keys UP
+run 4
+keys
+tap A 90
+keys LEFT
+run 180
+keys
+keys DOWN
+run 180
+keys
+keys DOWN
+run 180
+keys
+keys UP
+run 180
+keys
+keys LEFT
+run 90
+keys
+tap A 8
+keys LEFT
+run 4
+keys
+keys DOWN
+run 90
+keys
+keys DOWN
+run 4
+keys
+tap A 40
+keys RIGHT
+run 40
+keys
+tap R 4
+keys DOWN
+run 8
+keys
+keys RIGHT
+run 8
+keys
+tap L 8
+keys RIGHT
+run 8
+keys
+keys RIGHT
+run 90
+keys
+tap A 40
+tap R 8
+keys UP
+run 90
+keys
+keys DOWN
+run 8
+keys
+tap START 8
+keys UP
+run 90
+keys
+keys DOWN
+run 90
+keys
+keys RIGHT
+run 40
+keys
+keys RIGHT
+run 4
+keys
+tap R 40
+keys RIGHT
+run 20
+keys
+keys DOWN
+run 180
+keys
+keys LEFT
+run 2
+keys
+keys DOWN
+run 90
+keys
+keys DOWN
+run 8
+keys
+keys UP,RIGHT
+run 2
+keys
+keys LEFT
+run 4
+keys
+keys DOWN
+run 90
+keys
+keys LEFT
+run 2
+keys
+keys LEFT
+run 8
+keys
+keys DOWN
+run 40
+keys
+keys DOWN
+run 2
+keys
+keys DOWN,LEFT
+run 8
+keys
+keys RIGHT
+run 2
+keys
+keys DOWN
+run 2
+keys
+keys UP
+run 2
+keys
+keys UP
+run 40
+keys
+keys DOWN
+run 20
+keys
+tap START 40
+keys DOWN,LEFT
+run 8
+keys
+keys RIGHT
+run 40
+keys
+tap R 2
+keys DOWN
+run 20
+keys
+keys DOWN
+run 8
+keys
+keys UP
+run 20
+keys
+keys LEFT
+run 90
+keys
+keys RIGHT
+run 40
+keys
+tap R 90
+keys RIGHT
+run 20
+keys
+keys DOWN
+run 2
+keys
+keys DOWN
+run 90
+keys
+keys DOWN
+run 20
+keys
+keys DOWN
+run 8
+keys
+keys LEFT
+run 4
+keys
+keys UP,RIGHT
+run 180
+keys
+keys RIGHT
+run 40
+keys
+keys LEFT
+run 90
+keys
+keys UP
+run 40
+keys
+keys UP
+run 20
+keys
+keys LEFT
+run 20
+keys
+tap A 40
+keys DOWN
+run 8
+keys
+tap B 2
+keys LEFT
+run 90
+keys
+keys UP
+run 180
+keys
+keys RIGHT
+run 40
+keys
+tap R 180
+keys DOWN
+run 180
+keys
+keys LEFT
+run 180
+keys
+keys RIGHT
+run 180
+keys
+keys LEFT
+run 40
+keys
+keys LEFT
+run 2
+keys
+keys UP
+run 20
+keys
+keys LEFT
+run 8
+keys
+keys RIGHT
+run 40
+keys
+keys UP,RIGHT
+run 8
+keys
+keys DOWN
+run 20
+keys
+keys RIGHT
+run 90
+keys
+keys DOWN
+run 2
+keys
+keys RIGHT
+run 40
+keys
+tap L 8
+keys RIGHT
+run 40
+keys
+keys DOWN
+run 20
+keys
+keys RIGHT
+run 20
+keys
+keys LEFT
+run 4
+keys
+keys DOWN
+run 90
+keys
+tap B 90
+tap L 90
+keys UP
+run 20
+keys
+keys RIGHT
+run 40
+keys
+keys DOWN
+run 180
+keys
+keys UP
+run 20
+keys
+keys DOWN
+run 90
+keys
+keys RIGHT
+run 20
+keys
+tap R 180
+keys DOWN
+run 4
+keys
+keys LEFT
+run 8
+keys
+shot r1_024574
+keys DOWN,LEFT
+run 180
+keys
+keys LEFT
+run 40
+keys
+keys UP
+run 40
+keys
+tap A 4
+keys DOWN
+run 90
+keys
+keys LEFT
+run 4
+keys
+keys DOWN
+run 40
+keys
+keys RIGHT
+run 180
+keys
+keys UP
+run 90
+keys
+keys UP
+run 4
+keys
+tap B 2
+keys RIGHT
+run 20
+keys
+keys LEFT
+run 90
+keys
+keys LEFT
+run 40
+keys
+keys UP
+run 2
+keys
+keys RIGHT
+run 20
+keys
+tap A 4
+keys UP
+run 180
+keys
+tap A 40
+keys LEFT
+run 90
+keys
+keys UP,RIGHT
+run 180
+keys
+keys DOWN
+run 8
+keys
+keys UP
+run 40
+keys
+keys RIGHT
+run 180
+keys
+keys DOWN
+run 90
+keys
+keys DOWN
+run 8
+keys
+keys LEFT
+run 20
+keys
+tap B 2
+keys UP
+run 8
+keys
+keys UP
+run 180
+keys
+keys UP
+run 40
+keys
+keys RIGHT
+run 40
+keys
+tap B 20
+keys DOWN
+run 90
+keys
+keys DOWN
+run 180
+keys
+keys DOWN
+run 90
+keys
+tap A 90
+keys UP
+run 90
+keys
+keys UP
+run 4
+keys
+keys UP
+run 8
+keys
+keys DOWN,LEFT
+run 8
+keys
+keys RIGHT
+run 4
+keys
+keys DOWN
+run 8
+keys
+keys LEFT
+run 2
+keys
+keys RIGHT
+run 4
+keys
+keys DOWN
+run 8
+keys
+keys LEFT
+run 40
+keys
+tap A 8
+keys RIGHT
+run 180
+keys
+keys LEFT
+run 180
+keys
+keys LEFT
+run 2
+keys
+keys RIGHT
+run 90
+keys
+tap R 20
+keys DOWN
+run 180
+keys
+keys UP
+run 180
+keys
+keys UP
+run 90
+keys
+shot r1_028142
+keys RIGHT
+run 180
+keys
+keys UP,RIGHT
+run 90
+keys
+keys LEFT
+run 8
+keys
+keys LEFT
+run 90
+keys
+tap R 4
+keys DOWN
+run 180
+keys
+keys DOWN,LEFT
+run 8
+keys
+keys UP
+run 4
+keys
+tap B 180
+keys DOWN
+run 20
+keys
+keys DOWN
+run 4
+keys
+keys LEFT
+run 180
+keys
+tap A 4
+tap R 4
+keys UP,RIGHT
+run 40
+keys
+keys LEFT
+run 8
+keys
+keys UP
+run 8
+keys
+tap B 2
+keys RIGHT
+run 4
+keys
+keys LEFT
+run 20
+keys
+tap R 2
+keys DOWN,LEFT
+run 2
+keys
+tap R 180
+keys RIGHT
+run 20
+keys
+keys LEFT
+run 20
+keys
+keys RIGHT
+run 40
+keys
+tap START 2
+keys UP
+run 180
+keys
+keys DOWN
+run 2
+keys
+keys RIGHT
+run 20
+keys
+keys DOWN
+run 40
+keys
+keys LEFT
+run 40
+keys
+keys LEFT
+run 8
+keys
+keys RIGHT
+run 180
+keys
+keys RIGHT
+run 40
+keys
+keys DOWN
+run 180
+keys
+keys DOWN
+run 40
+keys
+keys UP
+run 4
+keys
+keys RIGHT
+run 4
+keys
+keys DOWN
+run 40
+keys
+keys UP
+run 180
+keys
+keys RIGHT
+run 8
+keys
+keys RIGHT
+run 2
+keys
+keys RIGHT
+run 180
+keys
+keys DOWN,LEFT
+run 40
+keys
+keys DOWN
+run 2
+keys
+keys DOWN
+run 20
+keys
+keys LEFT
+run 40
+keys
+keys UP
+run 4
+keys
+keys DOWN
+run 90
+keys
+tap R 8
+keys DOWN
+run 180
+keys
+keys UP
+run 8
+keys
+keys UP
+run 2
+keys
+keys RIGHT
+run 180
+keys
+keys DOWN
+run 8
+keys
+keys LEFT
+run 40
+keys
+tap A 4
+keys UP
+run 4
+keys
+keys UP
+run 40
+keys
+keys DOWN
+run 20
+keys
+keys RIGHT
+run 8
+keys
+keys DOWN
+run 40
+keys
+keys LEFT
+run 90
+keys
+shot r1_031462
+tap L 2
+keys LEFT
+run 2
+keys
+keys DOWN
+run 40
+keys
+keys LEFT
+run 40
+keys
+tap A 8
+tap R 8
+keys UP
+run 4
+keys
+keys UP
+run 90
+keys
+tap A 40
+keys DOWN
+run 20
+keys
+keys LEFT
+run 90
+keys
+tap A 180
+keys DOWN
+run 8
+keys
+tap A 4
+tap L 180
+tap R 180
+tap A 40
+keys DOWN
+run 90
+keys
+keys RIGHT
+run 40
+keys
+keys DOWN,LEFT
+run 40
+keys
+keys UP
+run 8
+keys
+shot r1_032612
+keys LEFT
+run 180
+keys
+keys LEFT
+run 4
+keys
+keys DOWN
+run 90
+keys
+keys DOWN
+run 90
+keys
+keys DOWN
+run 20
+keys
+keys RIGHT
+run 90
+keys
+keys UP
+run 8
+keys
+keys RIGHT
+run 8
+keys
+keys UP
+run 8
+keys
+keys RIGHT
+run 4
+keys
+keys DOWN
+run 2
+keys
+keys UP
+run 4
+keys
+keys LEFT
+run 20
+keys
+keys LEFT
+run 2
+keys
+keys RIGHT
+run 180
+keys
+tap R 90
+keys RIGHT
+run 8
+keys
+tap A 40
+keys UP
+run 4
+keys
+keys LEFT
+run 40
+keys
+keys RIGHT
+run 90
+keys
+keys DOWN,LEFT
+run 20
+keys
+keys DOWN
+run 90
+keys
+keys RIGHT
+run 2
+keys
+keys RIGHT
+run 20
+keys
+keys DOWN
+run 2
+keys
+tap A 40
+tap R 20
+keys RIGHT
+run 40
+keys
+keys DOWN
+run 20
+keys
+shot r1_033864
+keys RIGHT
+run 180
+keys
+tap L 2
+keys UP
+run 20
+keys
+keys LEFT
+run 2
+keys
+tap R 40
+keys UP
+run 8
+keys
+keys UP
+run 4
+keys
+shot r1_034128
+keys RIGHT
+run 20
+keys
+keys DOWN
+run 2
+keys
+keys LEFT
+run 40
+keys
+keys DOWN
+run 40
+keys
+shot r1_034230
+keys DOWN
+run 20
+keys
+keys LEFT
+run 40
+keys
+keys UP
+run 4
+keys
+keys DOWN,LEFT
+run 2
+keys
+tap A 2
+tap A 2
+shot r1_034308
+keys RIGHT
+run 40
+keys
+keys RIGHT
+run 4
+keys
+keys RIGHT
+run 180
+keys
+keys UP
+run 90
+keys
+tap A 4
+keys LEFT
+run 8
+keys
+keys DOWN
+run 20
+keys
+keys LEFT
+run 90
+keys
+keys RIGHT
+run 4
+keys
+keys RIGHT
+run 2
+keys
+keys LEFT
+run 8
+keys
+tap A 180
+keys LEFT
+run 90
+keys
+keys UP
+run 8
+keys
+tap B 180
+keys UP,RIGHT
+run 180
+keys
+keys DOWN
+run 20
+keys
+tap L 8
+keys RIGHT
+run 4
+keys
+tap A 8
+keys DOWN
+run 180
+keys
+tap A 20
+keys UP
+run 20
+keys
+tap R 2
+keys RIGHT
+run 4
+keys
+keys UP
+run 180
+keys
+keys DOWN
+run 4
+keys
+keys DOWN
+run 4
+keys
+keys UP
+run 4
+keys
+keys UP
+run 4
+keys
+tap START 8
+keys DOWN
+run 40
+keys
+tap A 2
+keys UP
+run 2
+keys
+tap START 40
+keys LEFT
+run 90
+keys
+keys LEFT
+run 90
+keys
+tap R 180
+tap R 90
+keys RIGHT
+run 8
+keys
+keys RIGHT
+run 20
+keys
+keys DOWN
+run 40
+keys
+keys DOWN
+run 2
+keys
+keys RIGHT
+run 8
+keys
+keys RIGHT
+run 8
+keys
+keys LEFT
+run 8
+keys
+keys UP
+run 4
+keys
+keys UP
+run 4
+keys
+keys DOWN
+run 4
+keys
+keys UP
+run 8
+keys
+tap R 40
+tap A 180
+tap R 20
+keys LEFT
+run 4
+keys
+keys UP
+run 8
+keys
+keys DOWN
+run 4
+keys
+keys DOWN
+run 4
+keys
+keys RIGHT
+run 2
+keys
+keys DOWN
+run 40
+keys
+keys DOWN
+run 2
+keys
+keys UP
+run 40
+keys
+keys DOWN
+run 4
+keys
+tap START 40
+keys RIGHT
+run 180
+keys
+keys LEFT
+run 4
+keys
+tap R 8
+keys RIGHT
+run 40
+keys
+keys DOWN
+run 20
+keys
+keys UP
+run 8
+keys
+keys UP
+run 2
+keys
+keys UP
+run 4
+keys
+keys UP
+run 180
+keys
+tap L 20
+keys LEFT
+run 4
+keys
+keys RIGHT
+run 2
+keys
+keys DOWN
+run 8
+keys
+tap L 40
+keys UP
+run 90
+keys
+keys DOWN
+run 8
+keys
+keys LEFT
+run 40
+keys
+keys UP
+run 20
+keys
+keys DOWN
+run 180
+keys
+keys RIGHT
+run 2
+keys
+keys RIGHT
+run 2
+keys
+keys LEFT
+run 40
+keys
+tap START 90
+keys LEFT
+run 40
+keys
+keys DOWN,LEFT
+run 2
+keys
+tap A 4
+keys RIGHT
+run 2
+keys
+keys RIGHT
+run 180
+keys
+keys RIGHT
+run 90
+keys
+keys RIGHT
+run 180
+keys
+keys LEFT
+run 4
+keys
+tap A 180
+keys RIGHT
+run 40
+keys
+keys RIGHT
+run 40
+keys
+keys UP
+run 40
+keys
+keys RIGHT
+run 20
+keys
+tap R 4
+tap B 2
+keys UP
+run 4
+keys
+keys RIGHT
+run 180
+keys
+keys RIGHT
+run 4
+keys
+tap A 20
+keys RIGHT
+run 4
+keys
+tap R 8
+keys DOWN
+run 8
+keys
+keys UP
+run 180
+keys
+keys RIGHT
+run 20
+keys
+tap R 90
+tap A 20
+tap A 8
+keys RIGHT
+run 2
+keys
+keys LEFT
+run 40
+keys
+tap A 20
+tap A 40
+keys LEFT
+run 40
+keys
+tap A 20
+keys LEFT
+run 180
+keys
+keys DOWN
+run 4
+keys
+keys DOWN
+run 40
+keys
+keys UP
+run 40
+keys
+keys UP
+run 20
+keys
+keys LEFT
+run 20
+keys
+tap B 8
+tap B 8
+keys LEFT
+run 20
+keys
+tap A 40
+tap START 40
+keys DOWN
+run 8
+keys
+keys UP
+run 4
+keys
+keys DOWN
+run 20
+keys
+keys DOWN
+run 2
+keys
+tap A 2
+keys RIGHT
+run 40
+keys
+keys DOWN
+run 20
+keys
+shot r1_040094
+tap L 90
+keys RIGHT
+run 90
+keys
+keys UP
+run 180
+keys
+keys RIGHT
+run 2
+keys
+tap A 4
+keys RIGHT
+run 40
+keys
+tap L 90
+keys DOWN
+run 90
+keys
+tap B 8
+keys DOWN,LEFT
+run 180
+keys
+keys DOWN
+run 4
+keys
+keys UP
+run 180
+keys
+keys RIGHT
+run 2
+keys
+keys RIGHT
+run 8
+keys
+keys DOWN
+run 8
+keys
+tap A 4
+keys LEFT
+run 4
+keys
+keys UP,RIGHT
+run 90
+keys
+keys UP
+run 20
+keys
+keys LEFT
+run 40
+keys
+keys LEFT
+run 4
+keys
+keys UP
+run 20
+keys
+keys LEFT
+run 2
+keys
+keys LEFT
+run 2
+keys
+keys DOWN
+run 2
+keys
+keys RIGHT
+run 180
+keys
+keys UP,RIGHT
+run 20
+keys
+keys DOWN
+run 4
+keys
+keys LEFT
+run 40
+keys
+keys DOWN
+run 2
+keys
+keys UP
+run 20
+keys
+keys DOWN
+run 40
+keys
+keys UP
+run 40
+keys
+keys LEFT
+run 180
+keys
+keys RIGHT
+run 90
+keys
+tap L 2
+keys DOWN
+run 4
+keys
+keys DOWN
+run 4
+keys
+keys UP
+run 8
+keys
+keys LEFT
+run 2
+keys
+keys DOWN
+run 40
+keys
+keys UP
+run 90
+keys
+keys UP
+run 90
+keys
+keys LEFT
+run 8
+keys
+keys UP
+run 2
+keys
+keys RIGHT
+run 180
+keys
+keys LEFT
+run 20
+keys
+tap START 90
+tap A 8
+keys UP,RIGHT
+run 20
+keys
+keys DOWN
+run 4
+keys
+keys RIGHT
+run 4
+keys
+keys DOWN,LEFT
+run 20
+keys
+tap A 40
+keys RIGHT
+run 180
+keys
+keys UP
+run 2
+keys
+keys DOWN
+run 20
+keys
+keys RIGHT
+run 90
+keys
+keys RIGHT
+run 20
+keys
+keys RIGHT
+run 40
+keys
+keys RIGHT
+run 40
+keys
+keys RIGHT
+run 180
+keys
+keys RIGHT
+run 20
+keys
+keys DOWN
+run 8
+keys
+keys LEFT
+run 2
+keys
+keys DOWN
+run 20
+keys
+tap A 2
+tap R 2
+keys DOWN,LEFT
+run 90
+keys
+tap A 4
+keys UP,RIGHT
+run 20
+keys
+keys UP
+run 20
+keys
+keys DOWN
+run 40
+keys
+keys RIGHT
+run 2
+keys
+keys LEFT
+run 4
+keys
+keys DOWN
+run 2
+keys
+keys RIGHT
+run 2
+keys
+keys RIGHT
+run 40
+keys
+keys RIGHT
+run 20
+keys
+keys DOWN
+run 8
+keys
+tap START 20
+keys UP
+run 180
+keys
+tap START 20
+keys DOWN
+run 40
+keys
+tap A 20
+keys RIGHT
+run 8
+keys
+keys DOWN,LEFT
+run 180
+keys
+tap A 90
+keys DOWN,LEFT
+run 20
+keys
+keys LEFT
+run 8
+keys
+shot r1_044038
+keys DOWN
+run 20
+keys
+keys RIGHT
+run 180
+keys
+keys RIGHT
+run 180
+keys
+keys RIGHT
+run 4
+keys
+keys UP
+run 20
+keys
+tap A 20
+keys UP
+run 40
+keys
+keys UP
+run 40
+keys
+keys DOWN
+run 40
+keys
+tap B 8
+shot r1_044598
+keys DOWN
+run 90
+keys
+keys DOWN
+run 40
+keys
+keys LEFT
+run 90
+keys
+tap A 2
+keys DOWN
+run 40
+keys
+keys LEFT
+run 4
+keys
+keys RIGHT
+run 180
+keys
+keys RIGHT
+run 180
+keys
+keys LEFT
+run 40
+keys
+keys DOWN
+run 2
+keys
+tap A 8
+keys LEFT
+run 40
+keys
+keys UP
+run 180
+keys
+keys RIGHT
+run 2
+keys
+keys LEFT
+run 180
+keys
+tap A 180
+keys RIGHT
+run 4
+keys
+keys LEFT
+run 90
+keys
+tap A 180
+keys LEFT
+run 40
+keys
+keys RIGHT
+run 180
+keys
+keys RIGHT
+run 8
+keys
+tap A 8
+keys LEFT
+run 8
+keys
+keys UP,RIGHT
+run 2
+keys
+keys UP
+run 20
+keys
+keys LEFT
+run 4
+keys
+keys UP,RIGHT
+run 90
+keys
+keys UP,RIGHT
+run 20
+keys
+keys DOWN
+run 4
+keys
+tap L 90
+keys LEFT
+run 90
+keys
+keys UP
+run 40
+keys
+keys RIGHT
+run 4
+keys
+keys RIGHT
+run 4
+keys
+tap A 20
+tap A 180
+keys DOWN,LEFT
+run 180
+keys
+keys UP
+run 2
+keys
+tap A 90
+keys DOWN
+run 20
+keys
+keys UP
+run 40
+keys
+keys LEFT
+run 8
+keys
+keys DOWN
+run 40
+keys
+keys UP
+run 90
+keys
+keys DOWN
+run 40
+keys
+keys LEFT
+run 180
+keys
+keys UP
+run 180
+keys
+keys UP
+run 180
+keys
+keys UP,RIGHT
+run 2
+keys
+keys UP
+run 180
+keys
+keys DOWN,LEFT
+run 20
+keys
+keys LEFT
+run 40
+keys
+keys RIGHT
+run 20
+keys
+keys RIGHT
+run 90
+keys
+tap B 2
+keys LEFT
+run 8
+keys
+keys UP
+run 2
+keys
+keys RIGHT
+run 8
+keys
+tap START 40
+keys UP
+run 180
+keys
+keys LEFT
+run 40
+keys
+keys LEFT
+run 4
+keys
+keys DOWN
+run 8
+keys
+keys RIGHT
+run 180
+keys
+keys RIGHT
+run 40
+keys
+shot r1_048900
+tap START 8
+keys LEFT
+run 4
+keys
+keys LEFT
+run 2
+keys
+keys UP
+run 4
+keys
+keys UP
+run 8
+keys
+keys DOWN
+run 4
+keys
+keys DOWN
+run 20
+keys
+keys RIGHT
+run 180
+keys
+keys LEFT
+run 40
+keys
+tap A 8
+keys UP
+run 180
+keys
+tap B 90
+tap B 2
+keys LEFT
+run 20
+keys
+keys RIGHT
+run 4
+keys
+shot r1_049490
+keys RIGHT
+run 4
+keys
+keys LEFT
+run 8
+keys
+keys LEFT
+run 8
+keys
+keys DOWN
+run 180
+keys
+shot r1_049690
+tap A 2
+keys UP
+run 20
+keys
+keys RIGHT
+run 4
+keys
+keys RIGHT
+run 4
+keys
+keys UP
+run 40
+keys
+keys DOWN
+run 20
+keys
+keys DOWN
+run 40
+keys
+tap START 4
+keys UP
+run 4
+keys
+keys DOWN
+run 180
+keys
+keys DOWN
+run 40
+keys
+keys UP
+run 20
+keys
+shot r1_050076
+keys DOWN
+run 8
+keys
+keys UP,RIGHT
+run 180
+keys
+tap B 8
+tap START 40
+keys DOWN
+run 40
+keys
+keys RIGHT
+run 180
+keys
+keys LEFT
+run 8
+keys
+tap A 90
+tap START 180
+keys UP
+run 180
+keys
+keys UP
+run 40
+keys
+keys UP,RIGHT
+run 40
+keys
+keys LEFT
+run 4
+keys
+keys UP,RIGHT
+run 8
+keys
+keys DOWN
+run 40
+keys
+keys LEFT
+run 4
+keys
+tap START 4
+keys DOWN,LEFT
+run 8
+keys
+shot r1_051158
+keys LEFT
+run 180
+keys
+tap A 20
+keys DOWN
+run 40
+keys
+keys LEFT
+run 180
+keys
+keys LEFT
+run 2
+keys
+tap R 20
+keys RIGHT
+run 20
+keys
+keys RIGHT
+run 180
+keys
+keys UP
+run 20
+keys
+keys LEFT
+run 20
+keys
+keys LEFT
+run 4
+keys
+keys LEFT
+run 2
+keys
+tap L 2
+tap B 2
+keys LEFT
+run 20
+keys
+keys DOWN
+run 8
+keys
+keys DOWN
+run 180
+keys
+keys DOWN
+run 4
+keys
+tap A 90
+tap A 90
+keys UP,RIGHT
+run 2
+keys
+keys UP
+run 2
+keys
+keys DOWN
+run 40
+keys
+tap R 90
+keys LEFT
+run 90
+keys
+tap B 8
+tap A 180
+tap START 90
+keys LEFT
+run 40
+keys
+keys DOWN
+run 90
+keys
+keys DOWN
+run 8
+keys
+keys RIGHT
+run 4
+keys
+keys DOWN
+run 2
+keys
+keys DOWN
+run 4
+keys
+keys LEFT
+run 8
+keys
+keys RIGHT
+run 2
+keys
+keys UP
+run 20
+keys
+keys RIGHT
+run 4
+keys
+keys LEFT
+run 4
+keys
+tap B 40
+keys LEFT
+run 2
+keys
+keys LEFT
+run 180
+keys
+tap A 4
+keys UP,RIGHT
+run 20
+keys
+tap A 8
+keys DOWN
+run 2
+keys
+tap A 4
+keys LEFT
+run 180
+keys
+tap R 90
+keys RIGHT
+run 8
+keys
+tap START 8
+tap B 180
+keys UP,RIGHT
+run 8
+keys
+keys LEFT
+run 8
+keys
+keys UP
+run 8
+keys
+keys UP,RIGHT
+run 4
+keys
+keys UP
+run 20
+keys
+shot r1_053772
+tap START 2
+keys RIGHT
+run 20
+keys
+keys UP
+run 2
+keys
+tap B 180
+keys DOWN
+run 2
+keys
+keys DOWN
+run 8
+keys
+keys RIGHT
+run 8
+keys
+keys UP,RIGHT
+run 90
+keys
+keys DOWN
+run 4
+keys
+tap A 40
+tap A 20
+tap A 40
+keys DOWN
+run 180
+keys
+keys LEFT
+run 20
+keys
+keys UP
+run 40
+keys
+keys RIGHT
+run 4
+keys
+keys RIGHT
+run 40
+keys
+keys LEFT
+run 8
+keys
+keys LEFT
+run 180
+keys
+keys LEFT
+run 180
+keys
+keys DOWN,LEFT
+run 20
+keys
+keys LEFT
+run 40
+keys
+keys RIGHT
+run 4
+keys
+keys DOWN,LEFT
+run 20
+keys
+keys DOWN
+run 20
+keys
+keys DOWN
+run 20
+keys
+keys DOWN
+run 40
+keys
+keys UP
+run 180
+keys
+tap START 4
+keys UP
+run 2
+keys
+keys UP
+run 90
+keys
+tap R 8
+keys UP
+run 40
+keys
+keys LEFT
+run 90
+keys
+keys RIGHT
+run 2
+keys
+keys UP
+run 4
+keys
+keys DOWN
+run 90
+keys
+keys RIGHT
+run 8
+keys
+keys DOWN
+run 90
+keys
+keys UP
+run 40
+keys
+shot r1_055680
+keys UP
+run 90
+keys
+keys RIGHT
+run 40
+keys
+tap A 180
+keys LEFT
+run 20
+keys
+keys RIGHT
+run 180
+keys
+keys DOWN
+run 2
+keys
+tap A 180
+keys RIGHT
+run 20
+keys
+keys DOWN
+run 180
+keys
+tap A 180
+tap START 90
+keys UP
+run 90
+keys
+keys DOWN,LEFT
+run 40
+keys
+tap A 4
+tap B 20
+keys UP
+run 40
+keys
+keys DOWN
+run 40
+keys
+keys DOWN,LEFT
+run 8
+keys
+keys LEFT
+run 180
+keys
+keys LEFT
+run 4
+keys
+keys DOWN
+run 20
+keys
+keys UP
+run 2
+keys
+keys LEFT
+run 20
+keys
+tap B 4
+keys LEFT
+run 4
+keys
+keys LEFT
+run 90
+keys
+keys RIGHT
+run 2
+keys
+keys DOWN
+run 180
+keys
+keys RIGHT
+run 180
+keys
+keys UP,RIGHT
+run 180
+keys
+keys LEFT
+run 4
+keys
+tap L 180
+keys LEFT
+run 180
+keys
+tap R 180
+keys LEFT
+run 8
+keys
+keys UP
+run 90
+keys
+keys RIGHT
+run 2
+keys
+keys RIGHT
+run 2
+keys
+keys UP
+run 180
+keys
+keys DOWN
+run 40
+keys
+keys UP
+run 20
+keys
+keys LEFT
+run 8
+keys
+keys UP
+run 40
+keys
+keys DOWN
+run 8
+keys
+tap A 2
+keys DOWN
+run 8
+keys
+keys UP
+run 180
+keys
+keys DOWN
+run 40
+keys
+keys LEFT
+run 40
+keys
+shot r1_059202
+tap START 8
+tap A 90
+tap A 2
+keys LEFT
+run 90
+keys
+keys UP
+run 4
+keys
+keys RIGHT
+run 20
+keys
+keys UP
+run 20
+keys
+keys UP
+run 20
+keys
+keys DOWN
+run 40
+keys
+keys DOWN
+run 2
+keys
+tap A 20
+tap A 180
+keys DOWN
+run 4
+keys
+keys RIGHT
+run 180
+keys
+keys LEFT
+run 90
+keys
+keys DOWN
+run 2
+keys
+tap START 180

@@ -121,7 +121,17 @@ class Emitter:
         jt_cover = {}
         for t, (n, base, tg, esz) in self.jt.items():
             for k in range(n): jt_cover[t + k * esz] = (t, k, esz, base, tg[k])
+        wrap_end = None
         while a < end:
+            if wrap_end is not None and a >= wrap_end:
+                self.decomp_else(out); out.append('\t.endif'); wrap_end = None
+            if a in getattr(self, 'wrap', {}) and wrap_end is None:
+                wrap_end = self.wrap[a]
+                self.wrap_start = a
+                out.append(''); out.append('\t.ifndef DECOMP_%s' % self.name(a))
+            # pools and switch tables are word aligned: keep them so when code before them moves
+            if (a in self.pool and (a - 4) not in self.pool) or a in self.jt:
+                out.append('\t.align 2, 0')
             # labels
             if a in self.funcs:
                 m = self.funcs[a]
@@ -165,10 +175,28 @@ class Emitter:
                 a += 4; continue
             # unknown bytes: run until next known thing
             b = a + 1
-            while b < end and not self.is_known(b): b += 1
+            while b < end and not self.is_known(b) and not (wrap_end is not None and b >= wrap_end) \
+                    and b not in getattr(self, 'wrap', {}): b += 1
             self.data_bytes(a, b, out)
             a = b
+        if wrap_end is not None:
+            self.decomp_else(out); out.append('\t.endif')
         return out
+
+    def decomp_else(self, out):
+        """`make decomp` replacement for a function: a long jump to the C version (`name__c`, linked in free space
+        at the end of the ROM), then padding up to the original size. Callers, tail calls, vtables and data pointers
+        keep using the original address, and no other byte moves."""
+        a, n = self.wrap_start, self.name(self.wrap_start)
+        size = self.wrap[a] - a
+        out.append('\t.else')
+        out.append('\tthumb_func_start %s' % n)
+        out.append('%s:' % n)
+        used = 16
+        if a % 4:                       # bx pc needs (address + 4) word aligned
+            out.append('\tnop'); used = 18
+        out += ['\tbx pc', '\tnop', '\t.arm', '\tldr ip, [pc]', '\tbx ip', '\t.4byte %s__c + 1' % n, '\t.thumb']
+        if size > used: out.append('\t.space %d' % (size - used))
 
     def is_known(self, a):
         if a in self.insn or a in self.pool or a in self.funcs or a in self.labels or a in self.jt \

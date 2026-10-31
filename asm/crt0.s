@@ -2,6 +2,16 @@
 	.include "asm/macros.inc"
 	.syntax unified
 	.text
+	.global _08000134
+	.global _08000138
+	.global _0800013C
+	.global _08000140
+	.global _08000144
+	.global _08000148
+	.global _0800014C
+	.global _08000150
+	.global _08000154
+	.global _start
 
 
 	arm_func_start _start
@@ -35,6 +45,7 @@ _start: @ 0x080000C0
 	add sp, sp, #4
 	ldr lr, _08000154
 	b sub_08049114
+	.align 2, 0
 _08000134:
 	.4byte 0x03007FA0
 _08000138:

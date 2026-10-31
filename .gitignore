@@ -11,3 +11,4 @@
 /assets/
 __pycache__/
 tools/harness/harness
+/build_decomp*/

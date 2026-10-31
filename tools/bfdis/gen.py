@@ -164,6 +164,44 @@ def main():
             cuts.append(p); last = p
     bounds = sorted(set([ROM + 0xC0, ROM + 0x158] + [c for c in cuts if c > ROM + 0x158] + [hi]))
 
+    # ---------------------------------------------------------------- replaceable functions (for `make decomp`)
+    # A Thumb function [start, next function start) can be dropped from the assembly when nothing outside
+    # it refers to a label strictly inside it.
+    allstarts = sorted(set(f for f in db['funcs'] if f in insn and lo <= f < hi) | set(bounds))
+    import bisect as _bs
+    inner_refs = collections.defaultdict(set)      # target -> set(sources)
+    for x, y in spans: inner_refs[y].add(x)
+    for la in db['pool']:
+        if la >= ROM:
+            v = E.u32(la)
+            if lo <= (v & ~1) < hi: inner_refs[v & ~1].add(la)
+    for o, (w, k) in acc.items():
+        if lo <= (w & ~1) < hi: inner_refs[w & ~1].add(ROM + o)
+    for e2, (b2, t2, m2) in db['vt_ents'].items(): inner_refs[t2].add(ROM + e2)
+    # targets of B/Bcc from other functions (tail calls): Thumb B only reaches +-2 KB, so these stay in place
+    tailcalled = set()
+    for a, (m, sz) in insn.items():
+        if m == 't' and sz == 2 and a >= ROM:
+            h = E.u16(a)
+            if (h >> 11) == 0x1C:
+                off = h & 0x7FF; off = off - 0x800 if off & 0x400 else off; tailcalled.add(a + 4 + off * 2)
+            elif (h >> 12) == 0xD and ((h >> 8) & 0xF) < 0xE:
+                off = h & 0xFF; off = off - 0x100 if off & 0x80 else off; tailcalled.add(a + 4 + off * 2)
+    tailcalled = {t for t in tailcalled if t in db['funcs']}
+    wrap = {}
+    for i, f in enumerate(allstarts[:-1]):
+        if db['funcs'].get(f) != 't' or not (ROM + 0x158 <= f < ROM + 0x48ED8 or ROM + 0x4E490 <= f < hi): continue
+        e = allstarts[i + 1]
+        # the decomp build overwrites the function with a 16-18 byte long jump (see Emitter.decomp_else).
+        # Tail calls (b/bcc into it) are fine: they land on the jump.
+        ok = e - f >= (16 if f % 4 == 0 else 18)
+
+        for t in inner_refs:
+            if f < t < e and any(not (f <= src < e) for src in inner_refs[t]): ok = False; break
+        if ok: wrap[f] = e
+    E.wrap = wrap
+    open('config/replaceable.txt', 'w').write(''.join('%08X %08X %s\n' % (f, e, E.name(f)) for f, e in sorted(wrap.items())))
+
     # ---------------------------------------------------------------- emit code (two passes for labels)
     E.needed_hint = set()
     for p in range(2):
@@ -231,7 +269,9 @@ def main():
             hdr += ['\t.section .rodata']
         else:
             hdr += ['\t.include "asm/macros.inc"', '\t.syntax unified', '\t.text']
-        hdr += ['\t.global %s' % g for g in sorted(xref.get(name, ()))]
+        # every label is global so C code (make decomp) and tools can link against any of them
+        mine = sorted(k for k, v in defs.items() if v == name)
+        hdr += ['\t.global %s' % g for g in mine]
         with open(name, 'w') as f:
             f.write('\n'.join(hdr + [''] + lines) + '\n')
     open('config/code_files.txt', 'w').write(''.join(os.path.basename(n)[:-2] + '\n' for n, a, b, l in files if 'iwram' not in n))
