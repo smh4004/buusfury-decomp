@@ -1,0 +1,2 @@
+# address  name   -- known symbols (seeded from RE_NOTES / prompt; verified where noted)
+080000C0 _start

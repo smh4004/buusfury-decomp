@@ -1,0 +1,6 @@
+# Instructions GNU as encodes differently from the original; emitted as raw words.
+08022580
+08034000
+08041846
+0804225E
+0804B8C4

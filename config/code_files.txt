@@ -1,0 +1,8 @@
+crt0
+code_08000158
+code_080491A8
+code_0804B8C4
+code_0804E490
+code_0805049C
+code_0805249C
+code_08054A20

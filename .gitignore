@@ -1,0 +1,10 @@
+# Copyrighted inputs and everything derived from them at build time
+baserom.gba
+*.gba
+*.elf
+*.sav
+build/
+.analysis/
+# extracted assets (generated from baserom at build time)
+assets/
+__pycache__/
