@@ -93,7 +93,9 @@ def main():
         elif m == 'a':
             w = E.u32(a)
             if (w & 0x0F000000) == 0x0A000000:
-                off = w & 0xFFFFFF; off = off - 0x1000000 if off & 0x800000 else off; spans.append((a, a + 8 + off * 4))
+                off = w & 0xFFFFFF; off = off - 0x1000000 if off & 0x800000 else off
+                if abs(off * 4) > 0x1000: db['funcs'].setdefault(a + 8 + off * 4, 'a')   # far ARM branch = entry point
+                spans.append((a, a + 8 + off * 4))
     ev = collections.Counter()
     fstarts = set(db['funcs'])
     for x, y in spans:
@@ -106,7 +108,7 @@ def main():
     fset = set(f for f in db['funcs'] if lo < f < hi and f in db['insn'])
     for p in pts:
         depth += ev.get(p, 0)
-        if p in fset and depth == 0 and p - last >= SPLIT_TARGET:
+        if p in fset and depth == 0 and p % 4 == 0 and p - last >= SPLIT_TARGET:
             cuts.append(p); last = p
     # vtable / ctor area gets its own file
     for x in (ROM + CTOR_LO, ROM + 0x491F0, ROM + 0x4E490):
@@ -136,6 +138,8 @@ def main():
             m = re.match(r'^([A-Za-z_]\w*):', l)
             if m: defs[m.group(1)] = name
     os.makedirs('asm', exist_ok=True)
+    import glob
+    for old in glob.glob('asm/code_*.s'): os.remove(old)
     order = []
     for name, a, b, lines in allfiles:
         used = set(re.findall(r'\b(_[0-9A-F]{8}|sub_[0-9A-F]{8}|[A-Za-z]\w+)\b', '\n'.join(lines)))
