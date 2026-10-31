@@ -19,7 +19,7 @@
 1. **Harness routes:** extend `tools/harness/long.txt` (battles, shop, save, another world) and rerun `make shift-test` and
    `make modern` with `tools/assets/recompress_all.py`. That's how hidden layout dependencies turn up. Debug with
    `guardon`, `watchon`, `bp`, `until`, `mem` (see the header of `tools/harness/harness.c`) and `tools/harness/ramdiff.py`.
-2. **More assets:** port the earlier session's text tool (`refs_ok.json` covers more dialogue refs), then export
+2. **More assets:** find the remaining dialogue ref sites by tracing `Text_LoadString` in the harness, then export
    equipment/area tables and sprite frames, and add PNG import for tile pages.
 3. **Names:** go through RE_NOTES and name the 248 script natives (`gScriptNativeFuncs`) and their handlers in `config/symbols.txt`.
 4. **New code:** link GCC-compiled C into the ROM (see `docs/decomp_scope.md`).

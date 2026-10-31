@@ -57,7 +57,7 @@ Eight sites call the decompressor **directly** and need a compressed stream:
 
 ## Known limits / next steps
 * Dialogue lines not reached from step records (about 4-22% of each bank: system messages, battle text) aren't listed yet.
-  Your earlier session's `text_tool.py` + `refs_ok.json` (in the handoff zip) knows more ref sites and can be merged in.
+  The next step is to find the other ref holders (battle and system text) by tracing `Text_LoadString` calls in the harness.
 * Equipment, area table, sprites (frame records `[OAM attr][ptr][count][bbox][bbox]`), collision masks and tile pages
   (PNG import) aren't exported yet. The same override mechanism covers them: same-size tables in place, recompressed blobs relocated.
 * `assets/` is derived from your ROM: keep it local, never commit or share it. Share `.bps` patches instead.
