@@ -18,10 +18,10 @@ SECTIONS
 
     .rodata :
     {
-        build/data/rodata.o(.rodata);
+        INCLUDE "build/data_objs.ld"
     } > ROM
 
-    /* RW image: copied to 0x03000000 by crt0 (DMA3 from __iwram_lma). */
+    /* RW image: copied to 0x03000000 by crt0 (DMA3 from __iwram_lma, 0x1004 bytes). */
     .iwram :
     {
         __iwram_start = .;

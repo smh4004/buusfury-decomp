@@ -1,2 +1,36 @@
-# address  name   -- known symbols (seeded from RE_NOTES / prompt; verified where noted)
-080000C0 _start
+# address  name        -- known symbols. Sources: prompt/RE_NOTES (earlier session) and this disassembly.
+# Code
+080000C0 _start                 # crt0 (ARM)
+08004038 ScriptVM_Run           # script entry (RE_NOTES)
+08004064 ScriptVM_Loop          # interpreter dispatch loop (label inside ScriptVM_Run)
+08003C74 ScriptOp_00            # first VM opcode handler (prompt)
+08007074 Palette_Fade           # RE_NOTES
+080089FC Area_Lookup            # RE_NOTES
+08009030 Scene_Load             # natives 0x72/0x73 go through here (RE_NOTES, inferred)
+08009B12 Tiles_Animate1         # RE_NOTES
+08009B80 Tiles_Animate2         # RE_NOTES
+08009BD4 Tiles_UploadLoop       # RE_NOTES
+08012230 Text_LoadString        # RE_NOTES
+080122B4 Text_LoadString2       # RE_NOTES
+0803D940 Wfz_LoadContainer      # notes said 0x0803D944 (a call site); the function starts at 0x0803D940
+08046AA0 _call_via_r0           # ADS indirect-call stubs (bx rN)
+08046AA2 _call_via_r1
+08046AA4 _call_via_r2
+08046AA6 _call_via_r3
+08046AA8 _call_via_r4
+08046AAA _call_via_r5
+08046AAC _call_via_r6
+08046AAE _call_via_r7
+08046E58 __16__rt_sdiv          # Thumb entry (bx pc) of ARM signed divide; r0 = divisor, r1 = dividend
+08046E5C __rt_sdiv
+03000040 Wfz_Decompress         # IWRAM (RE_NOTES)
+# Data
+08055098 gScriptNativeFuncs     # 248 Thumb pointers
+08055478 gScriptSetterFuncs     # 18
+080554C0 gScriptOpcodeFuncs     # 31
+0806BCE8 gUIStringPtrs          # 1534
+080701B0 gMasterPalette         # 512 x 24-bit
+0808E2E0 gAreaTable             # 452 x 56 bytes
+086B7084 gExpTable              # 151 x u32
+086F82EC gEquipmentTable        # 162 x 44 bytes
+087B5B64 gTextBankTable         # 7 WFZ banks

@@ -8,7 +8,14 @@
  *   shot NAME          write outdir/NAME.png and print a frame hash
  *   hash               print frame hash only
  *   dump NAME ADDR LEN write raw bus memory to outdir/NAME.bin
+ *   bp ADDR N          single-step up to N frames until PC == ADDR; print regs, stack and recent ROM jumps
+ *   until LO HI N      single-step (max N frames) until LO <= PC < HI in a non-IRQ mode; print regs + stack
+ *   mem ADDR N         print N words at ADDR (ADDR may be rK or rK+0xOFF, or [rK+0xOFF] for one dereference)
+ *   watch ADDR N       single-step N frames; print PC/regs whenever the byte at ADDR changes
+ *   hist N             single-step N frames and print the 16 most frequent PCs (find hangs)
  *   pc                 print the CPU PC
+ *   guard N ROMEND     single-step up to N frames; stop and print the last 64 PCs when execution
+ *                      leaves BIOS/EWRAM/IWRAM/ROM[0x08000000,ROMEND) (catches jumps through stale pointers)
  * Original code for the buusfury disassembly project.
  */
 #include <mgba/core/core.h>
@@ -104,6 +111,132 @@ int main(int argc, char** argv) {
         else if (!strcmp(cmd, "pc")) {
             struct ARMCore* cpu = core->cpu;
             printf("pc %08x frame %llu\n", (unsigned) cpu->gprs[15], (unsigned long long) frame_no);
+        }
+        else if (!strcmp(cmd, "guard")) {
+            int n = atoi(a1); uint32_t romend = strtoul(a2, 0, 16);
+            struct ARMCore* cpu = core->cpu;
+            uint32_t ring[64]; int ri = 0; int bad = 0;
+            uint32_t romring[32]; int rr = 0; uint32_t lastrom = 0;
+            for (int f = 0; f < n && !bad; f++) {
+                uint64_t fc = core->frameCounter(core);
+                while (core->frameCounter(core) == fc) {
+                    core->step(core);
+                    uint32_t pc = cpu->gprs[15];
+                    ring[ri++ & 63] = pc;
+                    if (pc >= 0x08000000 && (pc < lastrom || pc > lastrom + 8)) romring[rr++ & 31] = pc;
+                    if (pc >= 0x08000000) lastrom = pc;
+                    int ok = pc < 0x4000 || (pc >= 0x02000000 && pc < 0x02040000) ||
+                             (pc >= 0x03000000 && pc < 0x03008000) || (pc >= 0x08000000 && pc < romend);
+                    if (!ok) { bad = 1; break; }
+                }
+                frame_no++;
+            }
+            if (bad) {
+                printf("guard: bad pc at frame %llu; last pcs:\n", (unsigned long long) frame_no);
+                for (int k = 0; k < 64; k++) printf("  %08x\n", ring[(ri + k) & 63]);
+                printf("  last ROM jumps:");
+                for (int k = 0; k < 32; k++) printf(" %08x", romring[(rr + k) & 31]);
+                printf("\n");
+                printf("  r0-r3 %08x %08x %08x %08x lr %08x\n", cpu->gprs[0], cpu->gprs[1], cpu->gprs[2], cpu->gprs[3], cpu->gprs[14]);
+            } else printf("guard: ok through frame %llu\n", (unsigned long long) frame_no);
+        }
+        else if (!strcmp(cmd, "bp")) {
+            uint32_t want = strtoul(a1, 0, 16); int n = atoi(a2);
+            struct ARMCore* cpu = core->cpu;
+            uint32_t romring[16]; int rr = 0; uint32_t lastrom = 0; int hit = 0;
+            for (int f = 0; f < n && !hit; f++) {
+                uint64_t fc = core->frameCounter(core);
+                while (core->frameCounter(core) == fc) {
+                    core->step(core);
+                    uint32_t pc = cpu->gprs[15];
+                    if (pc >= 0x08000000 && (pc < lastrom || pc > lastrom + 8)) romring[rr++ & 15] = pc;
+                    if (pc >= 0x08000000) lastrom = pc;
+                    if ((pc & ~1u) == want || (pc - 8) == want || (pc - 4) == want) { hit = 1; break; }
+                }
+                if (!hit) frame_no++;
+            }
+            printf("bp %08x %s at frame %llu\n", want, hit ? "hit" : "not hit", (unsigned long long) frame_no);
+            if (hit) {
+                printf("  regs:"); for (int r = 0; r < 16; r++) printf(" %08x", cpu->gprs[r]);
+                printf("\n  rom:"); for (int k = 0; k < 16; k++) printf(" %08x", romring[(rr + k) & 15]);
+                printf("\n");
+            }
+        }
+        else if (!strcmp(cmd, "until")) {
+            uint32_t lo_ = strtoul(a1, 0, 16), hi_ = strtoul(a2, 0, 16); int n = atoi(a3);
+            struct ARMCore* cpu = core->cpu; int hit = 0;
+            for (int f = 0; f < n && !hit; f++) {
+                uint64_t fc = core->frameCounter(core);
+                while (core->frameCounter(core) == fc) {
+                    core->step(core);
+                    uint32_t pc = cpu->gprs[15];
+                    if (pc >= lo_ && pc < hi_ && (cpu->cpsr.packed & 0x1F) != 0x12) { hit = 1; break; }
+                }
+                if (!hit) frame_no++;
+            }
+            printf("until %s frame %llu\n  regs:", hit ? "hit" : "miss", (unsigned long long) frame_no);
+            for (int r = 0; r < 16; r++) printf(" %08x", cpu->gprs[r]);
+            printf("\n  stack:");
+            for (int k = 0; k < 40; k++) printf(" %08x", core->busRead32(core, cpu->gprs[13] + 4 * k));
+            printf("\n");
+        }
+        else if (!strcmp(cmd, "mem")) {
+            struct ARMCore* cpu = core->cpu;
+            char* e = a1; int deref = 0; uint32_t ad;
+            if (*e == '[') { deref = 1; e++; }
+            if (*e == 'r') { int r = strtol(e + 1, &e, 10); ad = cpu->gprs[r]; if (*e == '+') ad += strtoul(e + 1, &e, 16); }
+            else ad = strtoul(e, &e, 16);
+            if (deref) ad = core->busRead32(core, ad);
+            int n = a2[0] ? atoi(a2) : 4;
+            printf("mem %08x:", ad);
+            for (int k = 0; k < n; k++) printf(" %08x", core->busRead32(core, ad + 4 * k));
+            printf("\n");
+        }
+        else if (!strcmp(cmd, "watch")) {
+            uint32_t ad = strtoul(a1, 0, 16); int n = atoi(a2);
+            struct ARMCore* cpu = core->cpu;
+            uint8_t last = core->busRead8(core, ad);
+            for (int f = 0; f < n; f++) {
+                uint64_t fc = core->frameCounter(core);
+                while (core->frameCounter(core) == fc) {
+                    core->step(core);
+                    uint8_t v = core->busRead8(core, ad);
+                    if (v != last) {
+                        printf("watch %08x: %02x -> %02x at frame %llu pc %08x lr %08x r0-r7", ad, last, v,
+                               (unsigned long long) frame_no, cpu->gprs[15], cpu->gprs[14]);
+                        for (int r = 0; r < 8; r++) printf(" %08x", cpu->gprs[r]);
+                        printf("\n");
+                        last = v;
+                    }
+                }
+                frame_no++;
+            }
+        }
+        else if (!strcmp(cmd, "hist")) {
+            int n = atoi(a1);
+            struct ARMCore* cpu = core->cpu;
+            enum { HN = 1 << 16 };
+            static uint32_t hk[HN], hv[HN];
+            memset(hk, 0, sizeof hk); memset(hv, 0, sizeof hv);
+            for (int f = 0; f < n; f++) {
+                uint64_t fc = core->frameCounter(core);
+                while (core->frameCounter(core) == fc) {
+                    core->step(core);
+                    uint32_t pc = cpu->gprs[15], h = (pc * 2654435761u) >> 16;
+                    while (hk[h] && hk[h] != pc) h = (h + 1) & (HN - 1);
+                    hk[h] = pc; hv[h]++;
+                }
+                frame_no++;
+            }
+            for (int k = 0; k < 16; k++) {
+                int best = -1;
+                for (int i = 0; i < HN; i++) if (hv[i] && (best < 0 || hv[i] > hv[best])) best = i;
+                if (best < 0) break;
+                printf("  %08x %u\n", hk[best], hv[best]); hv[best] = 0;
+            }
+            printf("  regs:"); for (int r = 0; r < 16; r++) printf(" %08x", cpu->gprs[r]); printf("\n  stack:");
+            for (int k = 0; k < 24; k++) printf(" %08x", core->busRead32(core, cpu->gprs[13] + 4 * k));
+            printf("\n");
         }
         else if (!strcmp(cmd, "dump")) {
             char p[600]; snprintf(p, sizeof p, "%s/%s.bin", argv[3], a1);

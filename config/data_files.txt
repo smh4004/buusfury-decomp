@@ -1,0 +1,15 @@
+rodata_08054FBC
+rodata_080D5EEC
+rodata_081566A8
+rodata_081D67F8
+rodata_0825691C
+rodata_082D7BB9
+rodata_08358123
+rodata_083D84AC
+rodata_08458694
+rodata_084D8768
+rodata_08558798
+rodata_085D885C
+rodata_0865887C
+rodata_086D8C78
+rodata_08758F24

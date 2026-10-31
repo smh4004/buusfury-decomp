@@ -8,3 +8,4 @@ build/
 # extracted assets (generated from baserom at build time)
 assets/
 __pycache__/
+tools/harness/harness

@@ -196,7 +196,23 @@ class Emitter:
         if b - a == 2 and a % 4 == 2 and self.d[self.off(a)] == 0 and self.d[self.off(a) + 1] == 0 and b % 4 == 0:
             out.append('\t.align 2, 0')
             return
-        o0 = self.off(a)
-        chunk = self.d[o0:o0 + (b - a)]
-        for i in range(0, len(chunk), 16):
-            out.append('\t.byte ' + ', '.join('0x%02X' % x for x in chunk[i:i + 16]))
+        # aligned words that are code pointers become symbols (IRQ tables, callbacks in RW data)
+        p = a
+        while p < b:
+            q = p
+            while q < b and not (q % 4 == 0 and q + 4 <= b and self.data_ptr(q)): q += 1
+            o0 = self.off(p)
+            chunk = self.d[o0:o0 + (q - p)]
+            for i in range(0, len(chunk), 16):
+                out.append('\t.byte ' + ', '.join('0x%02X' % x for x in chunk[i:i + 16]))
+            if q < b:
+                out.append('\t.4byte %s' % self.data_ptr(q))
+                q += 4
+            p = q
+
+    def data_ptr(self, a):
+        """Symbol for a data word inside the code/RW area when it is clearly a code pointer."""
+        w = self.u32(a)
+        if w & 1 and (w - 1) in self.funcs and self.funcs[w - 1] == 't':
+            return self.ptr_sym(w)
+        return None
