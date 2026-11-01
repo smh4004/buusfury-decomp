@@ -91,6 +91,7 @@ Nothing else is needed to build. Ghidra (11.x, Java 21) is only needed if you wa
 | `tools/ghidra/` | `setup.sh` (project), `export.sh` (C export); scripts for memory map, flow fixes (`FixFlow.java`), veneer signatures, C/JSON export |
 | `tools/decomp/` | `autodecomp.py` (C pipeline), `cc.sh` (compiler wrapper), `r0live.py` (return-value liveness), `mutation_check.py`, `gamebisect.py` |
 | `docs/` | `modding.md`, `rom_map.md`, `toolchain.md`, `shifting.md`, `assets.md`, `decomp.md`, `decomp_scope.md`, `progress.md` |
+| `proto/` | Separate tree for **prototype D** (`DBZ3_cart27`): matching, shiftable disassembly of the prototype, final-game names carried over, and `make extras` (function and source-file maps, story-flag names, removed debug codes, text differences). See `proto/README.md` and `proto/docs/differences.md` |
 
 Naming: known things have names in `config/symbols.txt` (`ScriptVM_Run`, `Wfz_LoadContainer`, `gAreaTable`...).
 Everything else is `sub_08XXXXXX` (function), `_08XXXXXX` (local label), `gUnknown_08XXXXXX` (data) or, in C,

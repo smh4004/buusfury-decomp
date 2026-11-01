@@ -1,0 +1,14 @@
+rodata_0804C0F8
+rodata_080CCBA8
+rodata_0814E2DC
+rodata_081CE2E0
+rodata_0824E338
+rodata_082CFC8F
+rodata_0834FEB8
+rodata_083CFF38
+rodata_08450234
+rodata_084D0254
+rodata_085502A0
+rodata_085D04A0
+rodata_0865051C
+rodata_086D08A4

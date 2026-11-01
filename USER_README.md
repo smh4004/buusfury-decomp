@@ -161,6 +161,8 @@ Loops: `push 3` / `loop_begin` / ... / `loop Top`, where `Top:` labels the first
 | `face(actor, dir)` | 0 down, 1 up, 2 side |
 | `take_item(n)` | remove one of item n from the inventory (n = item row + 10) |
 | `has_equipped(e)` | 1 if equipment row e is worn |
+| `flag(n)`, `not_flag(n)` | 1 if story flag n is set / clear (the same flags as actor `condition` below). `proto/` has the developers' names for many of them (`make extras` there) |
+| `set_flag(n)`, `clear_flag(n)` | set / clear story flag n |
 | `run_event(n, a, b)` | start global cutscene/script n (see `.evt` headers: "Global script n") |
 | `hp`, `max_hp`, `ki`, `max_ki` | variables of the active character (use with `call`, `set`, `inc`) |
 

@@ -1,0 +1,29 @@
+{
+ "name": "bfproto",
+ "title": "Dragon Ball Z: Buu's Fury (prototype D, DBZ3_cart27)",
+ "code": "",
+ "sha1": "4594e2d524e2d77cdf0e58ae7512e1052cc5bc02",
+ "text_start": "0x158",
+ "text_end": "0x4C0F8",
+ "ctor": [
+  "0x41510",
+  "0x41718"
+ ],
+ "vtables": [
+  "0x417E0",
+  "0x45C30"
+ ],
+ "iwram": [
+  "0x73FE10",
+  "0x03000000",
+  "0xEFC"
+ ],
+ "sound": [
+  "0x0",
+  "0x0"
+ ],
+ "noptr": [],
+ "bios_blocks": false,
+ "palette_filter": false,
+ "isolated_refcount": 3
+}

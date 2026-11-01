@@ -2,6 +2,10 @@
 # Format: id name   # comment.  Natives 0x00-0x11 double as "vars": `set`/`inc`/`dec` call gScriptSetterFuncs[id].
 # Names marked (inferred) come from watching the intro and Other World scripts run; rename freely,
 # the assembler maps names back to ids, so renaming never changes the built ROM.
+0x1B flag               # flag(n) -> 1 if story flag n is set (bit array at GameData+0x55, sub_08004364) -- verified in code
+0x1C not_flag           # not_flag(n) -> 1 if story flag n is clear -- verified in code
+0x1D set_flag           # set_flag(n) (sub_08004380) -- verified in code
+0x1E clear_flag         # clear_flag(n) (sub_08004396) -- verified in code
 0x1F play_sfx           # plays sound effect n (table gUnknown_083192A8, 12-byte entries) -- verified in code
 0x23 music              # play music track n (table gUnknown_083BB78C, 5-byte entries) -- verified in code
 0x2F end_cutscene       # (inferred)

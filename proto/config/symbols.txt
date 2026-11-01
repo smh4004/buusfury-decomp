@@ -1,0 +1,26 @@
+# address  name        -- names carried over from the final game (../config/symbols.txt) by function matching
+#                         (tools/proto/match.py); "~" in the comment = similar but not identical code
+080000C0 _start                 # crt0 (ARM)
+08003B0C ScriptVM_Run           # final 08004038 ~83%
+080036D8 ScriptOp_00            # final 08003C74
+08006E70 Palette_Fade           # final 08007074
+0800892C Area_Lookup            # final 080089FC
+08008FCC Scene_Load             # final 08009030 ~97%
+08009C1E Tiles_Animate1         # final 08009B12 ~98%
+08009D14 Tiles_UploadLoop       # final 08009BD4 ~82%
+08012444 Text_LoadString        # final 08012230 ~90%
+080124CA Text_LoadString2       # final 080122B4 ~88%
+08035CA4 Wfz_LoadContainer      # final 0803D940
+080137D2 Player_GetLevel        # final 080135D2 ~96%
+0800F66C Enemy_Create           # final 0800F68C ~75%
+0800FD22 Enemy_Spawn            # final 0800FD54 ~86%
+08004260 Actor_CheckCondition   # final 08004784 ~80%
+0804C2DC gScriptNativeFuncs     # 248 Thumb pointers (final 08055098)
+0838E1B0 gGlobalScripts         # 449 event lists (final 0879B704: 522)
+0873503C gDebugFlagNames        # 309 story-flag names, used only by the debug flag editor (sub_0802E1xx)
+08003E4A GameData_GetFlag       # bit array at GameData+0x55; final 08004364
+08006BB8 Field_HandleButtons    # gameplay buttons: SELECT, and the two debug sequences (docs/differences.md)
+08038B98 Input_MatchSequence    # (input, count, keys[]): 1 if the last `count` presses were keys[]
+0802E0E2 DebugFlagEditor_New    # debug flag editor (state object, vtable _080421EC); not in the final game
+0802DFCC DebugFlagEditor_CompareNames
+0802E1EA DebugFlagEditor_Draw   # 10 flags per page: "%d: %S" name (or "<unnamed>"), "Set"/"Clear"

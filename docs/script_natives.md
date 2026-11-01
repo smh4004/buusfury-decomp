@@ -387,7 +387,7 @@ void sub_08000738(int *param_1)
 }
 ```
 
-## 0x1B   (`sub_080007B6`, 0x080007B6, pops ~0)
+## 0x1B flag  (`sub_080007B6`, 0x080007B6, pops ~0)
 ```c
 void sub_080007B6(int *param_1)
 {
@@ -400,7 +400,7 @@ void sub_080007B6(int *param_1)
 }
 ```
 
-## 0x1C   (`sub_080007CC`, 0x080007CC, pops ~0)
+## 0x1C not_flag  (`sub_080007CC`, 0x080007CC, pops ~0)
 ```c
 void sub_080007CC(int *param_1)
 {
@@ -413,7 +413,7 @@ void sub_080007CC(int *param_1)
 }
 ```
 
-## 0x1D   (`sub_080007E6`, 0x080007E6, pops ~1)
+## 0x1D set_flag  (`sub_080007E6`, 0x080007E6, pops ~1)
 ```c
 void sub_080007E6(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
 {
@@ -425,7 +425,7 @@ void sub_080007E6(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 
 }
 ```
 
-## 0x1E   (`sub_080007FE`, 0x080007FE, pops ~1)
+## 0x1E clear_flag  (`sub_080007FE`, 0x080007FE, pops ~1)
 ```c
 void sub_080007FE(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
 {
@@ -2679,7 +2679,7 @@ void sub_080030DA(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 
   int iVar1;
   iVar1 = *param_1;
   *param_1 = iVar1 + -1;
-  sub_08012588((&gUnknown_0879B704)[param_1[iVar1]],DAT_03001030,param_3,param_4,param_4);
+  sub_08012588((&gGlobalScripts)[param_1[iVar1]],DAT_03001030,param_3,param_4,param_4);
   return;
 }
 ```
@@ -2696,7 +2696,7 @@ void sub_080030F8(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 
   *DAT_03001030 = param_1[iVar2];
   iVar2 = *param_1;
   *param_1 = iVar2 + -1;
-  sub_08012588((&gUnknown_0879B704)[param_1[iVar2]],DAT_03001030,&DAT_03001030,piVar1,param_4);
+  sub_08012588((&gGlobalScripts)[param_1[iVar2]],DAT_03001030,&DAT_03001030,piVar1,param_4);
   return;
 ```
 
@@ -2922,7 +2922,7 @@ void sub_080006FE(int *param_1)
 {
   int iVar1;
   int iVar2;
-  iVar1 = sub_080135D2(&DAT_03001560 + (uint)DAT_03001068 * 0x68);
+  iVar1 = Player_GetLevel(&DAT_03001560 + (uint)DAT_03001068 * 0x68);
   iVar2 = *param_1;
   *param_1 = iVar2 + 1;
   param_1[iVar2 + 1] = iVar1;
@@ -3125,7 +3125,7 @@ void sub_08003226(int *param_1)
   undefined1 auStack_70 [112];
   iVar1 = *param_1;
   *param_1 = iVar1 + -1;
-  sub_08004098(auStack_70,(&gUnknown_0879B704)[param_1[iVar1]],DAT_03001030);
+  sub_08004098(auStack_70,(&gGlobalScripts)[param_1[iVar1]],DAT_03001030);
   return;
 }
 ```
@@ -3141,7 +3141,7 @@ void sub_0800324A(int *param_1)
   *DAT_03001030 = param_1[iVar1];
   iVar1 = *param_1;
   *param_1 = iVar1 + -1;
-  sub_08004098(auStack_70,(&gUnknown_0879B704)[param_1[iVar1]],DAT_03001030);
+  sub_08004098(auStack_70,(&gGlobalScripts)[param_1[iVar1]],DAT_03001030);
   return;
 }
 ```
