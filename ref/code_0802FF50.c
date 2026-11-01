@@ -798,7 +798,7 @@ undefined4 sub_0803044C(undefined4 param_1,int param_2)
       sub_08049138((int)auStack_3c,0x875819c,0x20);
       uStack_30 = (undefined2)((uint)*(undefined4 *)(param_2 + 0x1a0) >> 8);
       uStack_2e = (undefined2)((uint)*(undefined4 *)(param_2 + 0x1a4) >> 8);
-      uVar1 = sub_0800F68C(0,auStack_3c,&gUnknown_087113FC,0xffffffff);
+      uVar1 = Enemy_Create(0,auStack_3c,&gUnknown_087113FC,0xffffffff);
       sub_0801191A(&DAT_03001c4c,uVar1);
     }
   }
@@ -3203,7 +3203,7 @@ void sub_0803185C(int param_1)
     uVar1 = *(ushort *)(&DAT_0300317a + iVar5);
     iStack_58 = 0xaf;
     iStack_54 = 0x7e;
-    iVar5 = sub_080135D2(&DAT_03001560 + (uint)DAT_03001068 * 0x68);
+    iVar5 = Player_GetLevel(&DAT_03001560 + (uint)DAT_03001068 * 0x68);
     if (iVar5 < (int)(uint)(byte)(&DAT_086f8301)[(uint)uVar1 * 0x2c]) {
       iVar5 = 0x44;
     }

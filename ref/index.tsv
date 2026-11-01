@@ -374,7 +374,7 @@
 080046F4	sub_080046F4	code_0800419C	ok	void sub_080046F4(int param_1);
 08004722	sub_08004722	code_0800419C	ok	void sub_08004722(int param_1,undefined4 param_2,undefined4 param_3);
 08004764	sub_08004764	code_0800419C	ok	void sub_08004764(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
-08004784	sub_08004784	code_0800419C	ok	bool sub_08004784(uint param_1);
+08004784	Actor_CheckCondition	code_0800419C	ok	bool Actor_CheckCondition(uint param_1);
 08004838	sub_08004838	code_0800419C	ok	int sub_08004838(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
 08004896	sub_08004896	code_0800419C	ok	void sub_08004896(undefined4 param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
 080048A0	sub_080048A0	code_0800419C	ok	void sub_080048A0(int param_1,int param_2);
@@ -865,7 +865,7 @@
 0800E8FE	sub_0800E8FE	code_0800CB14	ok	undefined4 sub_0800E8FE(undefined4 *param_1,undefined4 param_2);
 0800E970	sub_0800E970	code_0800CB14	ok	void sub_0800E970(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
 0800E97E	sub_0800E97E	code_0800CB14	ok	void sub_0800E97E(int param_1,int *param_2);
-0800E9D8	sub_0800E9D8	code_0800CB14	ok	void sub_0800E9D8(int param_1,byte *param_2);
+0800E9D8	Combat_Damage	code_0800CB14	ok	void Combat_Damage(int param_1,byte *param_2);
 0800EB44	sub_0800EB44	code_0800EB44	ok	void sub_0800EB44(int param_1,int param_2);
 0800EB5E	sub_0800EB5E	code_0800EB44	ok	undefined4 * sub_0800EB5E(undefined4 *param_1,int param_2,undefined4 param_3);
 0800EB60	sub_0800EB60	code_0800EB44	ok	undefined4 * sub_0800EB60(undefined4 *param_1,int param_2,undefined4 param_3);
@@ -898,7 +898,7 @@
 0800F5C6	sub_0800F5C6	code_0800EB44	ok	int sub_0800F5C6(int param_1,int param_2,undefined4 param_3);
 0800F60E	sub_0800F60E	code_0800EB44	ok	void sub_0800F60E(int param_1);
 0800F62C	sub_0800F62C	code_0800EB44	ok	void sub_0800F62C(int param_1);
-0800F68C	sub_0800F68C	code_0800EB44	ok	undefined4 * sub_0800F68C(undefined4 *param_1,int param_2,int param_3,undefined4 param_4);
+0800F68C	Enemy_Create	code_0800EB44	ok	undefined4 * Enemy_Create(undefined4 *param_1,int param_2,int param_3,undefined4 param_4);
 0800F740	sub_0800F740	code_0800EB44	ok	void sub_0800F740(int param_1,undefined4 param_2);
 0800F76E	sub_0800F76E	code_0800EB44	ok	void sub_0800F76E(undefined4 *param_1,int param_2);
 0800F7F2	sub_0800F7F2	code_0800EB44	ok	void sub_0800F7F2(void);
@@ -925,7 +925,7 @@
 0800FD00	sub_0800FD00	code_0800EB44	ok	void sub_0800FD00(void);
 0800FD34	sub_0800FD34	code_0800EB44	ok	void sub_0800FD34(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
 0800FD44	sub_0800FD44	code_0800EB44	ok	void sub_0800FD44(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
-0800FD54	sub_0800FD54	code_0800EB44	ok	void sub_0800FD54(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
+0800FD54	Enemy_Spawn	code_0800EB44	ok	void Enemy_Spawn(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4);
 0800FD74	sub_0800FD74	code_0800EB44	ok	undefined4 *sub_0800FD74(undefined4 *param_1,undefined4 param_2,undefined4 param_3,short *param_4,undefined4 param_5);
 0800FDFA	sub_0800FDFA	code_0800EB44	ok	int * sub_0800FDFA(int *param_1,int param_2);
 0800FE00	sub_0800FE00	code_0800EB44	ok	int * sub_0800FE00(int *param_1,int param_2,int param_3);
@@ -1089,12 +1089,12 @@
 08013598	sub_08013598	code_08012D24	ok	void sub_08013598(int param_1,int param_2);
 080135A2	sub_080135A2	code_08012D24	ok	undefined * sub_080135A2(int param_1,int param_2);
 080135BC	sub_080135BC	code_08012D24	ok	void sub_080135BC(int param_1,int param_2);
-080135D2	sub_080135D2	code_08012D24	ok	int sub_080135D2(int param_1);
+080135D2	Player_GetLevel	code_08012D24	ok	int Player_GetLevel(int param_1);
 0801361C	sub_0801361C	code_08012D24	ok	int sub_0801361C(int param_1);
 0801363E	sub_0801363E	code_08012D24	ok	int sub_0801363E(int param_1,int param_2);
 08013678	sub_08013678	code_08012D24	ok	void sub_08013678(int param_1,int param_2,int param_3);
 0801375E	sub_0801375E	code_08012D24	ok	void sub_0801375E(int param_1,int param_2,int param_3,short param_4);
-08013914	sub_08013914	code_08012D24	ok	uint sub_08013914(int param_1,int param_2,undefined4 param_3,undefined4 param_4);
+08013914	Player_AddExp	code_08012D24	ok	uint Player_AddExp(int param_1,int param_2,undefined4 param_3,undefined4 param_4);
 08013A90	sub_08013A90	code_08012D24	ok	void sub_08013A90(int param_1,undefined1 param_2);
 08013ABA	sub_08013ABA	code_08012D24	ok	void sub_08013ABA(int param_1,uint param_2);
 08013B12	sub_08013B12	code_08012D24	ok	void sub_08013B12(int param_1,uint param_2,undefined1 param_3);

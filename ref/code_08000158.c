@@ -870,7 +870,7 @@ void sub_080006FE(int *param_1)
   int iVar1;
   int iVar2;
   
-  iVar1 = sub_080135D2(&DAT_03001560 + (uint)DAT_03001068 * 0x68);
+  iVar1 = Player_GetLevel(&DAT_03001560 + (uint)DAT_03001068 * 0x68);
   iVar2 = *param_1;
   *param_1 = iVar2 + 1;
   param_1[iVar2 + 1] = iVar1;
@@ -887,7 +887,7 @@ void sub_0800070E(int param_1)
   int iVar2;
   int *unaff_r4;
   
-  iVar1 = sub_080135D2(param_1 + 0x4f8);
+  iVar1 = Player_GetLevel(param_1 + 0x4f8);
   iVar2 = *unaff_r4;
   *unaff_r4 = iVar2 + 1;
   unaff_r4[iVar2 + 1] = iVar1;

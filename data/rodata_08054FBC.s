@@ -11746,13 +11746,13 @@ gUnknown_080728F4:
 gUnknown_080728F8:
 	.4byte gUnknown_082B3E6C
 gUnknown_080728FC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x72900, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x72914, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807291C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x72920, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x72934, 0x4
@@ -11765,7 +11765,7 @@ gUnknown_08072948:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0877DEF8
 gUnknown_08072950:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x72954, 0x10
 	.4byte gUnknown_08072948
 	.incbin "baserom.gba", 0x72968, 0x4
@@ -11797,7 +11797,7 @@ gUnknown_080729B4:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0877F030
 gUnknown_080729BC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x729C0, 0x10
 	.4byte gUnknown_080729B4
 	.incbin "baserom.gba", 0x729D4, 0x4
@@ -11807,13 +11807,13 @@ gUnknown_080729DC:
 	.incbin "baserom.gba", 0x729E0, 0x10
 	.4byte gUnknown_080716EC
 gUnknown_080729F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x729F8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x72A0C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08072A14:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x72A18, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x72A2C, 0x4
@@ -11834,7 +11834,7 @@ gUnknown_08072C9C:
 gUnknown_08072CA0:
 	.incbin "baserom.gba", 0x72CA0, 0x14
 gUnknown_08072CB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08072CA0
 	.incbin "baserom.gba", 0x72CBC, 0xC
 	.4byte gUnknown_080555A0
@@ -11858,7 +11858,7 @@ gUnknown_08072D10:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08072D04
 gUnknown_08072D18:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x72D1C, 0x10
 	.4byte gUnknown_08072D10
 	.incbin "baserom.gba", 0x72D30, 0x4
@@ -11881,7 +11881,7 @@ gUnknown_08072D74:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08072D68
 gUnknown_08072D7C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x72D80, 0x10
 	.4byte gUnknown_08072D74
 	.incbin "baserom.gba", 0x72D94, 0x4
@@ -11903,7 +11903,7 @@ gUnknown_08072DD4:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08072DC8
 gUnknown_08072DDC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x72DE0, 0x10
 	.4byte gUnknown_08072DD4
 	.incbin "baserom.gba", 0x72DF4, 0x4
@@ -11922,7 +11922,7 @@ gUnknown_08072E28:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08072E1C
 gUnknown_08072E30:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x72E34, 0x10
 	.4byte gUnknown_08072E28
 	.incbin "baserom.gba", 0x72E48, 0x4
@@ -11943,7 +11943,7 @@ gUnknown_08072E84:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08072E78
 gUnknown_08072E8C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x72E90, 0x10
 	.4byte gUnknown_08072E84
 	.incbin "baserom.gba", 0x72EA4, 0x4
@@ -11968,7 +11968,7 @@ gUnknown_08072EF0:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08072EE4
 gUnknown_08072EF8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x72EFC, 0x10
 	.4byte gUnknown_08072EF0
 	.incbin "baserom.gba", 0x72F10, 0x4
@@ -11991,7 +11991,7 @@ gUnknown_08072F54:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08072F48
 gUnknown_08072F5C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x72F60, 0x10
 	.4byte gUnknown_08072F54
 	.incbin "baserom.gba", 0x72F74, 0x4
@@ -12013,7 +12013,7 @@ gUnknown_08072FB4:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08072FA8
 gUnknown_08072FBC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x72FC0, 0x10
 	.4byte gUnknown_08072FB4
 	.incbin "baserom.gba", 0x72FD4, 0x4
@@ -12032,7 +12032,7 @@ gUnknown_08073008:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08072FFC
 gUnknown_08073010:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73014, 0x10
 	.4byte gUnknown_08073008
 	.incbin "baserom.gba", 0x73028, 0x4
@@ -12053,7 +12053,7 @@ gUnknown_08073064:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073058
 gUnknown_0807306C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73070, 0x10
 	.4byte gUnknown_08073064
 	.incbin "baserom.gba", 0x73084, 0x4
@@ -12069,7 +12069,7 @@ gUnknown_080730AC:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0877D7FC
 gUnknown_080730B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08073094
 	.incbin "baserom.gba", 0x730BC, 0xC
 	.4byte gUnknown_080730AC
@@ -12423,7 +12423,7 @@ gUnknown_08073B08:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073B10:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73B14, 0x10
 	.4byte gUnknown_08073B08
 	.incbin "baserom.gba", 0x73B28, 0x4
@@ -12432,7 +12432,7 @@ gUnknown_08073B30:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073B38:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73B3C, 0x10
 	.4byte gUnknown_08073B30
 	.incbin "baserom.gba", 0x73B50, 0x4
@@ -12441,7 +12441,7 @@ gUnknown_08073B58:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073B60:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73B64, 0x10
 	.4byte gUnknown_08073B58
 	.incbin "baserom.gba", 0x73B78, 0x4
@@ -12450,7 +12450,7 @@ gUnknown_08073B80:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073B88:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73B8C, 0x10
 	.4byte gUnknown_08073B80
 	.incbin "baserom.gba", 0x73BA0, 0x4
@@ -12459,7 +12459,7 @@ gUnknown_08073BA8:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073BB0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73BB4, 0x10
 	.4byte gUnknown_08073BA8
 	.incbin "baserom.gba", 0x73BC8, 0x4
@@ -12468,7 +12468,7 @@ gUnknown_08073BD0:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073BD8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73BDC, 0x10
 	.4byte gUnknown_08073BD0
 	.incbin "baserom.gba", 0x73BF0, 0x4
@@ -12477,7 +12477,7 @@ gUnknown_08073BF8:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073C00:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73C04, 0x10
 	.4byte gUnknown_08073BF8
 	.incbin "baserom.gba", 0x73C18, 0x4
@@ -12486,7 +12486,7 @@ gUnknown_08073C20:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073C28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73C2C, 0x10
 	.4byte gUnknown_08073C20
 	.incbin "baserom.gba", 0x73C40, 0x4
@@ -12495,7 +12495,7 @@ gUnknown_08073C48:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073C50:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73C54, 0x10
 	.4byte gUnknown_08073C48
 	.incbin "baserom.gba", 0x73C68, 0x4
@@ -12504,7 +12504,7 @@ gUnknown_08073C70:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073C78:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73C7C, 0x10
 	.4byte gUnknown_08073C70
 	.incbin "baserom.gba", 0x73C90, 0x4
@@ -12513,7 +12513,7 @@ gUnknown_08073C98:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073CA0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73CA4, 0x10
 	.4byte gUnknown_08073C98
 	.incbin "baserom.gba", 0x73CB8, 0x4
@@ -12522,7 +12522,7 @@ gUnknown_08073CC0:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073CC8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73CCC, 0x10
 	.4byte gUnknown_08073CC0
 	.incbin "baserom.gba", 0x73CE0, 0x4
@@ -12531,7 +12531,7 @@ gUnknown_08073CE8:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073CF0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73CF4, 0x10
 	.4byte gUnknown_08073CE8
 	.incbin "baserom.gba", 0x73D08, 0x4
@@ -12540,7 +12540,7 @@ gUnknown_08073D10:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073D18:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73D1C, 0x10
 	.4byte gUnknown_08073D10
 	.incbin "baserom.gba", 0x73D30, 0x4
@@ -12549,7 +12549,7 @@ gUnknown_08073D38:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073AFC
 gUnknown_08073D40:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73D44, 0x10
 	.4byte gUnknown_08073D38
 	.incbin "baserom.gba", 0x73D58, 0x4
@@ -12615,7 +12615,7 @@ gUnknown_08073F18:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_08073F20:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73F24, 0x10
 	.4byte gUnknown_08073F18
 	.incbin "baserom.gba", 0x73F38, 0x4
@@ -12624,7 +12624,7 @@ gUnknown_08073F40:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_08073F48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73F4C, 0x10
 	.4byte gUnknown_08073F40
 	.incbin "baserom.gba", 0x73F60, 0x4
@@ -12633,7 +12633,7 @@ gUnknown_08073F68:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_08073F70:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73F74, 0x10
 	.4byte gUnknown_08073F68
 	.incbin "baserom.gba", 0x73F88, 0x4
@@ -12642,7 +12642,7 @@ gUnknown_08073F90:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_08073F98:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73F9C, 0x10
 	.4byte gUnknown_08073F90
 	.incbin "baserom.gba", 0x73FB0, 0x4
@@ -12651,7 +12651,7 @@ gUnknown_08073FB8:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_08073FC0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73FC4, 0x10
 	.4byte gUnknown_08073FB8
 	.incbin "baserom.gba", 0x73FD8, 0x4
@@ -12660,7 +12660,7 @@ gUnknown_08073FE0:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_08073FE8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x73FEC, 0x10
 	.4byte gUnknown_08073FE0
 	.incbin "baserom.gba", 0x74000, 0x4
@@ -12669,7 +12669,7 @@ gUnknown_08074008:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_08074010:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74014, 0x10
 	.4byte gUnknown_08074008
 	.incbin "baserom.gba", 0x74028, 0x4
@@ -12678,7 +12678,7 @@ gUnknown_08074030:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_08074038:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7403C, 0x10
 	.4byte gUnknown_08074030
 	.incbin "baserom.gba", 0x74050, 0x4
@@ -12687,7 +12687,7 @@ gUnknown_08074058:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_08074060:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74064, 0x10
 	.4byte gUnknown_08074058
 	.incbin "baserom.gba", 0x74078, 0x4
@@ -12696,7 +12696,7 @@ gUnknown_08074080:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_08074088:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7408C, 0x10
 	.4byte gUnknown_08074080
 	.incbin "baserom.gba", 0x740A0, 0x4
@@ -12705,7 +12705,7 @@ gUnknown_080740A8:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_080740B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x740B4, 0x10
 	.4byte gUnknown_080740A8
 	.incbin "baserom.gba", 0x740C8, 0x4
@@ -12714,7 +12714,7 @@ gUnknown_080740D0:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_080740D8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x740DC, 0x10
 	.4byte gUnknown_080740D0
 	.incbin "baserom.gba", 0x740F0, 0x4
@@ -12723,7 +12723,7 @@ gUnknown_080740F8:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_08074100:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74104, 0x10
 	.4byte gUnknown_080740F8
 	.incbin "baserom.gba", 0x74118, 0x4
@@ -12732,7 +12732,7 @@ gUnknown_08074120:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_08074128:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7412C, 0x10
 	.4byte gUnknown_08074120
 	.incbin "baserom.gba", 0x74140, 0x4
@@ -12741,7 +12741,7 @@ gUnknown_08074148:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08073EFC
 gUnknown_08074150:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74154, 0x10
 	.4byte gUnknown_08074148
 	.incbin "baserom.gba", 0x74168, 0x4
@@ -12965,307 +12965,307 @@ gUnknown_08074588:
 gUnknown_0807458C:
 	.4byte gUnknown_0829D26C
 gUnknown_08074590:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74594, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x745A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080745B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x745B4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x745C8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080745D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x745D4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x745E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080745F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x745F4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74608, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074610:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74614, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74628, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074630:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74634, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74648, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074650:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74654, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74668, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074670:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74674, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74688, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074690:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74694, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x746A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080746B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x746B4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x746C8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080746D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x746D4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x746E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080746F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x746F4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74708, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074710:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74714, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74728, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074730:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74734, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74748, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074750:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74754, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74768, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074770:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74774, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74788, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074790:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74794, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x747A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080747B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x747B4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x747C8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080747D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x747D4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x747E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080747F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x747F4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74808, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074810:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74814, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74828, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074830:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74834, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74848, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074850:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74854, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74868, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074870:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74874, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74888, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074890:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74894, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x748A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080748B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x748B4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x748C8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080748D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x748D4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x748E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080748F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x748F4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74908, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074910:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74914, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74928, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074930:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74934, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74948, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074950:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74954, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74968, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074970:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74974, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74988, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074990:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74994, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x749A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080749B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x749B4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x749C8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080749D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x749D4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x749E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080749F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x749F4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74A08, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074A10:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74A14, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74A28, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074A30:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74A34, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74A48, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074A50:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74A54, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74A68, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074A70:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74A74, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74A88, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074A90:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74A94, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74AA8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074AB0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74AB4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74AC8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074AD0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74AD4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74AE8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074AF0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74AF4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74B08, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074B10:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74B14, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74B28, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074B30:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74B34, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74B48, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074B50:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74B54, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74B68, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074B70:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74B74, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74B88, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074B90:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74B94, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74BA8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074BB0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74BB4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74BC8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08074BD0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x74BD4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x74BE8, 0x4
@@ -13882,7 +13882,7 @@ gUnknown_08075620:
 	.incbin "baserom.gba", 0x75624, 0x10
 	.4byte gUnknown_080716EC
 gUnknown_08075638:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7563C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x75650, 0x4
@@ -13892,7 +13892,7 @@ gUnknown_08075658:
 	.incbin "baserom.gba", 0x7565C, 0x10
 	.4byte gUnknown_080716EC
 gUnknown_08075670:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x75674, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x75688, 0x4
@@ -13917,7 +13917,7 @@ gUnknown_080756C0:
 	.incbin "baserom.gba", 0x756C4, 0x10
 	.4byte gUnknown_080716EC
 gUnknown_080756D8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x756DC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x756F0, 0x4
@@ -13927,7 +13927,7 @@ gUnknown_080756F8:
 	.incbin "baserom.gba", 0x756FC, 0x10
 	.4byte gUnknown_080716EC
 gUnknown_08075710:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x75714, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x75728, 0x4
@@ -13937,7 +13937,7 @@ gUnknown_08075730:
 	.incbin "baserom.gba", 0x75734, 0x10
 	.4byte gUnknown_080716EC
 gUnknown_08075748:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7574C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x75760, 0x4
@@ -13970,7 +13970,7 @@ gUnknown_080757C0:
 	.4byte sub_0800A222 + 1
 	.incbin "baserom.gba", 0x757C4, 0x4
 gUnknown_080757C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x757CC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x757E0, 0x4
@@ -13986,7 +13986,7 @@ gUnknown_08075808:
 	.4byte sub_0800A222 + 1
 	.incbin "baserom.gba", 0x7580C, 0x4
 gUnknown_08075810:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x75814, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x75828, 0x4
@@ -14002,7 +14002,7 @@ gUnknown_08075850:
 	.4byte sub_0800A222 + 1
 	.incbin "baserom.gba", 0x75854, 0x4
 gUnknown_08075858:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7585C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x75870, 0x4
@@ -14018,7 +14018,7 @@ gUnknown_08075898:
 	.4byte sub_0800A222 + 1
 	.incbin "baserom.gba", 0x7589C, 0x4
 gUnknown_080758A0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x758A4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x758B8, 0x4
@@ -14058,7 +14058,7 @@ gUnknown_08075968:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08781EF8
 gUnknown_08075970:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x75974, 0x10
 	.4byte gUnknown_08075968
 	.incbin "baserom.gba", 0x75988, 0x4
@@ -14223,7 +14223,7 @@ gUnknown_08075C54:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08782648
 gUnknown_08075C5C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x75C60, 0x10
 	.4byte gUnknown_08075C54
 	.incbin "baserom.gba", 0x75C74, 0x4
@@ -14232,7 +14232,7 @@ gUnknown_08075C7C:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878295C
 gUnknown_08075C84:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x75C88, 0x10
 	.4byte gUnknown_08075C7C
 	.incbin "baserom.gba", 0x75C9C, 0x4
@@ -14517,7 +14517,7 @@ gUnknown_08076184:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x76188, 0x4
 gUnknown_0807618C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76190, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x761A4, 0x4
@@ -14526,7 +14526,7 @@ gUnknown_080761AC:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x761B0, 0x4
 gUnknown_080761B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x761B8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x761CC, 0x4
@@ -14537,19 +14537,19 @@ gUnknown_080761D4:
 gUnknown_080761DC:
 	.4byte gUnknown_08286940
 gUnknown_080761E0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x761E4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x761F8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076200:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76204, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76218, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076220:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76224, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76238, 0x4
@@ -14561,25 +14561,25 @@ gUnknown_08076240:
 gUnknown_0807624C:
 	.4byte gUnknown_08285F28
 gUnknown_08076250:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76254, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76268, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076270:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76274, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76288, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076290:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76294, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x762A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080762B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x762B4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x762C8, 0x4
@@ -14592,19 +14592,19 @@ gUnknown_080762D0:
 gUnknown_080762E0:
 	.4byte gUnknown_08284B80
 gUnknown_080762E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x762E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x762FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076304:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76308, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7631C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076324:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76328, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7633C, 0x4
@@ -14621,7 +14621,7 @@ gUnknown_08076358:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x7635C, 0x4
 gUnknown_08076360:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76364, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76378, 0x4
@@ -14630,7 +14630,7 @@ gUnknown_08076380:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x76384, 0x4
 gUnknown_08076388:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7638C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x763A0, 0x4
@@ -14639,7 +14639,7 @@ gUnknown_080763A8:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x763AC, 0x4
 gUnknown_080763B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x763B4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x763C8, 0x4
@@ -14658,13 +14658,13 @@ gUnknown_080763EC:
 gUnknown_080763F4:
 	.4byte gUnknown_082834B4
 gUnknown_080763F8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x763FC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76410, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076418:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7641C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76430, 0x4
@@ -14675,19 +14675,19 @@ gUnknown_08076438:
 gUnknown_08076440:
 	.4byte gUnknown_08282B54
 gUnknown_08076444:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76448, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7645C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076464:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76468, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7647C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076484:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76488, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7649C, 0x4
@@ -14699,7 +14699,7 @@ gUnknown_080764A4:
 gUnknown_080764B0:
 	.4byte gUnknown_08281EB8
 gUnknown_080764B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x764B8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x764CC, 0x4
@@ -14709,25 +14709,25 @@ gUnknown_080764D4:
 gUnknown_080764D8:
 	.4byte gUnknown_0828196C
 gUnknown_080764DC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x764E0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x764F4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080764FC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76500, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76514, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807651C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76520, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76534, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807653C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76540, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76554, 0x4
@@ -14748,7 +14748,7 @@ gUnknown_08076580:
 gUnknown_08076588:
 	.4byte gUnknown_08280B78
 gUnknown_0807658C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76590, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x765A4, 0x4
@@ -14760,31 +14760,31 @@ gUnknown_080765B0:
 gUnknown_080765C0:
 	.4byte gUnknown_08280668
 gUnknown_080765C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x765C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x765DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080765E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x765E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x765FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076604:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76608, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7661C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076624:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76628, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7663C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076644:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76648, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7665C, 0x4
@@ -14822,19 +14822,19 @@ gUnknown_080766FC:
 gUnknown_08076704:
 	.4byte gUnknown_0827F128
 gUnknown_08076708:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7670C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76720, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076728:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7672C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76740, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076748:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7674C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76760, 0x4
@@ -14846,13 +14846,13 @@ gUnknown_08076768:
 gUnknown_08076774:
 	.4byte gUnknown_0827E344
 gUnknown_08076778:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7677C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76790, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076798:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7679C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x767B0, 0x4
@@ -14868,19 +14868,19 @@ gUnknown_080767CC:
 gUnknown_080767D0:
 	.4byte gUnknown_0827D4F4
 gUnknown_080767D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x767D8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x767EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080767F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x767F8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7680C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076814:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76818, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7682C, 0x4
@@ -14892,7 +14892,7 @@ gUnknown_08076834:
 gUnknown_08076840:
 	.4byte gUnknown_0827CBC8
 gUnknown_08076844:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76848, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7685C, 0x4
@@ -14902,13 +14902,13 @@ gUnknown_08076864:
 gUnknown_08076868:
 	.4byte gUnknown_0827C6B4
 gUnknown_0807686C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76870, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76884, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807688C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76890, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x768A4, 0x4
@@ -14942,7 +14942,7 @@ gUnknown_08076930:
 gUnknown_08076934:
 	.4byte gUnknown_0827A938
 gUnknown_08076938:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7693C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76950, 0x4
@@ -14952,13 +14952,13 @@ gUnknown_08076958:
 gUnknown_0807695C:
 	.4byte gUnknown_0827A550
 gUnknown_08076960:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76964, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76978, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076980:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76984, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76998, 0x4
@@ -14969,19 +14969,19 @@ gUnknown_080769A0:
 gUnknown_080769A8:
 	.4byte gUnknown_08279F24
 gUnknown_080769AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x769B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x769C4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080769CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x769D0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x769E4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080769EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x769F0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76A04, 0x4
@@ -14993,13 +14993,13 @@ gUnknown_08076A0C:
 gUnknown_08076A18:
 	.4byte gUnknown_08279228
 gUnknown_08076A1C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76A20, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76A34, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076A3C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76A40, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76A54, 0x4
@@ -15022,13 +15022,13 @@ gUnknown_08076A84:
 gUnknown_08076A94:
 	.4byte gUnknown_08278258
 gUnknown_08076A98:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76A9C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76AB0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076AB8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76ABC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76AD0, 0x4
@@ -15075,13 +15075,13 @@ gUnknown_08076B80:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_087831B4
 gUnknown_08076B88:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76B8C, 0x10
 	.4byte gUnknown_08076B80
 	.incbin "baserom.gba", 0x76BA0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076BA8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76BAC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76BC0, 0x4
@@ -15145,7 +15145,7 @@ gUnknown_08076CF8:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878339C
 gUnknown_08076D00:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76D04, 0x10
 	.4byte gUnknown_08076CF8
 	.incbin "baserom.gba", 0x76D18, 0x4
@@ -15154,7 +15154,7 @@ gUnknown_08076D20:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_087833B8
 gUnknown_08076D28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76D2C, 0x10
 	.4byte gUnknown_08076D20
 	.incbin "baserom.gba", 0x76D40, 0x4
@@ -15178,7 +15178,7 @@ gUnknown_08076D7C:
 	.incbin "baserom.gba", 0x76D84, 0xC
 	.4byte gUnknown_08076D74
 gUnknown_08076D94:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x76D98, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76DAC, 0x4
@@ -15286,28 +15286,28 @@ gUnknown_08076F50:
 gUnknown_08076F68:
 	.incbin "baserom.gba", 0x76F68, 0xC
 gUnknown_08076F74:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08076F68
 	.incbin "baserom.gba", 0x76F7C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76F8C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076F94:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08076F68
 	.incbin "baserom.gba", 0x76F9C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76FAC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076FB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08076F68
 	.incbin "baserom.gba", 0x76FBC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x76FCC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08076FD4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08076F68
 	.incbin "baserom.gba", 0x76FDC, 0xC
 	.4byte gUnknown_080555A0
@@ -15377,7 +15377,7 @@ gUnknown_080770D0:
 	.4byte gUnknown_080770B8
 	.4byte gUnknown_080770C4
 gUnknown_080770F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08076E74
 	.incbin "baserom.gba", 0x770F8, 0xC
 	.4byte gUnknown_080555A0
@@ -15469,7 +15469,7 @@ gUnknown_08077268:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08784278
 gUnknown_08077270:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77274, 0x10
 	.4byte gUnknown_08077268
 	.incbin "baserom.gba", 0x77288, 0x4
@@ -15478,7 +15478,7 @@ gUnknown_08077290:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08784294
 gUnknown_08077298:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7729C, 0x10
 	.4byte gUnknown_08077290
 	.incbin "baserom.gba", 0x772B0, 0x4
@@ -15487,7 +15487,7 @@ gUnknown_080772B8:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_087842B0
 gUnknown_080772C0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x772C4, 0x10
 	.4byte gUnknown_080772B8
 	.incbin "baserom.gba", 0x772D8, 0x4
@@ -15496,7 +15496,7 @@ gUnknown_080772E0:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_087842CC
 gUnknown_080772E8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x772EC, 0x10
 	.4byte gUnknown_080772E0
 	.incbin "baserom.gba", 0x77300, 0x4
@@ -15505,7 +15505,7 @@ gUnknown_08077308:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_087842E8
 gUnknown_08077310:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77314, 0x10
 	.4byte gUnknown_08077308
 	.incbin "baserom.gba", 0x77328, 0x4
@@ -15513,28 +15513,28 @@ gUnknown_08077310:
 gUnknown_08077330:
 	.incbin "baserom.gba", 0x77330, 0xC
 gUnknown_0807733C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08077330
 	.incbin "baserom.gba", 0x77344, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77354, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807735C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08077330
 	.incbin "baserom.gba", 0x77364, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77374, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807737C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08077330
 	.incbin "baserom.gba", 0x77384, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77394, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807739C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08077330
 	.incbin "baserom.gba", 0x773A4, 0xC
 	.4byte gUnknown_080555A0
@@ -15952,7 +15952,7 @@ gUnknown_08077A48:
 	.incbin "baserom.gba", 0x77A4C, 0x10
 	.4byte gUnknown_080716EC
 gUnknown_08077A60:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77A64, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77A78, 0x4
@@ -15973,25 +15973,25 @@ gUnknown_08077AA8:
 gUnknown_08077AB0:
 	.4byte gUnknown_0826ECD8
 gUnknown_08077AB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77AB8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77ACC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077AD4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77AD8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77AEC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077AF4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77AF8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77B0C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077B14:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77B18, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77B2C, 0x4
@@ -16004,31 +16004,31 @@ gUnknown_08077B34:
 gUnknown_08077B44:
 	.4byte gUnknown_0826E6D0
 gUnknown_08077B48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77B4C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77B60, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077B68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77B6C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77B80, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077B88:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77B8C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77BA0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077BA8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77BAC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77BC0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077BC8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77BCC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77BE0, 0x4
@@ -16042,25 +16042,25 @@ gUnknown_08077BE8:
 gUnknown_08077BFC:
 	.4byte gUnknown_0826E0CC
 gUnknown_08077C00:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77C04, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77C18, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077C20:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77C24, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77C38, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077C40:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77C44, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77C58, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077C60:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77C64, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77C78, 0x4
@@ -16073,25 +16073,25 @@ gUnknown_08077C80:
 gUnknown_08077C90:
 	.4byte gUnknown_0826DAF8
 gUnknown_08077C94:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77C98, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77CAC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077CB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77CB8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77CCC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077CD4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77CD8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77CEC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077CF4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77CF8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77D0C, 0x4
@@ -16104,19 +16104,19 @@ gUnknown_08077D14:
 gUnknown_08077D24:
 	.4byte gUnknown_0826D4E4
 gUnknown_08077D28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77D2C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77D40, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077D48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77D4C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77D60, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08077D68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x77D6C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x77D80, 0x4
@@ -16708,7 +16708,7 @@ gUnknown_08078828:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08786630
 gUnknown_08078830:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x78834, 0x10
 	.4byte gUnknown_08078828
 	.incbin "baserom.gba", 0x78848, 0x4
@@ -17070,7 +17070,7 @@ gUnknown_08078F20:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08788B18
 gUnknown_08078F28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x78F2C, 0x10
 	.4byte gUnknown_08078F20
 	.incbin "baserom.gba", 0x78F40, 0x4
@@ -17334,7 +17334,7 @@ gUnknown_08079414:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08788EC4
 gUnknown_0807941C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x79420, 0x10
 	.4byte gUnknown_08079414
 	.incbin "baserom.gba", 0x79434, 0x4
@@ -17343,7 +17343,7 @@ gUnknown_0807943C:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08788EC4
 gUnknown_08079444:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x79448, 0x10
 	.4byte gUnknown_0807943C
 	.incbin "baserom.gba", 0x7945C, 0x4
@@ -17352,13 +17352,13 @@ gUnknown_08079464:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08789724
 gUnknown_0807946C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x79470, 0x10
 	.4byte gUnknown_08079464
 	.incbin "baserom.gba", 0x79484, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807948C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x79490, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x794A4, 0x4
@@ -17463,7 +17463,7 @@ gUnknown_08079924:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08789D60
 gUnknown_0807992C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x79930, 0x10
 	.4byte gUnknown_08079924
 	.incbin "baserom.gba", 0x79944, 0x4
@@ -17472,7 +17472,7 @@ gUnknown_0807994C:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878A060
 gUnknown_08079954:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x79958, 0x10
 	.4byte gUnknown_0807994C
 	.incbin "baserom.gba", 0x7996C, 0x4
@@ -18207,7 +18207,7 @@ gUnknown_0807A740:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878B7C8
 gUnknown_0807A748:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A74C, 0x10
 	.4byte gUnknown_0807A740
 	.incbin "baserom.gba", 0x7A760, 0x4
@@ -18216,7 +18216,7 @@ gUnknown_0807A768:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878BA84
 gUnknown_0807A770:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A774, 0x10
 	.4byte gUnknown_0807A768
 	.incbin "baserom.gba", 0x7A788, 0x4
@@ -18225,7 +18225,7 @@ gUnknown_0807A790:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878BC64
 gUnknown_0807A798:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A79C, 0x10
 	.4byte gUnknown_0807A790
 	.incbin "baserom.gba", 0x7A7B0, 0x4
@@ -18238,7 +18238,7 @@ gUnknown_0807A7D0:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878BE94
 gUnknown_0807A7D8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A7DC, 0x10
 	.4byte gUnknown_0807A7D0
 	.incbin "baserom.gba", 0x7A7F0, 0x4
@@ -18247,7 +18247,7 @@ gUnknown_0807A7F8:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878C424
 gUnknown_0807A800:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A804, 0x10
 	.4byte gUnknown_0807A7F8
 	.incbin "baserom.gba", 0x7A818, 0x4
@@ -18256,7 +18256,7 @@ gUnknown_0807A820:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878C718
 gUnknown_0807A828:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A82C, 0x10
 	.4byte gUnknown_0807A820
 	.incbin "baserom.gba", 0x7A840, 0x4
@@ -18265,7 +18265,7 @@ gUnknown_0807A848:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878CBA8
 gUnknown_0807A850:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A854, 0x10
 	.4byte gUnknown_0807A848
 	.incbin "baserom.gba", 0x7A868, 0x4
@@ -18274,7 +18274,7 @@ gUnknown_0807A870:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878CBE4
 gUnknown_0807A878:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A87C, 0x10
 	.4byte gUnknown_0807A870
 	.incbin "baserom.gba", 0x7A890, 0x4
@@ -18283,7 +18283,7 @@ gUnknown_0807A898:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878D800
 gUnknown_0807A8A0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A8A4, 0x10
 	.4byte gUnknown_0807A898
 	.incbin "baserom.gba", 0x7A8B8, 0x4
@@ -18292,7 +18292,7 @@ gUnknown_0807A8C0:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878CBA8
 gUnknown_0807A8C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A8CC, 0x10
 	.4byte gUnknown_0807A8C0
 	.incbin "baserom.gba", 0x7A8E0, 0x4
@@ -18301,7 +18301,7 @@ gUnknown_0807A8E8:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878CBE4
 gUnknown_0807A8F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A8F4, 0x10
 	.4byte gUnknown_0807A8E8
 	.incbin "baserom.gba", 0x7A908, 0x4
@@ -18310,7 +18310,7 @@ gUnknown_0807A910:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878B5C0
 gUnknown_0807A918:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A91C, 0x10
 	.4byte gUnknown_0807A910
 	.incbin "baserom.gba", 0x7A930, 0x4
@@ -18319,7 +18319,7 @@ gUnknown_0807A938:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878B61C
 gUnknown_0807A940:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A944, 0x10
 	.4byte gUnknown_0807A938
 	.incbin "baserom.gba", 0x7A958, 0x4
@@ -18328,7 +18328,7 @@ gUnknown_0807A960:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878B678
 gUnknown_0807A968:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A96C, 0x10
 	.4byte gUnknown_0807A960
 	.incbin "baserom.gba", 0x7A980, 0x4
@@ -18337,7 +18337,7 @@ gUnknown_0807A988:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878B750
 gUnknown_0807A990:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A994, 0x10
 	.4byte gUnknown_0807A988
 	.incbin "baserom.gba", 0x7A9A8, 0x4
@@ -18346,7 +18346,7 @@ gUnknown_0807A9B0:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878B874
 gUnknown_0807A9B8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A9BC, 0x10
 	.4byte gUnknown_0807A9B0
 	.incbin "baserom.gba", 0x7A9D0, 0x4
@@ -18355,7 +18355,7 @@ gUnknown_0807A9D8:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878B8D0
 gUnknown_0807A9E0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7A9E4, 0x10
 	.4byte gUnknown_0807A9D8
 	.incbin "baserom.gba", 0x7A9F8, 0x4
@@ -18364,7 +18364,7 @@ gUnknown_0807AA00:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878B92C
 gUnknown_0807AA08:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7AA0C, 0x10
 	.4byte gUnknown_0807AA00
 	.incbin "baserom.gba", 0x7AA20, 0x4
@@ -18373,7 +18373,7 @@ gUnknown_0807AA28:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878B9E8
 gUnknown_0807AA30:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7AA34, 0x10
 	.4byte gUnknown_0807AA28
 	.incbin "baserom.gba", 0x7AA48, 0x4
@@ -18474,25 +18474,25 @@ gUnknown_0807ACA0:
 gUnknown_0807ACB8:
 	.4byte gUnknown_08240044
 gUnknown_0807ACBC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7ACC0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7ACD4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807ACDC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7ACE0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7ACF4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807ACFC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7AD00, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AD14, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807AD1C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7AD20, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AD34, 0x4
@@ -18500,53 +18500,53 @@ gUnknown_0807AD1C:
 gUnknown_0807AD3C:
 	.incbin "baserom.gba", 0x7AD3C, 0xC
 gUnknown_0807AD48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7AD50, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AD60, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807AD68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7AD70, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AD80, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807AD88:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7AD90, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7ADA0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807ADA8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7ADB0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7ADC0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807ADC8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7ADCC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7ADE0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807ADE8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7ADEC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AE00, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807AE08:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7AE0C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AE20, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807AE28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7AE2C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AE40, 0x4
@@ -18578,58 +18578,58 @@ gUnknown_0807AE98:
 gUnknown_0807AEA0:
 	.4byte gUnknown_0823E150
 gUnknown_0807AEA4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7AEA8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AEBC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807AEC4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7AEC8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AEDC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807AEE4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7AEE8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AEFC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807AF04:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7AF0C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AF1C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807AF24:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7AF2C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AF3C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807AF44:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7AF4C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AF5C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807AF64:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7AF68, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AF7C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807AF84:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7AF88, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AF9C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807AFA4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7AFA8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7AFBC, 0x4
@@ -18649,77 +18649,77 @@ gUnknown_0807AFE8:
 gUnknown_0807AFF8:
 	.4byte gUnknown_0823D894
 gUnknown_0807AFFC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B000, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B014, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B01C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B020, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B034, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B03C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B040, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B054, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B05C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B060, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B074, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B07C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B084, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B094, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B09C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B0A4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B0B4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B0BC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B0C4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B0D4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B0DC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B0E4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B0F4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B0FC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B100, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B114, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B11C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B120, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B134, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B13C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B140, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B154, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B15C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B160, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B174, 0x4
@@ -18761,77 +18761,77 @@ gUnknown_0807B1F4:
 gUnknown_0807B1FC:
 	.4byte gUnknown_0823C96C
 gUnknown_0807B200:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B204, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B218, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B220:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B224, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B238, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B240:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B244, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B258, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B260:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B264, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B278, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B280:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B288, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B298, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B2A0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B2A8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B2B8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B2C0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B2C8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B2D8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B2E0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B2E8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B2F8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B300:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B304, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B318, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B320:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B324, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B338, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B340:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B344, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B358, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B360:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B364, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B378, 0x4
@@ -18856,77 +18856,77 @@ gUnknown_0807B3C7:
 gUnknown_0807B3CC:
 	.4byte gUnknown_0823C018
 gUnknown_0807B3D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B3D4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B3E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B3F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B3F4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B408, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B410:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B414, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B428, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B430:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B434, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B448, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B450:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B458, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B468, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B470:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B478, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B488, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B490:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B498, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B4A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B4B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B4B8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B4C8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B4D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B4D4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B4E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B4F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B4F4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B508, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B510:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B514, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B528, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B530:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B534, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B548, 0x4
@@ -18959,46 +18959,46 @@ gUnknown_0807B5C4:
 gUnknown_0807B5CC:
 	.4byte gUnknown_0823B038
 gUnknown_0807B5D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B5D4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B5E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B5F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B5F4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B608, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B610:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B618, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B628, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B630:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B638, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B648, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B650:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B658, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B668, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B670:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B674, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B688, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B690:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B694, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B6A8, 0x4
@@ -19020,115 +19020,115 @@ gUnknown_0807B6DC:
 gUnknown_0807B6E0:
 	.4byte gUnknown_0823A560
 gUnknown_0807B6E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B6E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B6FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B704:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B708, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B71C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B724:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B728, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B73C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B744:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B748, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B75C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B764:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B768, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B77C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B784:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B788, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B79C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B7A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B7AC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B7BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B7C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B7CC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B7DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B7E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B7EC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B7FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B804:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B80C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B81C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B824:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B82C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B83C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B844:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B84C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B85C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B864:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B868, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B87C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B884:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B888, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B89C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B8A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B8A8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B8BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B8C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B8C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B8DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B8E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B8E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B8FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B904:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B908, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B91C, 0x4
@@ -19163,27 +19163,27 @@ gUnknown_0807B980:
 gUnknown_0807B990:
 	.4byte gUnknown_08239474
 gUnknown_0807B994:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B998, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B9AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B9B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B9BC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B9CC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B9D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7B9DC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7B9EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807B9F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7B9F8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BA0C, 0x4
@@ -19215,58 +19215,58 @@ gUnknown_0807BA60:
 gUnknown_0807BA68:
 	.4byte gUnknown_082388BC
 gUnknown_0807BA6C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BA70, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BA84, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BA8C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BA90, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BAA4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BAAC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BAB0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BAC4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BACC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7BAD4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BAE4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BAEC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7BAF4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BB04, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BB0C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7BB14, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BB24, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BB2C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BB30, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BB44, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BB4C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BB50, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BB64, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BB6C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BB70, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BB84, 0x4
@@ -19284,88 +19284,88 @@ gUnknown_0807BB8C:
 gUnknown_0807BBB0:
 	.4byte gUnknown_082380FC
 gUnknown_0807BBB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BBB8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BBCC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BBD4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BBD8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BBEC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BBF4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BBF8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BC0C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BC14:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BC18, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BC2C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BC34:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BC38, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BC4C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BC54:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BC58, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BC6C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BC74:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7BC7C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BC8C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BC94:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7BC9C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BCAC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BCB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7BCBC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BCCC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BCD4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BCD8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BCEC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BCF4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BCF8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BD0C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BD14:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BD18, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BD2C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BD34:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BD38, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BD4C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BD54:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BD58, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BD6C, 0x4
@@ -19409,20 +19409,20 @@ gUnknown_0807BE14:
 gUnknown_0807BE18:
 	.4byte gUnknown_08236A10
 gUnknown_0807BE1C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BE20, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BE34, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BE3C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7BE44, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BE54, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BE5C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BE60, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BE74, 0x4
@@ -19434,51 +19434,51 @@ gUnknown_0807BE7C:
 gUnknown_0807BE88:
 	.4byte gUnknown_08235AA0
 gUnknown_0807BE8C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BE90, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BEA4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BEAC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BEB0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BEC4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BECC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BED0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BEE4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BEEC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BEF0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BF04, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BF0C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7BF14, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BF24, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BF2C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807AD3C
 	.incbin "baserom.gba", 0x7BF34, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BF44, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BF4C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BF50, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BF64, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807BF6C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7BF70, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7BF84, 0x4
@@ -19728,25 +19728,25 @@ gUnknown_0807C4BC:
 gUnknown_0807C4D8:
 	.4byte gUnknown_0822EAA0
 gUnknown_0807C4DC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7C4E0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7C4F4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807C4FC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7C500, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7C514, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807C51C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7C520, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7C534, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807C53C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7C540, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7C554, 0x4
@@ -19797,25 +19797,25 @@ gUnknown_0807C6B4:
 gUnknown_0807C6CC:
 	.4byte gUnknown_0822DF88
 gUnknown_0807C6D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7C6D4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7C6E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807C6F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7C6F4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7C708, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807C710:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7C714, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7C728, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807C730:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7C734, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7C748, 0x4
@@ -19856,25 +19856,25 @@ gUnknown_0807C7FC:
 gUnknown_0807C800:
 	.4byte gUnknown_0822DBC4
 gUnknown_0807C804:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7C808, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7C81C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807C824:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7C828, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7C83C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807C844:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7C848, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7C85C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807C864:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7C868, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7C87C, 0x4
@@ -19950,25 +19950,25 @@ gUnknown_0807CA30:
 gUnknown_0807CA40:
 	.4byte gUnknown_0822CC08
 gUnknown_0807CA44:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7CA48, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7CA5C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807CA64:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7CA68, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7CA7C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807CA84:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7CA88, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7CA9C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807CAA4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7CAA8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7CABC, 0x4
@@ -20078,7 +20078,7 @@ gUnknown_0807CDEC:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0807CDAC
 gUnknown_0807CDF4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7CDF8, 0x10
 	.4byte gUnknown_0807CDEC
 	.incbin "baserom.gba", 0x7CE0C, 0x4
@@ -20118,25 +20118,25 @@ gUnknown_0807CE84:
 gUnknown_0807CE8C:
 	.4byte gUnknown_0822B190
 gUnknown_0807CE90:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7CE94, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7CEA8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807CEB0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7CEB4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7CEC8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807CED0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7CED4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7CEE8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807CEF0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7CEF4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7CF08, 0x4
@@ -20195,25 +20195,25 @@ gUnknown_0807D070:
 gUnknown_0807D080:
 	.4byte gUnknown_0822DF88
 gUnknown_0807D084:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D088, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D09C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D0A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D0A8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D0BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D0C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D0C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D0DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D0E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D0E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D0FC, 0x4
@@ -20252,13 +20252,13 @@ gUnknown_0807D180:
 gUnknown_0807D184:
 	.4byte gUnknown_0822DBC4
 gUnknown_0807D188:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D18C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D1A0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D1A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D1AC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D1C0, 0x4
@@ -20312,31 +20312,31 @@ gUnknown_0807D28C:
 gUnknown_0807D294:
 	.4byte gUnknown_0822CC08
 gUnknown_0807D298:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D29C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D2B0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D2B8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D2BC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D2D0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D2D8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D2DC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D2F0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D2F8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D2FC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D310, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D318:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D31C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D330, 0x4
@@ -20363,13 +20363,13 @@ gUnknown_0807D37C:
 gUnknown_0807D38C:
 	.4byte gUnknown_0822A798
 gUnknown_0807D390:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D394, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D3A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D3B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D3B4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D3C8, 0x4
@@ -20431,31 +20431,31 @@ gUnknown_0807D548:
 gUnknown_0807D560:
 	.4byte gUnknown_0822CC08
 gUnknown_0807D564:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D568, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D57C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D584:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D588, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D59C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D5A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D5A8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D5BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D5C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D5C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D5DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D5E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D5E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D5FC, 0x4
@@ -20583,7 +20583,7 @@ gUnknown_0807D90C:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878EAE4
 gUnknown_0807D914:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D918, 0x10
 	.4byte gUnknown_0807D90C
 	.incbin "baserom.gba", 0x7D92C, 0x4
@@ -20622,37 +20622,37 @@ gUnknown_0807D9A0:
 gUnknown_0807D9A8:
 	.4byte gUnknown_0822DBC4
 gUnknown_0807D9AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D9B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D9C4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D9CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D9D0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7D9E4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807D9EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7D9F0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DA04, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DA0C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DA10, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DA24, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DA2C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DA30, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DA44, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DA4C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DA50, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DA64, 0x4
@@ -20710,25 +20710,25 @@ gUnknown_0807DB40:
 gUnknown_0807DB48:
 	.4byte gUnknown_0822CC08
 gUnknown_0807DB4C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DB50, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DB64, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DB6C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DB70, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DB84, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DB8C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DB90, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DBA4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DBAC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DBB0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DBC4, 0x4
@@ -20774,19 +20774,19 @@ gUnknown_0807DC64:
 gUnknown_0807DC74:
 	.4byte gUnknown_0822CC08
 gUnknown_0807DC78:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DC7C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DC90, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DC98:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DC9C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DCB0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DCB8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DCBC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DCD0, 0x4
@@ -20811,25 +20811,25 @@ gUnknown_0807DD14:
 gUnknown_0807DD24:
 	.4byte gUnknown_08228E84
 gUnknown_0807DD28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DD2C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DD40, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DD48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DD4C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DD60, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DD68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DD6C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DD80, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DD88:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DD8C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DDA0, 0x4
@@ -20884,31 +20884,31 @@ gUnknown_0807DE9C:
 gUnknown_0807DEB4:
 	.4byte gUnknown_0822DF88
 gUnknown_0807DEB8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DEBC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DED0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DED8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DEDC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DEF0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DEF8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DEFC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DF10, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DF18:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DF1C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DF30, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807DF38:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DF3C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DF50, 0x4
@@ -20948,25 +20948,25 @@ gUnknown_0807DFD8:
 gUnknown_0807DFDC:
 	.4byte gUnknown_0822DBC4
 gUnknown_0807DFE0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7DFE4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7DFF8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E000:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E004, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E018, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E020:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E024, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E038, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E040:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E044, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E058, 0x4
@@ -21022,19 +21022,19 @@ gUnknown_0807E12C:
 gUnknown_0807E134:
 	.4byte gUnknown_0822CC08
 gUnknown_0807E138:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E13C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E150, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E158:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E15C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E170, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E178:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E17C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E190, 0x4
@@ -21061,19 +21061,19 @@ gUnknown_0807E1E4:
 gUnknown_0807E208:
 	.4byte gUnknown_082286B4
 gUnknown_0807E20C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E210, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E224, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E22C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E230, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E244, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E24C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E250, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E264, 0x4
@@ -21143,25 +21143,25 @@ gUnknown_0807E39C:
 gUnknown_0807E3A0:
 	.4byte gUnknown_0822DF88
 gUnknown_0807E3A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E3A8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E3BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E3C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E3C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E3DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E3E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E3E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E3FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E404:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E408, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E41C, 0x4
@@ -21200,19 +21200,19 @@ gUnknown_0807E4A0:
 gUnknown_0807E4A4:
 	.4byte gUnknown_08227EA4
 gUnknown_0807E4A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E4AC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E4C0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E4C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E4CC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E4E0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E4E8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E4EC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E500, 0x4
@@ -21244,19 +21244,19 @@ gUnknown_0807E558:
 gUnknown_0807E570:
 	.4byte gUnknown_0822CC08
 gUnknown_0807E574:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E578, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E58C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E594:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E598, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E5AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E5B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E5B8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E5CC, 0x4
@@ -21283,13 +21283,13 @@ gUnknown_0807E620:
 gUnknown_0807E644:
 	.4byte gUnknown_08227B0C
 gUnknown_0807E648:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E64C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E660, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E668:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E66C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E680, 0x4
@@ -21341,25 +21341,25 @@ gUnknown_0807E73C:
 gUnknown_0807E740:
 	.4byte gUnknown_0822CC08
 gUnknown_0807E744:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E748, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E75C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E764:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E768, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E77C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E784:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E788, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E79C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E7A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E7A8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E7BC, 0x4
@@ -21385,7 +21385,7 @@ gUnknown_0807E804:
 gUnknown_0807E814:
 	.4byte gUnknown_082277B8
 gUnknown_0807E818:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E81C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E830, 0x4
@@ -21423,25 +21423,25 @@ gUnknown_0807E8B8:
 gUnknown_0807E8DC:
 	.4byte gUnknown_082272A8
 gUnknown_0807E8E0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E8E4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E8F8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E900:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E904, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E918, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E920:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E924, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E938, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807E940:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7E944, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7E958, 0x4
@@ -21495,25 +21495,25 @@ gUnknown_0807EA1C:
 gUnknown_0807EA20:
 	.4byte gUnknown_0822CC08
 gUnknown_0807EA24:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7EA28, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7EA3C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807EA44:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7EA48, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7EA5C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807EA64:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7EA68, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7EA7C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807EA84:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7EA88, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7EA9C, 0x4
@@ -21577,25 +21577,25 @@ gUnknown_0807ED50:
 gUnknown_0807ED70:
 	.4byte gUnknown_0822CC08
 gUnknown_0807ED74:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7ED78, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7ED8C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807ED94:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7ED98, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7EDAC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807EDB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7EDB8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7EDCC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807EDD4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7EDD8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7EDEC, 0x4
@@ -21722,7 +21722,7 @@ gUnknown_0807F084:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878F33C
 gUnknown_0807F08C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F090, 0x10
 	.4byte gUnknown_0807F084
 	.incbin "baserom.gba", 0x7F0A4, 0x4
@@ -21765,7 +21765,7 @@ gUnknown_0807F138:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878E4D0
 gUnknown_0807F140:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F144, 0x10
 	.4byte gUnknown_0807F138
 	.incbin "baserom.gba", 0x7F158, 0x4
@@ -21774,7 +21774,7 @@ gUnknown_0807F160:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878F534
 gUnknown_0807F168:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F16C, 0x10
 	.4byte gUnknown_0807F160
 	.incbin "baserom.gba", 0x7F180, 0x4
@@ -21783,7 +21783,7 @@ gUnknown_0807F188:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878F87C
 gUnknown_0807F190:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F194, 0x10
 	.4byte gUnknown_0807F188
 	.incbin "baserom.gba", 0x7F1A8, 0x4
@@ -21792,7 +21792,7 @@ gUnknown_0807F1B0:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0878FE10
 gUnknown_0807F1B8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F1BC, 0x10
 	.4byte gUnknown_0807F1B0
 	.incbin "baserom.gba", 0x7F1D0, 0x4
@@ -21816,7 +21816,7 @@ gUnknown_0807F210:
 	.4byte gUnknown_082237C8
 	.4byte gUnknown_0822229C
 gUnknown_0807F218:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F21C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F230, 0x4
@@ -21825,19 +21825,19 @@ gUnknown_0807F238:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08790A3C
 gUnknown_0807F240:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F244, 0x10
 	.4byte gUnknown_0807F238
 	.incbin "baserom.gba", 0x7F258, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807F260:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F264, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F278, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807F280:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F284, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F298, 0x4
@@ -21881,25 +21881,25 @@ gUnknown_0807F374:
 gUnknown_0807F37C:
 	.4byte gUnknown_0821EEC0
 gUnknown_0807F380:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F384, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F398, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807F3A0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F3A4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F3B8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807F3C0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F3C4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F3D8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807F3E0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F3E4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F3F8, 0x4
@@ -21912,7 +21912,7 @@ gUnknown_0807F400:
 gUnknown_0807F410:
 	.4byte gUnknown_0821E108
 gUnknown_0807F414:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F418, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F42C, 0x4
@@ -21922,19 +21922,19 @@ gUnknown_0807F434:
 gUnknown_0807F438:
 	.4byte gUnknown_0821D53C
 gUnknown_0807F43C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F440, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F454, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807F45C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F460, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F474, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807F47C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F480, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F494, 0x4
@@ -21946,7 +21946,7 @@ gUnknown_0807F49C:
 gUnknown_0807F4A8:
 	.4byte gUnknown_0821CA7C
 gUnknown_0807F4AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F4B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F4C4, 0x4
@@ -21956,25 +21956,25 @@ gUnknown_0807F4CC:
 gUnknown_0807F4D0:
 	.4byte gUnknown_0821C0C4
 gUnknown_0807F4D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F4D8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F4EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807F4F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F4F8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F50C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807F514:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F518, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F52C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807F534:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F538, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F54C, 0x4
@@ -21987,19 +21987,19 @@ gUnknown_0807F554:
 gUnknown_0807F564:
 	.4byte gUnknown_0821B5E0
 gUnknown_0807F568:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F56C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F580, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807F588:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F58C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F5A0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807F5A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F5AC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F5C0, 0x4
@@ -22085,13 +22085,13 @@ gUnknown_0807F740:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x7F744, 0x4
 gUnknown_0807F748:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F74C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F760, 0x4
 	.4byte gUnknown_0807F740
 gUnknown_0807F768:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F76C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F780, 0x4
@@ -22100,13 +22100,13 @@ gUnknown_0807F788:
 	.4byte sub_0800A85E + 1
 	.incbin "baserom.gba", 0x7F78C, 0xC
 gUnknown_0807F798:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F79C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F7B0, 0x4
 	.4byte gUnknown_0807F788
 gUnknown_0807F7B8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F7BC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F7D0, 0x4
@@ -22211,19 +22211,19 @@ gUnknown_0807F988:
 	.incbin "baserom.gba", 0x7F998, 0x8
 	.4byte gUnknown_080716EC
 gUnknown_0807F9A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F9A8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F9BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807F9C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F9C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F9DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807F9E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7F9E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7F9FC, 0x4
@@ -22234,7 +22234,7 @@ gUnknown_0807FA14:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0807FA04
 gUnknown_0807FA1C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FA20, 0x10
 	.4byte gUnknown_0807FA14
 	.incbin "baserom.gba", 0x7FA34, 0x4
@@ -22323,7 +22323,7 @@ gUnknown_0807FC80:
 gUnknown_0807FC98:
 	.4byte gUnknown_0821499C
 gUnknown_0807FC9C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FCA0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FCB4, 0x4
@@ -22331,14 +22331,14 @@ gUnknown_0807FC9C:
 gUnknown_0807FCBC:
 	.incbin "baserom.gba", 0x7FCBC, 0xC
 gUnknown_0807FCC8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x7FCD0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FCE0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FCE8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FCEC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FD00, 0x4
@@ -22350,39 +22350,39 @@ gUnknown_0807FD08:
 gUnknown_0807FD14:
 	.4byte gUnknown_082142A4
 gUnknown_0807FD18:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FD1C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FD30, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FD38:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FD3C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FD50, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FD58:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x7FD60, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FD70, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FD78:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x7FD80, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FD90, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FD98:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FD9C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FDB0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FDB8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FDBC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FDD0, 0x4
@@ -22397,26 +22397,26 @@ gUnknown_0807FDD8:
 gUnknown_0807FDF0:
 	.4byte gUnknown_08213D34
 gUnknown_0807FDF4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FDF8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FE0C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FE14:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x7FE1C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FE2C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FE34:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FE38, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FE4C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FE54:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FE58, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FE6C, 0x4
@@ -22429,70 +22429,70 @@ gUnknown_0807FE74:
 gUnknown_0807FE84:
 	.4byte gUnknown_082135B4
 gUnknown_0807FE88:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FE8C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FEA0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FEA8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FEAC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FEC0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FEC8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FECC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FEE0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FEE8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FEEC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FF00, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FF08:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x7FF10, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FF20, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FF28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x7FF30, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FF40, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FF48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x7FF50, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FF60, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FF68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FF6C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FF80, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FF88:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FF8C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FFA0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FFA8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FFAC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FFC0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0807FFC8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x7FFCC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x7FFE0, 0x4
@@ -22518,25 +22518,25 @@ gUnknown_08080014:
 gUnknown_0808002C:
 	.4byte gUnknown_08212900
 gUnknown_08080030:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80034, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80048, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080050:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80054, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80068, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080070:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80074, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80088, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080090:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x80098, 0xA
 gUnknown_080800A2:
@@ -22545,21 +22545,21 @@ gUnknown_080800A2:
 	.incbin "baserom.gba", 0x800A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080800B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x800B8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x800C8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080800D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x800D8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x800E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080800F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x800F4, 0x3
 gUnknown_080800F7:
 	.incbin "baserom.gba", 0x800F7, 0x1
@@ -22571,13 +22571,13 @@ gUnknown_080800FC:
 	.incbin "baserom.gba", 0x80108, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080110:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80114, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80128, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080130:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80134, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80148, 0x4
@@ -22610,7 +22610,7 @@ gUnknown_080801EC:
 gUnknown_080801F0:
 	.4byte gUnknown_08211E74
 gUnknown_080801F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x801F8, 0x6
 gUnknown_080801FE:
 	.incbin "baserom.gba", 0x801FE, 0x2
@@ -22620,40 +22620,40 @@ gUnknown_08080200:
 	.incbin "baserom.gba", 0x8020C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080214:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80218, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8022C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080234:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x8023C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8024C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080254:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x8025C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8026C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080274:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x8027C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8028C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080294:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80298, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x802AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080802B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x802B8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x802CC, 0x4
@@ -22669,45 +22669,45 @@ gUnknown_080802D4:
 gUnknown_080802F0:
 	.4byte gUnknown_08211B48
 gUnknown_080802F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x802F8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8030C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080314:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80318, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8032C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080334:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80338, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8034C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080354:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x8035C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8036C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080374:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x8037C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8038C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080394:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80398, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x803AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080803B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x803B8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x803CC, 0x4
@@ -22723,7 +22723,7 @@ gUnknown_080803D4:
 gUnknown_080803F0:
 	.4byte gUnknown_082116B8
 gUnknown_080803F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x803F8, 0x8
 gUnknown_08080400:
 	.incbin "baserom.gba", 0x80400, 0x4
@@ -22734,14 +22734,14 @@ gUnknown_08080408:
 	.incbin "baserom.gba", 0x8040C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080414:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x8041C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8042C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080434:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80438, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8044C, 0x4
@@ -22753,20 +22753,20 @@ gUnknown_08080454:
 gUnknown_08080460:
 	.4byte gUnknown_082110F8
 gUnknown_08080464:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80468, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8047C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080484:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x8048C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8049C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080804A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x804A8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x804BC, 0x4
@@ -22778,64 +22778,64 @@ gUnknown_080804C4:
 gUnknown_080804D0:
 	.4byte gUnknown_08210A8C
 gUnknown_080804D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x804D8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x804EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080804F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x804F8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8050C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080514:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80518, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8052C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080534:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x8053C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8054C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080554:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x8055C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8056C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080574:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x8057C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8058C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080594:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80598, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x805AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080805B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x805B8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x805CC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080805D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x805D8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x805EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080805F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x805F8, 0x10
 gUnknown_08080608:
 	.4byte gUnknown_080555A0
@@ -22863,7 +22863,7 @@ gUnknown_08080654:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0808064B
 gUnknown_0808065C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08080640
 	.incbin "baserom.gba", 0x80664, 0xC
 	.4byte gUnknown_08080654
@@ -22877,26 +22877,26 @@ gUnknown_08080690:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08080687
 gUnknown_08080698:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808067C
 	.incbin "baserom.gba", 0x806A0, 0xC
 	.4byte gUnknown_08080690
 	.incbin "baserom.gba", 0x806B0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080806B8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x806BC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x806D0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080806D8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x806DC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x806F0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080806F8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x806FC, 0x6
 gUnknown_08080702:
 	.incbin "baserom.gba", 0x80702, 0x2
@@ -22908,33 +22908,33 @@ gUnknown_08080708:
 	.incbin "baserom.gba", 0x80710, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080718:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8071C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80730, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080738:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x80740, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80750, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080758:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x80760, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80770, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080778:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8077C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80790, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080798:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8079C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x807B0, 0x4
@@ -22993,46 +22993,46 @@ gUnknown_08080930:
 gUnknown_08080948:
 	.4byte gUnknown_0820EFD0
 gUnknown_0808094C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80950, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80964, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808096C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80970, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80984, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808098C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x80994, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x809A4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080809AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x809B4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x809C4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080809CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x809D0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x809E4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080809EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x809F0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80A04, 0x4
 	.4byte gUnknown_080716EC
 	.set gUnknown_08080A0A, . - 2
 gUnknown_08080A0C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80A10, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80A24, 0x4
@@ -23061,52 +23061,52 @@ gUnknown_08080AA8:
 gUnknown_08080AC0:
 	.4byte gUnknown_0820EB5C
 gUnknown_08080AC4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80AC8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80ADC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080AE4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80AE8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80AFC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080B04:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80B08, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80B1C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080B24:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x80B2C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80B3C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080B44:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x80B4C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80B5C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080B64:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x80B6C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80B7C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080B84:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80B88, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80B9C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080BA4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80BA8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80BBC, 0x4
@@ -23136,58 +23136,58 @@ gUnknown_08080C44:
 gUnknown_08080C74:
 	.4byte gUnknown_0820E4E0
 gUnknown_08080C78:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80C7C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80C90, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080C98:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80C9C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80CB0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080CB8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80CBC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80CD0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080CD8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x80CE0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80CF0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080CF8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x80D00, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80D10, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080D18:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x80D20, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80D30, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080D38:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80D3C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80D50, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080D58:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80D5C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80D70, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080D78:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80D7C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80D90, 0x4
@@ -23224,58 +23224,58 @@ gUnknown_08080E3C:
 gUnknown_08080E54:
 	.4byte gUnknown_0820E0C8
 gUnknown_08080E58:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80E5C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80E70, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080E78:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80E7C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80E90, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080E98:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80E9C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80EB0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080EB8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80EBC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80ED0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080ED8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x80EE0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80EF0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080EF8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x80F00, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80F10, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080F18:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x80F20, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80F30, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080F38:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80F3C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80F50, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08080F58:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x80F5C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x80F70, 0x4
@@ -23319,20 +23319,20 @@ gUnknown_0808103C:
 gUnknown_08081058:
 	.4byte gUnknown_0820D850
 gUnknown_0808105C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81060, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81074, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808107C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81084, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81094, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808109C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x810A0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x810B4, 0x4
@@ -23351,59 +23351,59 @@ gUnknown_080810E0:
 gUnknown_080810E8:
 	.4byte gUnknown_0820D308
 gUnknown_080810EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 gUnknown_080810F0:
 	.incbin "baserom.gba", 0x810F0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81104, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808110C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81110, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81124, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808112C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81130, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81144, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808114C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81154, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81164, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808116C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81174, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81184, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808118C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81194, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x811A4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080811AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x811B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x811C4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080811CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x811D0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x811E4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080811EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x811F0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81204, 0x4
@@ -23423,20 +23423,20 @@ gUnknown_08081230:
 gUnknown_08081234:
 	.4byte gUnknown_0820CA70
 gUnknown_08081238:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8123C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81250, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081258:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81260, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81270, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081278:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8127C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81290, 0x4
@@ -23450,59 +23450,59 @@ gUnknown_080812A4:
 gUnknown_080812A8:
 	.4byte gUnknown_0820C0F8
 gUnknown_080812AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x812B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x812C4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080812CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x812D0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x812E4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080812EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x812F0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81304, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808130C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81314, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81324, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808132C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81334, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81344, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808134C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81354, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81364, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808136C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81374, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81384, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808138C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81390, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x813A4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080813AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x813B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x813C4, 0x4
@@ -23522,46 +23522,46 @@ gUnknown_080813F0:
 gUnknown_08081408:
 	.4byte gUnknown_0820B9D0
 gUnknown_0808140C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81410, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81424, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808142C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81430, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81444, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808144C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81454, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81464, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808146C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81474, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81484, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808148C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81494, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x814A4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080814AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x814B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x814C4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080814CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x814D0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x814E4, 0x4
@@ -23588,65 +23588,65 @@ gUnknown_08081560:
 gUnknown_08081568:
 	.4byte gUnknown_0820B284
 gUnknown_0808156C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81570, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81584, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808158C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81590, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x815A4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080815AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x815B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x815C4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080815CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x815D4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x815E4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080815EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x815F4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81604, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808160C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81614, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81624, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808162C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81634, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81644, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808164C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81650, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81664, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808166C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81670, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81684, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808168C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81690, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x816A4, 0x4
@@ -23667,46 +23667,46 @@ gUnknown_080816D4:
 gUnknown_080816EC:
 	.4byte gUnknown_0820AE4C
 gUnknown_080816F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x816F4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81708, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081710:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81714, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81728, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081730:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81738, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81748, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081750:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81758, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81768, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081770:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x81778, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81788, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081790:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81794, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x817A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080817B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x817B4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x817C8, 0x4
@@ -23735,46 +23735,46 @@ gUnknown_0808184C:
 gUnknown_08081850:
 	.4byte gUnknown_0820A678
 gUnknown_08081854:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81858, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8186C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081874:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81878, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8188C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081894:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x8189C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x818AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080818B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x818BC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x818CC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080818D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x818DC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x818EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080818F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x818F8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8190C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081914:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81918, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8192C, 0x4
@@ -23806,13 +23806,13 @@ gUnknown_0808199C:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08791938
 gUnknown_080819A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x819A8, 0x10
 	.4byte gUnknown_0808199C
 	.incbin "baserom.gba", 0x819BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080819C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0807FCBC
 	.incbin "baserom.gba", 0x819CC, 0xC
 	.4byte gUnknown_080555A0
@@ -23824,13 +23824,13 @@ gUnknown_080819FC:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_080819E4
 gUnknown_08081A04:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81A08, 0x10
 	.4byte gUnknown_080819FC
 	.incbin "baserom.gba", 0x81A1C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081A24:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81A28, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81A3C, 0x4
@@ -23870,21 +23870,21 @@ gUnknown_08081B44:
 gUnknown_08081B48:
 	.incbin "baserom.gba", 0x81B48, 0xC
 gUnknown_08081B54:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081B48
 	.incbin "baserom.gba", 0x81B5C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81B6C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081B74:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081B48
 	.incbin "baserom.gba", 0x81B7C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81B8C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081B94:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081B48
 	.incbin "baserom.gba", 0x81B9C, 0xC
 	.4byte gUnknown_080555A0
@@ -23955,19 +23955,19 @@ gUnknown_08081D48:
 gUnknown_08081D5C:
 	.4byte gUnknown_08208894
 gUnknown_08081D60:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81D64, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81D78, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081D80:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81D84, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81D98, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081DA0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81DA4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81DB8, 0x4
@@ -23975,27 +23975,27 @@ gUnknown_08081DA0:
 gUnknown_08081DC0:
 	.incbin "baserom.gba", 0x81DC0, 0xC
 gUnknown_08081DCC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x81DD4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81DE4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081DEC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x81DF4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81E04, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081E0C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81E10, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81E24, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081E2C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81E30, 0x10
 	.4byte gUnknown_080555A0
 	.set gUnknown_08081E41, . - 3
@@ -24039,40 +24039,40 @@ gUnknown_08081EF4:
 gUnknown_08081F04:
 	.4byte gUnknown_0820845C
 gUnknown_08081F08:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81F0C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81F20, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081F28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x81F30, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81F40, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081F48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x81F50, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81F60, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081F68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x81F70, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81F80, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081F88:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81F8C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81FA0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08081FA8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x81FAC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x81FC0, 0x4
@@ -24102,52 +24102,52 @@ gUnknown_08082010:
 gUnknown_08082024:
 	.4byte gUnknown_08207F68
 gUnknown_08082028:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8202C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82040, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082048:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8204C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82060, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082068:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8206C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82080, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082088:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82090, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x820A0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080820A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x820B0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x820C0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080820C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x820D0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x820E0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080820E8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x820EC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82100, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082108:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8210C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82120, 0x4
@@ -24197,71 +24197,71 @@ gUnknown_080821F4:
 gUnknown_08082218:
 	.4byte gUnknown_08207A3C
 gUnknown_0808221C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82220, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82234, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808223C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82240, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82254, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808225C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82260, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82274, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808227C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82280, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82294, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808229C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x822A4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x822B4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080822BC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x822C4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x822D4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080822DC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x822E4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x822F4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080822FC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82304, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82314, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808231C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82320, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82334, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808233C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82340, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82354, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808235C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82360, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82374, 0x4
@@ -24315,45 +24315,45 @@ gUnknown_08082450:
 gUnknown_08082460:
 	.4byte gUnknown_082071D8
 gUnknown_08082464:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82468, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8247C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082484:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82488, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8249C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080824A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x824A8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x824BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080824C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x824CC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x824DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080824E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x824EC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x824FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082504:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82508, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8251C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082524:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82528, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8253C, 0x4
@@ -24386,46 +24386,46 @@ gUnknown_08082590:
 gUnknown_080825A0:
 	.4byte gUnknown_08206B98
 gUnknown_080825A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x825A8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x825BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080825C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x825C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x825DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080825E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x825EC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x825FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082604:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x8260C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8261C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082624:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x8262C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8263C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082644:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82648, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8265C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082664:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82668, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8267C, 0x4
@@ -24458,51 +24458,51 @@ gUnknown_080826D0:
 gUnknown_080826E0:
 	.4byte gUnknown_082066E4
 gUnknown_080826E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x826E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x826FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082704:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82708, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8271C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082724:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82728, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8273C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082744:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82748, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8275C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082764:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x8276C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8277C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082784:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x8278C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8279C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080827A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x827A8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x827BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080827C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x827C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x827DC, 0x4
@@ -24542,72 +24542,72 @@ gUnknown_08082854:
 gUnknown_08082868:
 	.4byte gUnknown_08206394
 gUnknown_0808286C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82870, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82884, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808288C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82890, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x828A4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080828AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x828B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x828C4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080828CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x828D4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x828E4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080828EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x828F4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82904, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808290C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82914, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82924, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808292C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82934, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82944, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808294C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82954, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82964, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808296C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82970, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82984, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808298C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82990, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x829A4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080829AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x829B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x829C4, 0x4
@@ -24640,47 +24640,47 @@ gUnknown_08082A20:
 gUnknown_08082A34:
 	.4byte gUnknown_08205F78
 gUnknown_08082A38:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82A3C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82A50, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082A58:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82A60, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82A70, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082A78:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82A80, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82A90, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082A98:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82AA0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82AB0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082AB8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82AC0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82AD0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082AD8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82ADC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82AF0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082AF8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82AFC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82B10, 0x4
@@ -24719,71 +24719,71 @@ gUnknown_08082BB4:
 gUnknown_08082BC0:
 	.4byte gUnknown_08205434
 gUnknown_08082BC4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82BC8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82BDC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082BE4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82BE8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82BFC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082C04:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82C08, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82C1C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082C24:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82C28, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82C3C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082C44:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82C4C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82C5C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082C64:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82C6C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82C7C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082C84:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82C8C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82C9C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082CA4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82CAC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82CBC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082CC4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82CC8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82CDC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082CE4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82CE8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82CFC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082D04:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82D08, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82D1C, 0x4
@@ -24816,40 +24816,40 @@ gUnknown_08082D74:
 gUnknown_08082D80:
 	.4byte gUnknown_08204F3C
 gUnknown_08082D84:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82D88, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82D9C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082DA4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82DAC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82DBC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082DC4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82DCC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82DDC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082DE4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82DEC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82DFC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082E04:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82E08, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82E1C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082E24:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82E28, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82E3C, 0x4
@@ -24899,58 +24899,58 @@ gUnknown_08082F34:
 gUnknown_08082F44:
 	.4byte gUnknown_0820329C
 gUnknown_08082F48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82F4C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82F60, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082F68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82F6C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82F80, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082F88:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x82F8C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82FA0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082FA8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82FB0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82FC0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082FC8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82FD0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x82FE0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08082FE8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x82FF0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83000, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083008:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8300C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83020, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083028:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8302C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83040, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083048:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8304C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83060, 0x4
@@ -24970,33 +24970,33 @@ gUnknown_0808308C:
 gUnknown_080830DC:
 	.4byte gUnknown_08202798
 gUnknown_080830E0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x830E4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x830F8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083100:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x83108, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83118, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083120:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x83128, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83138, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083140:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83144, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83158, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083160:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83164, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83178, 0x4
@@ -25024,39 +25024,39 @@ gUnknown_080831D0:
 gUnknown_080831D8:
 	.4byte gUnknown_082010E0
 gUnknown_080831DC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x831E0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x831F4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080831FC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83200, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83214, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808321C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x83224, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83234, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808323C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x83244, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83254, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808325C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83260, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83274, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808327C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83280, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83294, 0x4
@@ -25097,58 +25097,58 @@ gUnknown_08083364:
 gUnknown_0808337C:
 	.4byte gUnknown_08200ED0
 gUnknown_08083380:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83384, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83398, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080833A0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x833A4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x833B8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080833C0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x833C4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x833D8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080833E0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x833E8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x833F8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083400:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x83408, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83418, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083420:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x83428, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83438, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083440:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83444, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83458, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083460:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83464, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83478, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083480:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83484, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83498, 0x4
@@ -25185,39 +25185,39 @@ gUnknown_0808353C:
 gUnknown_0808354C:
 	.4byte gUnknown_08200E18
 gUnknown_08083550:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83554, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83568, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083570:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83574, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83588, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083590:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x83598, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x835A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080835B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x835B8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x835C8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080835D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x835D4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x835E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080835F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x835F4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83608, 0x4
@@ -25253,20 +25253,20 @@ gUnknown_080836B0:
 gUnknown_080836BC:
 	.4byte gUnknown_08200414
 gUnknown_080836C0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x836C4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x836D8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080836E0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x836E8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x836F8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083700:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83704, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83718, 0x4
@@ -25306,58 +25306,58 @@ gUnknown_08083818:
 gUnknown_08083830:
 	.4byte gUnknown_081FF970
 gUnknown_08083834:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83838, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8384C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083854:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83858, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8386C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083874:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83878, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8388C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083894:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83898, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x838AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080838B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x838BC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x838CC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080838D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x838DC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x838EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080838F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x838FC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8390C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083914:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83918, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8392C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083934:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83938, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8394C, 0x4
@@ -25385,38 +25385,38 @@ gUnknown_080839EC:
 gUnknown_080839F4:
 	.4byte gUnknown_081FF740
 gUnknown_080839F8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x839FC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83A10, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083A18:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83A1C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83A30, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083A38:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83A3C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83A50, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083A58:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x83A60, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83A70, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083A78:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83A7C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83A90, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083A98:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83A9C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83AB0, 0x4
@@ -25431,27 +25431,27 @@ gUnknown_08083AB8:
 gUnknown_08083AD0:
 	.4byte gUnknown_081FF650
 gUnknown_08083AD4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83AD8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83AEC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083AF4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x83AFC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83B0C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083B14:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x83B1C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83B2C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083B34:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83B38, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83B4C, 0x4
@@ -25506,7 +25506,7 @@ gUnknown_08083C00:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08791B58
 gUnknown_08083C08:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83C0C, 0x10
 	.4byte gUnknown_08083C00
 	.incbin "baserom.gba", 0x83C20, 0x4
@@ -25518,7 +25518,7 @@ gUnknown_08083C30:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08791B94
 gUnknown_08083C38:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83C3C, 0x10
 	.4byte gUnknown_08083C30
 	.incbin "baserom.gba", 0x83C50, 0x4
@@ -25530,7 +25530,7 @@ gUnknown_08083C60:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08791BD0
 gUnknown_08083C68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83C6C, 0x10
 	.4byte gUnknown_08083C60
 	.incbin "baserom.gba", 0x83C80, 0x4
@@ -25542,7 +25542,7 @@ gUnknown_08083C90:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08791C0C
 gUnknown_08083C98:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83C9C, 0x10
 	.4byte gUnknown_08083C90
 	.incbin "baserom.gba", 0x83CB0, 0x4
@@ -25554,41 +25554,41 @@ gUnknown_08083CC0:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08791C48
 gUnknown_08083CC8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83CCC, 0x10
 	.4byte gUnknown_08083CC0
 	.incbin "baserom.gba", 0x83CE0, 0x4
 	.4byte gUnknown_08083CB8
 gUnknown_08083CE8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x83CF0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83D00, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083D08:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x83D10, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83D20, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083D28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x83D30, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83D40, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083D48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08081DC0
 	.incbin "baserom.gba", 0x83D50, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83D60, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083D68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83D6C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83D80, 0x4
@@ -25599,7 +25599,7 @@ gUnknown_08083D9C:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_08083D88
 gUnknown_08083DA4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83DA8, 0x10
 	.4byte gUnknown_08083D9C
 	.incbin "baserom.gba", 0x83DBC, 0x4
@@ -25650,13 +25650,13 @@ gUnknown_08083E64:
 gUnknown_08083E7C:
 	.4byte gUnknown_081FE704
 gUnknown_08083E80:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83E84, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83E98, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083EA0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83EA4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83EB8, 0x4
@@ -25677,13 +25677,13 @@ gUnknown_08083EE8:
 gUnknown_08083EF0:
 	.4byte gUnknown_081FDEDC
 gUnknown_08083EF4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83EF8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83F0C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08083F14:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x83F18, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x83F2C, 0x4
@@ -25716,25 +25716,25 @@ gUnknown_080840D8:
 gUnknown_080840E0:
 	.4byte gUnknown_081FD3D4
 gUnknown_080840E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x840E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x840FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084104:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84108, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8411C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084124:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84128, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8413C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084144:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84148, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8415C, 0x4
@@ -25780,25 +25780,25 @@ gUnknown_0808430C:
 gUnknown_0808431C:
 	.4byte gUnknown_081FD124
 gUnknown_08084320:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84324, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84338, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084340:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84344, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84358, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084360:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84364, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84378, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084380:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84384, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84398, 0x4
@@ -25832,19 +25832,19 @@ gUnknown_08084488:
 gUnknown_08084498:
 	.4byte gUnknown_081FD04C
 gUnknown_0808449C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x844A0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x844B4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080844BC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x844C0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x844D4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080844DC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x844E0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x844F4, 0x4
@@ -25866,13 +25866,13 @@ gUnknown_080845C0:
 gUnknown_080845C8:
 	.4byte gUnknown_081FCF74
 gUnknown_080845CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x845D0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x845E4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080845EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x845F0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84604, 0x4
@@ -25883,19 +25883,19 @@ gUnknown_0808460C:
 gUnknown_08084614:
 	.4byte gUnknown_081FCE70
 gUnknown_08084618:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8461C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84630, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084638:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8463C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84650, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084658:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8465C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84670, 0x4
@@ -25907,25 +25907,25 @@ gUnknown_08084678:
 gUnknown_08084684:
 	.4byte gUnknown_081FCD6C
 gUnknown_08084688:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8468C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x846A0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080846A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x846AC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x846C0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080846C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x846CC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x846E0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080846E8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x846EC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84700, 0x4
@@ -25960,19 +25960,19 @@ gUnknown_08084858:
 gUnknown_08084860:
 	.4byte gUnknown_081FC980
 gUnknown_08084864:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84868, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8487C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084884:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84888, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8489C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080848A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x848A8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x848BC, 0x4
@@ -26013,25 +26013,25 @@ gUnknown_08084980:
 gUnknown_08084990:
 	.4byte gUnknown_081FBC60
 gUnknown_08084994:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84998, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x849AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080849B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x849B8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x849CC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080849D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x849D8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x849EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080849F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x849F8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84A0C, 0x4
@@ -26054,31 +26054,31 @@ gUnknown_08084A40:
 gUnknown_08084A48:
 	.4byte gUnknown_081FB380
 gUnknown_08084A4C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84A50, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84A64, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084A6C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84A70, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84A84, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084A8C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84A90, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84AA4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084AAC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84AB0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84AC4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084ACC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84AD0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84AE4, 0x4
@@ -26116,25 +26116,25 @@ gUnknown_08084C44:
 gUnknown_08084C4C:
 	.4byte gUnknown_081FA594
 gUnknown_08084C50:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84C54, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84C68, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084C70:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84C74, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84C88, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084C90:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84C94, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84CA8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084CB0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84CB4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84CC8, 0x4
@@ -26147,37 +26147,37 @@ gUnknown_08084CD0:
 gUnknown_08084CE0:
 	.4byte gUnknown_081FA490
 gUnknown_08084CE4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84CE8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84CFC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084D04:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84D08, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84D1C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084D24:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84D28, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84D3C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084D44:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84D48, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84D5C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084D64:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84D68, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84D7C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084D84:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84D88, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84D9C, 0x4
@@ -26216,19 +26216,19 @@ gUnknown_08084F00:
 gUnknown_08084F08:
 	.4byte gUnknown_081F9D08
 gUnknown_08084F0C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84F10, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84F24, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084F2C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84F30, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84F44, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08084F4C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x84F50, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x84F64, 0x4
@@ -26292,43 +26292,43 @@ gUnknown_08085114:
 gUnknown_08085124:
 	.4byte gUnknown_081F88D8
 gUnknown_08085128:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8512C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85140, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085148:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8514C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85160, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085168:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8516C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85180, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085188:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8518C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x851A0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080851A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x851AC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x851C0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080851C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x851CC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x851E0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080851E8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x851EC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85200, 0x4
@@ -26381,7 +26381,7 @@ gUnknown_080853AC:
 gUnknown_080853C4:
 	.4byte gUnknown_081F71B4
 gUnknown_080853C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x853CC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x853E0, 0x4
@@ -26392,7 +26392,7 @@ gUnknown_080854D8:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_080853E8
 gUnknown_080854E0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x854E4, 0x10
 	.4byte gUnknown_080854D8
 	.incbin "baserom.gba", 0x854F8, 0x4
@@ -26401,7 +26401,7 @@ gUnknown_08085500:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08792008
 gUnknown_08085508:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8550C, 0x10
 	.4byte gUnknown_08085500
 	.incbin "baserom.gba", 0x85520, 0x4
@@ -26506,13 +26506,13 @@ gUnknown_08085804:
 gUnknown_08085808:
 	.4byte gUnknown_081F3278
 gUnknown_0808580C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85810, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85824, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808582C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85830, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85844, 0x4
@@ -26520,40 +26520,40 @@ gUnknown_0808582C:
 gUnknown_0808584C:
 	.incbin "baserom.gba", 0x8584C, 0xC
 gUnknown_08085858:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85860, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85870, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085878:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85880, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85890, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085898:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x858A0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x858B0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080858B8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x858BC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x858D0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080858D8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x858DC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x858F0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080858F8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x858FC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85910, 0x4
@@ -26572,66 +26572,66 @@ gUnknown_08085938:
 gUnknown_0808593C:
 	.incbin "baserom.gba", 0x8593C, 0xC
 gUnknown_08085948:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808593C
 	.incbin "baserom.gba", 0x85950, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85960, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085968:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808593C
 	.incbin "baserom.gba", 0x85970, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85980, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085988:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808593C
 	.incbin "baserom.gba", 0x85990, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x859A0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080859A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x859B0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x859C0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080859C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x859D0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x859E0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080859E8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x859EC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85A00, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085A08:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85A0C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85A20, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085A28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85A2C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85A40, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085A48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85A4C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85A60, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085A68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85A6C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85A80, 0x4
@@ -26666,65 +26666,65 @@ gUnknown_08085AE8:
 gUnknown_08085AEC:
 	.4byte gUnknown_081F1EC4
 gUnknown_08085AF0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85AF4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85B08, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085B10:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85B14, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85B28, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085B30:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85B34, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85B48, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085B50:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85B58, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85B68, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085B70:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85B78, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85B88, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085B90:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85B98, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85BA8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085BB0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85BB8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85BC8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085BD0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85BD4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85BE8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085BF0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85BF4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85C08, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085C10:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85C14, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85C28, 0x4
@@ -26743,64 +26743,64 @@ gUnknown_08085C30:
 gUnknown_08085C58:
 	.4byte gUnknown_081F0FF8
 gUnknown_08085C5C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85C60, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85C74, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085C7C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85C80, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85C94, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085C9C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85CA0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85CB4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085CBC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85CC0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85CD4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085CDC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85CE4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85CF4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085CFC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85D04, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85D14, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085D1C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85D24, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85D34, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085D3C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85D40, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85D54, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085D5C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85D60, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85D74, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085D7C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85D80, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85D94, 0x4
@@ -26819,53 +26819,53 @@ gUnknown_08085D9C:
 gUnknown_08085DC4:
 	.4byte gUnknown_081EFC84
 gUnknown_08085DC8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85DCC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85DE0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085DE8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85DEC, 0x10
 	.4byte gUnknown_080555A0
 gUnknown_08085E00:
 	.incbin "baserom.gba", 0x85E00, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085E08:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85E10, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85E20, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085E28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85E30, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85E40, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085E48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85E4C, 0x10
 	.4byte gUnknown_080555A0
 	.set gUnknown_08085E5E, . - 2
 	.incbin "baserom.gba", 0x85E60, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085E68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85E6C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85E80, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085E88:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85E8C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85EA0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085EA8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85EAC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85EC0, 0x4
@@ -26882,59 +26882,59 @@ gUnknown_08085EC8:
 gUnknown_08085EE8:
 	.4byte gUnknown_081EF228
 gUnknown_08085EEC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85EF0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85F04, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085F0C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85F10, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85F24, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085F2C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85F30, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85F44, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085F4C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85F54, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85F64, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085F6C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85F74, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85F84, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085F8C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85F94, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85FA4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085FAC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x85FB4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85FC4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085FCC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85FD0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x85FE4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08085FEC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x85FF0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86004, 0x4
@@ -26952,51 +26952,51 @@ gUnknown_0808600C:
 gUnknown_08086030:
 	.4byte gUnknown_081EDE28
 gUnknown_08086034:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86038, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8604C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086054:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86058, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8606C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086074:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86078, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8608C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086094:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x8609C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x860AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080860B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x860BC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x860CC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080860D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x860D8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x860EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080860F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x860F8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8610C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086114:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86118, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8612C, 0x4
@@ -27013,64 +27013,64 @@ gUnknown_08086134:
 gUnknown_08086154:
 	.4byte gUnknown_081ECA78
 gUnknown_08086158:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8615C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86170, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086178:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8617C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86190, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086198:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8619C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x861B0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080861B8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x861C0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x861D0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080861D8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x861E0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x861F0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080861F8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86200, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86210, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086218:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8621C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86230, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086238:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8623C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86250, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086258:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8625C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86270, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086278:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8627C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86290, 0x4
@@ -27089,70 +27089,70 @@ gUnknown_08086298:
 gUnknown_080862C0:
 	.4byte gUnknown_081EC0E0
 gUnknown_080862C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x862C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x862DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080862E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x862E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x862FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086304:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86308, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8631C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086324:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86328, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8633C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086344:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86348, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8635C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086364:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x8636C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8637C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086384:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x8638C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8639C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080863A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x863AC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x863BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080863C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x863C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x863DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080863E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x863E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x863FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086404:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86408, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8641C, 0x4
@@ -27172,26 +27172,26 @@ gUnknown_08086424:
 gUnknown_08086450:
 	.4byte gUnknown_081EAA44
 gUnknown_08086454:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86458, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8646C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086474:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x8647C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8648C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086494:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86498, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x864AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080864B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x864B8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x864CC, 0x4
@@ -27215,59 +27215,59 @@ gUnknown_08086504:
 gUnknown_0808650C:
 	.4byte gUnknown_081EA794
 gUnknown_08086510:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86514, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86528, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086530:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86534, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86548, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086550:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86554, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86568, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086570:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86578, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86588, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086590:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86598, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x865A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080865B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x865B8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x865C8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080865D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x865D8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x865E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080865F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x865F4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86608, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086610:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86614, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86628, 0x4
@@ -27285,58 +27285,58 @@ gUnknown_08086630:
 gUnknown_08086654:
 	.4byte gUnknown_081E908C
 gUnknown_08086658:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8665C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86670, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086678:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8667C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86690, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086698:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8669C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x866B0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080866B8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x866C0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x866D0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080866D8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x866E0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x866F0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080866F8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86700, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86710, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086718:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8671C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86730, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086738:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8673C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86750, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086758:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8675C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86770, 0x4
@@ -27361,7 +27361,7 @@ gUnknown_080867E4:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_080867D4
 gUnknown_080867EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x867F0, 0x10
 	.4byte gUnknown_080867E4
 	.incbin "baserom.gba", 0x86804, 0x4
@@ -27370,7 +27370,7 @@ gUnknown_0808680C:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_080867D4
 gUnknown_08086814:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86818, 0x10
 	.4byte gUnknown_0808680C
 	.incbin "baserom.gba", 0x8682C, 0x4
@@ -27379,7 +27379,7 @@ gUnknown_08086834:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_080867D4
 gUnknown_0808683C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86840, 0x10
 	.4byte gUnknown_08086834
 	.incbin "baserom.gba", 0x86854, 0x4
@@ -27390,7 +27390,7 @@ gUnknown_0808686C:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0808685C
 gUnknown_08086874:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x8687C, 0xC
 	.4byte gUnknown_0808686C
@@ -27400,7 +27400,7 @@ gUnknown_08086894:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0808685C
 gUnknown_0808689C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x868A4, 0xC
 	.4byte gUnknown_08086894
@@ -27412,7 +27412,7 @@ gUnknown_080868CC:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_080868BC
 gUnknown_080868D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x868D8, 0x10
 	.4byte gUnknown_080868CC
 	.incbin "baserom.gba", 0x868EC, 0x4
@@ -27421,7 +27421,7 @@ gUnknown_080868F4:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_080868BC
 gUnknown_080868FC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86900, 0x10
 	.4byte gUnknown_080868F4
 	.incbin "baserom.gba", 0x86914, 0x4
@@ -27455,96 +27455,96 @@ gUnknown_08086974:
 gUnknown_08086978:
 	.4byte gUnknown_081E6EC8
 gUnknown_0808697C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86980, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86994, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808699C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x869A0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x869B4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080869BC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x869C0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x869D4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080869DC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x869E0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x869F4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080869FC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86A00, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86A14, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086A1C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86A20, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86A34, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086A3C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86A44, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86A54, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086A5C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86A64, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86A74, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086A7C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86A84, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86A94, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086A9C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86AA4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86AB4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086ABC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86AC4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86AD4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086ADC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86AE0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86AF4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086AFC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86B00, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86B14, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086B1C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86B20, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86B34, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086B3C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86B40, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86B54, 0x4
@@ -27582,58 +27582,58 @@ gUnknown_08086BBC:
 gUnknown_08086BCC:
 	.4byte gUnknown_081E4800
 gUnknown_08086BD0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86BD4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86BE8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086BF0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86BF4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86C08, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086C10:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86C14, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86C28, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086C30:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86C34, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86C48, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086C50:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86C58, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86C68, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086C70:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86C78, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86C88, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086C90:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86C98, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86CA8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086CB0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86CB4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86CC8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086CD0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86CD4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86CE8, 0x4
@@ -27651,57 +27651,57 @@ gUnknown_08086CF0:
 gUnknown_08086D14:
 	.4byte gUnknown_081E37B8
 gUnknown_08086D18:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86D1C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86D30, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086D38:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86D3C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86D50, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086D58:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86D5C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86D70, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086D78:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86D7C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86D90, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086D98:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86DA0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86DB0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086DB8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86DC0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86DD0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086DD8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86DDC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86DF0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086DF8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86DFC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86E10, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086E18:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86E1C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86E30, 0x4
@@ -27725,84 +27725,84 @@ gUnknown_08086E6C:
 gUnknown_08086E70:
 	.4byte gUnknown_081E2BD8
 gUnknown_08086E74:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86E78, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86E8C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086E94:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86E98, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86EAC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086EB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86EB8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86ECC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086ED4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86ED8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86EEC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086EF4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86EFC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86F0C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086F14:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86F1C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86F2C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086F34:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86F3C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86F4C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086F54:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86F5C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86F6C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086F74:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x86F7C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86F8C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086F94:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86F98, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86FAC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086FB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86FB8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86FCC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086FD4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86FD8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x86FEC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08086FF4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x86FF8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8700C, 0x4
@@ -27824,66 +27824,66 @@ gUnknown_08087014:
 gUnknown_08087048:
 	.4byte gUnknown_081E1268
 gUnknown_0808704C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87050, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87064, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808706C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87070, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87084, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808708C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87090, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x870A4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080870AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x870B4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x870C4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080870CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x870D4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x870E4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080870EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x870F4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87104, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808710C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x87114, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87124, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808712C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x87134, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87144, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808714C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87150, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87164, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808716C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87170, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87184, 0x4
@@ -27902,71 +27902,71 @@ gUnknown_0808718C:
 gUnknown_080871B4:
 	.4byte gUnknown_081DFF2C
 gUnknown_080871B8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x871BC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x871D0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080871D8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x871DC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x871F0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080871F8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x871FC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87210, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087218:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8721C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87230, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087238:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x87240, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87250, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087258:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x87260, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87270, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087278:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x87280, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87290, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087298:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x872A0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x872B0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080872B8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x872BC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x872D0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080872D8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x872DC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x872F0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080872F8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x872FC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87310, 0x4
@@ -27997,7 +27997,7 @@ gUnknown_0808738C:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08792420
 gUnknown_08087394:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87398, 0x10
 	.4byte gUnknown_0808738C
 	.incbin "baserom.gba", 0x873AC, 0x4
@@ -28152,53 +28152,53 @@ gUnknown_0808771C:
 gUnknown_08087738:
 	.incbin "baserom.gba", 0x87738, 0xC
 gUnknown_08087744:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x8774C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8775C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087764:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x8776C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8777C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087784:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x8778C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8779C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080877A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x877AC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x877BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080877C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x877C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x877DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080877E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x877E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x877FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087804:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87808, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8781C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087824:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87828, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8783C, 0x4
@@ -28243,27 +28243,27 @@ gUnknown_080878EC:
 gUnknown_080878F0:
 	.4byte gUnknown_081DBD34
 gUnknown_080878F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x878F8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8790C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087914:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x8791C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8792C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087934:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x8793C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8794C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087954:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87958, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8796C, 0x4
@@ -28276,65 +28276,65 @@ gUnknown_08087974:
 gUnknown_08087984:
 	.4byte gUnknown_081DB3AC
 gUnknown_08087988:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8798C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x879A0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080879A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x879AC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x879C0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080879C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x879D0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x879E0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080879E8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x879F0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87A00, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087A08:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x87A10, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87A20, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087A28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x87A30, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87A40, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087A48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87A4C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87A60, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087A68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87A6C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87A80, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087A88:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87A8C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87AA0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087AA8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87AAC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87AC0, 0x4
@@ -28438,82 +28438,82 @@ gUnknown_08087BE0:
 gUnknown_08087C40:
 	.4byte gUnknown_081DAD0C
 gUnknown_08087C44:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87C48, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87C5C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087C64:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87C68, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87C7C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087C84:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87C88, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87C9C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087CA4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87CA8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87CBC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087CC4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87CC8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87CDC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087CE4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87CE8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87CFC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087D04:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x87D0C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87D1C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087D24:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x87D2C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87D3C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087D44:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x87D4C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87D5C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087D64:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87D68, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87D7C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087D84:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87D88, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87D9C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087DA4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87DA8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87DBC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087DC4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87DC8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87DDC, 0x4
@@ -28598,40 +28598,40 @@ gUnknown_08087F74:
 	.incbin "baserom.gba", 0x87F84, 0x8
 	.4byte gUnknown_080716EC
 gUnknown_08087F90:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87F94, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87FA8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087FB0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x87FB4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87FC8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087FD0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x87FD8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x87FE8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08087FF0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x87FF8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88008, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088010:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88018, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88028, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088030:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88034, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88048, 0x4
@@ -28718,70 +28718,70 @@ gUnknown_080881B4:
 gUnknown_080881C8:
 	.4byte gUnknown_081D85B4
 gUnknown_080881CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x881D0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x881E4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080881EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x881F0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88204, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808820C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88210, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88224, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808822C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88230, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88244, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808824C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88254, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88264, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808826C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88274, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88284, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808828C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88294, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x882A4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080882AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x882B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x882C4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080882CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x882D0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x882E4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080882EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x882F0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88304, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808830C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88310, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88324, 0x4
@@ -28807,7 +28807,7 @@ gUnknown_08088368:
 	.4byte sub_0800A1D4 + 1
 	.incbin "baserom.gba", 0x8836C, 0x8
 gUnknown_08088374:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88378, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8838C, 0x4
@@ -28820,7 +28820,7 @@ gUnknown_080883A4:
 	.4byte sub_0800A1D4 + 1
 	.incbin "baserom.gba", 0x883A8, 0x8
 gUnknown_080883B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x883B4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x883C8, 0x4
@@ -28833,7 +28833,7 @@ gUnknown_080883E0:
 	.4byte sub_0800A1D4 + 1
 	.incbin "baserom.gba", 0x883E4, 0x8
 gUnknown_080883EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x883F0, 0x10
 	.4byte gUnknown_080555A0
 	.set gUnknown_08088402, . - 2
@@ -28847,7 +28847,7 @@ gUnknown_0808841C:
 	.4byte sub_0800A1D4 + 1
 	.incbin "baserom.gba", 0x88420, 0x8
 gUnknown_08088428:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8842C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88440, 0x4
@@ -28860,80 +28860,80 @@ gUnknown_08088458:
 	.4byte sub_0800A1D4 + 1
 	.incbin "baserom.gba", 0x8845C, 0x8
 gUnknown_08088464:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88468, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8847C, 0x4
 	.4byte gUnknown_0808844C
 	.4byte gUnknown_08088458
 gUnknown_08088488:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88490, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x884A0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080884A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x884B0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x884C0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080884C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x884D0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x884E0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080884E8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x884F0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88500, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088508:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88510, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88520, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088528:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88530, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88540, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088548:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8854C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88560, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088568:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8856C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88580, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088588:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8858C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x885A0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080885A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x885AC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x885C0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080885C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x885CC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x885E0, 0x4
@@ -28970,7 +28970,7 @@ gUnknown_08088658:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x8865C, 0x4
 gUnknown_08088660:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88664, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88678, 0x4
@@ -28979,7 +28979,7 @@ gUnknown_08088680:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x88684, 0x4
 gUnknown_08088688:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8868C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x886A0, 0x4
@@ -28988,7 +28988,7 @@ gUnknown_080886A8:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x886AC, 0x4
 gUnknown_080886B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x886B4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x886C8, 0x4
@@ -28997,7 +28997,7 @@ gUnknown_080886D0:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x886D4, 0x4
 gUnknown_080886D8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x886E0, 0xC
 	.4byte gUnknown_080555A0
@@ -29007,14 +29007,14 @@ gUnknown_080886F8:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x886FC, 0x4
 gUnknown_08088700:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88708, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88718, 0x4
 	.4byte gUnknown_080886F8
 gUnknown_08088720:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88728, 0xC
 	.4byte gUnknown_080555A0
@@ -29024,7 +29024,7 @@ gUnknown_08088740:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x88744, 0x4
 gUnknown_08088748:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8874C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88760, 0x4
@@ -29033,7 +29033,7 @@ gUnknown_08088768:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x8876C, 0x4
 gUnknown_08088770:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88774, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88788, 0x4
@@ -29042,7 +29042,7 @@ gUnknown_08088790:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x88794, 0x4
 gUnknown_08088798:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8879C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x887B0, 0x4
@@ -29061,39 +29061,39 @@ gUnknown_080887B8:
 gUnknown_080887E0:
 	.4byte gUnknown_081D6948
 gUnknown_080887E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x887E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x887FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088804:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88808, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8881C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088824:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88828, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8883C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088844:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x8884C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8885C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088864:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x8886C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8887C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088884:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88888, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8889C, 0x4
@@ -29110,65 +29110,65 @@ gUnknown_080888BC:
 gUnknown_080888C0:
 	.4byte gUnknown_081D5AD4
 gUnknown_080888C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x888C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x888DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080888E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x888E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x888FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088904:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88908, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8891C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088924:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x8892C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8893C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088944:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x8894C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8895C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088964:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x8896C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8897C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088984:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x8898C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8899C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080889A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x889A8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x889BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080889C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x889C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x889DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080889E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x889E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x889FC, 0x4
@@ -29187,45 +29187,45 @@ gUnknown_08088A04:
 gUnknown_08088A2C:
 	.4byte gUnknown_081D54B8
 gUnknown_08088A30:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88A34, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88A48, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088A50:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88A54, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88A68, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088A70:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88A74, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88A88, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088A90:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88A98, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88AA8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088AB0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88AB8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88AC8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088AD0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88AD4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88AE8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088AF0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88AF4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88B08, 0x4
@@ -29241,46 +29241,46 @@ gUnknown_08088B10:
 gUnknown_08088B2C:
 	.4byte gUnknown_081D4EA4
 gUnknown_08088B30:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88B34, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88B48, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088B50:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88B54, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88B68, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088B70:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88B74, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88B88, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088B90:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88B98, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88BA8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088BB0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88BB8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88BC8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088BD0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88BD8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88BE8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088BF0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88BF4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88C08, 0x4
@@ -29342,58 +29342,58 @@ gUnknown_08088D44:
 gUnknown_08088D54:
 	.4byte gUnknown_081D3DBC
 gUnknown_08088D58:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88D5C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88D70, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088D78:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88D7C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88D90, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088D98:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88D9C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88DB0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088DB8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88DBC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88DD0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088DD8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88DDC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88DF0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088DF8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88E00, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88E10, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088E18:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88E20, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88E30, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088E38:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88E40, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88E50, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08088E58:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x88E60, 0xC
 	.4byte gUnknown_080555A0
@@ -29403,7 +29403,7 @@ gUnknown_08088E78:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x88E7C, 0x4
 gUnknown_08088E80:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88E84, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88E98, 0x4
@@ -29412,7 +29412,7 @@ gUnknown_08088EA0:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x88EA4, 0x4
 gUnknown_08088EA8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88EAC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88EC0, 0x4
@@ -29421,7 +29421,7 @@ gUnknown_08088EC8:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x88ECC, 0x4
 gUnknown_08088ED0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88ED4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88EE8, 0x4
@@ -29430,7 +29430,7 @@ gUnknown_08088EF0:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x88EF4, 0x4
 gUnknown_08088EF8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x88EFC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x88F10, 0x4
@@ -29587,77 +29587,77 @@ gUnknown_08089154:
 gUnknown_08089164:
 	.4byte gUnknown_081D2798
 gUnknown_08089168:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8916C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89180, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089188:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8918C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x891A0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080891A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x891AC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x891C0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080891C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x891CC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x891E0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080891E8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x891F0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89200, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089208:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x89210, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89220, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089228:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x89230, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89240, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089248:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x89250, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89260, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089268:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8926C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89280, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089288:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8928C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x892A0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080892A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x892AC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x892C0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080892C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x892CC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x892E0, 0x4
@@ -29686,51 +29686,51 @@ gUnknown_0808932C:
 gUnknown_08089334:
 	.4byte gUnknown_081D1CC8
 gUnknown_08089338:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8933C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89350, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089358:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8935C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89370, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089378:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8937C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89390, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089398:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8939C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x893B0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080893B8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x893BC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x893D0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080893D8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x893E0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x893F0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080893F8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x89400, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89410, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089418:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8941C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89430, 0x4
@@ -29762,65 +29762,65 @@ gUnknown_08089484:
 gUnknown_08089498:
 	.4byte gUnknown_081D0A1C
 gUnknown_0808949C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x894A0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x894B4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080894BC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x894C0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x894D4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080894DC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x894E0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x894F4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080894FC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x89504, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89514, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808951C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x89524, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89534, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808953C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x89544, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89554, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808955C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x89564, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89574, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808957C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89580, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89594, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808959C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x895A0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x895B4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080895BC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x895C0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x895D4, 0x4
@@ -29854,46 +29854,46 @@ gUnknown_08089648:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08792CE4
 gUnknown_08089650:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89654, 0x10
 	.4byte gUnknown_08089648
 	.incbin "baserom.gba", 0x89668, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089670:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x89678, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89688, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089690:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x89698, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x896A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080896B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08087738
 	.incbin "baserom.gba", 0x896B8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x896C8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080896D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x896D4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x896E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_080896F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x896F4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89708, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089710:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89714, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89728, 0x4
@@ -30080,19 +30080,19 @@ gUnknown_08089AF0:
 gUnknown_08089B08:
 	.4byte gUnknown_081CB16C
 gUnknown_08089B0C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89B10, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89B24, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089B2C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89B30, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89B44, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089B4C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89B50, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89B64, 0x4
@@ -30100,54 +30100,54 @@ gUnknown_08089B4C:
 gUnknown_08089B6C:
 	.incbin "baserom.gba", 0x89B6C, 0xC
 gUnknown_08089B78:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x89B80, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89B90, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089B98:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x89BA0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89BB0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089BB8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x89BC0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89BD0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089BD8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x89BE0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89BF0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089BF8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x89C00, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89C10, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089C18:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89C1C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89C30, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089C38:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89C3C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89C50, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089C58:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89C5C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89C70, 0x4
@@ -30167,52 +30167,52 @@ gUnknown_08089C78:
 gUnknown_08089CA4:
 	.4byte gUnknown_081CA5E4
 gUnknown_08089CA8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89CAC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89CC0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089CC8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89CCC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89CE0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089CE8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89CEC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89D00, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089D08:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x89D10, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89D20, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089D28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x89D30, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89D40, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089D48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x89D50, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89D60, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089D68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89D6C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89D80, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089D88:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89D8C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89DA0, 0x4
@@ -30229,38 +30229,38 @@ gUnknown_08089DA8:
 gUnknown_08089DC8:
 	.4byte gUnknown_081C9BE8
 gUnknown_08089DCC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89DD0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89DE4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089DEC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89DF0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89E04, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089E0C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89E10, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89E24, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089E2C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x89E34, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89E44, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089E4C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89E50, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89E64, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089E6C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89E70, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89E84, 0x4
@@ -30275,53 +30275,53 @@ gUnknown_08089E8C:
 gUnknown_08089EA4:
 	.4byte gUnknown_081C9278
 gUnknown_08089EA8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89EAC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89EC0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089EC8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x89ED0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89EE0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089EE8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x89EF0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89F00, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089F08:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x89F10, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89F20, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089F28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x89F30, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89F40, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089F48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89F4C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89F60, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089F68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89F6C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89F80, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089F88:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89F8C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89FA0, 0x4
@@ -30338,59 +30338,59 @@ gUnknown_08089FA8:
 gUnknown_08089FC8:
 	.4byte gUnknown_081C8974
 gUnknown_08089FCC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89FD0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x89FE4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_08089FEC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x89FF0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A004, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A00C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A014, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A024, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A02C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A034, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A044, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A04C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A054, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A064, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A06C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A074, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A084, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A08C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A090, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A0A4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A0AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A0B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A0C4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A0CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A0D0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A0E4, 0x4
@@ -30408,33 +30408,33 @@ gUnknown_0808A0EC:
 gUnknown_0808A110:
 	.4byte gUnknown_081C7F5C
 gUnknown_0808A114:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A118, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A12C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A134:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A138, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A14C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A154:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A15C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A16C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A174:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A17C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A18C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A194:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A198, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A1AC, 0x4
@@ -30448,57 +30448,57 @@ gUnknown_0808A1B4:
 gUnknown_0808A1C8:
 	.4byte gUnknown_081C6C30
 gUnknown_0808A1CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A1D0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A1E4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A1EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A1F0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A204, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A20C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A210, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A224, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A22C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A230, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A244, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A24C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A250, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A264, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A26C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A274, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A284, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A28C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A294, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A2A4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A2AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A2B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A2C4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A2CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A2D0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A2E4, 0x4
@@ -30516,50 +30516,50 @@ gUnknown_0808A2EC:
 gUnknown_0808A310:
 	.4byte gUnknown_081C6188
 gUnknown_0808A314:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A318, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A32C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A334:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A338, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A34C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A354:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A358, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A36C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A374:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A378, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A38C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A394:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A39C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A3AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A3B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A3B8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A3CC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A3D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A3D8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A3EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A3F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A3F8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A40C, 0x4
@@ -30576,60 +30576,60 @@ gUnknown_0808A414:
 gUnknown_0808A434:
 	.4byte gUnknown_081C4EE4
 gUnknown_0808A438:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A43C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A450, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A458:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A45C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A470, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A478:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A47C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A490, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A498:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A4A0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A4B0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A4B8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A4C0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A4D0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A4D8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A4E0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A4F0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A4F8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A500, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A510, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A518:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A520, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A530, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A538:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A53C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A550, 0x4
@@ -30647,32 +30647,32 @@ gUnknown_0808A558:
 gUnknown_0808A57C:
 	.4byte gUnknown_081C4418
 gUnknown_0808A580:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A584, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A598, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A5A0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A5A4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A5B8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A5C0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A5C8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A5D8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A5E0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A5E4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A5F8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A600:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A604, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A618, 0x4
@@ -30686,66 +30686,66 @@ gUnknown_0808A620:
 gUnknown_0808A634:
 	.4byte gUnknown_081C3C30
 gUnknown_0808A638:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A63C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A650, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A658:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A660, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A670, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A678:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A680, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A690, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A698:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A6A0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A6B0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A6B8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A6C0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A6D0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A6D8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A6E0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A6F0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A6F8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A6FC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A710, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A718:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A71C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A730, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A738:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A73C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A750, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A758:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A75C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A770, 0x4
@@ -30764,47 +30764,47 @@ gUnknown_0808A778:
 gUnknown_0808A7A0:
 	.4byte gUnknown_081C3120
 gUnknown_0808A7A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A7A8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A7BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A7C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A7C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A7DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A7E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A7EC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A7FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A804:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A80C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A81C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A824:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A82C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A83C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A844:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A84C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A85C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A864:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A868, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A87C, 0x4
@@ -30820,89 +30820,89 @@ gUnknown_0808A884:
 gUnknown_0808A8A0:
 	.4byte gUnknown_081C29A4
 gUnknown_0808A8A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A8A8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A8BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A8C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A8C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A8DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A8E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A8E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A8FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A904:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A908, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A91C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A924:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A928, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A93C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A944:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A948, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A95C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A964:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A96C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A97C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A984:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A98C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A99C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A9A4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A9AC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A9BC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A9C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8A9CC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A9DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808A9E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8A9E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8A9FC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AA04:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8AA08, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AA1C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AA24:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8AA28, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AA3C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AA44:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8AA48, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AA5C, 0x4
@@ -30925,40 +30925,40 @@ gUnknown_0808AA64:
 gUnknown_0808AA9C:
 	.4byte gUnknown_081C199C
 gUnknown_0808AAA0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8AAA4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AAB8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AAC0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8AAC4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AAD8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AAE0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8AAE8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AAF8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AB00:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8AB08, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AB18, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AB20:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8AB28, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AB38, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AB40:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8AB44, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AB58, 0x4
@@ -30973,66 +30973,66 @@ gUnknown_0808AB60:
 gUnknown_0808AB78:
 	.4byte gUnknown_081C0E38
 gUnknown_0808AB7C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8AB80, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AB94, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AB9C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8ABA0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8ABB4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808ABBC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8ABC0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8ABD4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808ABDC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8ABE4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8ABF4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808ABFC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8AC04, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AC14, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AC1C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8AC24, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AC34, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AC3C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8AC44, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AC54, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AC5C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8AC64, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AC74, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AC7C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8AC80, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AC94, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AC9C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8ACA0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8ACB4, 0x4
@@ -31051,59 +31051,59 @@ gUnknown_0808ACBC:
 gUnknown_0808ACE4:
 	.4byte gUnknown_081BFE30
 gUnknown_0808ACE8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8ACEC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AD00, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AD08:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8AD0C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AD20, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AD28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8AD30, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AD40, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AD48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8AD50, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AD60, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AD68:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8AD70, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AD80, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AD88:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8AD90, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8ADA0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808ADA8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8ADAC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8ADC0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808ADC8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8ADCC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8ADE0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808ADE8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8ADEC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AE00, 0x4
@@ -31164,39 +31164,39 @@ gUnknown_0808AF60:
 gUnknown_0808AF88:
 	.4byte gUnknown_081BB080
 gUnknown_0808AF8C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8AF90, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AFA4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AFAC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8AFB0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AFC4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AFCC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8AFD0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8AFE4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808AFEC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8AFF4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B004, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B00C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B014, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B024, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B02C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B030, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B044, 0x4
@@ -31211,60 +31211,60 @@ gUnknown_0808B04C:
 gUnknown_0808B064:
 	.4byte gUnknown_081BA210
 gUnknown_0808B068:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B06C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B080, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B088:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B090, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B0A0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B0A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B0B0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B0C0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B0C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B0D0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B0E0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B0E8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B0F0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B100, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B108:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B110, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B120, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B128:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B12C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B140, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B148:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B14C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B160, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B168:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B16C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B180, 0x4
@@ -31282,53 +31282,53 @@ gUnknown_0808B188:
 gUnknown_0808B1AC:
 	.4byte gUnknown_081B9C0C
 gUnknown_0808B1B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B1B4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B1C8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B1D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B1D4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B1E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B1F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B1F4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B208, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B210:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B218, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B228, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B230:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B238, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B248, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B250:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B258, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B268, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B270:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B278, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B288, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B290:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B294, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B2A8, 0x4
@@ -31345,78 +31345,78 @@ gUnknown_0808B2B0:
 gUnknown_0808B2D0:
 	.4byte gUnknown_081B886C
 gUnknown_0808B2D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B2D8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B2EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B2F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B2F8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B30C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B314:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B318, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B32C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B334:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B33C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B34C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B354:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B35C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B36C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B374:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B37C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B38C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B394:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B39C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B3AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B3B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B3BC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B3CC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B3D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B3D8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B3EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B3F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B3F8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B40C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B414:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B418, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B42C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B434:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B438, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B44C, 0x4
@@ -31437,59 +31437,59 @@ gUnknown_0808B454:
 gUnknown_0808B484:
 	.4byte gUnknown_081B7C34
 gUnknown_0808B488:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B48C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B4A0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B4A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B4AC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B4C0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B4C8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B4CC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B4E0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B4E8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B4F0, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B500, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B508:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B510, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B520, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B528:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B530, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B540, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B548:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B550, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B560, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B568:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B56C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B580, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B588:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B58C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B5A0, 0x4
@@ -31509,26 +31509,26 @@ gUnknown_0808B5CC:
 gUnknown_0808B5DC:
 	.4byte gUnknown_081B720C
 gUnknown_0808B5E0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B5E4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B5F8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B600:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B604, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B618, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B620:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B628, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B638, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B640:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B644, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B658, 0x4
@@ -31549,53 +31549,53 @@ gUnknown_0808B688:
 gUnknown_0808B68C:
 	.4byte gUnknown_081B6848
 gUnknown_0808B690:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B694, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B6A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B6B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B6B8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B6C8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B6D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B6D8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B6E8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B6F0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B6F8, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B708, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B710:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B718, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B728, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B730:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B734, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B748, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B750:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B754, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B768, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B770:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B774, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B788, 0x4
@@ -31612,40 +31612,40 @@ gUnknown_0808B790:
 gUnknown_0808B7B0:
 	.4byte gUnknown_081B61C4
 gUnknown_0808B7B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B7B8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B7CC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B7D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B7D8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B7EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B7F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B7FC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B80C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B814:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B81C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B82C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B834:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B83C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B84C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B854:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B858, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B86C, 0x4
@@ -31662,34 +31662,34 @@ gUnknown_0808B88C:
 gUnknown_0808B890:
 	.4byte gUnknown_081B4E60
 gUnknown_0808B894:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B898, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B8AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B8B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B8BC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B8CC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B8D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B8DC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B8EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B8F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8B8FC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B90C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B914:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B918, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B92C, 0x4
@@ -31703,109 +31703,109 @@ gUnknown_0808B934:
 gUnknown_0808B948:
 	.4byte gUnknown_081B44C0
 gUnknown_0808B94C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B950, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B964, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B96C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B970, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B984, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B98C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B990, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B9A4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B9AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B9B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B9C4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B9CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B9D0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8B9E4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808B9EC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8B9F0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BA04, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BA0C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8BA14, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BA24, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BA2C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8BA34, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BA44, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BA4C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8BA54, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BA64, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BA6C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8BA74, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BA84, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BA8C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8BA94, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BAA4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BAAC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8BAB4, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BAC4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BACC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BAD0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BAE4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BAEC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BAF0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BB04, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BB0C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BB10, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BB24, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BB2C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BB30, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BB44, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BB4C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BB50, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BB64, 0x4
@@ -31831,66 +31831,66 @@ gUnknown_0808BB6C:
 gUnknown_0808BBB0:
 	.4byte gUnknown_081B3AA8
 gUnknown_0808BBB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BBB8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BBCC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BBD4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BBD8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BBEC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BBF4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8BBFC, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BC0C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BC14:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8BC1C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BC2C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BC34:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8BC3C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BC4C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BC54:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8BC5C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BC6C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BC74:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_08089B6C
 	.incbin "baserom.gba", 0x8BC7C, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BC8C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BC94:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BC98, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BCAC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BCB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BCB8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BCCC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BCD4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BCD8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BCEC, 0x4
@@ -31921,20 +31921,20 @@ gUnknown_0808BD64:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_0879321C
 gUnknown_0808BD6C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BD70, 0x10
 	.4byte gUnknown_0808BD64
 	.incbin "baserom.gba", 0x8BD84, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BD8C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808584C
 	.incbin "baserom.gba", 0x8BD94, 0xC
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BDA4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BDAC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BDB0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BDC4, 0x4
@@ -31993,7 +31993,7 @@ gUnknown_0808BE94:
 gUnknown_0808BEA4:
 	.4byte gUnknown_081B1A58
 gUnknown_0808BEA8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BEAC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BEC0, 0x4
@@ -32021,25 +32021,25 @@ gUnknown_0808BF08:
 gUnknown_0808BF18:
 	.4byte gUnknown_081B0E04
 gUnknown_0808BF1C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BF20, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BF34, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BF3C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BF40, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BF54, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BF5C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BF60, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BF74, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808BF7C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8BF80, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8BF94, 0x4
@@ -32062,19 +32062,19 @@ gUnknown_0808BFF8:
 gUnknown_0808C000:
 	.4byte gUnknown_081B03FC
 gUnknown_0808C004:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C008, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C01C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C024:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C028, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C03C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C044:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C048, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C05C, 0x4
@@ -32088,13 +32088,13 @@ gUnknown_0808C070:
 gUnknown_0808C088:
 	.4byte gUnknown_081B0040
 gUnknown_0808C08C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C090, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C0A4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C0AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C0B0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C0C4, 0x4
@@ -32107,25 +32107,25 @@ gUnknown_0808C0D4:
 gUnknown_0808C0E4:
 	.4byte gUnknown_081AF874
 gUnknown_0808C0E8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C0EC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C100, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C108:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C10C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C120, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C128:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C12C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C140, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C148:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C14C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C160, 0x4
@@ -32155,13 +32155,13 @@ gUnknown_0808C1B0:
 gUnknown_0808C1C0:
 	.4byte gUnknown_081AEB64
 gUnknown_0808C1C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C1C8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C1DC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C1E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C1E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C1FC, 0x4
@@ -32172,37 +32172,37 @@ gUnknown_0808C204:
 gUnknown_0808C20C:
 	.4byte gUnknown_081AD1E8
 gUnknown_0808C210:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C214, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C228, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C230:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C234, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C248, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C250:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C254, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C268, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C270:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C274, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C288, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C290:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C294, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C2A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C2B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C2B4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C2C8, 0x4
@@ -32225,13 +32225,13 @@ gUnknown_0808C2FC:
 gUnknown_0808C304:
 	.4byte gUnknown_081AB484
 gUnknown_0808C308:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C30C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C320, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C328:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C32C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C340, 0x4
@@ -32247,7 +32247,7 @@ gUnknown_0808C364:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x8C368, 0x4
 gUnknown_0808C36C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C370, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C384, 0x4
@@ -32256,7 +32256,7 @@ gUnknown_0808C38C:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x8C390, 0x4
 gUnknown_0808C394:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C398, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C3AC, 0x4
@@ -32265,7 +32265,7 @@ gUnknown_0808C3B4:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x8C3B8, 0x4
 gUnknown_0808C3BC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C3C0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C3D4, 0x4
@@ -32274,7 +32274,7 @@ gUnknown_0808C3DC:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x8C3E0, 0x4
 gUnknown_0808C3E4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C3E8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C3FC, 0x4
@@ -32283,7 +32283,7 @@ gUnknown_0808C404:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x8C408, 0x4
 gUnknown_0808C40C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C410, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C424, 0x4
@@ -32292,13 +32292,13 @@ gUnknown_0808C42C:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x8C430, 0x4
 gUnknown_0808C434:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C438, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C44C, 0x4
 	.4byte gUnknown_0808C42C
 gUnknown_0808C454:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C458, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C46C, 0x4
@@ -32334,7 +32334,7 @@ gUnknown_0808C4F8:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x8C4FC, 0x4
 gUnknown_0808C500:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C504, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C518, 0x4
@@ -32343,7 +32343,7 @@ gUnknown_0808C520:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x8C524, 0x4
 gUnknown_0808C528:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C52C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C540, 0x4
@@ -32352,7 +32352,7 @@ gUnknown_0808C548:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x8C54C, 0x4
 gUnknown_0808C550:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C554, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C568, 0x4
@@ -32361,13 +32361,13 @@ gUnknown_0808C570:
 	.4byte sub_0800A82C + 1
 	.incbin "baserom.gba", 0x8C574, 0x4
 gUnknown_0808C578:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C57C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C590, 0x4
 	.4byte gUnknown_0808C570
 gUnknown_0808C598:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C59C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C5B0, 0x4
@@ -32508,25 +32508,25 @@ gUnknown_0808C944:
 	.incbin "baserom.gba", 0x8C954, 0x8
 	.4byte gUnknown_080716EC
 gUnknown_0808C960:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C964, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C978, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C980:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C984, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C998, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C9A0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C9A4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C9B8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808C9C0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8C9C4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8C9D8, 0x4
@@ -32552,7 +32552,7 @@ gUnknown_0808CA18:
 gUnknown_0808CA3C:
 	.4byte gUnknown_081A5BCC
 gUnknown_0808CA40:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8CA44, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8CA58, 0x4
@@ -32576,7 +32576,7 @@ gUnknown_0808CAB8:
 gUnknown_0808CAE4:
 	.4byte gUnknown_081A53D4
 gUnknown_0808CAE8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8CAEC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8CB00, 0x4
@@ -32609,7 +32609,7 @@ gUnknown_0808CB68:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08793934
 gUnknown_0808CB70:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.4byte gUnknown_0808CB5C
 	.incbin "baserom.gba", 0x8CB78, 0xC
 	.4byte gUnknown_0808CB68
@@ -32619,7 +32619,7 @@ gUnknown_0808CB90:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08793AFC
 gUnknown_0808CB98:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8CB9C, 0x10
 	.4byte gUnknown_0808CB90
 	.incbin "baserom.gba", 0x8CBB0, 0x4
@@ -32628,7 +32628,7 @@ gUnknown_0808CBB8:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08793D34
 gUnknown_0808CBC0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8CBC4, 0x10
 	.4byte gUnknown_0808CBB8
 	.incbin "baserom.gba", 0x8CBD8, 0x4
@@ -32676,7 +32676,7 @@ gUnknown_0808CC5C:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08794B5C
 gUnknown_0808CC64:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8CC68, 0x10
 	.4byte gUnknown_0808CC5C
 	.incbin "baserom.gba", 0x8CC7C, 0x4
@@ -32685,7 +32685,7 @@ gUnknown_0808CC84:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08794D28
 gUnknown_0808CC8C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8CC90, 0x10
 	.4byte gUnknown_0808CC84
 	.incbin "baserom.gba", 0x8CCA4, 0x4
@@ -32694,13 +32694,13 @@ gUnknown_0808CCAC:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08794E88
 gUnknown_0808CCB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8CCB8, 0x10
 	.4byte gUnknown_0808CCAC
 	.incbin "baserom.gba", 0x8CCCC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808CCD4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8CCD8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8CCEC, 0x4
@@ -32827,19 +32827,19 @@ gUnknown_0808CF24:
 	.incbin "baserom.gba", 0x8CF2C, 0xC
 	.4byte gUnknown_0808CF1C
 gUnknown_0808CF3C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8CF40, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8CF54, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808CF5C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8CF60, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8CF74, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808CF7C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8CF80, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8CF94, 0x4
@@ -32881,19 +32881,19 @@ gUnknown_0808D008:
 gUnknown_0808D020:
 	.4byte gUnknown_081980B4
 gUnknown_0808D024:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D028, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D03C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D044:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D048, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D05C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D064:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D068, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D07C, 0x4
@@ -32907,31 +32907,31 @@ gUnknown_0808D090:
 gUnknown_0808D0DC:
 	.4byte gUnknown_08197208
 gUnknown_0808D0E0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D0E4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D0F8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D100:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D104, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D118, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D120:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D124, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D138, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D140:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D144, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D158, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D160:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D164, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D178, 0x4
@@ -32971,43 +32971,43 @@ gUnknown_0808D24C:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_087973FC
 gUnknown_0808D254:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D258, 0x10
 	.4byte gUnknown_0808D24C
 	.incbin "baserom.gba", 0x8D26C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D274:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D278, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D28C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D294:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D298, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D2AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D2B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D2B8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D2CC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D2D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D2D8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D2EC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D2F4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D2F8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D30C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D314:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D318, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D32C, 0x4
@@ -33033,19 +33033,19 @@ gUnknown_0808D36C:
 gUnknown_0808D390:
 	.4byte gUnknown_08194744
 gUnknown_0808D394:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D398, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D3AC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D3B4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D3B8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D3CC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D3D4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D3D8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D3EC, 0x4
@@ -33073,7 +33073,7 @@ gUnknown_0808D434:
 gUnknown_0808D43C:
 	.4byte gUnknown_08193A2C
 gUnknown_0808D440:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D444, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D458, 0x4
@@ -33082,19 +33082,19 @@ gUnknown_0808D460:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08797F78
 gUnknown_0808D468:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D46C, 0x10
 	.4byte gUnknown_0808D460
 	.incbin "baserom.gba", 0x8D480, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D488:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D48C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D4A0, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D4A8:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D4AC, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D4C0, 0x4
@@ -33191,13 +33191,13 @@ gUnknown_0808D658:
 gUnknown_0808D670:
 	.4byte gUnknown_0818DE84
 gUnknown_0808D674:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D678, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D68C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D694:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D698, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D6AC, 0x4
@@ -33208,25 +33208,25 @@ gUnknown_0808D6B4:
 gUnknown_0808D6BC:
 	.4byte gUnknown_0818CD1C
 gUnknown_0808D6C0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D6C4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D6D8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D6E0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D6E4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D6F8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D700:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D704, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D718, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D720:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D724, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D738, 0x4
@@ -33246,19 +33246,19 @@ gUnknown_0808D788:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0808D77C
 gUnknown_0808D790:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D794, 0x10
 	.4byte gUnknown_0808D788
 	.incbin "baserom.gba", 0x8D7A8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D7B0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D7B4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D7C8, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D7D0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D7D4, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D7E8, 0x4
@@ -33270,19 +33270,19 @@ gUnknown_0808D7F0:
 gUnknown_0808D7FC:
 	.4byte gUnknown_0818A0C4
 gUnknown_0808D800:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D804, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D818, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D820:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D824, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D838, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D840:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D844, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D858, 0x4
@@ -33301,7 +33301,7 @@ gUnknown_0808D8A4:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0808D894
 gUnknown_0808D8AC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D8B0, 0x10
 	.4byte gUnknown_0808D8A4
 	.incbin "baserom.gba", 0x8D8C4, 0x4
@@ -33312,7 +33312,7 @@ gUnknown_0808D8D8:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0808D8CC
 gUnknown_0808D8E0:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D8E4, 0x10
 	.4byte gUnknown_0808D8D8
 	.incbin "baserom.gba", 0x8D8F8, 0x4
@@ -33329,19 +33329,19 @@ gUnknown_0808D918:
 gUnknown_0808D91C:
 	.4byte gUnknown_08189380
 gUnknown_0808D920:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D924, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D938, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D940:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D944, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D958, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808D960:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D964, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8D978, 0x4
@@ -33360,7 +33360,7 @@ gUnknown_0808D9BC:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0808D9AC
 gUnknown_0808D9C4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8D9C8, 0x10
 	.4byte gUnknown_0808D9BC
 	.incbin "baserom.gba", 0x8D9DC, 0x4
@@ -33371,7 +33371,7 @@ gUnknown_0808D9F4:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0808D9E4
 gUnknown_0808D9FC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DA00, 0x10
 	.4byte gUnknown_0808D9F4
 	.incbin "baserom.gba", 0x8DA14, 0x4
@@ -33382,13 +33382,13 @@ gUnknown_0808DA1C:
 gUnknown_0808DA24:
 	.4byte gUnknown_08187C14
 gUnknown_0808DA28:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DA2C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DA40, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DA48:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DA4C, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DA60, 0x4
@@ -33399,25 +33399,25 @@ gUnknown_0808DA68:
 gUnknown_0808DA70:
 	.4byte gUnknown_08187364
 gUnknown_0808DA74:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DA78, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DA8C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DA94:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DA98, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DAAC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DAB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DAB8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DACC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DAD4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DAD8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DAEC, 0x4
@@ -33432,13 +33432,13 @@ gUnknown_0808DB04:
 gUnknown_0808DB28:
 	.4byte gUnknown_08184B8C
 gUnknown_0808DB2C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DB30, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DB44, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DB4C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DB50, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DB64, 0x4
@@ -33480,7 +33480,7 @@ gUnknown_0808DC18:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0808DC0C
 gUnknown_0808DC20:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DC24, 0x10
 	.4byte gUnknown_0808DC18
 	.incbin "baserom.gba", 0x8DC38, 0x4
@@ -33491,7 +33491,7 @@ gUnknown_0808DC50:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0808DC40
 gUnknown_0808DC58:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DC5C, 0x10
 	.4byte gUnknown_0808DC50
 	.incbin "baserom.gba", 0x8DC70, 0x4
@@ -33504,19 +33504,19 @@ gUnknown_0808DC80:
 gUnknown_0808DC98:
 	.4byte gUnknown_08182444
 gUnknown_0808DC9C:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DCA0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DCB4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DCBC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DCC0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DCD4, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DCDC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DCE0, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DCF4, 0x4
@@ -33535,19 +33535,19 @@ gUnknown_0808DD18:
 gUnknown_0808DD20:
 	.4byte gUnknown_08181598
 gUnknown_0808DD24:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DD28, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DD3C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DD44:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DD48, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DD5C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DD64:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DD68, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DD7C, 0x4
@@ -33559,19 +33559,19 @@ gUnknown_0808DD84:
 gUnknown_0808DD90:
 	.4byte gUnknown_08181498
 gUnknown_0808DD94:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DD98, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DDAC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DDB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DDB8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DDCC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DDD4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DDD8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DDEC, 0x4
@@ -33583,19 +33583,19 @@ gUnknown_0808DDF4:
 gUnknown_0808DE00:
 	.4byte gUnknown_08181398
 gUnknown_0808DE04:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DE08, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DE1C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DE24:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DE28, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DE3C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DE44:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DE48, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DE5C, 0x4
@@ -33607,19 +33607,19 @@ gUnknown_0808DE64:
 gUnknown_0808DE70:
 	.4byte gUnknown_08180B90
 gUnknown_0808DE74:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DE78, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DE8C, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DE94:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DE98, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DEAC, 0x4
 	.4byte gUnknown_080716EC
 gUnknown_0808DEB4:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DEB8, 0x10
 	.4byte gUnknown_080555A0
 	.incbin "baserom.gba", 0x8DECC, 0x4
@@ -33646,7 +33646,7 @@ gUnknown_0808DF50:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0808DF28
 gUnknown_0808DF58:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8DF5C, 0x10
 	.4byte gUnknown_0808DF50
 	.incbin "baserom.gba", 0x8DF70, 0x4
@@ -33681,7 +33681,7 @@ gUnknown_0808E010:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0808DFE4
 gUnknown_0808E018:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8E01C, 0x10
 	.4byte gUnknown_0808E010
 	.incbin "baserom.gba", 0x8E030, 0x4
@@ -33715,7 +33715,7 @@ gUnknown_0808E0C4:
 	.4byte sub_0800421E + 1
 	.4byte gUnknown_0808E09C
 gUnknown_0808E0CC:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8E0D0, 0x10
 	.4byte gUnknown_0808E0C4
 	.incbin "baserom.gba", 0x8E0E4, 0x4
@@ -33752,7 +33752,7 @@ gUnknown_0808E160:
 	.4byte sub_0800424E + 1
 	.4byte gUnknown_08798D1C
 gUnknown_0808E168:
-	.4byte sub_0800FD54 + 1
+	.4byte Enemy_Spawn + 1
 	.incbin "baserom.gba", 0x8E16C, 0x10
 	.4byte gUnknown_0808E160
 	.incbin "baserom.gba", 0x8E180, 0x4

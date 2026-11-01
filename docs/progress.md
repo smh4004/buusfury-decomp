@@ -8,6 +8,7 @@
 | 2: labels + shiftability | done, with listed risks | SHIFT 0x100 / 0x1234 / 0x20000 builds play the long route pixel-identical after the title (`make shift-test`) |
 | 3: editable assets | done for text, palette, EXP, map chunks; WFZ compressor | Demo edits visible in game; recompressing all 13,183 containers passes the long route |
 | 4: decomp scope | report written | SDT 2.51 compiler experiment, `docs/decomp_scope.md` |
+| 7: enemies + user guide | enemy stats (150), spawns (1,571), area actor lists, death scripts; `USER_README.md`; BPS patches | `make verify-mods`: an added enemy with edited HP/EXP spawns, dies and levels Goku up in the emulator |
 | 6: modding toolkit | scripts (decompile and compile events and item effects), all maps, tile pages, sprites, tables | `tools/scripts/roundtrip.py` (3,890 steps byte-exact); unedited extract -> identical ROM; `demo_edits.py` edits of every kind show up in game (`docs/modding.md`) |
 | 5: non-matching C decomp | **431 functions run as C** (284 verified + 147 tested); reference C for all 4,947 | `make DECOMP=2` plays `decomp_route.txt` + `decomp_long.txt` identically (66/66 checkpoints, game-loop time); `docs/decomp.md` |
 
@@ -32,7 +33,6 @@
    * Find out why `sub_0800BE90` and `sub_08012960` change the game even though they pass every snapshot (see `config/decomp_blocklist.txt`).
    * Give `src/` real names and structs. Re-test each edit with `autodecomp.py test --only NAME`.
 5. **Modding toolkit gaps:**
-   * **Enemy stats** aren't located yet (see `docs/modding.md` section 4).
    * **Sprites**: multi-piece and 16-colour frames aren't exported.
    * **Step kinds 1, 2, 7, 8 and 9** are kept as raw bytes.
    * **Natives**: most of the 248 are unnamed. Name them in `config/script_natives.txt` from their C in `ref/`.

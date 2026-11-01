@@ -291,7 +291,7 @@ void sub_080043C2(byte *param_1)
 void sub_080043D8(byte *param_1)
 
 {
-  sub_08013914(param_1 + (uint)*param_1 * 0x68 + 0x4f8);
+  Player_AddExp(param_1 + (uint)*param_1 * 0x68 + 0x4f8);
   return;
 }
 
@@ -590,9 +590,9 @@ void sub_08004764(int param_1,undefined4 param_2,undefined4 param_3,undefined4 p
 }
 
 
-/* sub_08004784 @ 0x08004784 */
+/* Actor_CheckCondition @ 0x08004784 */
 
-bool sub_08004784(uint param_1)
+bool Actor_CheckCondition(uint param_1)
 
 {
   uint uVar1;

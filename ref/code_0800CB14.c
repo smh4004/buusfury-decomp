@@ -2691,9 +2691,9 @@ void sub_0800E97E(int param_1,int *param_2)
 }
 
 
-/* sub_0800E9D8 @ 0x0800E9D8 */
+/* Combat_Damage @ 0x0800E9D8 */
 
-void sub_0800E9D8(int param_1,byte *param_2)
+void Combat_Damage(int param_1,byte *param_2)
 
 {
   byte bVar1;

@@ -1011,9 +1011,9 @@ void sub_0800F62C(int param_1)
 }
 
 
-/* sub_0800F68C @ 0x0800F68C */
+/* Enemy_Create @ 0x0800F68C */
 
-undefined4 * sub_0800F68C(undefined4 *param_1,int param_2,int param_3,undefined4 param_4)
+undefined4 * Enemy_Create(undefined4 *param_1,int param_2,int param_3,undefined4 param_4)
 
 {
   undefined4 *puVar1;
@@ -1346,7 +1346,7 @@ undefined4 sub_0800F9F8(int param_1,undefined4 param_2,int param_3)
 void sub_0800FA16(int param_1,int param_2)
 
 {
-  *(undefined **)(param_1 + 0x224) = &gUnknown_08711274 + param_2 * 0x1c;
+  *(undefined **)(param_1 + 0x224) = &gEnemyStats + param_2 * 0x1c;
   return;
 }
 
@@ -1479,7 +1479,7 @@ undefined4 sub_0800FAFA(int *param_1,int param_2,int *param_3)
         ((iStack_18 <= param_3[2] || (param_3[4] <= (int)uStack_20)))))) {
       return 0;
     }
-    sub_0800E9D8(param_1);
+    Combat_Damage(param_1);
     if (param_3[0xb] != 0) {
       uStack_24 = (uint)*(byte *)param_3[7];
       uStack_20 = (uint)*(byte *)(param_3[7] + 1);
@@ -1578,7 +1578,7 @@ undefined4 sub_0800FB06(int param_1,int param_2,int *param_3)
         || ((local_4 <= unaff_r7[1] || (unaff_r7[3] <= (int)local_c)))))) {
       return 0;
     }
-    sub_0800E9D8(unaff_r4);
+    Combat_Damage(unaff_r4);
     if (param_3[0xb] != 0) {
       local_10 = (uint)*(byte *)param_3[7];
       local_c = (uint)*(byte *)(param_3[7] + 1);
@@ -1698,12 +1698,12 @@ void sub_0800FD44(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 
 }
 
 
-/* sub_0800FD54 @ 0x0800FD54 */
+/* Enemy_Spawn @ 0x0800FD54 */
 
-void sub_0800FD54(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
+void Enemy_Spawn(int param_1,undefined4 param_2,undefined4 param_3,undefined4 param_4)
 
 {
-  sub_0800F68C(0,param_1,&gUnknown_08711274 + *(int *)(param_1 + 8) * 0x1c,param_2,param_4);
+  Enemy_Create(0,param_1,&gEnemyStats + *(int *)(param_1 + 8) * 0x1c,param_2,param_4);
   return;
 }
 
@@ -2877,7 +2877,7 @@ void sub_0801088A(undefined4 param_1,int *param_2)
   }
   if (bVar1) {
     __call_via_r1(param_2,*(int *)(*param_2 + 0x80) + *param_2);
-    uStack_1c = sub_080135D2();
+    uStack_1c = Player_GetLevel();
     uStack_18 = 0xffffffff;
     sub_0800FDFA(&iStack_2c,param_2);
     DAT_03001010 = iStack_2c + iStack_24 >> 1;

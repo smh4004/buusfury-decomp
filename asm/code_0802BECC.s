@@ -2637,7 +2637,7 @@ sub_0802CBD4: @ 0x0802CBD4
 	adds r1, r6, #0
 	mvns r3, r3
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r5, r0, #0
 	adds r1, r0, #0
 	ldr r0, _0802CD10
@@ -2658,7 +2658,7 @@ sub_0802CBD4: @ 0x0802CBD4
 	mvns r3, r3
 	adds r1, r6, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r7, r0, #0
 	adds r1, r0, #0
 	ldr r0, _0802CD10
@@ -2679,7 +2679,7 @@ sub_0802CBD4: @ 0x0802CBD4
 	mvns r3, r3
 	adds r1, r6, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r5, r0, #0
 	adds r1, r0, #0
 	ldr r0, _0802CD10
@@ -2700,7 +2700,7 @@ sub_0802CBD4: @ 0x0802CBD4
 	mvns r3, r3
 	adds r1, r6, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r7, r0, #0
 	adds r1, r0, #0
 	ldr r0, _0802CD10
@@ -2721,7 +2721,7 @@ sub_0802CBD4: @ 0x0802CBD4
 	mvns r3, r3
 	adds r1, r6, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r4, r0, #0
 	adds r1, r0, #0
 	ldr r0, _0802CD10
@@ -2768,7 +2768,7 @@ _0802CD10:
 _0802CD14:
 	.4byte 0x00000FA4
 _0802CD18:
-	.4byte gUnknown_08711274
+	.4byte gEnemyStats
 _0802CD1C:
 	.4byte _0804C21C
 

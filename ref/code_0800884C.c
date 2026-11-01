@@ -277,7 +277,7 @@ void sub_08008A5C(int param_1,int param_2,int param_3,int param_4)
   uVar5 = (uint)*(byte *)(*(int *)(iVar4 + 4) + 3);
   while (uVar5 = uVar5 - 1, -1 < (int)uVar5) {
     puVar6 = (undefined4 *)(*(int *)(*(int *)(iVar4 + 4) + 0x10) + uVar5 * 8);
-    iVar3 = sub_08004784(*puVar6);
+    iVar3 = Actor_CheckCondition(*puVar6);
     if (iVar3 != 0) {
       puVar6 = (undefined4 *)puVar6[1];
       uVar2 = __call_via_r1(puVar6,*puVar6);
@@ -311,7 +311,7 @@ void sub_08008AA0(int param_1,int param_2)
   uVar3 = (uint)*(byte *)(*(int *)(param_1 + 4) + 3);
   while (uVar3 = uVar3 - 1, -1 < (int)uVar3) {
     puVar4 = (undefined4 *)(*(int *)(*(int *)(param_1 + 4) + 0x10) + uVar3 * 8);
-    iVar2 = sub_08004784(*puVar4);
+    iVar2 = Actor_CheckCondition(*puVar4);
     if (iVar2 != 0) {
       puVar4 = (undefined4 *)puVar4[1];
       uVar1 = __call_via_r1(puVar4,*puVar4);
@@ -337,7 +337,7 @@ void sub_08008AFE(int param_1)
   if (*(char *)(*(int *)(param_1 + 4) + 5) != '\0') {
     do {
       puVar3 = *(undefined4 **)(*(int *)(*(int *)(param_1 + 4) + 0x18) + iVar2 * 4);
-      iVar1 = sub_08004784(*puVar3);
+      iVar1 = Actor_CheckCondition(*puVar3);
       if (iVar1 != 0) {
         sub_0800C7E2(puVar3);
       }
@@ -407,7 +407,7 @@ void sub_08008B30(undefined1 *param_1,int param_2,undefined4 param_3,undefined4 
   if (*(char *)(*(int *)(param_1 + 4) + 5) != '\0') {
     do {
       puVar6 = *(undefined4 **)(*(int *)(*(int *)(param_1 + 4) + 0x18) + iVar5 * 4);
-      iVar3 = sub_08004784(*puVar6);
+      iVar3 = Actor_CheckCondition(*puVar6);
       if (iVar3 != 0) {
         sub_0800C7E2(puVar6);
       }
@@ -418,7 +418,7 @@ void sub_08008B30(undefined1 *param_1,int param_2,undefined4 param_3,undefined4 
   if (*(char *)(*(int *)(param_1 + 4) + 6) != '\0') {
     do {
       puVar6 = *(undefined4 **)(*(int *)(*(int *)(param_1 + 4) + 0x1c) + iVar5 * 4);
-      iVar3 = sub_08004784(*puVar6);
+      iVar3 = Actor_CheckCondition(*puVar6);
       if (iVar3 != 0) {
         uVar2 = sub_0800DD2C(0,puVar6);
         sub_0801191A(&DAT_03001c4c,uVar2);
@@ -438,7 +438,7 @@ void sub_08008B30(undefined1 *param_1,int param_2,undefined4 param_3,undefined4 
   if (*(char *)(*(int *)(param_1 + 4) + 4) != '\0') {
     do {
       puVar6 = *(undefined4 **)(*(int *)(*(int *)(param_1 + 4) + 0x14) + iVar5 * 4);
-      iVar3 = sub_08004784(puVar6[1]);
+      iVar3 = Actor_CheckCondition(puVar6[1]);
       if (iVar3 != 0) {
         uVar2 = __call_via_r2(puVar6,iVar5,*puVar6);
         sub_0801191A(&DAT_03001c4c,uVar2);
@@ -692,7 +692,7 @@ void Scene_Load(undefined1 *param_1,undefined4 param_2,undefined4 param_3,undefi
   if ((param_6 != 0) && (iVar4 = 0, *(char *)(*(int *)(param_1 + 4) + 4) != '\0')) {
     do {
       puVar5 = *(undefined4 **)(*(int *)(*(int *)(param_1 + 4) + 0x14) + iVar4 * 4);
-      iVar3 = sub_08004784(puVar5[1]);
+      iVar3 = Actor_CheckCondition(puVar5[1]);
       if (iVar3 != 0) {
         uVar2 = __call_via_r2(puVar5,iVar4,*puVar5);
         sub_0801191A(&DAT_03001c4c,uVar2);

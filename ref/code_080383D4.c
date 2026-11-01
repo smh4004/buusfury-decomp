@@ -1149,7 +1149,7 @@ void sub_0803926C(undefined4 param_1,int *param_2)
     sub_08049138((int)auStack_40,0x877ae38,0x20);
     local_34 = (short)((uint)param_2[0x68] >> 8) + local_20[(uint)*(byte *)(param_2 + 4) * 2];
     local_32 = (short)((uint)param_2[0x69] >> 8) + local_20[(uint)*(byte *)(param_2 + 4) * 2 + 1];
-    iVar3 = sub_0800F68C(0,auStack_40,&gUnknown_087113E0,0xffffffff);
+    iVar3 = Enemy_Create(0,auStack_40,&gUnknown_087113E0,0xffffffff);
     sub_0801191A(&DAT_03001c4c,iVar3);
     *(int **)(iVar3 + 500) = param_2;
     *(char *)(iVar3 + 0x10) = (char)param_2[4];
@@ -1867,7 +1867,7 @@ void sub_08039A16(int param_1,int *param_2)
           sub_08049138((int)&local_5c,0x877af78,0x20);
           uStack_50 = (undefined2)local_3c[iVar2 * 2];
           uStack_4e = (undefined2)local_3c[iVar2 * 2 + 1];
-          uVar1 = sub_0800F68C(0,&local_5c,&gUnknown_08711274 + iStack_54 * 0x1c,0xffffffff);
+          uVar1 = Enemy_Create(0,&local_5c,&gEnemyStats + iStack_54 * 0x1c,0xffffffff);
           sub_0801191A(&DAT_03001c4c,uVar1);
           iVar2 = iVar2 + 1;
         } while (iVar2 < *(int *)(param_1 + 8));
@@ -1982,15 +1982,15 @@ undefined4 sub_08039C14(undefined4 param_1,int param_2)
   local_18 = local_40;
   sub_08049138((int)auStack_4c,0x877afdc,0x20);
   local_40 = CONCAT22((short)((uint)local_28 >> 8),(short)((uint)local_2c >> 8));
-  iVar1 = sub_0800F68C(0,auStack_4c,&gUnknown_08711274 + local_44 * 0x1c,0xffffffff);
+  iVar1 = Enemy_Create(0,auStack_4c,&gEnemyStats + local_44 * 0x1c,0xffffffff);
   sub_0801191A(&DAT_03001c4c,iVar1);
   sub_08049138((int)auStack_4c,0x877affc,0x20);
   local_40 = CONCAT22((short)((uint)local_20 >> 8),(short)((uint)local_24 >> 8));
-  iVar2 = sub_0800F68C(0,auStack_4c,&gUnknown_08711274 + local_44 * 0x1c,0xffffffff);
+  iVar2 = Enemy_Create(0,auStack_4c,&gEnemyStats + local_44 * 0x1c,0xffffffff);
   sub_0801191A(&DAT_03001c4c,iVar2);
   sub_08049138((int)auStack_4c,0x877b01c,0x20);
   local_40 = CONCAT22((short)((uint)local_18 >> 8),(short)((uint)local_1c >> 8));
-  iVar3 = sub_0800F68C(0,auStack_4c,&gUnknown_08711274 + local_44 * 0x1c,0xffffffff);
+  iVar3 = Enemy_Create(0,auStack_4c,&gEnemyStats + local_44 * 0x1c,0xffffffff);
   sub_0801191A(&DAT_03001c4c,iVar3);
   *(char *)(iVar3 + 8) = *(char *)(iVar3 + 8) + -1;
   *(int *)(iVar3 + 500) = param_2;
@@ -2414,7 +2414,7 @@ undefined4 sub_0803A16E(void)
   local_c = local_24;
   sub_08049138((int)auStack_30,0x877b050,0x20);
   local_24 = CONCAT22((short)((uint)local_c >> 8),(short)((uint)local_10 >> 8));
-  uVar1 = sub_0800F68C(0,auStack_30,&gUnknown_08711274 + local_28 * 0x1c,0xffffffff);
+  uVar1 = Enemy_Create(0,auStack_30,&gEnemyStats + local_28 * 0x1c,0xffffffff);
   sub_0801191A(&DAT_03001c4c,uVar1);
   return uVar1;
 }
@@ -2563,7 +2563,7 @@ undefined4 sub_0803A2FE(void)
   local_c = local_24;
   sub_08049138((int)auStack_30,0x877b050,0x20);
   local_24 = CONCAT22((short)((uint)local_c >> 8),(short)((uint)local_10 >> 8));
-  uVar1 = sub_0800F68C(0,auStack_30,&gUnknown_08711274 + local_28 * 0x1c,0xffffffff);
+  uVar1 = Enemy_Create(0,auStack_30,&gEnemyStats + local_28 * 0x1c,0xffffffff);
   sub_0801191A(&DAT_03001c4c,uVar1);
   return uVar1;
 }

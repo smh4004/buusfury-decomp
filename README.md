@@ -19,6 +19,9 @@ A pret-style source tree for **Dragon Ball Z: Buu's Fury (USA)** (GBA, `BG3E`, W
 * **Tooling.** A headless mGBA test harness (screenshots, breakpoints, memory watches, CPU snapshots), and a Unicorn
   equivalence tester with mutation checks.
 
+> **Want to make a mod? Start with [`USER_README.md`](USER_README.md):** a step-by-step guide to changing text, cutscenes, items,
+> enemies, maps and graphics, and sharing the result as a patch.
+
 > **No ROM data is included.** Everything copyrighted is read at build time from your own `baserom.gba`
 > (SHA-1 `f1c4b07554d2a3b1ad2f325307051e775ce68087`). The generated `asm/*.s`, `data/*.s` and `src/**/*.c` are mechanically
 > derived from that ROM, so keep this repository private. Share hacks as `.bps` patches, never as ROMs or extracted assets.
@@ -57,6 +60,8 @@ Nothing else is needed to build. Ghidra (11.x, Java 21) is only needed if you wa
 | `make SHIFT=0x100` | `buusfury_shift.gba` | Prove nothing depends on absolute addresses (everything after crt0 moves) |
 | `make shift-test` | report | Build the matching and shifted ROMs, play `tools/harness/long.txt` on both and compare 41 screenshots |
 | `make extract` | `assets/` | Dump editable assets (git-ignored) |
+| `make patch` | `buusfury_modern.bps` | Share your mod as a BPS patch |
+| `make verify-mods` | report | End-to-end self-test of the modding toolkit (includes an enemy fight in the emulator) |
 | `make modern` | `buusfury_modern.gba` | Build with your edited assets (unchanged ones keep their exact bytes) |
 | `make decomp` (`DECOMP=1`) | `buusfury_decomp.gba` | The game with the **verified** C functions in place of their assembly |
 | `make DECOMP=2` / `DECOMP=3` | same | Also link the *tested* / *untested* tiers (3 is experimental and may crash) |

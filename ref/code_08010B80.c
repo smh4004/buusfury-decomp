@@ -285,7 +285,7 @@ int * sub_08010DDE(int *param_1,int param_2,int *param_3)
            (sub_0800FE78(&iStack_28,param_1), *piVar1 < iStack_20)) &&
           ((iStack_28 < param_3[3] && (param_3[2] < iStack_1c)))) && (iStack_24 < param_3[4])) {
         if (local_18[3] != 0) {
-          sub_0800E9D8(param_1,piVar2);
+          Combat_Damage(param_1,piVar2);
           __call_via_r2(param_1,piVar2,*(int *)(*param_1 + 0x58) + *param_1);
         }
         return (int *)0x1;
@@ -297,7 +297,7 @@ int * sub_08010DDE(int *param_1,int param_2,int *param_3)
          ((sub_0800FDFA(&iStack_28,param_1), *piVar1 < iStack_20 &&
           (((iStack_28 < param_3[3] && (param_3[2] < iStack_1c)) && (iStack_24 < param_3[4])))))) {
         if (local_18[3] != 0) {
-          sub_0800E9D8(param_1,piVar2);
+          Combat_Damage(param_1,piVar2);
           __call_via_r2(param_1,piVar2,*(int *)(*param_1 + 0x58) + *param_1);
         }
         return (int *)0x1;
@@ -353,7 +353,7 @@ int * sub_08010DDE(int *param_1,int param_2,int *param_3)
       iVar4 = (*param_3 - iVar3) * (*param_3 - iVar3) + (param_3[1] - iVar4) * (param_3[1] - iVar4);
       iVar3 = param_3[2] * param_3[2];
       if ((iVar3 - iVar4 != 0 && iVar4 <= iVar3) && (local_18[3] != 0)) {
-        sub_0800E9D8(param_1,param_3 + 3);
+        Combat_Damage(param_1,param_3 + 3);
         __call_via_r2(param_1,param_3 + 3,*(int *)(*param_1 + 0x58) + *param_1);
         return (int *)0x1;
       }
@@ -386,7 +386,7 @@ int * sub_08010E04(int *param_1)
         ((in_stack_00000000 < param_1[2] && (param_1[1] < in_stack_0000000c)))) &&
        (in_stack_00000004 < param_1[3])) {
       if (*(int *)(in_stack_00000010 + 0xc) != 0) {
-        sub_0800E9D8(unaff_r4,unaff_r6);
+        Combat_Damage(unaff_r4,unaff_r6);
         __call_via_r2(unaff_r4,unaff_r6,*(int *)(*unaff_r4 + 0x58) + *unaff_r4);
       }
       unaff_r4 = (int *)0x1;
@@ -401,7 +401,7 @@ int * sub_08010E04(int *param_1)
         (((in_stack_00000000 < param_1[2] && (param_1[1] < in_stack_0000000c)) &&
          (in_stack_00000004 < param_1[3])))))) {
       if (*(int *)(in_stack_00000010 + 0xc) != 0) {
-        sub_0800E9D8(unaff_r4,unaff_r6);
+        Combat_Damage(unaff_r4,unaff_r6);
         __call_via_r2(unaff_r4,unaff_r6,*(int *)(*unaff_r4 + 0x58) + *unaff_r4);
       }
       unaff_r4 = (int *)0x1;
@@ -457,7 +457,7 @@ undefined4 sub_08011058(int *param_1,int param_2,char *param_3)
              (sub_0800FE78(&iStack_20,param_1), *(int *)(param_3 + 4) < iStack_18)) &&
             (((iStack_20 < *(int *)(param_3 + 0xc) && (*(int *)(param_3 + 8) < iStack_14)) &&
              ((iStack_1c < *(int *)(param_3 + 0x10) && (param_1[0x73] != 0)))))) {
-      sub_0800E9D8(param_1,param_3 + 0x14);
+      Combat_Damage(param_1,param_3 + 0x14);
       __call_via_r2(param_1,param_3 + 0x14,*(int *)(*param_1 + 0x58) + *param_1);
       uVar1 = 1;
     }

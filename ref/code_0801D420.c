@@ -401,7 +401,7 @@ void sub_0801D988(int param_1)
     uVar3 = local_1c[*(int *)(iVar1 + 0x13c) * 2 + 1];
     uStack_50 = 0xaf;
     iStack_4c = 0x58;
-    iVar2 = sub_080135D2(puStack_58);
+    iVar2 = Player_GetLevel(puStack_58);
     if (iVar2 < (int)(uint)(byte)(&DAT_086f8301)[(uVar3 & 0xfffffff) * 0x2c]) {
       iVar2 = 0x44;
     }
@@ -430,7 +430,7 @@ void sub_0801D988(int param_1)
         sub_0803DD66(&uStack_54,0xcc,
                      *(undefined4 *)(&gUIStringPtrs + (uint)*(ushort *)(&DAT_086f82ee + iVar6) * 4))
         ;
-        iVar4 = sub_080135D2(puStack_58);
+        iVar4 = Player_GetLevel(puStack_58);
         if (iVar4 < (int)(uint)(byte)(&DAT_086f8301)[iVar6]) {
           uStack_51 = 0x75;
         }
@@ -439,7 +439,7 @@ void sub_0801D988(int param_1)
         }
       }
       else {
-        iVar4 = sub_080135D2(puStack_58);
+        iVar4 = Player_GetLevel(puStack_58);
         if (iVar4 < (int)(uint)(byte)(&DAT_086f8301)[iVar6]) {
           uStack_51 = 0x75;
         }

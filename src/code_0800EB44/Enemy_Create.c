@@ -1,4 +1,4 @@
-/* sub_0800F68C  (original: 0x0800F68C-0x0800F740 in asm/code_0800EB44.s)
+/* Enemy_Create  (original: 0x0800F68C-0x0800F740 in asm/code_0800EB44.s)
  * Ghidra decompilation, compiled with GCC; not reached by the capture routes (compiles; unverified).
  */
 #include "ghidra_types.h"
@@ -16,7 +16,7 @@ extern undefined4 volatile DAT_03001bb4;
 extern undefined volatile _0804C484;
 
 
-undefined4 * sub_0800F68C(undefined4 *param_1,int param_2,int param_3,undefined4 param_4)
+undefined4 * Enemy_Create(undefined4 *param_1,int param_2,int param_3,undefined4 param_4)
 
 {
   undefined4 *puVar1;

@@ -3,7 +3,7 @@
  */
 #include "ghidra_types.h"
 extern int sub_0803E378();
-extern int sub_080135D2();
+extern int Player_GetLevel();
 extern ushort volatile DAT_03003304;
 extern undefined1 volatile DAT_03001560;
 extern undefined volatile DAT_03003e5c;
@@ -35,7 +35,7 @@ undefined4 sub_080157A4(int param_1)
       }
       if ((int)((uint)DAT_03003304 << 0x1b) < 0) {
         sub_0803E378(&DAT_03003e5c,&gUnknown_08319488,0x40,0);
-        iVar2 = sub_080135D2(&DAT_03001560 +
+        iVar2 = Player_GetLevel(&DAT_03001560 +
                              *(int *)(*(int *)(*(int *)(param_1 + 300) + 0x40) * 0xc +
                                       *(int *)(param_1 + 300) + 0x54) * 0x68);
         if ((*piVar3 < iVar2) && (0 < *(int *)(param_1 + 0x150))) {

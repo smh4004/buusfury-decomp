@@ -129,6 +129,37 @@ def preview(banks, ref, n=48):
 def indent(text): return text.rstrip('\n')
 
 
+_gi = None
+_refs = None
+
+
+def global_index(d):
+    global _gi
+    if _gi is None:
+        _gi = {}; p = GLOBAL_TABLE; i = 0
+        while isptr(u32(d, p)):
+            _gi.setdefault(u32(d, p) - ROM, i); p += 4; i += 1
+    return _gi
+
+
+def referrers(d):
+    """rodata offset -> labels of the objects holding a pointer to it (outside the global table)."""
+    global _refs
+    if _refs is None:
+        _refs = {}
+        at, keys = L.index()
+        import bisect
+        for p in range(RODATA[0], RODATA[1] - 3, 4):
+            v = u32(d, p)
+            if isptr(v) and not GLOBAL_TABLE <= p < GLOBAL_TABLE + 4 * 600:
+                i = bisect.bisect_right(keys, p) - 1
+                if i >= 0:
+                    nm = at[keys[i]]
+                    lst = _refs.setdefault(v - ROM, [])
+                    if nm not in lst: lst.append(nm)
+    return _refs
+
+
 def qstr(t):
     return '"%s"' % t.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n').replace('\r', '\\r')
 
@@ -138,7 +169,12 @@ def export_list(d, o, items, term, banks, names, owner):
     lab = L.name_at(o)
     out = ['# Event list %s (0x%08X), %d steps%s.' % (lab, ROM + o, len(items),
            '' if term else ', FIXED LENGTH (no 0 terminator: steps can be edited, not added or removed)'),
-           '# Syntax: see the top of tools/scripts/events.py. Native names: config/script_natives.txt.', '']
+           '# Syntax: see the top of tools/scripts/events.py. Native names: config/script_natives.txt.']
+    gi = global_index(d).get(o)
+    if gi is not None: out.append('# Global script %d: other scripts start it with run_event(%d, a, b).' % (gi, gi))
+    refs = referrers(d).get(o)
+    if refs: out.append('# Pointed to from: %s' % ', '.join(refs[:8]) + (' ...' if len(refs) > 8 else ''))
+    out.append('')
     for t in items:
         s = parse_step(d, t, banks); tl = L.name_at(t); sid = u16(d, t)
         if owner.get(t, o) != o:

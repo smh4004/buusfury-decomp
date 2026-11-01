@@ -1447,7 +1447,7 @@ void sub_080030DA(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 
   
   iVar1 = *param_1;
   *param_1 = iVar1 + -1;
-  sub_08012588((&gUnknown_0879B704)[param_1[iVar1]],DAT_03001030,param_3,param_4,param_4);
+  sub_08012588((&gGlobalScripts)[param_1[iVar1]],DAT_03001030,param_3,param_4,param_4);
   return;
 }
 
@@ -1466,7 +1466,7 @@ void sub_080030F8(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 
   *DAT_03001030 = param_1[iVar2];
   iVar2 = *param_1;
   *param_1 = iVar2 + -1;
-  sub_08012588((&gUnknown_0879B704)[param_1[iVar2]],DAT_03001030,&DAT_03001030,piVar1,param_4);
+  sub_08012588((&gGlobalScripts)[param_1[iVar2]],DAT_03001030,&DAT_03001030,piVar1,param_4);
   return;
 }
 
@@ -1488,7 +1488,7 @@ void sub_08003126(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 
   *DAT_03001030 = param_1[iVar2];
   iVar2 = *param_1;
   *param_1 = iVar2 + -1;
-  sub_08012588((&gUnknown_0879B704)[param_1[iVar2]],DAT_03001030,&DAT_03001030,piVar1,param_4);
+  sub_08012588((&gGlobalScripts)[param_1[iVar2]],DAT_03001030,&DAT_03001030,piVar1,param_4);
   return;
 }
 
@@ -1513,7 +1513,7 @@ void sub_08003164(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 
   *DAT_03001030 = param_1[iVar2];
   iVar2 = *param_1;
   *param_1 = iVar2 + -1;
-  sub_08012588((&gUnknown_0879B704)[param_1[iVar2]],DAT_03001030,&DAT_03001030,piVar1,param_4);
+  sub_08012588((&gGlobalScripts)[param_1[iVar2]],DAT_03001030,&DAT_03001030,piVar1,param_4);
   return;
 }
 
@@ -1541,7 +1541,7 @@ void sub_080031C8(int *param_1,undefined4 param_2,undefined4 param_3,undefined4 
   *DAT_03001030 = param_1[iVar2];
   iVar2 = *param_1;
   *param_1 = iVar2 + -1;
-  sub_08012588((&gUnknown_0879B704)[param_1[iVar2]],DAT_03001030,&DAT_03001030,piVar1,param_4);
+  sub_08012588((&gGlobalScripts)[param_1[iVar2]],DAT_03001030,&DAT_03001030,piVar1,param_4);
   return;
 }
 
@@ -1556,7 +1556,7 @@ void sub_08003226(int *param_1)
   
   iVar1 = *param_1;
   *param_1 = iVar1 + -1;
-  sub_08004098(auStack_70,(&gUnknown_0879B704)[param_1[iVar1]],DAT_03001030);
+  sub_08004098(auStack_70,(&gGlobalScripts)[param_1[iVar1]],DAT_03001030);
   return;
 }
 
@@ -1574,7 +1574,7 @@ void sub_0800324A(int *param_1)
   *DAT_03001030 = param_1[iVar1];
   iVar1 = *param_1;
   *param_1 = iVar1 + -1;
-  sub_08004098(auStack_70,(&gUnknown_0879B704)[param_1[iVar1]],DAT_03001030);
+  sub_08004098(auStack_70,(&gGlobalScripts)[param_1[iVar1]],DAT_03001030);
   return;
 }
 
@@ -1595,7 +1595,7 @@ void sub_0800327E(int *param_1)
   *DAT_03001030 = param_1[iVar1];
   iVar1 = *param_1;
   *param_1 = iVar1 + -1;
-  sub_08004098(auStack_70,(&gUnknown_0879B704)[param_1[iVar1]],DAT_03001030);
+  sub_08004098(auStack_70,(&gGlobalScripts)[param_1[iVar1]],DAT_03001030);
   return;
 }
 
@@ -2568,7 +2568,7 @@ void sub_08003B48(int *param_1)
     iVar2 = 200;
   }
   puVar3 = &DAT_03001560 + param_1[iVar1 + -1] * 0x68;
-  iVar1 = sub_080135D2(puVar3);
+  iVar1 = Player_GetLevel(puVar3);
   if (iVar1 < iVar2) {
     sub_08013678(puVar3,iVar1,iVar2);
     sub_080135BC(puVar3,iVar2);

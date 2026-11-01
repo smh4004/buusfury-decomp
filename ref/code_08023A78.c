@@ -1020,7 +1020,7 @@ void sub_080247BE(int param_1,int param_2)
           DAT_03002fbc = DAT_03000f94;
         }
         iStack_14 = param_1;
-        sub_0800E9D8(piVar1,auStack_30);
+        Combat_Damage(piVar1,auStack_30);
         __call_via_r2(piVar1,auStack_30,*(int *)(*piVar1 + 0x5c) + *piVar1);
         iVar2 = __call_via_r2(piVar1,0x17,*(int *)(*piVar1 + 0x34) + *piVar1);
         if (iVar2 != 0) {
@@ -1519,7 +1519,7 @@ undefined4 * sub_08024F2C(undefined4 *param_1)
     iVar6 = 0;
     if (0 < (int)param_1[4]) {
       do {
-        sVar1 = *(short *)(&gUnknown_0874D380 + piVar3[iVar6 + 1] * 0x10);
+        sVar1 = *(short *)(&gScouterTable + piVar3[iVar6 + 1] * 0x10);
         if (sVar5 == sVar1) {
           piVar4[*piVar4 * 2] = iVar6;
         }
@@ -1583,7 +1583,7 @@ undefined4 * sub_08024F3C(undefined4 *param_1)
     iVar6 = 0;
     if (0 < (int)param_1[4]) {
       do {
-        sVar1 = *(short *)(&gUnknown_0874D380 + piVar3[iVar6 + 1] * 0x10);
+        sVar1 = *(short *)(&gScouterTable + piVar3[iVar6 + 1] * 0x10);
         if (sVar5 == sVar1) {
           piVar4[*piVar4 * 2] = iVar6;
         }
@@ -1669,7 +1669,7 @@ void sub_08025056(int param_1)
   local_1c = param_1 + 0x10;
   puVar6 = (undefined *)0x0;
   if (*(int *)(param_1 + 0xb14) != -1) {
-    puVar6 = &gUnknown_0874D380 + *(int *)(*(int *)(param_1 + 0xb14) * 4 + local_1c + 4) * 0x10;
+    puVar6 = &gScouterTable + *(int *)(*(int *)(param_1 + 0xb14) * 4 + local_1c + 4) * 0x10;
   }
   local_18 = param_1;
   if (*(int *)(param_1 + 0xb0c) != 0) {
@@ -1729,7 +1729,7 @@ void sub_08025056(int param_1)
         sub_0803DADA(local_54,*(undefined4 *)
                                (&gUIStringPtrs +
                                (uint)*(ushort *)
-                                      (&gUnknown_0874D380 +
+                                      (&gScouterTable +
                                       *(int *)(piVar5[iVar3 * 2 + 1] * 4 + local_1c + 4) * 0x10) * 4
                                ));
         iVar2 = iVar2 + 1;

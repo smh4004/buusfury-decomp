@@ -3,7 +3,7 @@
  */
 #include "ghidra_types.h"
 extern int sub_080089CC();
-extern int sub_08004784();
+extern int Actor_CheckCondition();
 extern int Area_Lookup();
 extern int sub_080089A0();
 extern int ScriptVM_Run();
@@ -60,7 +60,7 @@ void Scene_Load(undefined1 *param_1,undefined4 param_2,undefined4 param_3,undefi
   if ((param_6 != 0) && (iVar4 = 0, *(char *)(*(int *)(param_1 + 4) + 4) != '\0')) {
     do {
       puVar5 = *(undefined4 **)(*(int *)(*(int *)(param_1 + 4) + 0x14) + iVar4 * 4);
-      iVar3 = sub_08004784(puVar5[1]);
+      iVar3 = Actor_CheckCondition(puVar5[1]);
       if (iVar3 != 0) {
         uVar2 = __call_via_r2(puVar5,iVar4,*puVar5);
         sub_0801191A(&DAT_03001c4c,uVar2);

@@ -442,7 +442,7 @@ sub_0801514A: @ 0x0801514A
 	movs r0, #0x37
 	str r0, [r4, #8]
 	adds r0, r5, #0
-	bl sub_080135D2
+	bl Player_GetLevel
 	adds r7, r0, #0
 	ldrb r0, [r5, #0x14]
 	ldr r1, _080154B8
@@ -1318,7 +1318,7 @@ _08015826:
 	movs r1, #0x9f
 	lsls r1, r1, #3
 	adds r0, r0, r1
-	bl sub_080135D2
+	bl Player_GetLevel
 	ldr r1, [r5]
 	cmp r0, r1
 	ble _0801587E

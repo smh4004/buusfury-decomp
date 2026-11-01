@@ -5,7 +5,7 @@
 extern int sub_08024A7C();
 extern int sub_0803D5B8();
 extern undefined1 volatile DAT_0300112d;
-extern undefined volatile gUnknown_0874D380;
+extern undefined volatile gScouterTable;
 extern undefined volatile _0804A950;
 
 
@@ -41,7 +41,7 @@ undefined4 * sub_08024F3C(undefined4 *param_1)
     iVar6 = 0;
     if (0 < (int)param_1[4]) {
       do {
-        sVar1 = *(short *)(&gUnknown_0874D380 + piVar3[iVar6 + 1] * 0x10);
+        sVar1 = *(short *)(&gScouterTable + piVar3[iVar6 + 1] * 0x10);
         if (sVar5 == sVar1) {
           piVar4[*piVar4 * 2] = iVar6;
         }

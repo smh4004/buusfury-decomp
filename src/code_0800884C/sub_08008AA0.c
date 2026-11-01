@@ -4,7 +4,7 @@
 #include "ghidra_types.h"
 extern int sub_080089CC();
 extern int __call_via_r1();
-extern int sub_08004784();
+extern int Actor_CheckCondition();
 extern int sub_08012900();
 extern int sub_08012628();
 extern int sub_08009670();
@@ -32,7 +32,7 @@ void sub_08008AA0(int param_1,int param_2)
   uVar3 = (uint)*(byte *)(*(int *)(param_1 + 4) + 3);
   while (uVar3 = uVar3 - 1, -1 < (int)uVar3) {
     puVar4 = (undefined4 *)(*(int *)(*(int *)(param_1 + 4) + 0x10) + uVar3 * 8);
-    iVar2 = sub_08004784(*puVar4);
+    iVar2 = Actor_CheckCondition(*puVar4);
     if (iVar2 != 0) {
       puVar4 = (undefined4 *)puVar4[1];
       uVar1 = __call_via_r1(puVar4,*puVar4);

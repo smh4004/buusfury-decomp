@@ -3360,7 +3360,7 @@ _080031B8:
 _080031BC:
 	.4byte _08049978
 _080031C0:
-	.4byte gUnknown_0879B704
+	.4byte gGlobalScripts
 _080031C4:
 	.4byte 0x03001030
 
@@ -3910,7 +3910,7 @@ _0800343A:
 _08003440:
 	.4byte 0x03001030
 _08003444:
-	.4byte gUnknown_0879B704
+	.4byte gGlobalScripts
 _08003448:
 	.4byte gUnknown_08054FBC
 _0800344C:
@@ -5342,7 +5342,7 @@ _08003B66:
 	lsls r1, r1, #3
 	adds r5, r0, r1
 	adds r0, r5, #0
-	bl sub_080135D2
+	bl Player_GetLevel
 	cmp r0, r4
 	bge _08003B92
 	adds r2, r4, #0

@@ -5,6 +5,7 @@
 #   make extract       baserom.gba -> assets/ (editable text, palette, tables, map chunks)
 #   make modern        build buusfury_modern.gba from assets/ (edited assets recompressed; non-matching)
 #   make shift-test    build + headless comparison of SHIFT build vs matching build
+#   make patch         buusfury_modern.bps from your edits;  make verify-mods: toolkit self-test
 PREFIX  ?= arm-none-eabi-
 AS      := $(PREFIX)as
 LD      := $(PREFIX)ld
@@ -58,7 +59,7 @@ ifneq ($(SHIFT),0)
 OBJS    += $(BUILD)/asm/shift.o
 endif
 
-.PHONY: FORCE all compare clean harness shift-test extract modern modern-rom decomp
+.PHONY: FORCE all compare clean harness shift-test extract modern modern-rom decomp patch verify-mods
 all: $(ROM)
 
 compare: $(ROM)
@@ -127,6 +128,14 @@ modern: assets/manifest.json
 	$(MAKE) MODERN=1 modern-rom
 
 modern-rom: $(ROM)
+
+# share a hack: buusfury_modern.bps (apply it to an original Buu's Fury (USA) ROM)
+patch: modern
+	$(PYTHON) tools/bps.py make baserom.gba buusfury_modern.gba buusfury_modern.bps
+
+# end-to-end check of the modding toolkit (demo edits in the emulator)
+verify-mods:
+	$(PYTHON) tools/assets/verify_mods.py
 
 # ---- tools
 harness: tools/harness/harness

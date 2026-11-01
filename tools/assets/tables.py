@@ -33,6 +33,13 @@ SPECS = {
         ('desc', 8, 'u16', 'ui'), ('h0A', 0xA, 'u16'), ('icon_w', 0xC, 'u32'), ('icon_h', 0x10, 'u32'),
         ('icon_oam', 0x14, 'u32'), ('icon', 0x18, 'ptr'), ('icon2_w', 0x1C, 'u32'), ('icon2_h', 0x20, 'u32'),
         ('icon2_oam', 0x24, 'u32'), ('icon2', 0x28, 'ptr'), ('price', 0x2C, 'u32'), ('effect', 0x30, 'ptr')]),
+    'enemies': (0x711274, 150, 28, [
+        ('exp', 0, 'u32'), ('hp', 4, 'u32'), ('id08', 8, 'u32'), ('level_plus_50', 0xC, 'u8'),
+        ('str', 0xD, 'u8'), ('pow', 0xE, 'u8'), ('end', 0xF, 'u8'), ('phys_taken', 0x10, 'u8'), ('ki_taken', 0x11, 'u8'),
+        ('b12', 0x12, 'u8'), ('b13', 0x13, 'u8'), ('on_defeat', 0x14, 'ptr'), ('death_script', 0x18, 'ptr')]),
+    'spawns': ('list', 'find_spawns', 32, [
+        ('w04', 4, 'u32'), ('enemy', 8, 'u32'), ('x', 0xC, 'u16'), ('y', 0xE, 'u16'), ('character', 0x10, 'u32'),
+        ('behaviour', 0x14, 'ptr'), ('w18', 0x18, 'u32'), ('ai', 0x1C, 'ptr')]),
     'scouter': (0x74D380, 232, 16, [
         ('name', 0, 'u16', 'ui'), ('desc', 2, 'u16', 'ui'), ('character', 4, 'u32'), ('w08', 8, 'u32'), ('w0C', 0xC, 's32')]),
 }
@@ -44,6 +51,12 @@ NOTES = {
                  'stat0-5: signed bonuses (STR/POW/END/SPD order inferred). price -1 = not sold.',
     'items': 'Consumables and key items. category 0 = usable, 1 = key item. effect -> bytecode run when used '
              '(assets/scripts/items/*.scr).',
+    'enemies': 'Enemy stats (gUnknown_08711274, indexed by spawns.enemy; alphabetical by enemy name). level_plus_50 = level + 50. '
+               'str/pow = physical/ki attack, end = defence (both kinds). phys_taken/ki_taken = damage taken, 128 = 100%. '
+               'exp is scaled by the player when awarded. death_script -> bytecode run on defeat (item drops: call 0xD8(item, chance, n)), '
+               'see assets/scripts/enemies/*.scr. on_defeat = handler object. _names: enemy names from spawns + scouter.',
+    'spawns': 'Every enemy placed in an area (1,571 records, found by their spawn function sub_0800FD54). enemy = row of enemies.csv, '
+              'x/y = position in map pixels, character = sprite/character id (scouter.csv), behaviour/ai = handler pointers.',
     'scouter': 'Scouter/journal entries: name and description strings plus the character id (index into the '
                'character collision table at 0x086B6BB4).',
 }
@@ -72,18 +85,61 @@ def ptr_expr(s):
     return s if s and not re.match(r'^-?(0x[0-9A-Fa-f]+|\d+)$', s) else str(int(s, 0) & 0xFFFFFFFF)
 
 
-def export(d, name, path):
+SPAWN_FN = 0x0800FD55          # sub_0800FD54 + 1, first word of every enemy spawn record
+
+
+def find_spawns(d):
+    return [o for o in range(0x54FBC, 0x7B79A4, 4) if u32(d, o) == SPAWN_FN]
+
+
+def rows_of(d, name):
     off, n, size, cols = SPECS[name]
+    if off == 'list': return globals()[n](d), size, cols
+    return [off + size * i for i in range(n)], size, cols
+
+
+def char_names(d):
+    """character id -> name, from the scouter table."""
+    off, n, size, cols = SPECS['scouter']; out = {}
+    for i in range(n):
+        nm, ds, ch = struct.unpack_from('<HHI', d, off + size * i)
+        out.setdefault(ch, ui_string(d, nm))
+    return out
+
+
+def enemy_names(d):
+    cn = char_names(d); out = {}
+    for o in find_spawns(d):
+        e, ch = u32(d, o + 8), u32(d, o + 0x10)
+        if ch in cn: out.setdefault(e, [])
+        if ch in cn and cn[ch] not in out[e]: out[e].append(cn[ch])
+    return {e: ' / '.join(v) for e, v in out.items()}
+
+
+def hints(d, name):
+    """read-only hint columns: name -> function(row index, record offset) -> text"""
+    if name == 'enemies':
+        en = enemy_names(d); return {'_names': lambda i, r: en.get(i, '')}
+    if name == 'spawns':
+        en = enemy_names(d); cn = char_names(d)
+        return {'_address': lambda i, r: L.symbol(r), '_enemy': lambda i, r: en.get(u32(d, r + 8), ''),
+                '_character': lambda i, r: cn.get(u32(d, r + 0x10), '')}
+    return {}
+
+
+def export(d, name, path):
+    recs, size, cols = rows_of(d, name)
+    hx = hints(d, name)
     with open(path, 'w', newline='', encoding='utf-8') as f:
         f.write('# %s\n' % NOTES.get(name, ''))
         w = csv.writer(f)
-        hdr = ['index']
+        hdr = ['index'] + list(hx)
         for c in cols:
             hdr.append(c[0])
             if len(c) > 3 and c[3] == 'ui': hdr.append('_' + c[0] + '_text')
         w.writerow(hdr)
-        for i in range(n):
-            r = off + size * i; row = [i]
+        for i, r in enumerate(recs):
+            row = [i] + [f(i, r) for f in hx.values()]
             for c in cols:
                 v = struct.unpack_from(FMT[c[2]], d, r + c[1])[0]
                 row.append(ptr_text(v) if c[2] == 'ptr' else v)
@@ -92,13 +148,13 @@ def export(d, name, path):
 
 
 def build(d, name, path, ctx):
-    off, n, size, cols = SPECS[name]
+    recs, size, cols = rows_of(d, name)
     rows = [r for r in csv.reader(l for l in open(path, encoding='utf-8') if not l.startswith('#'))]
-    hdr, rows = rows[0], rows[1:]
-    if len(rows) != n: raise ValueError('%s: must keep %d rows' % (path, n))
+    hdr, rows = rows[0], [r for r in rows[1:] if r]
+    if len(rows) != len(recs): raise ValueError('%s: must keep %d rows' % (path, len(recs)))
     ix = {h: i for i, h in enumerate(hdr)}
     for i, row in enumerate(rows):
-        r = off + size * i
+        r = recs[i]
         orig = d[r:r + size]
         # assemble the record: bytes for numbers, symbolic .4byte for pointers
         parts = []; pos = 0; data = bytearray(orig); syms = {}
@@ -125,6 +181,15 @@ def effect_scripts(d):
     for i in range(n):
         p = u32(d, off + size * i + 0x30)
         if p: out.append((i, p - ROM, ui_string(d, struct.unpack_from('<H', d, off + size * i + 2)[0])))
+    return out
+
+
+def death_scripts(d):
+    off, n, size, cols = SPECS['enemies']; en = enemy_names(d); seen = set(); out = []
+    for i in range(n):
+        p = u32(d, off + size * i + 0x18)
+        if p and p not in seen:
+            seen.add(p); out.append((i, p - ROM, en.get(i, '') or 'enemy%d' % i))
     return out
 
 

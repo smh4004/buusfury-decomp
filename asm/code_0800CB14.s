@@ -2,6 +2,7 @@
 	.include "asm/macros.inc"
 	.syntax unified
 	.text
+	.global Combat_Damage
 	.global _0800CB2E
 	.global _0800CB7C
 	.global _0800CBA2
@@ -382,7 +383,6 @@
 	.global sub_0800E8FE
 	.global sub_0800E970
 	.global sub_0800E97E
-	.global sub_0800E9D8
 
 
 	.ifndef DECOMP_sub_0800CB14
@@ -5713,8 +5713,8 @@ sub_0800E97E:
 	.space 72
 	.endif
 
-	thumb_func_start sub_0800E9D8
-sub_0800E9D8: @ 0x0800E9D8
+	thumb_func_start Combat_Damage
+Combat_Damage: @ 0x0800E9D8
 	push {r4, r5, r6, r7, lr}
 	adds r6, r0, #0
 	adds r4, r1, #0

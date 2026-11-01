@@ -4,7 +4,7 @@
 #include "ghidra_types.h"
 extern int sub_08009904();
 extern int sub_0801191A();
-extern int sub_0800F68C();
+extern int Enemy_Create();
 extern int sub_08000158();
 extern int sub_08011C70();
 extern int sub_08049138();
@@ -35,7 +35,7 @@ undefined4 sub_0803044C(undefined4 param_1,int param_2)
       sub_08049138((int)auStack_3c,0x875819c,0x20);
       uStack_30 = (undefined2)((uint)*(undefined4 *)(param_2 + 0x1a0) >> 8);
       uStack_2e = (undefined2)((uint)*(undefined4 *)(param_2 + 0x1a4) >> 8);
-      uVar1 = sub_0800F68C(0,auStack_3c,&gUnknown_087113FC,0xffffffff);
+      uVar1 = Enemy_Create(0,auStack_3c,&gUnknown_087113FC,0xffffffff);
       sub_0801191A(&DAT_03001c4c,uVar1);
     }
   }

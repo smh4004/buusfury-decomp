@@ -2,6 +2,8 @@
 	.include "asm/macros.inc"
 	.syntax unified
 	.text
+	.global Player_AddExp
+	.global Player_GetLevel
 	.global _08012D62
 	.global _08012DB4
 	.global _08012DCE
@@ -346,12 +348,10 @@
 	.global sub_08013598
 	.global sub_080135A2
 	.global sub_080135BC
-	.global sub_080135D2
 	.global sub_0801361C
 	.global sub_0801363E
 	.global sub_08013678
 	.global sub_0801375E
-	.global sub_08013914
 	.global sub_08013A90
 	.global sub_08013ABA
 	.global sub_08013B12
@@ -1814,8 +1814,8 @@ sub_080135BC:
 	.space 6
 	.endif
 
-	thumb_func_start sub_080135D2
-sub_080135D2: @ 0x080135D2
+	thumb_func_start Player_GetLevel
+Player_GetLevel: @ 0x080135D2
 	push {r4, r5}
 	ldr r3, [r0, #0x24]
 	movs r1, #0
@@ -1867,7 +1867,7 @@ _08013618:
 sub_0801361C: @ 0x0801361C
 	push {r4, lr}
 	adds r4, r0, #0
-	bl sub_080135D2
+	bl Player_GetLevel
 	cmp r0, #0xc8
 	blt _0801362C
 	movs r0, #0
@@ -1914,7 +1914,7 @@ sub_0801363E: @ 0x0801363E
 	pop {r4, r5, r6, pc}
 _08013658:
 	adds r0, r4, #0
-	bl sub_080135D2
+	bl Player_GetLevel
 	ldr r1, [r4, #0x24]
 	lsls r0, r0, #2
 	adds r2, r0, r6
@@ -2310,10 +2310,10 @@ _0801390C:
 _08013910:
 	.4byte gUnknown_086B72E0
 
-	.ifndef DECOMP_sub_08013914
+	.ifndef DECOMP_Player_AddExp
 
-	thumb_func_start sub_08013914
-sub_08013914: @ 0x08013914
+	thumb_func_start Player_AddExp
+Player_AddExp: @ 0x08013914
 	push {r3, r4, r5, r6, r7, lr}
 	adds r4, r0, #0
 	adds r5, r1, #0
@@ -2354,7 +2354,7 @@ _0801393C:
 	adds r0, r0, r7
 	movs r6, #0
 	adds r1, r5, #0
-	bl sub_08013914
+	bl Player_AddExp
 	orrs r6, r0
 	ldr r0, _08013BA0
 	movs r3, #0x68
@@ -2366,7 +2366,7 @@ _0801393C:
 	adds r0, r1, r0
 	adds r0, r0, r7
 	adds r1, r5, #0
-	bl sub_08013914
+	bl Player_AddExp
 	orrs r0, r6
 	adds r5, r0, #0
 	beq _080139E8
@@ -2422,7 +2422,7 @@ _080139E8:
 	b _08013922
 _080139EC:
 	adds r0, r4, #0
-	bl sub_080135D2
+	bl Player_GetLevel
 	adds r6, r0, #0
 	ldr r0, [r4, #0x24]
 	adds r0, r0, r5
@@ -2450,7 +2450,7 @@ _08013A08:
 	b _08013922
 _08013A20:
 	adds r0, r4, #0
-	bl sub_080135D2
+	bl Player_GetLevel
 	adds r2, r0, #0
 	adds r1, r6, #0
 	adds r0, r4, #0
@@ -2501,14 +2501,14 @@ _08013A8C:
 	movs r0, #1
 	b _08013922
 	.else
-	thumb_func_start sub_08013914
-sub_08013914:
+	thumb_func_start Player_AddExp
+Player_AddExp:
 	bx pc
 	nop
 	.arm
 	ldr ip, [pc]
 	bx ip
-	.4byte sub_08013914__c + 1
+	.4byte Player_AddExp__c + 1
 	.thumb
 	.space 364
 	.endif

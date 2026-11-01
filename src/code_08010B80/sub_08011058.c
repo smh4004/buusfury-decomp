@@ -2,7 +2,7 @@
  * Ghidra decompilation, compiled with GCC; not reached by the capture routes (compiles; unverified).
  */
 #include "ghidra_types.h"
-extern int sub_0800E9D8();
+extern int Combat_Damage();
 extern int sub_0800FE78();
 extern int __call_via_r2();
 extern int sub_08010DDE();
@@ -25,7 +25,7 @@ undefined4 sub_08011058(int *param_1,int param_2,char *param_3)
              (sub_0800FE78(&iStack_20,param_1), *(int *)(param_3 + 4) < iStack_18)) &&
             (((iStack_20 < *(int *)(param_3 + 0xc) && (*(int *)(param_3 + 8) < iStack_14)) &&
              ((iStack_1c < *(int *)(param_3 + 0x10) && (param_1[0x73] != 0)))))) {
-      sub_0800E9D8(param_1,param_3 + 0x14);
+      Combat_Damage(param_1,param_3 + 0x14);
       __call_via_r2(param_1,param_3 + 0x14,*(int *)(*param_1 + 0x58) + *param_1);
       uVar1 = 1;
     }

@@ -3744,7 +3744,7 @@ sub_0802F4FA: @ 0x0802F4FA
 	mvns r3, r3
 	adds r1, r5, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r5, r0, #0
 	adds r1, r0, #0
 	ldr r0, [r6]
@@ -3905,7 +3905,7 @@ _0802F5DC:
 _0802F5E0:
 	.4byte gUnknown_08757A4C
 _0802F5E4:
-	.4byte gUnknown_08711274
+	.4byte gEnemyStats
 _0802F5E8:
 	.4byte _0804AD18
 

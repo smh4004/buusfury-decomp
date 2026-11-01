@@ -1581,7 +1581,7 @@ _0801BA88:
 _0801BA8C:
 	.4byte gUnknown_0871E024
 _0801BA90:
-	.4byte gUnknown_08711274
+	.4byte gEnemyStats
 _0801BA94:
 	.4byte 0x03001B10
 
@@ -4987,7 +4987,7 @@ _0801D0C4:
 	muls r0, r7, r0
 	adds r7, r0, r1
 	adds r0, r6, #0
-	bl sub_080135D2
+	bl Player_GetLevel
 	ldrb r1, [r7, #0x15]
 	cmp r0, r1
 	blt _0801D12A

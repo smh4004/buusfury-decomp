@@ -2739,7 +2739,7 @@ _080247FA:
 _080248A4:
 	adds r1, r6, #0
 	adds r0, r5, #0
-	bl sub_0800E9D8
+	bl Combat_Damage
 	ldr r1, [r5]
 	adds r0, r5, #0
 	ldr r2, [r1, #0x5c]
@@ -3706,7 +3706,7 @@ _08024F20:
 _08024F24:
 	.4byte gUIStringPtrs
 _08024F28:
-	.4byte gUnknown_08711274
+	.4byte gEnemyStats
 	.else
 	thumb_func_start sub_08024D94
 sub_08024D94:
@@ -4268,7 +4268,7 @@ _08025308:
 _0802530C:
 	.4byte gUnknown_087319CC
 _08025310:
-	.4byte gUnknown_0874D380
+	.4byte gScouterTable
 _08025314:
 	.4byte 0x06009800
 _08025318:
@@ -4814,7 +4814,7 @@ sub_080255C4: @ 0x080255C4
 	pop {r4, r5, r6, r7, pc}
 	.align 2, 0
 _080256B8:
-	.4byte gUnknown_0874D380
+	.4byte gScouterTable
 _080256BC:
 	.4byte gUnknown_087319CC
 _080256C0:

@@ -7,7 +7,7 @@ extern int sub_0803D5B8();
 extern int sub_0803DA78();
 extern int sub_0803DE6A();
 extern undefined1 volatile DAT_0300112d;
-extern undefined volatile gUnknown_0874D380;
+extern undefined volatile gScouterTable;
 extern undefined volatile _0804A52C;
 extern undefined4 volatile gUnknown_0806EE6C;
 extern undefined volatile gUIStringPtrs;
@@ -31,7 +31,7 @@ undefined4 * sub_08025E50(undefined4 *param_1,uint param_2,undefined4 param_3)
     (&DAT_0300112d)[(int)param_2 >> 3] =
          (&DAT_0300112d)[(int)param_2 >> 3] | (byte)(1 << (param_2 & 7));
     iVar1 = 0;
-    param_1[8] = &gUnknown_0874D380 + param_2 * 0x10;
+    param_1[8] = &gScouterTable + param_2 * 0x10;
     param_1[4] = 0;
     param_1[7] = 0;
     *(undefined1 *)(param_1 + 3) = 0;

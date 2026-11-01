@@ -3,9 +3,9 @@
  */
 #include "ghidra_types.h"
 extern int sub_08049138();
-extern int sub_0800F68C();
+extern int Enemy_Create();
 extern int sub_0801191A();
-extern undefined volatile gUnknown_08711274;
+extern undefined volatile gEnemyStats;
 extern int volatile DAT_03001c34;
 extern undefined volatile DAT_03001c4c;
 
@@ -34,7 +34,7 @@ undefined4 sub_0803A16E(void)
   local_c = local_24;
   sub_08049138((int)auStack_30,0x877b050,0x20);
   local_24 = CONCAT22((short)((uint)local_c >> 8),(short)((uint)local_10 >> 8));
-  uVar1 = sub_0800F68C(0,auStack_30,&gUnknown_08711274 + local_28 * 0x1c,0xffffffff);
+  uVar1 = Enemy_Create(0,auStack_30,&gEnemyStats + local_28 * 0x1c,0xffffffff);
   sub_0801191A(&DAT_03001c4c,uVar1);
   return uVar1;
 }

@@ -867,7 +867,7 @@ _08008ACE:
 	ldr r0, [r0, #0x10]
 	adds r6, r0, r1
 	ldr r0, [r6]
-	bl sub_08004784
+	bl Actor_CheckCondition
 	cmp r0, #0
 	beq _08008AF8
 	ldr r5, _08008D08
@@ -916,7 +916,7 @@ _08008B0C:
 	ldr r0, [r0, #0x18]
 	ldr r5, [r0, r1]
 	ldr r0, [r5]
-	bl sub_08004784
+	bl Actor_CheckCondition
 	cmp r0, #0
 	beq _08008B24
 	adds r0, r5, #0
@@ -1059,7 +1059,7 @@ _08008C08:
 	ldr r0, [r0, #0x18]
 	ldr r6, [r0, r1]
 	ldr r0, [r6]
-	bl sub_08004784
+	bl Actor_CheckCondition
 	cmp r0, #0
 	beq _08008C20
 	adds r0, r6, #0
@@ -1082,7 +1082,7 @@ _08008C34:
 	ldr r0, [r0, #0x1c]
 	ldr r6, [r0, r1]
 	ldr r0, [r6]
-	bl sub_08004784
+	bl Actor_CheckCondition
 	cmp r0, #0
 	beq _08008C58
 	adds r1, r6, #0
@@ -1140,7 +1140,7 @@ _08008CA8:
 	ldr r0, [r0, #0x14]
 	ldr r6, [r0, r1]
 	ldr r0, [r6, #4]
-	bl sub_08004784
+	bl Actor_CheckCondition
 	cmp r0, #0
 	beq _08008CCE
 	adds r1, r5, #0
@@ -1673,7 +1673,7 @@ _080090B4:
 	ldr r0, [r0, #0x14]
 	ldr r6, [r0, r1]
 	ldr r0, [r6, #4]
-	bl sub_08004784
+	bl Actor_CheckCondition
 	cmp r0, #0
 	beq _080090D8
 	adds r1, r5, #0

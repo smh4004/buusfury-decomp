@@ -4,7 +4,7 @@
 #include "ghidra_types.h"
 extern int sub_08004098();
 extern int * volatile DAT_03001030;
-extern undefined * volatile gUnknown_0879B704;
+extern undefined * volatile gGlobalScripts;
 
 
 void sub_0800327E(int *param_1)
@@ -21,7 +21,7 @@ void sub_0800327E(int *param_1)
   *DAT_03001030 = param_1[iVar1];
   iVar1 = *param_1;
   *param_1 = iVar1 + -1;
-  sub_08004098(auStack_70,(&gUnknown_0879B704)[param_1[iVar1]],DAT_03001030);
+  sub_08004098(auStack_70,(&gGlobalScripts)[param_1[iVar1]],DAT_03001030);
   return;
 }
 

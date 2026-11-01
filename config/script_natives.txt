@@ -2,8 +2,8 @@
 # Format: id name   # comment.  Natives 0x00-0x11 double as "vars": `set`/`inc`/`dec` call gScriptSetterFuncs[id].
 # Names marked (inferred) come from watching the intro and Other World scripts run; rename freely,
 # the assembler maps names back to ids, so renaming never changes the built ROM.
-0x1F journal_flag       # (inferred) sets a journal/progress flag
-0x23 music              # (inferred) play music track
+0x1F play_sfx           # plays sound effect n (table gUnknown_083192A8, 12-byte entries) -- verified in code
+0x23 music              # play music track n (table gUnknown_083BB78C, 5-byte entries) -- verified in code
 0x2F end_cutscene       # (inferred)
 0x38 begin_moves        # (inferred) start a group of actor moves
 0x3A wait_moves         # (inferred) wait until all moves finish
@@ -16,4 +16,7 @@
 0x0D max_hp             # (inferred) var
 0x0E ki                 # (inferred) var: current energy
 0x0F max_ki             # (inferred) var
-0x82 play_sfx           # (inferred) item effects end with it
+0x82 take_item          # inventory[n] -= 1 (byte array 0x0300106A); items use it to consume themselves -- verified in code
+0x83 take_items         # take_items(slot, count) -- verified in code
+0xD5 has_equipped       # has_equipped(equipment index) -> 1 if worn -- verified in code
+0xD8 run_event          # run_event(global event list, arg0, arg1): runs gUnknown_0879B704[list] (enemy drops use list 497) -- verified in code

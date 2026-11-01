@@ -1744,7 +1744,7 @@ sub_0800070E: @ 0x0800070E
 	movs r1, #0x9f
 	lsls r1, r1, #3
 	adds r0, r0, r1
-	bl sub_080135D2
+	bl Player_GetLevel
 	ldr r1, [r4]
 	adds r2, r1, #1
 	lsls r1, r1, #2

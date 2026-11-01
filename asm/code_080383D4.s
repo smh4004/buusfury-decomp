@@ -2793,7 +2793,7 @@ _0803928A:
 	mvns r3, r3
 	adds r1, r6, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r5, r0, #0
 	adds r1, r0, #0
 	ldr r0, _08039350
@@ -4214,7 +4214,7 @@ _08039B10:
 	mvns r3, r3
 	adds r1, r7, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r1, r0, #0
 	ldr r0, _08039BCC
 	subs r0, #0x24
@@ -4323,7 +4323,7 @@ _08039BCC:
 _08039BD0:
 	.4byte gUnknown_086FD9D0
 _08039BD4:
-	.4byte gUnknown_08711274
+	.4byte gEnemyStats
 _08039BD8:
 	.4byte _0804D3C8
 _08039BDC:
@@ -4475,7 +4475,7 @@ sub_08039C14: @ 0x08039C14
 	adds r2, r0, r1
 	adds r1, r7, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r5, r0, #0
 	adds r1, r0, #0
 	ldr r0, _08039D8C
@@ -4503,7 +4503,7 @@ sub_08039C14: @ 0x08039C14
 	adds r3, r6, #0
 	adds r1, r7, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r6, r0, #0
 	adds r1, r0, #0
 	ldr r0, _08039D8C
@@ -4532,7 +4532,7 @@ sub_08039C14: @ 0x08039C14
 	mvns r3, r3
 	adds r1, r7, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r7, r0, #0
 	adds r1, r0, #0
 	ldr r0, _08039D8C
@@ -4592,7 +4592,7 @@ _08039D88:
 _08039D8C:
 	.4byte gUnknown_0877AFDC
 _08039D90:
-	.4byte gUnknown_08711274
+	.4byte gEnemyStats
 _08039D94:
 	.4byte 0x030032C4
 
@@ -5256,7 +5256,7 @@ sub_0803A16E: @ 0x0803A16E
 	mvns r3, r3
 	adds r1, r4, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r4, r0, #0
 	adds r1, r0, #0
 	ldr r0, _0803A378
@@ -5540,7 +5540,7 @@ sub_0803A2FE: @ 0x0803A2FE
 	mvns r3, r3
 	adds r1, r4, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r4, r0, #0
 	adds r1, r0, #0
 	ldr r0, _0803A378
@@ -5562,7 +5562,7 @@ _0803A37C:
 _0803A380:
 	.4byte 0x000005C4
 _0803A384:
-	.4byte gUnknown_08711274
+	.4byte gEnemyStats
 _0803A388:
 	.4byte _0804C338
 _0803A38C:

@@ -2,6 +2,7 @@
 	.include "asm/macros.inc"
 	.syntax unified
 	.text
+	.global Actor_CheckCondition
 	.global _080041CE
 	.global _080041D2
 	.global _080041E2
@@ -361,7 +362,6 @@
 	.global sub_080046F4
 	.global sub_08004722
 	.global sub_08004764
-	.global sub_08004784
 	.global sub_08004838
 	.global sub_08004896
 	.global sub_080048A0
@@ -936,7 +936,7 @@ sub_080043D8: @ 0x080043D8
 	movs r2, #0x9f
 	lsls r2, r2, #3
 	adds r0, r0, r2
-	bl sub_08013914
+	bl Player_AddExp
 	pop {r3, pc}
 	.else
 	thumb_func_start sub_080043D8
@@ -1608,8 +1608,8 @@ sub_08004764:
 	.space 16
 	.endif
 
-	thumb_func_start sub_08004784
-sub_08004784: @ 0x08004784
+	thumb_func_start Actor_CheckCondition
+Actor_CheckCondition: @ 0x08004784
 	push {r4, r5, lr}
 	sub sp, #0x6c
 	cmp r0, #0

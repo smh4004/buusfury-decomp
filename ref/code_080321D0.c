@@ -167,7 +167,7 @@ void sub_080321D0(int param_1)
     uVar1 = *(ushort *)((int)local_1c + *piVar7 * 8 + 6);
     iStack_54 = 0xaf;
     iStack_50 = 0x7e;
-    iVar5 = sub_080135D2(&DAT_03001560 + (uint)DAT_03001068 * 0x68);
+    iVar5 = Player_GetLevel(&DAT_03001560 + (uint)DAT_03001068 * 0x68);
     if (iVar5 < (int)(uint)(byte)(&DAT_086f8301)[(uint)uVar1 * 0x2c]) {
       iVar5 = 0x44;
     }
@@ -1240,7 +1240,7 @@ void sub_080333C4(int param_1,int *param_2,undefined4 param_3)
   iVar3 = iVar3 * 4;
   local_44 = *(int *)(&gUnknown_087592DC + iVar3 + iVar1 * 0xc);
   local_3c = *(int *)(&UNK_087592f4 + iVar3 + iVar1 * 0xc);
-  uVar2 = sub_0800F68C(0,auStack_4c,&gUnknown_08711274 + local_44 * 0x1c,0xffffffff);
+  uVar2 = Enemy_Create(0,auStack_4c,&gEnemyStats + local_44 * 0x1c,0xffffffff);
   sub_0801191A(&DAT_03001c4c,uVar2);
   sub_08049138((int)auStack_4c,0x87592bc,0x20);
   local_40 = local_2c + 0x18;
@@ -1250,7 +1250,7 @@ void sub_080333C4(int param_1,int *param_2,undefined4 param_3)
   iVar3 = iVar3 * 4;
   local_44 = *(int *)(&gUnknown_087592DC + iVar3 + iVar1 * 0xc);
   local_3c = *(int *)(&UNK_087592f4 + iVar3 + iVar1 * 0xc);
-  uVar2 = sub_0800F68C(0,auStack_4c,&gUnknown_08711274 + local_44 * 0x1c,0xffffffff);
+  uVar2 = Enemy_Create(0,auStack_4c,&gEnemyStats + local_44 * 0x1c,0xffffffff);
   sub_0801191A(&DAT_03001c4c,uVar2);
   sub_08049138((int)auStack_4c,0x87592bc,0x20);
   local_40 = local_2c + 0x18;
@@ -1261,7 +1261,7 @@ void sub_080333C4(int param_1,int *param_2,undefined4 param_3)
   iVar3 = iVar3 * 4;
   local_44 = *(int *)(&gUnknown_087592DC + iVar3 + iVar1 * 0xc);
   local_3c = *(int *)(&UNK_087592f4 + iVar3 + iVar1 * 0xc);
-  uVar2 = sub_0800F68C(0,auStack_4c,&gUnknown_08711274 + local_44 * 0x1c,0xffffffff);
+  uVar2 = Enemy_Create(0,auStack_4c,&gEnemyStats + local_44 * 0x1c,0xffffffff);
   sub_0801191A(&DAT_03001c4c,uVar2);
   sub_08049138((int)auStack_4c,0x87592bc,0x20);
   local_40 = local_2c;
@@ -1271,7 +1271,7 @@ void sub_080333C4(int param_1,int *param_2,undefined4 param_3)
   iVar3 = iVar3 * 4;
   local_44 = *(int *)(&gUnknown_087592DC + iVar3 + iVar1 * 0xc);
   local_3c = *(int *)(&UNK_087592f4 + iVar3 + iVar1 * 0xc);
-  uVar2 = sub_0800F68C(0,auStack_4c,&gUnknown_08711274 + local_44 * 0x1c,0xffffffff);
+  uVar2 = Enemy_Create(0,auStack_4c,&gEnemyStats + local_44 * 0x1c,0xffffffff);
   sub_0801191A(&DAT_03001c4c,uVar2);
   return;
 }

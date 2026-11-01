@@ -784,7 +784,7 @@ _0803A646:
 	mvns r3, r3
 	adds r1, r5, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r1, r0, #0
 	ldr r0, _0803A694
 	subs r0, #0x24
@@ -818,7 +818,7 @@ sub_0803A68E: @ 0x0803A68E
 _0803A694:
 	.4byte gUnknown_0877B0D0
 _0803A698:
-	.4byte gUnknown_08711274
+	.4byte gEnemyStats
 _0803A69C:
 	.4byte 0x030032D4
 

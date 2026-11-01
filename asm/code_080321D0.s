@@ -794,7 +794,7 @@ _0803249E:
 	str r1, [r3, #0x28]
 	movs r1, #0x7e
 	str r1, [r3, #0x2c]
-	bl sub_080135D2
+	bl Player_GetLevel
 	ldrb r2, [r7, #0x15]
 	cmp r0, r2
 	blt _080324F2
@@ -1994,7 +1994,7 @@ _08032CAA:
 	adds r1, r4, #0
 	mvns r3, r3
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r4, r0, #0
 	adds r1, r0, #0
 	ldr r0, _08032D30
@@ -2028,7 +2028,7 @@ _08032D34:
 _08032D38:
 	.4byte 0x000006AC
 _08032D3C:
-	.4byte gUnknown_08711274
+	.4byte gEnemyStats
 _08032D40:
 	.4byte 0x030031F8
 
@@ -3239,7 +3239,7 @@ _08033442:
 	adds r3, r7, #0
 	adds r1, r5, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r1, r0, #0
 	ldr r0, [r6]
 	bl sub_0801191A
@@ -3281,7 +3281,7 @@ _08033442:
 	adds r3, r7, #0
 	adds r1, r5, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r1, r0, #0
 	ldr r0, [r6]
 	bl sub_0801191A
@@ -3325,7 +3325,7 @@ _08033442:
 	adds r3, r7, #0
 	adds r1, r5, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r1, r0, #0
 	ldr r0, [r6]
 	bl sub_0801191A
@@ -3364,7 +3364,7 @@ _08033442:
 	adds r3, r7, #0
 	adds r1, r5, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r1, r0, #0
 	ldr r0, [r6]
 	bl sub_0801191A
@@ -3374,7 +3374,7 @@ _08033442:
 _080335B4:
 	.4byte gUnknown_087592DC
 _080335B8:
-	.4byte gUnknown_08711274
+	.4byte gEnemyStats
 
 	.ifndef DECOMP_sub_080335BC
 

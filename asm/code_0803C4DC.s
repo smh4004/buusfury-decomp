@@ -937,7 +937,7 @@ _0803C7BE:
 	lsls r0, r0, #0xc
 	str r0, [sp, #8]
 	adds r0, r4, #0
-	bl sub_0800E9D8
+	bl Combat_Damage
 	ldr r1, [r4]
 	adds r0, r4, #0
 	ldr r2, [r1, #0x58]

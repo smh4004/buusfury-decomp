@@ -15,8 +15,9 @@ Asset kinds (all pulled from the user's baserom.gba; nothing copyrighted is comm
   maps      assets/maps/<map>/...            all 427 maps: whole-layer CSVs, tile lists, collision masks (mapassets.py)
   tiles     assets/gfx/tiles/page_NNN.png    the 187 global BG tile pages as indexed PNGs (gfx.py)
   sprites   assets/gfx/sprites/<anim>/*.png  sprite frames (single-piece, 256-colour; sprites.py)
-  tables    assets/tables/{areas,equipment,items,scouter}.csv  fixed-size game tables (tables.py)
-  script    assets/scripts/items/*.scr       item effect bytecode
+  tables    assets/tables/{areas,equipment,items,enemies,spawns,scouter}.csv  game tables (tables.py)
+  actors    assets/areas/*.actors            each area's actor list: add/remove enemies and other actors (actors.py)
+  script    assets/scripts/items/*.scr       item effect bytecode; scripts/enemies/*.scr enemy death scripts (drops)
   (`extract --previews` also renders every map layer to PNG; slow)
   events    assets/scripts/<label>.evt       every event list (cutscenes, NPC talks, shops...): steps with script
                                              bytecode as text (tools/scripts/events.py, bfscript.py). Steps can be edited,
@@ -34,6 +35,7 @@ import maps as mapsmod
 import mapassets
 import sprites
 import tables
+import actors
 import events as evmod
 import bfscript
 
@@ -169,6 +171,18 @@ def extract(rom, out):
         p = os.path.join(sd, '%s.evt' % lab)
         open(p, 'w', encoding='utf-8').write(evmod.export_list(d, o, it, term, btexts, names, owner))
         reg('events:%s' % lab, p, kind='events', start=o, items=it, term=term)
+    # speaker ids are not named in the ROM: list a few lines per speaker so they can be identified
+    spk = {}
+    for o, it, term in lists:
+        for t in it:
+            if d[t + 2] in (5, 6):
+                ref = u32(d, t + 4); b, off, ln = ref & 0x3F, (ref >> 6) & 0x7FFF, ref >> 21
+                spk.setdefault(d[t + 3], []).append(btexts[b][off:off + ln].replace('\n', ' '))
+    with open(os.path.join(sd, 'SPEAKERS.txt'), 'w', encoding='utf-8') as f:
+        f.write('# Speaker ids used by `step N say SPEAKER ...` (the id picks the name and portrait), with sample lines.\n')
+        for k in sorted(spk):
+            f.write('0x%02X  (%d lines)\n' % (k, len(spk[k])))
+            for l in spk[k][:3]: f.write('      %s\n' % re.sub(r'[\x00-\x1f]', '', l)[:90])
 
     # tile pages, all maps (layers, tile lists, collision masks)
     wfzidx = {o: (o, sz, e, t) for o, sz, e, t in wfz_blocks()}
@@ -185,6 +199,12 @@ def extract(rom, out):
         p = os.path.join(idir, '%02d_%s.scr' % (i, re.sub(r'\W+', '_', nm).strip('_')))
         e = tables.export_script(d, st, p, 'Item %d effect: %s' % (i, nm), names)
         reg('script:item%d' % i, p, kind='script', start=st, end=e)
+    actors.extract(d, out, reg)
+    edir = os.path.join(out, 'scripts', 'enemies'); os.makedirs(edir, exist_ok=True)
+    for i, st, nm in tables.death_scripts(d):
+        p = os.path.join(edir, '%03d_%s.scr' % (i, re.sub(r'\W+', '_', nm).strip('_')[:40]))
+        e = tables.export_script(d, st, p, 'Enemy %d death script (item drops): %s' % (i, nm), names)
+        reg('script:enemy%d' % i, p, kind='script', start=st, end=e)
 
     json.dump(man, open(os.path.join(out, 'manifest.json'), 'w'), indent=1)
     print('extracted %d assets to %s' % (len(man['assets']), out))
@@ -244,6 +264,8 @@ def build(rom, src, out):
             sprites.build(d, a, path, mctx)
         elif k == 'table':
             tables.build(d, a['table'], path, mctx)
+        elif k == 'actors':
+            actors.build(d, a, path, mctx)
         elif k == 'script':
             tables.build_script(d, a, path, mctx, names)
         elif k == 'ui':

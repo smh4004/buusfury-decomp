@@ -994,7 +994,7 @@ _08026184:
 _08026188:
 	.4byte gUnknown_08732374
 _0802618C:
-	.4byte gUnknown_0874D380
+	.4byte gScouterTable
 _08026190:
 	.4byte gUIStringPtrs
 _08026194:
@@ -4269,7 +4269,7 @@ sub_08027468: @ 0x08027468
 	.align 2, 0
 	.align 2, 0
 _08027474:
-	.4byte gUnknown_0874D380
+	.4byte gScouterTable
 _08027478:
 	.4byte 0x03001B0C
 _0802747C:
@@ -5093,9 +5093,9 @@ _080279CA:
 	.align 2, 0
 	.align 2, 0
 _080279D8:
-	.4byte gUnknown_0874D380
+	.4byte gScouterTable
 _080279DC:
-	.4byte gUnknown_08711274
+	.4byte gEnemyStats
 	.else
 	thumb_func_start sub_08027948
 sub_08027948:

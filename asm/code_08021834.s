@@ -3009,7 +3009,7 @@ sub_08022934: @ 0x08022934
 	adds r5, r0, #0
 	adds r4, r1, #0
 	adds r0, r1, #0
-	bl sub_080135D2
+	bl Player_GetLevel
 	strb r0, [r5]
 	ldrb r0, [r4, #0xc]
 	strb r0, [r5, #1]

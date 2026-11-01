@@ -625,9 +625,9 @@ void sub_080135BC(int param_1,int param_2)
 }
 
 
-/* sub_080135D2 @ 0x080135D2 */
+/* Player_GetLevel @ 0x080135D2 */
 
-int sub_080135D2(int param_1)
+int Player_GetLevel(int param_1)
 
 {
   int iVar1;
@@ -661,7 +661,7 @@ int sub_0801361C(int param_1)
 {
   int iVar1;
   
-  iVar1 = sub_080135D2();
+  iVar1 = Player_GetLevel();
   if (199 < iVar1) {
     return 0;
   }
@@ -679,7 +679,7 @@ int sub_0801363E(int param_1,int param_2)
   if (0x30132f2 < *(uint *)(param_1 + 0x24)) {
     return param_2;
   }
-  iVar1 = sub_080135D2(param_1);
+  iVar1 = Player_GetLevel(param_1);
   iVar1 = sub_08046F30((int)(&PTR_gUnknown_086B4B58_086b6fc0)[iVar1] -
                        *(int *)(&DAT_086b6fbc + iVar1 * 4),
                        param_2 * (*(int *)(param_1 + 0x24) - *(int *)(&DAT_086b6fbc + iVar1 * 4)));
@@ -818,9 +818,9 @@ void sub_0801375E(int param_1,int param_2,int param_3,short param_4)
 }
 
 
-/* sub_08013914 @ 0x08013914 */
+/* Player_AddExp @ 0x08013914 */
 
-uint sub_08013914(int param_1,int param_2,undefined4 param_3,undefined4 param_4)
+uint Player_AddExp(int param_1,int param_2,undefined4 param_3,undefined4 param_4)
 
 {
   ushort uVar1;
@@ -840,9 +840,9 @@ uint sub_08013914(int param_1,int param_2,undefined4 param_3,undefined4 param_4)
     }
     else if ((int)((uint)(byte)(&gUnknown_086B82EC)[(uint)*(byte *)(param_1 + 0x14) * 0x18] << 0x1d)
              < 0) {
-      uVar5 = sub_08013914(&DAT_03001560 + (*(ushort *)(param_1 + 2) & 0xf) * 0x68,param_2,iVar7,
+      uVar5 = Player_AddExp(&DAT_03001560 + (*(ushort *)(param_1 + 2) & 0xf) * 0x68,param_2,iVar7,
                            0x68,param_4);
-      uVar4 = sub_08013914(&DAT_03001560 + (((uint)*(ushort *)(param_1 + 2) << 0x18) >> 0x1c) * 0x68
+      uVar4 = Player_AddExp(&DAT_03001560 + (((uint)*(ushort *)(param_1 + 2) << 0x18) >> 0x1c) * 0x68
                            ,param_2);
       uVar4 = uVar4 | uVar5;
       if (uVar4 != 0) {
@@ -865,7 +865,7 @@ uint sub_08013914(int param_1,int param_2,undefined4 param_3,undefined4 param_4)
       }
     }
     else {
-      iVar7 = sub_080135D2(param_1);
+      iVar7 = Player_GetLevel(param_1);
       param_2 = *(int *)(param_1 + 0x24) + param_2;
       do {
         *(int *)(param_1 + 0x24) = param_2;
@@ -875,7 +875,7 @@ uint sub_08013914(int param_1,int param_2,undefined4 param_3,undefined4 param_4)
           uVar4 = 0;
         }
         else {
-          uVar6 = sub_080135D2(param_1);
+          uVar6 = Player_GetLevel(param_1);
           sub_08013678(param_1,iVar7,uVar6);
           bVar2 = false;
           if ((DAT_03001c34 != 0) &&

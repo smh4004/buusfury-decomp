@@ -1486,7 +1486,7 @@ void sub_08022934(undefined1 *param_1,int param_2)
   int iVar3;
   int iVar4;
   
-  uVar1 = sub_080135D2(param_2);
+  uVar1 = Player_GetLevel(param_2);
   *param_1 = uVar1;
   param_1[1] = *(undefined1 *)(param_2 + 0xc);
   param_1[2] = *(undefined1 *)(param_2 + 0x15);

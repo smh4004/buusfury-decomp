@@ -212,7 +212,7 @@ void sub_0803C74C(int param_1,int *param_2)
     local_2c = CONCAT31(local_2c._1_3_,*(undefined1 *)(DAT_03001c34 + 0x10));
     local_24 = &gUnknown_086B8098;
     local_28 = 0x1000;
-    sub_0800E9D8(param_2,&local_2c);
+    Combat_Damage(param_2,&local_2c);
     __call_via_r2(param_2,&local_2c,*(int *)(*param_2 + 0x58) + *param_2);
   }
   return;

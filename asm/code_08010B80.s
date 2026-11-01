@@ -1057,7 +1057,7 @@ _08010E8A:
 	adds r5, #0xc
 	adds r1, r5, #0
 	adds r0, r4, #0
-	bl sub_0800E9D8
+	bl Combat_Damage
 	ldr r1, [r4]
 	adds r0, r4, #0
 	ldr r2, [r1, #0x58]
@@ -1169,7 +1169,7 @@ _08010F4A:
 	beq _08010F96
 	adds r1, r6, #0
 	adds r0, r4, #0
-	bl sub_0800E9D8
+	bl Combat_Damage
 	ldr r1, [r4]
 	adds r0, r4, #0
 	ldr r2, [r1, #0x58]
@@ -1219,7 +1219,7 @@ _08010FA8:
 	beq _08010FF0
 	adds r1, r6, #0
 	adds r0, r4, #0
-	bl sub_0800E9D8
+	bl Combat_Damage
 	ldr r1, [r4]
 	adds r0, r4, #0
 	ldr r2, [r1, #0x58]
@@ -1338,7 +1338,7 @@ _0801107A:
 	adds r5, #0x14
 	adds r1, r5, #0
 	adds r0, r4, #0
-	bl sub_0800E9D8
+	bl Combat_Damage
 	ldr r1, [r4]
 	adds r0, r4, #0
 	ldr r2, [r1, #0x58]

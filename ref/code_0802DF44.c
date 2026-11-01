@@ -1734,7 +1734,7 @@ undefined4 sub_0802F458(undefined4 param_1,int *param_2)
     sub_08049138((int)auStack_48,0x8757a54,0x20);
     uStack_3c = (undefined2)((uint)local_28 >> 8);
     uStack_3a = (undefined2)((uint)local_24 >> 8);
-    iVar3 = sub_0800F68C(0,auStack_48,&DAT_08711514,0xffffffff);
+    iVar3 = Enemy_Create(0,auStack_48,&DAT_08711514,0xffffffff);
     sub_0801191A(&DAT_03001c4c,iVar3);
     *(int **)(iVar3 + 500) = param_2;
     iVar1 = param_2[0x7c];
@@ -1774,7 +1774,7 @@ undefined4 sub_0802F4FA(undefined4 param_1)
   
   uStack0000000c = (undefined2)((uint)param_1 >> 8);
   uStack0000000e = (undefined2)((uint)in_stack_00000024 >> 8);
-  iVar1 = sub_0800F68C(0,unaff_r5,&DAT_08711514,0xffffffff);
+  iVar1 = Enemy_Create(0,unaff_r5,&DAT_08711514,0xffffffff);
   sub_0801191A(*unaff_r6,iVar1);
   *(int **)(iVar1 + 500) = unaff_r4;
   iVar2 = unaff_r4[0x7c];

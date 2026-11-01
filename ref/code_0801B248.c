@@ -2095,7 +2095,7 @@ undefined4 * sub_0801D0A8(undefined4 *param_1,int param_2,int param_3)
     param_1[0x45] = param_2;
     param_1[0x46] = param_3;
     uVar3 = (uint)DAT_03001068;
-    iVar1 = sub_080135D2(&DAT_03001560 + uVar3 * 0x68);
+    iVar1 = Player_GetLevel(&DAT_03001560 + uVar3 * 0x68);
     if ((iVar1 < (int)(uint)(byte)(&DAT_086f8301)[param_3 * 0x2c]) ||
        ((int)((uint)(byte)(&gUnknown_086B82EC)[(uint)(byte)(&DAT_03001574)[uVar3 * 0x68] * 0x18] <<
              0x1d) < 0)) {

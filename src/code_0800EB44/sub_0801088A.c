@@ -9,7 +9,7 @@ extern int __call_via_r1();
 extern int sub_0803FACC();
 extern int sub_0803D5B8();
 extern int sub_0800FDFA();
-extern int sub_080135D2();
+extern int Player_GetLevel();
 extern byte volatile DAT_03002bfc;
 extern byte volatile DAT_03002bfd;
 extern undefined volatile _0804C768;
@@ -57,7 +57,7 @@ void sub_0801088A(undefined4 param_1,int *param_2)
   }
   if (bVar1) {
     __call_via_r1(param_2,*(int *)(*param_2 + 0x80) + *param_2);
-    uStack_1c = sub_080135D2();
+    uStack_1c = Player_GetLevel();
     uStack_18 = 0xffffffff;
     sub_0800FDFA(&iStack_2c,param_2);
     DAT_03001010 = iStack_2c + iStack_24 >> 1;

@@ -2,13 +2,13 @@
  * Ghidra decompilation, compiled with GCC; not reached by the capture routes (compiles; unverified).
  */
 #include "ghidra_types.h"
-extern undefined volatile gUnknown_08711274;
+extern undefined volatile gEnemyStats;
 
 
 void sub_0800FA16(int param_1,int param_2)
 
 {
-  *(undefined **)(param_1 + 0x224) = &gUnknown_08711274 + param_2 * 0x1c;
+  *(undefined **)(param_1 + 0x224) = &gEnemyStats + param_2 * 0x1c;
   return;
 }
 

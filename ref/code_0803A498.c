@@ -202,7 +202,7 @@ undefined4 sub_0803A638(void)
     sub_08049138((int)auStack_34,0x877b0b0,0x20);
     local_28 = (undefined2)(&gUnknown_0877B0D0)[iVar2 * 2];
     local_26 = (undefined2)(&DAT_0877b0d4)[iVar2 * 2];
-    uVar1 = sub_0800F68C(0,auStack_34,&gUnknown_08711274 + local_2c * 0x1c,0xffffffff);
+    uVar1 = Enemy_Create(0,auStack_34,&gEnemyStats + local_2c * 0x1c,0xffffffff);
     sub_0801191A(&DAT_03001c4c,uVar1);
     iVar2 = iVar2 + 1;
   } while (iVar2 < 5);

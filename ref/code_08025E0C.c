@@ -66,7 +66,7 @@ undefined4 * sub_08025E50(undefined4 *param_1,uint param_2,undefined4 param_3)
     (&DAT_0300112d)[(int)param_2 >> 3] =
          (&DAT_0300112d)[(int)param_2 >> 3] | (byte)(1 << (param_2 & 7));
     iVar1 = 0;
-    param_1[8] = &gUnknown_0874D380 + param_2 * 0x10;
+    param_1[8] = &gScouterTable + param_2 * 0x10;
     param_1[4] = 0;
     param_1[7] = 0;
     *(undefined1 *)(param_1 + 3) = 0;
@@ -2091,7 +2091,7 @@ int sub_08027948(int param_1,undefined *param_2)
           return iVar1;
         }
       }
-      else if ((-1 < iVar2) && (&gUnknown_08711274 + iVar2 * 0x1c == param_2)) {
+      else if ((-1 < iVar2) && (&gEnemyStats + iVar2 * 0x1c == param_2)) {
         return iVar1;
       }
     }
@@ -2100,7 +2100,7 @@ int sub_08027948(int param_1,undefined *param_2)
       iVar1 = 0;
       while (((param_2 != (undefined *)0x0 &&
               (((int)(&DAT_0874d38c)[iVar1 * 4] < 0 ||
-               (&gUnknown_08711274 + (&DAT_0874d38c)[iVar1 * 4] * 0x1c != param_2)))) ||
+               (&gEnemyStats + (&DAT_0874d38c)[iVar1 * 4] * 0x1c != param_2)))) ||
              (iVar2 = sub_08000158((&DAT_0874d384)[iVar1 * 4]), iVar2 != param_1))) {
         iVar1 = iVar1 + 1;
         if (0xe7 < iVar1) {

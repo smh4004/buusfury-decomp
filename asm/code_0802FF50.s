@@ -1421,7 +1421,7 @@ _080304A2:
 	mvns r3, r3
 	adds r1, r7, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	adds r1, r0, #0
 	ldr r0, [r6]
 	bl sub_0801191A
@@ -4898,7 +4898,7 @@ _08031B34:
 	str r1, [r3, #0x24]
 	movs r1, #0x7e
 	str r1, [r3, #0x28]
-	bl sub_080135D2
+	bl Player_GetLevel
 	ldrb r2, [r5, #0x15]
 	cmp r0, r2
 	blt _08031B84

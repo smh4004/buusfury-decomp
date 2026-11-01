@@ -5,7 +5,9 @@
   3. palette:   colour 119 (Snake Way road blue) -> red
   4. map:       Snake Way (w01_a01) layer 1: a strip of road tiles drawn over the clouds
   5. sprite:    the on-screen Snake Way sprites get a red band (assets/gfx/sprites)
-  6. tables:    Dirty Shirt costs 999; Senzu Bean also sets var 0x10 (assets/scripts/items)"""
+  6. tables:    Dirty Shirt costs 999; Senzu Bean also sets var 0x10 (assets/scripts/items)
+  7. enemies:   a Bomber is placed next to King Kai on Snake Way (assets/areas), with 40 HP and 5000 EXP
+                (assets/tables/enemies.csv); killing it levels Goku up to 64"""
 import os, glob, csv, io
 import numpy as np
 from PIL import Image
@@ -42,5 +44,11 @@ hdr = lines[1].split(','); rows = list(csv.reader(lines[2:]))
 rows[1][hdr.index('price')] = '999'
 buf = io.StringIO(); csv.writer(buf, lineterminator='\n').writerows([r for r in rows if r])
 open(p, 'w', encoding='utf-8').write(lines[0] + '\n' + lines[1] + '\n' + buf.getvalue())
-edit('assets/scripts/items/11_Senzu_Bean.scr', '    call play_sfx(21)\n', '    call play_sfx(21)\n    push 50\n    set 0x10\n')
+edit('assets/scripts/items/11_Senzu_Bean.scr', '    call take_item(21)\n', '    call take_item(21)\n    push 50\n    set 0x10\n')
+open('assets/areas/a033_w01_01_Snakeway.actors', 'a').write('enemy 8 0x70 0xB0 34   ; a Bomber next to King Kai\n')
+p = 'assets/tables/enemies.csv'; lines = open(p, encoding='utf-8').read().split('\n')
+hdr = lines[1].split(','); rows = list(csv.reader(lines[2:]))
+rows[8][hdr.index('hp')] = '40'; rows[8][hdr.index('exp')] = '5000'
+buf = io.StringIO(); csv.writer(buf, lineterminator='\n').writerows([r for r in rows if r])
+open(p, 'w', encoding='utf-8').write(lines[0] + '\n' + lines[1] + '\n' + buf.getvalue())
 print('demo edits applied; now run: make modern')

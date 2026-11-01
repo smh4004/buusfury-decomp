@@ -2,13 +2,13 @@
  * Ghidra decompilation, compiled with GCC; not reached by the capture routes (compiles; unverified).
  */
 #include "ghidra_types.h"
-extern int sub_08013914();
+extern int Player_AddExp();
 
 
 void sub_080043D8(byte *param_1)
 
 {
-  sub_08013914(param_1 + (uint)*param_1 * 0x68 + 0x4f8);
+  Player_AddExp(param_1 + (uint)*param_1 * 0x68 + 0x4f8);
   return;
 }
 

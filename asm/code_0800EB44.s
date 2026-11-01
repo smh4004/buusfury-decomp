@@ -2,6 +2,8 @@
 	.include "asm/macros.inc"
 	.syntax unified
 	.text
+	.global Enemy_Create
+	.global Enemy_Spawn
 	.global _0800EB78
 	.global _0800EB7C
 	.global _0800EBA2
@@ -309,7 +311,6 @@
 	.global sub_0800F5C6
 	.global sub_0800F60E
 	.global sub_0800F62C
-	.global sub_0800F68C
 	.global sub_0800F740
 	.global sub_0800F76E
 	.global sub_0800F7F2
@@ -336,7 +337,6 @@
 	.global sub_0800FD00
 	.global sub_0800FD34
 	.global sub_0800FD44
-	.global sub_0800FD54
 	.global sub_0800FD74
 	.global sub_0800FDFA
 	.global sub_0800FE00
@@ -2287,10 +2287,10 @@ sub_0800F62C:
 	.space 80
 	.endif
 
-	.ifndef DECOMP_sub_0800F68C
+	.ifndef DECOMP_Enemy_Create
 
-	thumb_func_start sub_0800F68C
-sub_0800F68C: @ 0x0800F68C
+	thumb_func_start Enemy_Create
+Enemy_Create: @ 0x0800F68C
 	push {r4, r5, r6, r7, lr}
 	adds r7, r2, #0
 	adds r6, r3, #0
@@ -2377,14 +2377,14 @@ _0800F6AE:
 	adds r0, r4, #0
 	b _0800F6AA
 	.else
-	thumb_func_start sub_0800F68C
-sub_0800F68C:
+	thumb_func_start Enemy_Create
+Enemy_Create:
 	bx pc
 	nop
 	.arm
 	ldr ip, [pc]
 	bx ip
-	.4byte sub_0800F68C__c + 1
+	.4byte Enemy_Create__c + 1
 	.thumb
 	.space 164
 	.endif
@@ -3265,7 +3265,7 @@ _0800FC18:
 	adds r1, #0x14
 	adds r6, r1, #0
 	adds r0, r4, #0
-	bl sub_0800E9D8
+	bl Combat_Damage
 	adds r0, r5, #0
 	adds r0, #0x2c
 	b _0800FC38
@@ -3363,7 +3363,7 @@ _0800FC98:
 _0800FCE0:
 	.4byte gUnknown_080726AC
 _0800FCE4:
-	.4byte gUnknown_08711274
+	.4byte gEnemyStats
 _0800FCE8:
 	.4byte 0x000003FF
 _0800FCEC:
@@ -3458,10 +3458,10 @@ sub_0800FD44:
 	.thumb
 	.endif
 
-	.ifndef DECOMP_sub_0800FD54
+	.ifndef DECOMP_Enemy_Spawn
 
-	thumb_func_start sub_0800FD54
-sub_0800FD54: @ 0x0800FD54
+	thumb_func_start Enemy_Spawn
+Enemy_Spawn: @ 0x0800FD54
 	push {r3, lr}
 	ldr r2, [r0, #8]
 	lsls r3, r2, #3
@@ -3472,21 +3472,21 @@ sub_0800FD54: @ 0x0800FD54
 	adds r3, r1, #0
 	adds r1, r0, #0
 	movs r0, #0
-	bl sub_0800F68C
+	bl Enemy_Create
 	pop {r3, pc}
 	.align 2, 0
 	.align 2, 0
 _0800FD70:
-	.4byte gUnknown_08711274
+	.4byte gEnemyStats
 	.else
-	thumb_func_start sub_0800FD54
-sub_0800FD54:
+	thumb_func_start Enemy_Spawn
+Enemy_Spawn:
 	bx pc
 	nop
 	.arm
 	ldr ip, [pc]
 	bx ip
-	.4byte sub_0800FD54__c + 1
+	.4byte Enemy_Spawn__c + 1
 	.thumb
 	.space 16
 	.endif
@@ -5391,7 +5391,7 @@ _080108F6:
 	adds r0, r4, #0
 	adds r1, r2, r1
 	bl __call_via_r1
-	bl sub_080135D2
+	bl Player_GetLevel
 	str r0, [sp, #0x6c]
 	movs r0, #0
 	mvns r0, r0

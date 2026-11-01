@@ -34,3 +34,13 @@
 086B7084 gExpTable              # 151 x u32
 086F82EC gEquipmentTable        # 162 x 44 bytes
 087B5B64 gTextBankTable         # 7 WFZ banks
+08013914 Player_AddExp          # adds EXP to a party member, handles level-ups
+080135D2 Player_GetLevel        # binary search in gExpTable; returns level + 50
+0800F68C Enemy_Create           # enemy constructor: stats = gEnemyStats + 28 * type
+0800FD54 Enemy_Spawn            # spawn function of enemy actor records
+0800E9D8 Combat_Damage          # damage formula (attacker STR/POW vs defender END, taken multipliers)
+08004784 Actor_CheckCondition   # actor spawn condition (0 / flag set / flag clear / script)
+08711274 gEnemyStats            # 150 x 28 bytes (assets/tables/enemies.csv)
+0874D380 gScouterTable          # 232 x 16 bytes
+0879B704 gGlobalScripts         # 522 event lists started by run_event()
+083BD500 gItemTable             # 24 x 52 bytes (assets/tables/items.csv)

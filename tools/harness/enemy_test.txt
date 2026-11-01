@@ -1,0 +1,120 @@
+# Enemy test (used by tools/assets/verify_mods.py): play to Snake Way, walk to the Bomber that demo_edits.py places
+# next to King Kai, shoot it with ki blasts (B), then read its HP (0x0202E558, hp << 10) and Goku's EXP (0x03001584).
+run 600
+tap START 60
+tap START 60
+shot s01_title
+tap A 90
+shot s02_select
+tap A 90
+shot s03_newgame
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s04_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s05_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s06_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s07_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s08_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s09_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s10_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s11_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s12_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s13_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s14_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s15_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s16_intro
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+tap A 100
+shot s17_intro
+keys RIGHT
+run 90
+keys
+run 10
+shot s18_walk_RIGHT
+tap A 60
+tap A 60
+tap A 60
+keys DOWN
+run 12
+keys LEFT
+run 30
+keys
+mem 0x0202e558 1
+tap B 20
+mem 0x0202e558 1
+tap B 20
+mem 0x0202e558 1
+tap B 20
+mem 0x0202e558 1
+tap B 20
+mem 0x0202e558 1
+run 200
+mem 0x03001bb0 1
+mem 0x03001584 1
+shot killed

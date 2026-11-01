@@ -9,10 +9,10 @@ extern int sub_08049138();
 extern int __call_via_r2();
 extern int sub_08000158();
 extern int sub_08011CCA();
-extern int sub_0800F68C();
+extern int Enemy_Create();
 extern int sub_0803FACC();
 extern int sub_0801191A();
-extern undefined volatile gUnknown_08711274;
+extern undefined volatile gEnemyStats;
 extern undefined volatile gUnknown_086FD9D0;
 extern undefined volatile DAT_03001c4c;
 
@@ -83,7 +83,7 @@ void sub_08039A16(int param_1,int *param_2)
           sub_08049138((int)&local_5c,0x877af78,0x20);
           uStack_50 = (undefined2)local_3c[iVar2 * 2];
           uStack_4e = (undefined2)local_3c[iVar2 * 2 + 1];
-          uVar1 = sub_0800F68C(0,&local_5c,&gUnknown_08711274 + iStack_54 * 0x1c,0xffffffff);
+          uVar1 = Enemy_Create(0,&local_5c,&gEnemyStats + iStack_54 * 0x1c,0xffffffff);
           sub_0801191A(&DAT_03001c4c,uVar1);
           iVar2 = iVar2 + 1;
         } while (iVar2 < *(int *)(param_1 + 8));

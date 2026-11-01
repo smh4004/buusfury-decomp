@@ -1375,7 +1375,7 @@ _0801DABE:
 	movs r0, #0x58
 	str r0, [sp, #0x124]
 	ldr r0, [sp, #0x118]
-	bl sub_080135D2
+	bl Player_GetLevel
 	ldrb r2, [r6, #0x15]
 	cmp r0, r2
 	blt _0801DAF6
@@ -1439,7 +1439,7 @@ _0801DB18:
 	add r0, sp, #0x11c
 	bl sub_0803DD66
 	ldr r0, [sp, #0x118]
-	bl sub_080135D2
+	bl Player_GetLevel
 	ldrb r1, [r5, #0x15]
 	cmp r0, r1
 	blt _0801DB72
@@ -1453,7 +1453,7 @@ _0801DB74:
 	b _0801DB90
 _0801DB7A:
 	ldr r0, [sp, #0x118]
-	bl sub_080135D2
+	bl Player_GetLevel
 	ldrb r1, [r5, #0x15]
 	cmp r0, r1
 	blt _0801DB8A

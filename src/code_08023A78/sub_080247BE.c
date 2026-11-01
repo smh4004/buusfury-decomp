@@ -3,7 +3,7 @@
  */
 #include "ghidra_types.h"
 extern int sub_08019B4E();
-extern int sub_0800E9D8();
+extern int Combat_Damage();
 extern int sub_08054A64();
 extern int sub_0800FE78();
 extern int __call_via_r2();
@@ -69,7 +69,7 @@ void sub_080247BE(int param_1,int param_2)
           DAT_03002fbc = DAT_03000f94;
         }
         iStack_14 = param_1;
-        sub_0800E9D8(piVar1,auStack_30);
+        Combat_Damage(piVar1,auStack_30);
         __call_via_r2(piVar1,auStack_30,*(int *)(*piVar1 + 0x5c) + *piVar1);
         iVar2 = __call_via_r2(piVar1,0x17,*(int *)(*piVar1 + 0x34) + *piVar1);
         if (iVar2 != 0) {

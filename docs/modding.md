@@ -8,7 +8,9 @@ python3 tools/assets/demo_edits.py   # optional: one demo edit of every kind (ru
 ```
 `make modern` rebuilds only what you changed, and with no edits it reproduces the original ROM byte for byte. Edited objects that
 fit are written in place. Objects that grow move to the end of .rodata, and every pointer to them follows (`docs/assets.md`).
-Share your hack as a `.bps` patch made from `buusfury_modern.gba`, never as a ROM or as `assets/`.
+Share your hack as a `.bps` patch (`make patch` -> `buusfury_modern.bps`), never as a ROM or as `assets/`.
+`make verify-mods` runs the toolkit's end-to-end self-test, including an enemy fight in the emulator.
+**The step-by-step user guide is `USER_README.md`.** This file is the technical reference.
 
 | What | Files | Tool |
 |---|---|---|
@@ -18,6 +20,7 @@ Share your hack as a `.bps` patch made from `buusfury_modern.gba`, never as a RO
 | Maps (all 427) | `assets/maps/<wXX_aYY_Name>/L<k>.csv`, `tiles.txt`, `floor.png`, `area.png` | `tools/assets/mapassets.py` |
 | Background tiles | `assets/gfx/tiles/page_NNN.png` (187 pages) | `tools/assets/gfx.py` |
 | Sprites | `assets/gfx/sprites/<animation>/*.png` (7,240 frames) | `tools/assets/sprites.py` |
+| Enemy stats, enemy placements | `assets/tables/enemies.csv`, `spawns.csv`, `assets/areas/*.actors`, `assets/scripts/enemies/*.scr` | `tables.py`, `actors.py` |
 | Areas, equipment, items, scouter | `assets/tables/*.csv` | `tools/assets/tables.py` |
 | Palette, EXP curve | `assets/palette/master.txt`, `assets/tables/exp.csv` | `tools/assets/assets.py` |
 
@@ -42,7 +45,8 @@ L1:
     end
 ```
 `call NAME(a, b)` is shorthand for pushing `a` and `b` and then calling. It assembles to exactly the original bytes.
-Native names live in `config/script_natives.txt`. A name added there shows up in every exported file on the next `make extract`, and the
+Native names live in `config/script_natives.txt`. `docs/script_natives.md` lists all 248 natives with their address, a guess at how
+many arguments each takes, and the start of its C (regenerate it with `python3 tools/scripts/natives_report.py`). A name added there shows up in every exported file on the next `make extract`, and the
 assembler accepts it. Renaming never changes the ROM. Most natives are still unnamed. To learn what one does, find
 it in `gScriptNativeFuncs` (`data/rodata_08054FBC.s`) and read its C in `ref/`.
 
@@ -110,17 +114,49 @@ A script that grows is moved, and the item table's `effect` pointer follows it.
 ## 4. Tables (`assets/tables/*.csv`)
 | File | Rows | Notes |
 |---|---:|---|
-| `areas.csv` | 452 | `gAreaTable`: world/area ids, name (UI string index, `_name_text` shows it), `scene` (map), and pointers to the area's scripts and actors (inferred) |
+| `areas.csv` | 452 | `gAreaTable`: world/area ids, `b4` = actor count, name (UI string index, or a script pointer if > 0xFFFF), `p14` = actor list, `scene` (map), other pointers: area scripts (inferred) |
 | `equipment.csv` | 162 | name/desc strings, icon, slot (0 body, 1 hands, 2 feet, 3 accessory), `level_plus_50`, stat bonuses `stat0-5` (order inferred), price (-1 = not sold) |
 | `items.csv` | 24 | consumables and key items: names, icons, price, `effect` (-> `scripts/items/*.scr`) |
 | `scouter.csv` | 232 | scouter/journal entries: name, description, character id |
+| `enemies.csv` | 150 | enemy stats (see Enemies below) |
+| `spawns.csv` | 1,571 | every placed enemy |
 | `exp.csv` | 151 | EXP needed per level |
 Pointer columns hold labels (`gUnknown_086F3C30`, `label + 0x10`) or hex code addresses. Point them at any object. Columns
 starting with `_` are read-only hints. Rows can't be added or removed.
 
-**Not found yet: enemy stats** (HP, damage, EXP reward). The scouter table links enemies to character ids, and the table at
-0x086B6BB4 (indexed by character id) holds hitboxes, not stats. Watching a fight in the harness (`watchon` on an enemy's HP)
-is the way to find the stat records.
+### Enemies
+How they were found: the EXP-award code (`sub_08013914`) is called by a "give EXP" object that the enemy class (`sub_0800F68C`,
+vtable 0x0804C484) creates on defeat from `stats + 0`. The constructor reads its stats from `gUnknown_08711274 + 28 * type`.
+The spawn function `sub_0800FD54` takes `type` from the spawn record. The damage formula (`sub_0800E9D8`, in `ref/code_0800CB14.c`)
+reads the copied stats. Verified in the emulator by `make verify-mods`: a placed enemy has the edited HP, dies, and gives the edited EXP.
+
+**`enemies.csv`** (150 rows, alphabetical by name; `_names` lists the names its spawns use):
+
+| Column | Meaning |
+|---|---|
+| `exp` | EXP awarded (multiplied by a per-character factor, normally x1) |
+| `hp` | hit points |
+| `level_plus_50` | level + 50 (levels are stored with a +50 bias everywhere, as on equipment) |
+| `str`, `pow` | physical and ki attack. Damage grows with roughly (a + 100) * a^2 |
+| `end` | defence, used for both physical and ki hits. Above 200 it is compressed (end / 4 + 150, at most 220) |
+| `phys_taken`, `ki_taken` | damage taken from physical / ki hits, 128 = 100% (64 = half, 192 = 1.5x) |
+| `death_script` | bytecode run on defeat (`scripts/enemies/*.scr`). Usually `run_event(497, ITEM, -1)`, the item-drop event |
+| `on_defeat` | handler object (keep it) |
+| `id08`, `b12`, `b13` | unknown (kept) |
+
+**`spawns.csv`**: every placed enemy (1,571). Columns: `enemy` (row above), `x`, `y` (map pixels), `character` (sprite/character
+id, see `scouter.csv`), `w04` = spawn condition (0 always; 0x1NNNN only if story flag NNNN is set; 0x2NNNN only if it is clear;
+or a script pointer), `behaviour`/`ai` handler pointers.
+
+**`assets/areas/*.actors`**: each area's actor list, in spawn order (NPCs, triggers, enemies). Keep, remove or reorder lines,
+or add enemies:
+```
+actor gUnknown_08074CC8        ; an existing actor
+enemy 8 0x70 0xB0 34           ; new enemy: type 8 (Bomber) at x=0x70, y=0xB0, character 34
+enemy 8 200 120 34 condition=0x1002A   ; only after story flag 0x2A
+```
+Copy `enemy` and `character` pairs from `spawns.csv`, since a type and a sprite that don't match look wrong. Don't also change the area's
+`b4`/`p14` columns in `areas.csv` (the actor tool owns them).
 
 ## 5. How it fits together
 * `make extract` runs `tools/assets/assets.py extract`: it scans the ROM, writes the files and `assets/manifest.json` (SHA-1 of
