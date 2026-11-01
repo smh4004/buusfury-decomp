@@ -12,17 +12,30 @@ Asset kinds (all pulled from the user's baserom.gba; nothing copyrighted is comm
                                              Shorter/equal edits are written in place; longer ones go to the end of bank 6
                                              (nearly empty) and every ref to that line is re-pointed.
   ui        assets/text/ui_strings.txt       1534 UTF-16 strings from gUIStringPtrs (0x0806BCE8); any length (data moves)
-  map       assets/maps/<name>/L<k>_c<nn>.csv  32x32 chunk tilemaps (hex u16: bits 0-9 tile slot, 10 hflip, 11 vflip)
-            assets/maps/<name>/L<k>.png       preview render (not used by the build)
+  maps      assets/maps/<map>/...            all 427 maps: whole-layer CSVs, tile lists, collision masks (mapassets.py)
+  tiles     assets/gfx/tiles/page_NNN.png    the 187 global BG tile pages as indexed PNGs (gfx.py)
+  sprites   assets/gfx/sprites/<anim>/*.png  sprite frames (single-piece, 256-colour; sprites.py)
+  tables    assets/tables/{areas,equipment,items,scouter}.csv  fixed-size game tables (tables.py)
+  script    assets/scripts/items/*.scr       item effect bytecode
+  (`extract --previews` also renders every map layer to PNG; slow)
+  events    assets/scripts/<label>.evt       every event list (cutscenes, NPC talks, shops...): steps with script
+                                             bytecode as text (tools/scripts/events.py, bfscript.py). Steps can be edited,
+                                             added and removed; new dialogue can be written inline as "text".
 Overrides are applied to the generated data/*.s by tools/assets/apply.py (make modern).
 """
 import sys, os, json, struct, hashlib, re
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', 'wfz'))
 sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(HERE, '..', 'scripts'))
 from wfz import unpack
 from wfz_compress import compress
 import maps as mapsmod
+import mapassets
+import sprites
+import tables
+import events as evmod
+import bfscript
 
 ROM = 0x08000000
 BANK_TABLE = 0x7B5B64
@@ -31,7 +44,7 @@ OVERFLOW_BANK = 6
 PALETTE = 0x701B0
 EXP = (0x6B7084, 151)
 UI_PTRS = (0x6BCE8, 1534)
-MAPS = {'snakeway': 0x29B490}          # extend with more map records (see RE_NOTES: AreaEntry +0x2C -> area -> map)
+
 
 
 def sha(path): return hashlib.sha1(open(path, 'rb').read()).hexdigest()
@@ -143,24 +156,36 @@ def extract(rom, out):
             f.write('%d\t%s\n' % (i, esc(d[o:e].decode('utf-16-le'))))
     reg('ui', p, kind='ui', spans=spans)
 
-    # maps
-    for name, M in MAPS.items():
-        m = mapsmod.read_map(d, M)
-        md = os.path.join(out, 'maps', name); os.makedirs(md, exist_ok=True)
-        chunks = {}
-        for k, L in enumerate(m['layers']):
-            if not L: continue
-            for ci, co in enumerate(L['chunks']):
-                if co in chunks.values(): continue          # shared chunk: edit it once
-                ent = mapsmod.chunk_entries(d, co)
-                cp = os.path.join(md, 'L%d_c%02d.csv' % (k, ci))
-                with open(cp, 'w') as f:
-                    for r in range(32): f.write(','.join('%03X' % e for e in ent[32 * r:32 * r + 32]) + '\n')
-                chunks[os.path.relpath(cp, out)] = co
-            try: mapsmod.render_layer(d, m, k).save(os.path.join(md, 'L%d.png' % k))
-            except Exception as ex: print('render failed', name, k, ex)
-        for cp, co in chunks.items():
-            reg('map:%s' % cp, os.path.join(out, cp), kind='chunk', start=co)
+    # event lists / scripts
+    btexts = [unpack(d, o)[0].decode('utf-16-le') for o in boffs]
+    lists = evmod.find_lists(d, btexts)
+    owner = {}
+    for o, it, term in lists:
+        for t in it: owner.setdefault(t, o)
+    names = bfscript.load_names()
+    sd = os.path.join(out, 'scripts'); os.makedirs(sd, exist_ok=True)
+    for o, it, term in lists:
+        lab = evmod.L.name_at(o)
+        p = os.path.join(sd, '%s.evt' % lab)
+        open(p, 'w', encoding='utf-8').write(evmod.export_list(d, o, it, term, btexts, names, owner))
+        reg('events:%s' % lab, p, kind='events', start=o, items=it, term=term)
+
+    # tile pages, all maps (layers, tile lists, collision masks)
+    wfzidx = {o: (o, sz, e, t) for o, sz, e, t in wfz_blocks()}
+    mapassets.extract(d, out, reg, wfzidx, previews='--previews' in sys.argv)
+    sprites.extract(d, out, reg, wfzidx)
+
+    # game tables and item effect scripts
+    td = os.path.join(out, 'tables'); os.makedirs(td, exist_ok=True)
+    for tn in tables.SPECS:
+        p = os.path.join(td, '%s.csv' % tn); tables.export(d, tn, p)
+        reg('table:%s' % tn, p, kind='table', table=tn)
+    idir = os.path.join(out, 'scripts', 'items'); os.makedirs(idir, exist_ok=True)
+    for i, st, nm in tables.effect_scripts(d):
+        p = os.path.join(idir, '%02d_%s.scr' % (i, re.sub(r'\W+', '_', nm).strip('_')))
+        e = tables.export_script(d, st, p, 'Item %d effect: %s' % (i, nm), names)
+        reg('script:item%d' % i, p, kind='script', start=st, end=e)
+
     json.dump(man, open(os.path.join(out, 'manifest.json'), 'w'), indent=1)
     print('extracted %d assets to %s' % (len(man['assets']), out))
 
@@ -179,7 +204,25 @@ def build(rom, src, out):
         open(fn, 'wb').write(data)
         ov.append({'start': start, 'end': end, 'file': fn})
 
-    bank_texts = None
+    text = {'banks': None, 'offs': None, 'touched': set()}
+
+    def banks_loaded():
+        if text['banks'] is None:
+            a = man['assets']['dialogue']
+            text['offs'] = a['banks']
+            text['banks'] = [list(unpack(d, o)[0].decode('utf-16-le')) for o in a['banks']]
+        return text['banks']
+
+    def new_text(s):
+        """Append a new dialogue line to the overflow bank; return its packed text ref."""
+        bt = banks_loaded()[OVERFLOW_BANK]
+        off = len(bt); bt.extend(s)
+        assert len(bt) < 0x7FFF and len(s) < 0x800, 'overflow bank full or line too long'
+        text['touched'].add(OVERFLOW_BANK)
+        return OVERFLOW_BANK | off << 6 | len(s) << 21
+
+    names = bfscript.load_names()
+    mctx = mapassets.Ctx(d, {o: (o, sz, e, t) for o, sz, e, t in wfz_blocks()}, out, ov)
     for name, a in man['assets'].items():
         path = os.path.join(src, a['file'])
         if sha(path) == a['sha1']: continue
@@ -195,13 +238,14 @@ def build(rom, src, out):
             data = b''.join(struct.pack('<I', int(r[1])) for r in rows if len(r) > 1)
             assert len(data) == a['length'], 'exp.csv must keep 151 rows'
             put(a['start'], a['start'] + a['length'], data, 'exp')
-        elif k == 'chunk':
-            rows = [l.strip() for l in open(path) if l.strip()]
-            ent = [int(x, 16) for r in rows for x in r.split(',')]
-            assert len(ent) == 1024, '%s: need 32x32 entries' % path
-            raw = struct.pack('<1024H', *ent)
-            o = a['start']
-            put(o, wfz[o], compress(raw), 'chunk')
+        elif k in ('tilepage', 'layer', 'tilelist', 'mask'):
+            mapassets.build(d, a, path, mctx)
+        elif k == 'sprite':
+            sprites.build(d, a, path, mctx)
+        elif k == 'table':
+            tables.build(d, a['table'], path, mctx)
+        elif k == 'script':
+            tables.build_script(d, a, path, mctx, names)
         elif k == 'ui':
             lines = {}
             for l in open(path, encoding='utf-8'):
@@ -210,9 +254,11 @@ def build(rom, src, out):
             for i, o, e in a['spans']:
                 new = lines[i].encode('utf-16-le') + b'\0\0'
                 if new != d[o:e]: put(o, e, new, 'ui%d' % i)
+        elif k == 'events':
+            ov += evmod.compile_list(d, a['start'], a['items'], a['term'], open(path, encoding='utf-8').read(),
+                                     names, new_text, out, 'ev')
         elif k == 'dialogue':
-            boffs = a['banks']
-            bank_texts = [list(unpack(d, o)[0].decode('utf-16-le')) for o in boffs]
+            bank_texts = banks_loaded()
             orig = {}
             cur = None
             for l in open(path, encoding='utf-8'):
@@ -222,7 +268,6 @@ def build(rom, src, out):
                     if m: cur = tuple(int(x) for x in m.groups())
                     continue
                 orig[cur] = unesc(l); cur = None
-            touched = set()
             for key, txt in orig.items():
                 b, off, ln = key
                 if ''.join(bank_texts[b][off:off + ln]) == txt: continue
@@ -232,14 +277,14 @@ def build(rom, src, out):
                     nb, noff = OVERFLOW_BANK, len(bank_texts[OVERFLOW_BANK])
                     bank_texts[nb].extend(txt)
                     assert len(bank_texts[nb]) < 0x7FFF, 'overflow bank full'
-                touched.add(nb)
+                text['touched'].add(nb)
                 ref = nb | (noff << 6) | (len(txt) << 21)
                 for site in a['refs']['%d:%d:%d' % key]:
                     put(site, site + 4, struct.pack('<I', ref), 'ref')
-            for b in touched:
-                raw = ''.join(bank_texts[b]).encode('utf-16-le')
-                o = boffs[b]
-                put(o, wfz[o], compress(raw), 'bank%d' % b)
+    for b in sorted(text['touched']):
+        raw = ''.join(text['banks'][b]).encode('utf-16-le')
+        o = text['offs'][b]
+        put(o, wfz[o], compress(raw), 'bank%d' % b)
     json.dump(ov, open(os.path.join(out, 'overrides.json'), 'w'), indent=1)
     print('changed assets: %s' % (', '.join(changed) or 'none'))
     print('%d overrides -> %s' % (len(ov), os.path.join(out, 'overrides.json')))

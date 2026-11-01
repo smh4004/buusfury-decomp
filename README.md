@@ -5,8 +5,14 @@ A pret-style source tree for **Dragon Ball Z: Buu's Fury (USA)** (GBA, `BG3E`, W
 * **A matching disassembly.** `make` rebuilds the original 8 MB ROM byte for byte from labelled assembly and data.
 * **Shiftable source.** Every pointer is a symbol, so code and data can grow, shrink and move. This is tested by
   inserting padding and playing the game through an automated route.
-* **Editable assets.** Dialogue, UI strings, palette, EXP table and map chunks are extracted to text, CSV and PNG and rebuilt, with
-  a compressor for the game's WFZ format.
+* **Modding toolkit** (`docs/modding.md`). `make extract` turns the game into about 11,000 editable files, and `make modern` builds them back:
+  * **scripts**: a decompiler and compiler for all 533 event lists (cutscenes, NPC talk, shops) and for item effects. Steps
+    can be added and removed, and new dialogue can be written inline.
+  * **all 427 maps**: layers as CSV grids, tile lists, collision masks.
+  * **graphics**: 187 tile pages and 7,240 sprite frames as PNG.
+  * **text**: dialogue and UI strings.
+  * **tables**: palette, EXP, areas, equipment, items, scouter, as CSV.
+  * a WFZ compressor, so any of it can grow.
 * **A C decompilation.** There's Ghidra reference C for all 4,947 functions (`ref/`), and **431 functions run as GCC-compiled C** in a
   `make DECOMP=2` ROM that plays the test routes identically to the original: 284 verified with ≥90% coverage, plus 147 tested with lower coverage.
   Each was checked for equivalence against the original machine code. Another 1,790 compile and link but haven't been verified yet.
@@ -73,11 +79,13 @@ Nothing else is needed to build. Ghidra (11.x, Java 21) is only needed if you wa
 | `config/regions.yaml`, `pinned.txt`, `ptr_ambiguous.txt`, `replaceable.txt`, `raw_insns.txt` | Byte map and analysis results (see docs) |
 | `tools/bfdis/` | The disassembler: `analyze.py` (code discovery), `ptrs.py` (data pointers), `emit.py`, `gen.py`, `verify.py`, `regions.py`, `pinned.py` |
 | `tools/wfz/` | WFZ decoder (a port of the game's), compressor, scanner |
-| `tools/assets/` | Asset extract/build, relocation and splicing, stress tests |
+| `tools/assets/` | Asset extract/build (`assets.py`), maps (`mapassets.py`), tiles (`gfx.py`), sprites, tables, relocation and splicing (`apply.py`), demo edits |
+| `tools/scripts/` | Script bytecode assembler/disassembler (`bfscript.py`), event lists (`events.py`), round-trip self-test |
+| `config/script_natives.txt` | Names for script natives and vars (edit freely) |
 | `tools/harness/` | Headless mGBA harness and input routes |
 | `tools/ghidra/` | `setup.sh` (project), `export.sh` (C export); scripts for memory map, flow fixes (`FixFlow.java`), veneer signatures, C/JSON export |
 | `tools/decomp/` | `autodecomp.py` (C pipeline), `cc.sh` (compiler wrapper), `r0live.py` (return-value liveness), `mutation_check.py`, `gamebisect.py` |
-| `docs/` | `rom_map.md`, `toolchain.md`, `shifting.md`, `assets.md`, `decomp.md`, `decomp_scope.md`, `progress.md` |
+| `docs/` | `modding.md`, `rom_map.md`, `toolchain.md`, `shifting.md`, `assets.md`, `decomp.md`, `decomp_scope.md`, `progress.md` |
 
 Naming: known things have names in `config/symbols.txt` (`ScriptVM_Run`, `Wfz_LoadContainer`, `gAreaTable`...).
 Everything else is `sub_08XXXXXX` (function), `_08XXXXXX` (local label), `gUnknown_08XXXXXX` (data) or, in C,
@@ -150,7 +158,14 @@ In the build, each replaceable function's assembly is wrapped in `.ifndef DECOMP
 In a decomp build the function's address holds a 16-byte jump to the C version, which is linked into free space at the end of the ROM,
 and the rest of its bytes become padding. No other byte moves, so any behaviour change comes from the C itself.
 
-### 4.7 Assets (`docs/assets.md`)
+### 4.7 Assets and modding tools (`docs/assets.md`, `docs/modding.md`)
+Formats were worked out from the code (the reference C in `ref/` makes this quick) and checked by round trips and in-game edits:
+* **Script VM**: 31 opcodes read from the handler table, and all 3,890 event steps reassemble byte for byte.
+* **Events**: found through the global script table and a scan for step lists.
+* **Maps**: all 427 records point at one global tile-page table. Collision masks are 1 bit per cell.
+* **Sprites**: a 20-byte frame record holds OAM shape and size plus a pointer to 8bpp pixels.
+* **Tables**: matched against the strings the game shows.
+
 The WFZ decoder was ported from the ARM routine at 0x03000040. The compressor is its inverse (within 2.8% of the original size, and every
 output is verified by decoding it). Edited assets become overrides: if a new version is the same size or smaller, it goes in place. If it's larger, it's appended at the end of
 .rodata under the same label, so every symbolic pointer follows it. Pinned objects are refused.
@@ -170,12 +185,15 @@ Rename `src/.../sub_0803F922.c` and its entry in the `config/decomp_*.txt` lists
 Edit `asm/code_*.s` directly (for example, change an immediate). `make` gives a ROM that differs only there. Because everything is
 symbolic, you can also insert or delete instructions and everything after them moves correctly (that's what `make shift-test` proves). Use the harness to check that the game still runs.
 
-### 5.3 Edit text, palette, EXP or maps
+### 5.3 Mod the game: scripts, maps, graphics, text, tables
 ```sh
-make extract
-$EDITOR assets/text/dialogue.txt assets/tables/exp.csv
-make modern            # -> buusfury_modern.gba
+make extract                                  # -> assets/ (never commit it)
+$EDITOR assets/scripts/gUnknown_0877CBF0.evt  # the intro cutscene
+$EDITOR assets/maps/w01_a01_Snakeway/L1.csv   # a map layer
+gimp assets/gfx/sprites/anim_50C148/*.png      # sprites (keep the size)
+make modern                                   # -> buusfury_modern.gba
 ```
+The full guide, with syntax, rules and examples for every kind, is `docs/modding.md`. `python3 tools/assets/demo_edits.py` applies a sample edit of each kind.
 
 ### 5.4 Write new code in C
 Put a `.c` file under `src/` and add `file/function` to a list (or a new tier file). It's compiled with the same flags.

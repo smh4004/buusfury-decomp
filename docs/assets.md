@@ -14,7 +14,10 @@ With no edits, `make modern` reproduces the original ROM byte for byte (SHA-1 ch
 | `assets/text/ui_strings.txt` | 1,534 UTF-16 strings (`gUIStringPtrs` 0x0806BCE8) | Any length. A longer string moves to the appendix (see below) |
 | `assets/palette/master.txt` | `gMasterPalette` 0x080701B0, 512 x 24-bit (0-255 BG, 256-511 OBJ) | Edit values in place |
 | `assets/tables/exp.csv` | `gExpTable` 0x086B7084, 151 x u32 | Edit values. Keep 151 rows |
-| `assets/maps/snakeway/L<layer>_c<chunk>.csv` | Snake Way map record 0x0829B490: 32x32 chunk tilemaps (WFZ) | Hex u16: bits 0-9 tile slot, 10 hflip, 11 vflip. `L<k>.png` is a preview render. Add more maps to `MAPS` in `tools/assets/assets.py` |
+| `assets/scripts/*.evt`, `scripts/items/*.scr` | 533 event lists and 24 item effects (bytecode) | See `docs/modding.md` |
+| `assets/maps/<map>/...` | All 427 map records: whole-layer CSVs, tile lists, collision masks | See `docs/modding.md` |
+| `assets/gfx/tiles/*.png`, `gfx/sprites/*/*.png` | 187 BG tile pages, 7,240 sprite frames | Same size; palette-matched |
+| `assets/tables/*.csv` | Area table, equipment, items, scouter | Same row count; pointer columns take labels |
 
 Formats come from the earlier RE session's notes (RE_NOTES). Each was re-checked here by rendering or by running the result in the emulator.
 
@@ -24,6 +27,7 @@ Formats come from the earlier RE session's notes (RE_NOTES). Each was re-checked
 3. Map tile: Snake Way BG1 chunk 0, entry (row 18, col 25) becomes a cloud tile (a yellow 8x8 tile appears on the road).
 
 All three show up in game, and the long test route (intro, Snake Way, pause menu, 60 random walks) plays through.
+`tools/assets/demo_edits.py` now also edits a script, a map layer, sprites and the tables. See `docs/modding.md`, which is the main modding guide.
 
 ## WFZ compressor (`tools/wfz/wfz_compress.py`)
 * Inverse of the game's decoder (ported to `tools/wfz/wfz.py`, checked against the ARM routine `Wfz_Decompress` at 0x03000040).

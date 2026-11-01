@@ -1,0 +1,19 @@
+# Script native function names (used by tools/scripts: disassembly output and `call NAME(...)` input).
+# Format: id name   # comment.  Natives 0x00-0x11 double as "vars": `set`/`inc`/`dec` call gScriptSetterFuncs[id].
+# Names marked (inferred) come from watching the intro and Other World scripts run; rename freely,
+# the assembler maps names back to ids, so renaming never changes the built ROM.
+0x1F journal_flag       # (inferred) sets a journal/progress flag
+0x23 music              # (inferred) play music track
+0x2F end_cutscene       # (inferred)
+0x38 begin_moves        # (inferred) start a group of actor moves
+0x3A wait_moves         # (inferred) wait until all moves finish
+0x5A face               # (inferred) face(actor_idx, dir): 0 down, 1 up, 2 side
+0x60 move               # (inferred) move(actor_idx, x, y), map pixels; actor_idx = actor id + 9
+0x72 load_area          # (inferred) load scene/area (world, area, ...) via 0x08009030
+0x73 load_scene         # (inferred)
+0x88 wait               # (inferred) wait(frames)
+0x0C hp                 # (inferred) var: current hit points (Senzu Bean: hp = max_hp)
+0x0D max_hp             # (inferred) var
+0x0E ki                 # (inferred) var: current energy
+0x0F max_ki             # (inferred) var
+0x82 play_sfx           # (inferred) item effects end with it
