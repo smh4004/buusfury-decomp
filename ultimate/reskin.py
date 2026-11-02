@@ -89,27 +89,126 @@ def mirror(t):
     return np.concatenate([t, t[:, ::-1]], 1)
 
 
-def reskin(img, road, pal, tex):
-    """img: prototype indices; road: mask of prototype road pixels. Returns RGB.
-    Ice maps: 48 low floor, 49 high ground (snow top), 50 cliff face. City maps: grey blocks are trees, pale blue is road."""
+def key(rgb):
+    return rgb[..., 0].astype(np.int64) << 16 | rgb[..., 1].astype(np.int64) << 8 | rgb[..., 2]
+
+
+def sprite(crop, background):
+    """A cut-out: RGBA crop where the colours of the ground it was drawn on are transparent."""
+    a = ~np.isin(key(crop), np.unique(key(background)))
+    return crop, a
+
+
+def stamp(rgb, spr, x, y, mask=None):
+    """Paint a cut-out with its top-left at x, y, clipped to the image and, if given, to mask."""
+    crop, alpha = spr; h, w = alpha.shape
+    x0, y0 = max(x, 0), max(y, 0); x1, y1 = min(x + w, rgb.shape[1]), min(y + h, rgb.shape[0])
+    if x0 >= x1 or y0 >= y1: return
+    al = alpha[y0 - y:y1 - y, x0 - x:x1 - x]
+    if mask is not None: al = al & mask[y0:y1, x0:x1]
+    rgb[y0:y1, x0:x1][al] = crop[y0 - y:y1 - y, x0 - x:x1 - x][al]
+
+
+def grow(mask, r):
+    """Dilate by about r pixels, fast enough for whole rooms (works cell by cell past 8 pixels)."""
+    out = mask.copy()
+    for _ in range(r // 8):
+        c = out.copy()
+        c[8:] |= out[:-8]; c[:-8] |= out[8:]; c[:, 8:] |= out[:, :-8]; c[:, :-8] |= out[:, 8:]
+        out = c
+    return dilate(out, r % 8)
+
+
+def snow_room(img, tex):
+    """Snowy Highlands style: rock line round the floor, capped cliff faces with a cast shadow, boulders and pines on high ground."""
+    h, w = img.shape
+    floor, top, face = img == ICE_FLOOR, img == ICE_WALL, img == ICE_DEEP
+    rgb = tiled(tex['snow'], h, w).copy()
+    open_ground = floor | face
+    round_floor = smooth(open_ground, 5)
+    near = grow(open_ground, 16)
+    # high ground: a wall of snow-capped boulders, stopping short of the floor's edge
+    wall = top & ~grow(open_ground, 10)
+    w_tex = tex['wall']
+    for y in range(0, h, 64):
+        for x in range(0, w, 64):
+            if wall[y:y + 64, x:x + 64].any():
+                stamp(rgb, w_tex, x, y, wall)
+    for y in range(0, h - 96, 96):
+        for x in range(16 + (y // 96 % 2) * 64, w - 64, 128):
+            if top[y:y + 112, x:x + 66].all() and not near[y:y + 112, x:x + 66].any() and (x // 8 + y // 8) % 3 == 0:
+                stamp(rgb, tex['pine'], x, y)
+    # cliff faces: each column hangs from the top of its run, so the snow cap follows the edge
+    cliff = tex['cliff']
+    for x in range(w):
+        col = face[:, x]; y = 0
+        while y < h:
+            if not col[y]: y += 1; continue
+            e = y
+            while e < h and col[e]: e += 1
+            for k in range(e - y):
+                rgb[y + k, x] = cliff[k % cliff.shape[0], x % cliff.shape[1]]
+            y = e
+    # shadow under the faces
+    below = np.zeros_like(face); below[1:] = face[:-1]
+    shade = below.copy()
+    for _ in range(6):
+        s = np.zeros_like(shade); s[1:] = shade[:-1]; shade = shade | s
+    shade &= open_ground & ~face
+    yy, xx = np.indices((h, w))
+    rgb[shade & ((xx + yy) % 2 == 0)] = (168, 200, 232)
+    # the rock line round the floor, broken up so it reads as stones
+    edge = dilate(round_floor, 2) & ~round_floor & ~face & ~dilate(face, 1)
+    n = (xx * 7 + yy * 13) % 5
+    rgb[edge & (n < 3)] = (152, 88, 40)
+    rgb[edge & (n >= 3)] = (216, 152, 96)
+    # scattered stones and footprints on the floor
+    for i, spr in enumerate(tex['bits']):
+        for y in range(24 + 40 * i, h - 24, 136):
+            for x in range(32 + 72 * i + (y // 136) * 56, w - 32, 184):
+                bh, bw = spr[1].shape
+                if floor[y - 8:y + bh + 8, x - 8:x + bw + 8].all(): stamp(rgb, spr, x, y)
+    return rgb, floor | top | face
+
+
+def city_room(img, road, pal, tex):
+    """West City style: grass and trees for the blockers, plain road, paving instead of the prototype's pink."""
     h, w = img.shape
     rgb = pal[img][..., :3].copy()
-    floor = img == ICE_FLOOR; top = img == ICE_WALL; face = img == ICE_DEEP
-    ice = floor | top | face
-    if ice.any():
-        snow = tiled(tex['snow'], h, w); rock = tiled(tex['rock'], h, w)
-        out = np.where(face[..., None], rock, snow)
-        rim = top & dilate(floor | face, 2)          # brown rock line around high ground, as Snowy Highlands draws it
-        out[rim] = tex['rim']
-        rgb[ice] = out[ice]
-    grey = img == 10                                # only solid grey cells are blockers; grey in paving lines stays
     H, W = h // 8 * 8, w // 8 * 8
-    cells = grey[:H, :W].reshape(H // 8, 8, W // 8, 8).all((1, 3))
+    cells = (img[:H, :W] == 10).reshape(H // 8, 8, W // 8, 8).all((1, 3))
     grey = np.zeros((h, w), bool); grey[:H, :W] = np.repeat(np.repeat(cells, 8, 0), 8, 1)
     if grey.any():
-        rgb[grey] = tiled(tex['trees'], h, w)[grey]
+        rgb[grey] = tiled(tex['grass'], h, w)[grey]
+        t = tex['tree']; th, tw = t[1].shape
+        for row, y in enumerate(range(-16, h, 48)):
+            for x in range(-40 if row % 2 else -8, w, 64):
+                if grey[max(y + th // 2, 0):min(y + th, h), max(x + 16, 0):min(x + tw - 16, w)].any():
+                    stamp(rgb, t, x, y, grey)
     if road.any():
         rgb[road] = tiled(tex['road'], h, w)[road]
+    p = rgb.astype(int); pink = (p[..., 0] > 200) & (p[..., 0] - p[..., 2] > 25) & (p[..., 1] > 170) & (img > 0) & ~grey
+    pc = np.zeros((h, w), bool)
+    pc[:H, :W] = np.repeat(np.repeat(pink[:H, :W].reshape(H // 8, 8, W // 8, 8).mean((1, 3)) > 0.6, 8, 0), 8, 1)
+    rgb[pc] = tiled(tex['paving'], h, w)[pc]
+    return rgb
+
+
+def reskin(img, road, pal, tex, area=0):
+    """img: prototype indices; road: mask of prototype road pixels. Returns RGB.
+    Ice maps: 48 low floor, 49 high ground, 50 cliff face. City maps: grey blocks are trees, pale blue is road."""
+    if area >= 6:
+        rgb, ice = snow_room(img, tex)
+        rest = ~ice & (img != 0)
+        if rest.any():                                          # 26:11: open air under the bridge becomes a frozen river
+            rgb[rest] = tiled(tex['river'], *img.shape)[rest]
+        rgb[img == 0] = 0
+        return rgb.astype(np.uint8)
+    rgb = city_room(img, road, pal, tex)
+    if area == 5:                                              # the walk up out of the city into the snow
+        snow, ice = snow_room(img, tex)
+        rgb[ice] = snow[ice]
+    rgb[img == 0] = 0
     return rgb.astype(np.uint8)
 
 
@@ -121,15 +220,20 @@ def build_all(proto, log2, bfrom, log2_index='../log2-decomp/assets/maps/index.c
     bfpal = B.pal[..., :3].astype(np.int64)
     idx = {l.split(',')[0]: int(l.split(',')[1], 16) - 0x08000000 for l in open(log2_index) if l.startswith('w')}
     bidx = {l.split(',')[0]: int(l.split(',')[1], 16) - 0x08000000 for l in open(bf_index) if l.startswith('w')}
-    snow_map = np.array(L.render(idx['w0D_a09_Snowy_Highlands'])[0].convert('RGB'))
+    snow = lambda n: np.array(L.render(idx['w0D_a%s_Snowy_Highlands' % n])[0].convert('RGB'))
+    s9, s3 = snow('09'), snow('03')
     city = np.array(B.render(bidx['w04_a01_West_City'])[0].convert('RGB'))
-    tex = dict(snow=snow_map[320:384, 0:64], rock=mirror(snow_map[62:94, 104:124]), rim=np.array((168, 104, 56)),
-               trees=city[410:474, 0:64], road=city[345:377, 96:128])
+    floor = s3[290:380, 160:256]                 # plain snow, the ground the cut-outs are drawn on
+    grass = city[470:502, 490:522]; lawn = city[470:540, 486:540]
+    tex = dict(snow=s9[320:384, 0:64], cliff=s3[16:64, 0:128], river=s3[204:236, 212:244],
+               wall=sprite(s3[128:192, 0:64], floor), pine=sprite(s3[20:132, 310:376], floor),
+               bits=[sprite(s3[44:62, 184:206], floor), sprite(s3[332:350, 134:160], floor)],
+               grass=grass, tree=sprite(city[432:544, 196:292], lawn), road=city[345:377, 96:128], paving=city[404:420, 128:144])
     res = {}
     for a in range(1, 16):
         m = map_of(G, a); img = layers(G, m)
         if a == 5: img = np.where(img == 2, ICE_FLOOR, img)  # the blank white path is the walk up into the snow
-        res[a] = to_bf(reskin(img, road_mask(G, m, img.shape) & ~(img == ICE_FLOOR), G.pal, tex), bfpal)
+        res[a] = to_bf(reskin(img, road_mask(G, m, img.shape) & ~(img == ICE_FLOOR), G.pal, tex, a), bfpal)
     return res, bfpal
 
 
