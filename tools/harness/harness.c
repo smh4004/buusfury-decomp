@@ -332,6 +332,8 @@ int main(int argc, char** argv) {
             for (int k = 0; k < 24; k++) printf(" %08x", core->busRead32(core, cpu->gprs[13] + 4 * k));
             printf("\n");
         }
+        else if (!strcmp(cmd, "poke")) { core->busWrite32(core, strtoul(a1, 0, 16), strtoul(a2, 0, 16)); }
+        else if (!strcmp(cmd, "poke8")) { core->busWrite8(core, strtoul(a1, 0, 16), strtoul(a2, 0, 16)); }
         else if (!strcmp(cmd, "dump")) {
             char p[600]; snprintf(p, sizeof p, "%s/%s.bin", argv[3], a1);
             uint32_t ad = strtoul(a2, 0, 16), n = strtoul(a3, 0, 16);
