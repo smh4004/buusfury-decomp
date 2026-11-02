@@ -41,6 +41,24 @@
    "name": 1186,
    "flags": 81,
    "down": 13
+  },
+  {
+   "id": "saiyaman_from_green",
+   "copy": 14,
+   "character": 111,
+   "owner": 1,
+   "name": 1186,
+   "up": 255,
+   "down": 15
+  },
+  {
+   "id": "saiyaman_from_orange",
+   "copy": 14,
+   "character": 111,
+   "owner": 1,
+   "name": 1186,
+   "up": 255,
+   "down": 13
   }
  ],
  "edit": {

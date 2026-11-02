@@ -1,27 +1,39 @@
 {
- "_note": "Base forms the Switch Character screen can cycle. Only forms with full combat animations belong here. flag 0 = always available; set story flags once unlocks are designed. Transformed looks without their own art reuse the nearest existing sprite for now.",
+ "_note": "Base forms the Switch Character screen can cycle. Only forms with full combat animations belong here. Great Saiyaman stays a skill. Story outfits unlock where the story first gives them (unlocks). Extras will use post-game reward flags. Flags from 600 up are ours.",
  "characters": {
   "1": [
    {
     "form": 10,
     "name": "School uniform",
-    "flag": 0
+    "flag": 600
    },
    {
     "form": 15,
     "name": "Green training gi",
-    "flag": 0
+    "flag": 601
    },
    {
     "form": 13,
     "name": "Orange gi",
-    "flag": 0
-   },
-   {
-    "form": 14,
-    "name": "Great Saiyaman",
-    "flag": 0
+    "flag": 602
    }
   ]
- }
+ },
+ "unlocks": [
+  {
+   "list": "gUnknown_08783B68",
+   "flag": 600,
+   "find": "    pushn 1, 107\n    call 0x9D\n"
+  },
+  {
+   "list": "gUnknown_0877D1D4",
+   "flag": 601,
+   "find": "    pushn 1, 112\n    call 0x9D\n"
+  },
+  {
+   "list": "gUnknown_08794168",
+   "flag": 602,
+   "find": "    pushn 1, 110\n    call 0x9D\n"
+  }
+ ]
 }

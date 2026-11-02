@@ -63,5 +63,22 @@ check('outfit: no bad jumps through transforming', 'bad pc' not in o)
 check('outfit: A keeps orange gi as Gohan', open(d + '/e.bin', 'rb').read()[GOHAN + FORM] == 13)
 check('outfit: Super Saiyan uses the new row', open(d + '/f.bin', 'rb').read()[GOHAN + FORM] == ss)
 check('outfit: turning back returns to orange gi', open(d + '/g.bin', 'rb').read()[GOHAN + FORM] == 13)
+
+# Great Saiyaman stays a skill and returns to the outfit Gohan wore. Locked outfits are skipped.
+s18 = skills.index(18)
+def use(n): return ['poke8 %s %02x' % (sel, s18), 'run 5', 'keys B', 'run 12', 'keys', 'run 300', 'dump ' + n + ' 03001068 8a8']
+o = run(rom, pick + ['tap A 150', 'run 100'] + use('h') + ['shot saiyaman'] + use('i') + ['shot unsaiyaman'], d)
+h = open(d + '/h.bin', 'rb').read()[GOHAN + FORM]; i = open(d + '/i.bin', 'rb').read()[GOHAN + FORM]
+check('saiyaman: no bad jumps', 'bad pc' not in o)
+check('saiyaman: costume on from the orange gi', h == forms['saiyaman_from_orange'])
+check('saiyaman: costume off returns to the orange gi', i == 13)
+flag_byte = lambda f: '%08x' % (0x03001068 + 0x55 + f // 8)
+lock = [x for x in pick if x not in ('tap DOWN 30', 'shot outfit')]
+at = lock.index('tap RIGHT 40')
+lock[at:at] = ['poke8 %s 00' % flag_byte(600)]
+o = run(rom, lock + ['tap DOWN 30', 'tap DOWN 30', 'tap A 150', 'run 100', 'dump j 03001068 8a8'], d)
+print('flag byte value test')
+j = open(d + '/j.bin', 'rb').read()
+check('unlocks: locked outfits are skipped (all locked stays school uniform)', j[GOHAN + FORM] == 10)
 print('screens in', d)
 sys.exit(1 if fails else 0)
