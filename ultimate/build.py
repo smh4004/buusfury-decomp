@@ -23,6 +23,8 @@ CODE_END = 0x54FBC
 SPACE = 0x800000                 # new data starts at the old 8 MB end: forms, then code
 ACTORS_AT = 0x820000             # moved actor table and imported sprites
 COMBO_SHA1 = 'f02d179accbeb9b68bcaef8720eb0ae426dde6ee'
+PROTO = os.environ.get('BFU_PROTO', 'protoD.gba')   # Prototype D cart: Super 13 and Zone 26
+LOG2 = os.environ.get('BFU_LOG2', 'log2.gba')      # Legacy of Goku II (USA): Zone 26's snow tiles
 COMBO = os.environ.get('BFU_COMBO', 'combo.gba')   # Legacy of Goku I & II cart; LoG2 = its second 8 MB
 DEBUG_NATIVE = 0xF7              # debug builds only: "save to slot 1" (not used by any game script)
 OUT = 'ultimate/out'
@@ -44,6 +46,9 @@ def debug_edits(first_form):
     if '--enemy' in sys.argv:
         open(ACTORS_FILE, 'a').write('enemy 8 0x70 0xB0 34   ; debug: a Bomber to test attacks on\n')
     s = open(FIELD).read()
+    area = next((a for a in sys.argv if a.startswith('--area=')), None)
+    if area:
+        open(INTRO, 'w').write(open(INTRO).read().replace('step 19 raw', 'step auto code\n    call 0x72(%s)\n    end\nstep 19 raw' % area[7:], 1))
     tail = '    set 0x10\n    end\n'
     i = s.rfind(tail)
     assert i > 0
@@ -115,7 +120,8 @@ def add_actors(rom, clean):
         if not k.startswith('_') and 'replace' not in a: a['log2_slots'] = slots
     pal = np.frombuffer(clean[0x701B0 + 768:0x701B0 + 1536], np.uint8).reshape(256, 3)
     usable = [i for i in range(1, 256) if i not in artclean.MENU_SLOTS]
-    ids, end = sprites.build_actors(rom, cfg, None, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal))
+    cfg['super13'] = {'proto_actor': 230}
+    ids, end = sprites.build_actors(rom, cfg, None, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal), open(PROTO, 'rb').read())
     return ids, end
 
 
@@ -237,6 +243,11 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     json.dump(index, open(OUT + '/_forms.json', 'w'))
     free = add_outfits(rom, clean, (free + 3) & ~3)
+    sys.path.insert(0, 'ultimate')
+    import zone26
+    zone_end, zone_info = zone26.apply(rom, clean, PROTO, LOG2, actors_end, actors)
+    print('zone 26 tiles:', zone_info)
+    actors_end = zone_end
     if debug:
         at = (free + 3) & ~3
         code = save_stub(at)
@@ -244,7 +255,7 @@ def main():
         tab = find_once(rom, clean[NATIVES:NATIVES + 64], 'native table')
         struct.pack_into('<I', rom, tab + 4 * DEBUG_NATIVE, ROM_BASE + at + 1)
     os.makedirs(OUT, exist_ok=True)
-    name = ('BFU_debug_enemy' if '--enemy' in sys.argv else 'BFU_debug') if debug else 'BFU'
+    name = ('BFU_debug_enemy' if '--enemy' in sys.argv else 'BFU_debug_area' if any(a.startswith('--area=') for a in sys.argv) else 'BFU_debug') if debug else 'BFU'
     if free >= ACTORS_AT or actors_end > 0x1000000:
         sys.exit('ROM layout overflow')
     size = (actors_end + 0xFFFFF) & ~0xFFFFF
