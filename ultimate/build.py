@@ -27,7 +27,7 @@ FIELD = 'assets/scripts/gUnknown_08780550.evt'
 def debug_edits(first_form):
     """Join Vegito and guest Broly at the start, and open the picker, then save, when the intro ends."""
     heal = ''.join('    push %d\n    set %s\n' % (v, n) for v, n in ((500, 'max_hp'), (500, 'hp'), (100, 'max_ki'), (100, 'ki')))
-    join = ('step auto code\n    call 0x97(6)\n    call 0x97(8)\n    call 0x95(6)\n' + heal + '    call 0x95(8)\n' + heal +
+    join = ('step auto code\n    call 0x97(1)\n    call 0x97(6)\n    call 0x97(8)\n    call 0x95(1)\n' + heal + '    call 0xD0(10)\n    call 0xA4(1, 20)\n    call 0x95(6)\n' + heal + '    call 0x95(8)\n' + heal +
             '    call 0xD0(%d)\n    call 0x95(0)\n    end\n' % first_form)
     s = open(INTRO).read()
     assert 'step 19 raw' in s
@@ -84,13 +84,18 @@ def patch_forms(rom, clean, cfg):
         struct.pack_into('<HH', row, 2, r['name'], r.get('status_name', r['name']))
         row[0x0C] = r['owner']
         struct.pack_into('<H', row, 0x0E, r['character'])
-        row[0x10:0x16] = bytes([r['portrait']]) * 6
+        if 'portrait' in r:
+            row[0x10:0x16] = bytes([r['portrait']]) * 6
         row[0x16] = r.get('up', 255)
         row[0x17] = r.get('down', 255)
         if 'flags' in r:
             struct.pack_into('<H', row, 0, r['flags'])
         rows += row
         index[r['id']] = FORM_COUNT + k
+    for k, e in cfg.get('edit', {}).items():
+        o = FORM_SIZE * int(k)
+        if 'up' in e: rows[o + 0x16] = index[e['up']]
+        if 'down' in e: rows[o + 0x17] = index[e['down']]
     if len(rows) // FORM_SIZE > 255:
         sys.exit('too many forms: 255 is the "none" marker')
     rom[SPACE:SPACE + len(rows)] = rows
@@ -102,6 +107,45 @@ def patch_forms(rom, clean, cfg):
     if n != 37:
         sys.exit('form table: expected 37 code references, found %d' % n)
     return index, SPACE + len(rows)
+
+
+def symbol(name):
+    out = subprocess.run(['arm-none-eabi-nm', 'buusfury_modern.elf'], capture_output=True, text=True, check=True).stdout
+    for line in out.splitlines():
+        p = line.split()
+        if p[-1] == name:
+            return int(p[0], 16)
+    sys.exit('symbol %s not found' % name)
+
+
+def add_outfits(rom, clean, at):
+    """Compile the outfit code with its table at `at`, then point the Switch Character screen's vtable at it."""
+    cfg = json.load(open('ultimate/outfits.json'))['characters']
+    index, table = [], []
+    for c in range(9):
+        lst = cfg.get(str(c), [])
+        index.append('{%d,%d}' % (len(table), len(lst)))
+        table += ['{%d,0,%d}' % (o['form'], o['flag']) for o in lst]
+    d = tempfile.mkdtemp()
+    c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\n' % (','.join(index), ','.join(table) or '{0,0,0}')
+    open(d + '/o.c', 'w').write(c)
+    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C')]
+    syms = ['-Wl,--defsym=form_table=0x%X' % (ROM_BASE + SPACE), '-Wl,-Ttext=0x%X' % (ROM_BASE + at), '-Wl,-e,picker_update', '-Wl,--no-warn-rwx-segments']
+    lib = subprocess.run(['arm-none-eabi-gcc', '-mthumb', '-mcpu=arm7tdmi', '-print-libgcc-file-name'], capture_output=True, text=True, check=True).stdout.strip()
+    subprocess.run(['arm-none-eabi-gcc'] + flags + syms + [d + '/o.c', lib, '-o', d + '/o.elf'], check=True)
+    subprocess.run(['arm-none-eabi-objcopy', '-O', 'binary', d + '/o.elf', d + '/o.bin'], check=True)
+    code = open(d + '/o.bin', 'rb').read()
+    nm = subprocess.run(['arm-none-eabi-nm', d + '/o.elf'], capture_output=True, text=True, check=True).stdout
+    sym = {l.split()[2]: int(l.split()[0], 16) for l in nm.splitlines() if len(l.split()) == 3}
+    if set(rom[at:at + len(code)]) != {0xFF}:
+        sys.exit('outfit code space is not free')
+    rom[at:at + len(code)] = code
+    vt = symbol('_0804A5E0') - ROM_BASE
+    for slot, want, name in ((5, 0x0802EBA5, 'picker_update'), (8, 0x0802ECEB, 'picker_input')):
+        if ROM_BASE + vt + struct.unpack_from('<i', rom, vt + 4 * slot)[0] != want:
+            sys.exit('vtable slot %d changed' % slot)
+        struct.pack_into('<i', rom, vt + 4 * slot, (sym[name] | 1) - (ROM_BASE + vt))
+    return at + len(code)
 
 
 def main():
@@ -125,6 +169,7 @@ def main():
         sys.exit('modern ROM has outgrown the 8 MB base; move SPACE')
     rom += b'\xff' * 0x100000
     index, free = patch_forms(rom, clean, cfg)
+    free = add_outfits(rom, clean, (free + 3) & ~3)
     if debug:
         at = (free + 3) & ~3
         code = save_stub(at)

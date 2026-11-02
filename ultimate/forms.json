@@ -1,9 +1,51 @@
 {
- "_note": "New rows appended to the form table (first new row = 54). copy = existing row used as the template; character = actor id + 9; owner = party slot (8 = shared guest slot); name = UI string; portrait = speaker id from the scouter table.",
+ "_note": "New rows appended to the form table (first new row = 54). copy = existing row used as the template; character = actor id + 9; owner = party slot (8 = shared guest slot); name = UI string; portrait = speaker id from the scouter table. edit = changes to original rows. down = form to return to. flags 0x51 = Super Saiyan.",
  "rows": [
-  {"id": "broly",         "copy": 47, "character": 38,  "owner": 8, "name": 1034, "portrait": 16},
-  {"id": "super_janemba", "copy": 47, "character": 154, "owner": 8, "name": 1044, "portrait": 81},
-  {"id": "kid_buu",       "copy": 47, "character": 47,  "owner": 8, "name": 1036, "portrait": 85},
-  {"id": "majin_buu",     "copy": 47, "character": 43,  "owner": 8, "name": 1028, "portrait": 91}
- ]
+  {
+   "id": "broly",
+   "copy": 47,
+   "character": 38,
+   "owner": 8,
+   "name": 1034,
+   "portrait": 16
+  },
+  {
+   "id": "super_janemba",
+   "copy": 47,
+   "character": 154,
+   "owner": 8,
+   "name": 1044,
+   "portrait": 81
+  },
+  {
+   "id": "kid_buu",
+   "copy": 47,
+   "character": 47,
+   "owner": 8,
+   "name": 1036,
+   "portrait": 85
+  },
+  {
+   "id": "majin_buu",
+   "copy": 47,
+   "character": 43,
+   "owner": 8,
+   "name": 1028,
+   "portrait": 91
+  },
+  {
+   "id": "gohan_orange_ss",
+   "copy": 16,
+   "character": 113,
+   "owner": 1,
+   "name": 1186,
+   "flags": 81,
+   "down": 13
+  }
+ ],
+ "edit": {
+  "13": {
+   "up": "gohan_orange_ss"
+  }
+ }
 }

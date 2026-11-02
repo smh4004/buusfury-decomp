@@ -1,0 +1,27 @@
+{
+ "_note": "Base forms the Switch Character screen can cycle. Only forms with full combat animations belong here. flag 0 = always available; set story flags once unlocks are designed. Transformed looks without their own art reuse the nearest existing sprite for now.",
+ "characters": {
+  "1": [
+   {
+    "form": 10,
+    "name": "School uniform",
+    "flag": 0
+   },
+   {
+    "form": 15,
+    "name": "Green training gi",
+    "flag": 0
+   },
+   {
+    "form": 13,
+    "name": "Orange gi",
+    "flag": 0
+   },
+   {
+    "form": 14,
+    "name": "Great Saiyaman",
+    "flag": 0
+   }
+  ]
+ }
+}

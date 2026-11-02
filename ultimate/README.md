@@ -8,3 +8,7 @@ python3 ultimate/test_build.py
 ```
 Output goes to `ultimate/out/` (git-ignored). Share only `.bps` patches. New forms are defined in `ultimate/forms.json`.
 The debug build starts with Vegito and guest Broly, and opens Switch Character then saves when the intro ends.
+
+## Outfits
+`ultimate/outfits.json` lists each character's outfits, and `ultimate/src/outfit.c` adds Up and Down to the Switch Character screen.
+Only forms with full combat animations belong in the list. An outfit's Super Saiyan row needs `down` set back to that outfit.
