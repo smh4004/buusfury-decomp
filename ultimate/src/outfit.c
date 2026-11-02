@@ -154,6 +154,10 @@ static int has_slot(void *player, int slot) {
     return (*(u32 *)actor & 0xFF) > (u32)slot && *(u32 *)(actor + 0x54 + slot * 4) != 0;
 }
 
+#define SLOT_CHARGE 22
+#define SLOT_HIT 23
+static int has_slot(void *player, int slot);
+static void play_slot(void *player, int slot);
 /* Same hit as the game's melee (sub_08012A24), with its 0x400 power value raised. */
 #define CHARGED_POWER 0xA00
 #define RectAt ((void (*)(void *, const void *, int *))0x08052FD5)
@@ -177,6 +181,24 @@ static void charged_hit(void *player) {
         Quake(0xF, 0x4B);
     }
     CALL_V(player, 0x28)(player, 4 + Random(3));
+    if (has_slot(player, SLOT_HIT)) play_slot(player, SLOT_HIT);
+}
+
+
+static void play_slot(void *player, int slot) {
+    SpriteSlot(player, slot);
+    *(u32 *)((u8 *)player + 0x4C) = 0;      /* the halo table has no entries past slot 21 */
+    *((u8 *)player + 0x11) = 0;
+    *(u16 *)((u8 *)player + 0x12) = 0;
+}
+
+/* The arms-raised or LoG2 charge pose, shown while standing still. */
+static void charge_pose(void *player) {
+    int slot = has_slot(player, SLOT_CHARGE) ? SLOT_CHARGE : 13;
+    u8 *actor = (u8 *)*(u32 *)((u8 *)player + 0x58);
+    if (!has_slot(player, slot)) return;
+    if (*(u32 *)((u8 *)player + 0x50) == *(u32 *)(actor + 0x54 + slot * 4)) return;
+    play_slot(player, slot);
 }
 
 static void charged_melee(void *player) {
@@ -186,7 +208,7 @@ static void charged_melee(void *player) {
     if (held) {
         if (n < 255) CHARGE_COUNT = ++n;
         if (n == CHARGE_FRAMES) PlaySound((void *)0x03003E5C, (void *)SOUND_MOVE, 0x40, 0);
-        if (n == CHARGE_FRAMES && has_slot(player, 13)) { SpriteSlot(player, 13); *(int *)((u8 *)player + 0x30) = 0; *(int *)((u8 *)player + 0x38) = 0; }
+        if (n >= CHARGE_FRAMES && !(*(u16 *)(input + 2) & 0xF0)) charge_pose(player);
         return;
     }
     CHARGE_COUNT = 0;

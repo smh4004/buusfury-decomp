@@ -112,7 +112,7 @@ def add_actors(rom, clean):
     cfg = json.load(open('ultimate/actors.json'))
     slots = cfg.pop('_slots')
     for k, a in cfg.items():
-        if not k.startswith('_'): a['log2_slots'] = slots
+        if not k.startswith('_') and 'replace' not in a: a['log2_slots'] = slots
     pal = np.frombuffer(clean[0x701B0 + 768:0x701B0 + 1536], np.uint8).reshape(256, 3)
     usable = [i for i in range(1, 256) if i not in artclean.MENU_SLOTS]
     ids, end = sprites.build_actors(rom, cfg, None, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal))

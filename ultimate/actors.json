@@ -1,5 +1,5 @@
 {
- "_note": "LoG2 Saiyan armor actors. Slots: BF animation slot -> LoG2 animation (0 idle, 1 walk, 2 run, 3 hurt and fall, 4 charge, 5 ki, 6-8 melee). Moves LoG2 lacks reuse the nearest animation until art exists.",
+ "_note": "LoG2 Saiyan armor actors. Slots: BF animation slot -> LoG2 animation (0 idle, 1 walk, 2 run, 3 hurt and fall, 4 charge, 5 ki, 6-8 melee). Moves LoG2 lacks reuse the nearest animation until art exists. extra_slots: 22 = charge pose (LoG2 animation 13), 23 = charged hit (LoG2 animation 16). Without them a character uses slot 13 and a normal melee animation.",
  "_slots": {
   "0": 0,
   "1": 1,
@@ -26,31 +26,100 @@
  "vegeta_armor": {
   "template": 270,
   "log2_record": "r134",
-  "stretch": true
+  "stretch": true,
+  "extra_slots": {
+   "22": "r134:13",
+   "23": "r134:16"
+  }
  },
  "vegeta_armor_ss": {
   "template": 273,
   "log2_record": "r136",
-  "stretch": true
+  "stretch": true,
+  "extra_slots": {
+   "22": "r136:13",
+   "23": "r136:16"
+  }
  },
  "trunks_armor": {
   "template": 260,
   "log2_record": "r126",
-  "stretch": true
+  "stretch": true,
+  "extra_slots": {
+   "22": "r126:13",
+   "23": "r126:16"
+  }
  },
  "trunks_armor_ss": {
   "template": 261,
   "log2_record": "r127",
-  "stretch": true
+  "stretch": true,
+  "extra_slots": {
+   "22": "r127:13",
+   "23": "r127:16"
+  }
  },
  "gohan_armor": {
   "template": 98,
   "log2_record": "r52",
-  "stretch": true
+  "stretch": true,
+  "extra_slots": {
+   "22": "r52:13",
+   "23": "r52:6"
+  }
  },
  "gohan_armor_ss": {
   "template": 105,
   "log2_record": "r55",
-  "stretch": true
+  "stretch": true,
+  "extra_slots": {
+   "22": "r55:13",
+   "23": "r55:16"
+  }
+ },
+ "goku_106": {
+  "replace": 106,
+  "log2_record": "r57",
+  "halo": true,
+  "extra_slots": {
+   "22": "r57:13",
+   "23": "r57:16"
+  }
+ },
+ "goku_108": {
+  "replace": 108,
+  "log2_record": "r57",
+  "halo": true,
+  "extra_slots": {
+   "22": "r57:13",
+   "23": "r57:16"
+  }
+ },
+ "goku_ss_109": {
+  "replace": 109,
+  "log2_record": "r58",
+  "halo": true,
+  "extra_slots": {
+   "22": "r58:13",
+   "23": "r58:16"
+  }
+ },
+ "goku_ss_110": {
+  "replace": 110,
+  "log2_record": "r58",
+  "halo": true,
+  "extra_slots": {
+   "22": "r58:13",
+   "23": "r58:16"
+  }
+ },
+ "piccolo_213": {
+  "replace": 213,
+  "log2_record": "r100",
+  "halo": true,
+  "extra_slots": {
+   "22": "r100:13",
+   "23": "r100:16"
+  }
  }
 }

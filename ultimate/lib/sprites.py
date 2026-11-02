@@ -182,6 +182,11 @@ def build_actors(rom, cfg, clean_dir, at, l2=None, colour_ctx=None, proto=None):
                 tp = table[target if target is not None else a['template']] - BASE
             flags = struct.unpack_from('<I', rom, tp)[0]; n = flags & 0xFF
             rec = bytearray(rom[tp:tp + 0x54 + 4 * n])
+        if 'extra_slots' in a:                             # Ultimate: grow the record for animations past the 22 slots
+            total = 22 + len(a['extra_slots'])
+            rec = bytearray(rec[:0x54 + 4 * min(n, 22)]) + bytes(4 * (total - min(n, 22)))
+            struct.pack_into('<I', rec, 0, (struct.unpack_from('<I', rec, 0)[0] & ~0xFF) | total)
+            n = total
         if not a.get('halo'):                              # record +0x50 = per-slot halo/attachment table (Other World)
             struct.pack_into('<I', rec, 0x50, 0)
         if 'log2_record' in a and l2 is not None:          # animations taken from a LoG2 actor
@@ -199,7 +204,7 @@ def build_actors(rom, cfg, clean_dir, at, l2=None, colour_ctx=None, proto=None):
                         img = onearm.remove_arm(img, m)
                         if ssj: img = onearm.ssj_hair(img)
                     return key, img
-            for slot, k in a.get('log2_slots', {}).items():
+            for slot, k in {**a.get('log2_slots', {}), **a.get('extra_slots', {})}.items():
                 if int(slot) >= n: continue                # the template has fewer slots (e.g. Goku 106 has 16)
                 old = struct.unpack_from('<I', rec, 0x54 + 4 * int(slot))[0]
                 want = struct.unpack_from('<I', rom, old - BASE)[0] if a.get('stretch') and old else 0
