@@ -30,6 +30,7 @@
 #include <mgba-util/vfs.h>
 #include <png.h>
 #include <zlib.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -168,6 +169,7 @@ int main(int argc, char** argv) {
     vbuf = calloc(256 * 256, sizeof(color_t));
     core->setVideoBuffer(core, vbuf, 256);
     if (!mCoreLoadFile(core, argv[1])) { fprintf(stderr, "load failed\n"); return 1; }
+    { const char* sav = getenv("HARNESS_SAV"); if (sav) core->loadSave(core, VFileOpen(sav, O_CREAT | O_RDWR)); }
     core->reset(core);
     FILE* sc = fopen(argv[2], "r");
     if (!sc) { perror("script"); return 1; }
