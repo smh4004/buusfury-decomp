@@ -119,50 +119,58 @@ def grow(mask, r):
     return dilate(out, r % 8)
 
 
+CAVES = {13: (200, 90), 14: (120, 50)}    # door centre x and the floor line it opens onto
+
+
+def river_below(img):
+    """Faces in a column that ends in open air, as at the bridge. False everywhere in rooms with no river."""
+    open_air = ~np.isin(img, (ICE_FLOOR, ICE_WALL, ICE_DEEP)) & (img != 0)
+    out = np.zeros_like(open_air)
+    if not open_air.any(): return out
+    for x in np.nonzero(open_air.any(0))[0]:
+        out[:np.nonzero(open_air[:, x])[0][-1] + 1, x] = True
+    return out
+
+
 def snow_room(img, tex):
-    """Snowy Highlands style: rock line round the floor, capped cliff faces with a cast shadow, boulders and pines on high ground."""
+    """Snowy Highlands style. The floor's outline is smoothed first, so nothing shows the prototype's 8-pixel steps. North of the
+    floor stands a cliff; the other edges get the thin stony line; high ground stays clean snow."""
     h, w = img.shape
     floor, top, face = img == ICE_FLOOR, img == ICE_WALL, img == ICE_DEEP
     rgb = tiled(tex['snow'], h, w).copy()
-    open_ground = floor | face
-    round_floor = smooth(open_ground, 5)
-    near = grow(open_ground, 16)
-    # high ground: a wall of snow-capped boulders, stopping short of the floor's edge
-    wall = top & ~grow(open_ground, 10)
-    w_tex = tex['wall']
-    for y in range(0, h, 64):
-        for x in range(0, w, 64):
-            if wall[y:y + 64, x:x + 64].any():
-                stamp(rgb, w_tex, x, y, wall)
-    for y in range(0, h - 96, 96):
-        for x in range(16 + (y // 96 % 2) * 64, w - 64, 128):
-            if top[y:y + 112, x:x + 66].all() and not near[y:y + 112, x:x + 66].any() and (x // 8 + y // 8) % 3 == 0:
-                stamp(rgb, tex['pine'], x, y)
-    # cliff faces: each column hangs from the top of its run, so the snow cap follows the edge
-    cliff = tex['cliff']
+    round_floor = smooth(smooth(floor, 9), 5)
+    cliff = tex['cliff']; ch = cliff.shape[0]
+    # where each column of cliff stands: bottom on the floor's upper edge
+    standing = np.zeros((h, w), bool)
+    bottoms = []
     for x in range(w):
-        col = face[:, x]; y = 0
-        while y < h:
-            if not col[y]: y += 1; continue
-            e = y
-            while e < h and col[e]: e += 1
-            for k in range(e - y):
-                rgb[y + k, x] = cliff[k % cliff.shape[0], x % cliff.shape[1]]
-            y = e
-    # shadow under the faces
-    below = np.zeros_like(face); below[1:] = face[:-1]
-    shade = below.copy()
-    for _ in range(6):
-        s = np.zeros_like(shade); s[1:] = shade[:-1]; shade = shade | s
-    shade &= open_ground & ~face
+        col = round_floor[:, x]
+        for y in np.nonzero(col[1:] & ~col[:-1])[0] + 1:
+            room = y - (np.nonzero(col[:y])[0][-1] + 1 if col[:y].any() else 0)
+            height = min(ch, room)
+            if height >= 12 and img[max(y - 12, 0), x] != 0:
+                bottoms.append((x, y, height)); standing[y - height:y, x] = True
+    # stony line round the rest of the floor
+    edge = dilate(round_floor, 2) & ~round_floor & ~(face & river_below(img))
     yy, xx = np.indices((h, w))
-    rgb[shade & ((xx + yy) % 2 == 0)] = (168, 200, 232)
-    # the rock line round the floor, broken up so it reads as stones
-    edge = dilate(round_floor, 2) & ~round_floor & ~face & ~dilate(face, 1)
     n = (xx * 7 + yy * 13) % 5
     rgb[edge & (n < 3)] = (152, 88, 40)
     rgb[edge & (n >= 3)] = (216, 152, 96)
-    # scattered stones and footprints on the floor
+    # cliffs: each column drawn up from the floor, so the rock's jagged top and snow cap follow the curve
+    for x, y, height in bottoms:
+        rgb[y - height:y, x] = cliff[ch - height:, x % cliff.shape[1]]
+    # the bridge's arch: rock hanging from the deck over the river
+    arch = face & river_below(img)
+    for x in np.nonzero(arch.any(0))[0]:
+        ys = np.nonzero(arch[:, x])[0]
+        rgb[ys, x] = cliff[np.arange(len(ys)) % ch, x % cliff.shape[1]]
+    # shadow on the floor under the cliffs
+    shade = np.zeros((h, w), bool)
+    for x, y, height in bottoms:
+        shade[y:min(y + 6, h), x] = True
+    shade &= round_floor
+    rgb[shade & ((xx + yy) % 2 == 0)] = (168, 200, 232)
+    # a few stones on open floor
     for i, spr in enumerate(tex['bits']):
         for y in range(24 + 40 * i, h - 24, 136):
             for x in range(32 + 72 * i + (y // 136) * 56, w - 32, 184):
@@ -199,9 +207,13 @@ def reskin(img, road, pal, tex, area=0):
     Ice maps: 48 low floor, 49 high ground, 50 cliff face. City maps: grey blocks are trees, pale blue is road."""
     if area >= 6:
         rgb, ice = snow_room(img, tex)
-        rest = ~ice & (img != 0)
+        rest = smooth(~ice & (img != 0), 7) & (img != 0)
         if rest.any():                                          # 26:11: open air under the bridge becomes a frozen river
-            rgb[rest] = tiled(tex['river'], *img.shape)[rest]
+            arch = (img == ICE_DEEP) & river_below(img)
+            rgb[rest & ~arch] = tiled(tex['river'], *img.shape)[rest & ~arch]
+        if area in CAVES:                                       # these exits are in a rock wall: show a cave mouth
+            cx, bottom = CAVES[area]; c = tex['cave']
+            rgb[bottom - c.shape[0]:bottom, cx - c.shape[1] // 2:cx - c.shape[1] // 2 + c.shape[1]] = c
         rgb[img == 0] = 0
         return rgb.astype(np.uint8)
     rgb = city_room(img, road, pal, tex)
@@ -225,8 +237,8 @@ def build_all(proto, log2, bfrom, log2_index='../log2-decomp/assets/maps/index.c
     city = np.array(B.render(bidx['w04_a01_West_City'])[0].convert('RGB'))
     floor = s3[290:380, 160:256]                 # plain snow, the ground the cut-outs are drawn on
     grass = city[470:502, 490:522]; lawn = city[470:540, 486:540]
-    tex = dict(snow=s9[320:384, 0:64], cliff=s3[16:64, 0:128], river=s3[204:236, 212:244],
-               wall=sprite(s3[128:192, 0:64], floor), pine=sprite(s3[20:132, 310:376], floor),
+    tex = dict(cave=s9[66:104, 124:172], snow=s9[320:384, 0:64], cliff=s3[16:64, 0:128], river=s3[204:236, 212:244],
+               pine=sprite(s3[20:132, 310:376], floor),
                bits=[sprite(s3[44:62, 184:206], floor), sprite(s3[332:350, 134:160], floor)],
                grass=grass, tree=sprite(city[432:544, 196:292], lawn), road=city[345:377, 96:128], paving=city[404:420, 128:144])
     res = {}
