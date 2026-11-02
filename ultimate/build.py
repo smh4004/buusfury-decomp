@@ -146,13 +146,13 @@ def add_outfits(rom, clean, at):
     for c in range(9):
         lst = cfg.get(str(c), [])
         index.append('{%d,%d}' % (len(table), len(lst)))
-        table += ['{%d,0,%d}' % (o['form'], o['flag']) for o in lst]
+        table += ['{%d,0,%d,(const u16 *)L"%s"}' % (o['form'], o['flag'], o['name']) for o in lst]
     d = tempfile.mkdtemp()
     fm = json.load(open(OUT + '/_forms.json'))
     pairs = ['{%d,%d}' % (base, 14 if row == 14 else fm[row]) for base, row in SAIYAMAN]
-    c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\n' % (','.join(index), ','.join(table) or '{0,0,0}', ','.join(pairs), len(pairs))
+    c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs))
     open(d + '/o.c', 'w').write(c)
-    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C')]
+    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C')]
     syms = ['-Wl,--defsym=form_table=0x%X' % (ROM_BASE + SPACE), '-Wl,-Ttext=0x%X' % (ROM_BASE + at), '-Wl,-e,picker_update', '-Wl,--no-warn-rwx-segments']
     lib = subprocess.run(['arm-none-eabi-gcc', '-mthumb', '-mcpu=arm7tdmi', '-print-libgcc-file-name'], capture_output=True, text=True, check=True).stdout.strip()
     subprocess.run(['arm-none-eabi-gcc'] + flags + syms + [d + '/o.c', lib, '-o', d + '/o.elf'], check=True)

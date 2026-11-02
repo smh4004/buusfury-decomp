@@ -26,7 +26,7 @@ typedef int (*input_fn)(void *, void *, int, int);
 #define GetFlag ((int (*)(void *, int))0x08004365)
 #define PlaySound ((void (*)(void *, void *, int, int))0x0803E379)
 
-struct outfit { u8 form; u8 pad; u16 flag; };  /* flag 0 = always available */
+struct outfit { u8 form; u8 pad; u16 flag; const u16 *name; };  /* flag 0 = always available */
 extern const u16 outfit_index[9][2];           /* first entry, count, per character */
 extern const struct outfit outfit_table[];
 extern const u8 form_table[];
@@ -60,13 +60,42 @@ static void cycle(void *obj, int dir) {
     }
 }
 
+#define LABEL_OWNER (*(u32 *)0x0203FF30)
+#define LABEL_WIDGET (*(u32 **)0x0203FF34)
+#define NewText ((u32 *(*)(void *, void *, int, int, const u16 *, int, int, void *))0x08014125)
+#define AddWidget ((void (*)(void *, void *))0x0800664F)
+static const u16 no_name[] = {0};
+
+/* The outfit name under the sprites follows the highlighted character. Setting +0x110 to 0 makes the screen redraw. */
+static void update_label(void *obj) {
+    int sel = *field(obj, OBJ_SELECTED), c = *field(obj, OBJ_LIST + sel * 8), i, first, n;
+    const u16 *name = no_name;
+    if (LABEL_OWNER != ((u32)obj ^ SNAP_MAGIC)) {
+        LABEL_WIDGET = NewText(0, obj, 0x78, 0x70, no_name, 5, 1, (void *)FONT);
+        AddWidget(obj, LABEL_WIDGET);
+        LABEL_OWNER = (u32)obj ^ SNAP_MAGIC;
+    }
+    if (c >= 0 && c <= 8) {
+        first = outfit_index[c][0]; n = outfit_index[c][1];
+        if (n > 1)
+            for (i = 0; i < n; i++)
+                if (outfit_table[first + i].form == FORM_OF(c)) name = outfit_table[first + i].name;
+    }
+    if ((const u16 *)LABEL_WIDGET[5] != name) {
+        LABEL_WIDGET[5] = (u32)name;
+        *field(obj, 0x110) = 0;
+    }
+}
+
 int picker_update(void *obj) {
     if (KEYS_NEW & KEY_UP) cycle(obj, -1);
     else if (KEYS_NEW & KEY_DOWN) cycle(obj, 1);
+    update_label(obj);
     return orig_update(obj);
 }
 
 int picker_input(void *obj, void *widget, int id, int extra) {
+    if (id == 0 || id == 1) LABEL_OWNER = 0;
     if ((id == 0 || id == 1) && SNAP_OWNER == ((u32)obj ^ SNAP_MAGIC)) {
         if (id == 1) { int i; for (i = 0; i < 9; i++) FORM_OF(i) = SNAP_FORMS[i]; }
         SNAP_OWNER = 0;
