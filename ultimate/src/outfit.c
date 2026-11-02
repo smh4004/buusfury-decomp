@@ -26,7 +26,7 @@ typedef int (*input_fn)(void *, void *, int, int);
 #define GetFlag ((int (*)(void *, int))0x08004365)
 #define PlaySound ((void (*)(void *, void *, int, int))0x0803E379)
 
-struct outfit { u8 form; u8 pad; u16 flag; const u16 *name; };  /* flag 0 = always available */
+struct outfit { u8 form; u8 also; u16 flag; const u16 *name; };  /* flag 0 = always available */
 extern const u16 outfit_index[9][2];           /* first entry, count, per character */
 extern const struct outfit outfit_table[];
 extern const u8 form_table[];
@@ -45,7 +45,7 @@ static void cycle(void *obj, int dir) {
     void *sprite = (void *)*field(obj, OBJ_LIST + 4 + sel * 8);
     if (c < 0 || c > 8) return;
     first = outfit_index[c][0]; n = outfit_index[c][1]; cur = FORM_OF(c);
-    for (i = 0; i < n; i++) if (outfit_table[first + i].form == cur) at = i;
+    for (i = 0; i < n; i++) if (outfit_table[first + i].form == cur || outfit_table[first + i].also == cur) at = i;
     if (at < 0 || n < 2) return;       /* transformed or story form: leave it alone */
     for (i = 1; i < n; i++) {
         const struct outfit *o = &outfit_table[first + (at + dir * i + n * 2) % n];
@@ -79,7 +79,7 @@ static void update_label(void *obj) {
         first = outfit_index[c][0]; n = outfit_index[c][1];
         if (n > 1)
             for (i = 0; i < n; i++)
-                if (outfit_table[first + i].form == FORM_OF(c)) name = outfit_table[first + i].name;
+                if (outfit_table[first + i].form == FORM_OF(c) || outfit_table[first + i].also == FORM_OF(c)) name = outfit_table[first + i].name;
     }
     if ((const u16 *)LABEL_WIDGET[5] != name) {
         LABEL_WIDGET[5] = (u32)name;
@@ -87,11 +87,33 @@ static void update_label(void *obj) {
     }
 }
 
+/* Scrolling row: the highlighted character sits in the middle, neighbours at one spacing, and the rest off screen. */
+#define SCROLL (*(int *)0x0203FF38)
+#define SPACING 0x48
+#define CENTRE 0x78
+#define OBJ_COUNT 0x114
+#define SPRITE_X 0x6C
+
+static void scroll_row(void *obj, int first_frame) {
+    int sel = *field(obj, OBJ_SELECTED), n = *field(obj, OBJ_COUNT), want = sel * SPACING, i;
+    if (first_frame) SCROLL = want;
+    if (SCROLL < want) { SCROLL += 8; if (SCROLL > want) SCROLL = want; }
+    if (SCROLL > want) { SCROLL -= 8; if (SCROLL < want) SCROLL = want; }
+    for (i = 0; i < n; i++) {
+        u8 *sprite = (u8 *)*field(obj, OBJ_LIST + 4 + i * 8);
+        int x = CENTRE + i * SPACING - SCROLL;
+        *(int *)(sprite + SPRITE_X) = (x < 0x28 || x > 0xC8) ? 0x100 : x;
+    }
+}
+
 int picker_update(void *obj) {
+    int first = LABEL_OWNER != ((u32)obj ^ SNAP_MAGIC), r;
     if (KEYS_NEW & KEY_UP) cycle(obj, -1);
     else if (KEYS_NEW & KEY_DOWN) cycle(obj, 1);
     update_label(obj);
-    return orig_update(obj);
+    r = orig_update(obj);
+    scroll_row(obj, first);
+    return r;
 }
 
 int picker_input(void *obj, void *widget, int id, int extra) {

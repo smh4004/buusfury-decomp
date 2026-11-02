@@ -59,6 +59,50 @@
    "name": 1186,
    "up": 255,
    "down": 13
+  },
+  {
+   "id": "vegeta_armor",
+   "copy": 26,
+   "actor": "vegeta_armor",
+   "owner": 4,
+   "up": "vegeta_armor_ss"
+  },
+  {
+   "id": "vegeta_armor_ss",
+   "copy": 28,
+   "actor": "vegeta_armor_ss",
+   "owner": 4,
+   "down": "vegeta_armor"
+  },
+  {
+   "id": "trunks_armor",
+   "copy": 21,
+   "actor": "trunks_armor",
+   "owner": 3,
+   "up": "trunks_armor_ss"
+  },
+  {
+   "id": "trunks_armor_ss",
+   "copy": 22,
+   "actor": "trunks_armor_ss",
+   "owner": 3,
+   "down": "trunks_armor"
+  },
+  {
+   "id": "gohan_armor",
+   "copy": 10,
+   "actor": "gohan_armor",
+   "owner": 1,
+   "name": 1186,
+   "up": "gohan_armor_ss"
+  },
+  {
+   "id": "gohan_armor_ss",
+   "copy": 16,
+   "actor": "gohan_armor_ss",
+   "owner": 1,
+   "name": 1186,
+   "down": "gohan_armor"
   }
  ],
  "edit": {

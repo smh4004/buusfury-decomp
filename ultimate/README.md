@@ -3,6 +3,7 @@
 ```sh
 cp /path/to/clean/buusfury.gba baserom.gba   # USA, SHA-1 f1c4b075...
 make extract && make harness
+export BFU_COMBO=/path/to/log1-2-combo.gba   # USA, SHA-1 f02d179a...
 python3 ultimate/build.py && python3 ultimate/build.py --debug
 python3 ultimate/test_build.py
 ```

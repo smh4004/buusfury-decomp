@@ -1,5 +1,5 @@
 {
- "_note": "Base forms the Switch Character screen can cycle. Only forms with full combat animations belong here. Great Saiyaman stays a skill. Story outfits unlock where the story first gives them (unlocks). Extras will use post-game reward flags. Flags from 600 up are ours.",
+ "_note": "Base forms the Switch Character screen can cycle. Only forms with full combat animations belong here. Great Saiyaman stays a skill. Story outfits unlock where the story first gives them (unlocks). Extras will use post-game reward flags. Flags from 600 up are ours. Flags 610-612 are post-game rewards; side content will set them.",
  "characters": {
   "1": [
    {
@@ -16,6 +16,36 @@
     "form": 13,
     "name": "Orange gi",
     "flag": 602
+   },
+   {
+    "form": "gohan_armor",
+    "name": "Saiyan armor",
+    "flag": 610
+   }
+  ],
+  "3": [
+   {
+    "form": 21,
+    "name": "Green gi",
+    "flag": 0
+   },
+   {
+    "form": "trunks_armor",
+    "name": "Saiyan armor",
+    "flag": 611
+   }
+  ],
+  "4": [
+   {
+    "form": 26,
+    "also": 27,
+    "name": "Tank top",
+    "flag": 0
+   },
+   {
+    "form": "vegeta_armor",
+    "name": "Saiyan armor",
+    "flag": 612
    }
   ]
  },

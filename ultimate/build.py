@@ -10,14 +10,20 @@ Asset edits are always undone afterwards, so assets/ stays a clean extract.
 """
 import hashlib, json, os, shutil, struct, subprocess, sys, tempfile
 sys.path.insert(0, os.path.join('tools'))
+sys.path.insert(0, 'ultimate/lib')
 import bps
+import numpy as np
+import sprites, artclean
 
 CLEAN_SHA1 = 'f1c4b07554d2a3b1ad2f325307051e775ce68087'
 ROM_BASE = 0x08000000
 FORMS, FORM_COUNT, FORM_SIZE = 0x6B82EC, 54, 24
 NATIVES = 0x55098
 CODE_END = 0x54FBC
-SPACE = 0x800000                 # new data starts at the old 8 MB end
+SPACE = 0x800000                 # new data starts at the old 8 MB end: forms, then code
+ACTORS_AT = 0x820000             # moved actor table and imported sprites
+COMBO_SHA1 = 'f02d179accbeb9b68bcaef8720eb0ae426dde6ee'
+COMBO = os.environ.get('BFU_COMBO', 'combo.gba')   # Legacy of Goku I & II cart; LoG2 = its second 8 MB
 DEBUG_NATIVE = 0xF7              # debug builds only: "save to slot 1" (not used by any game script)
 OUT = 'ultimate/out'
 SAIYAMAN = [(10, 14), (15, 'saiyaman_from_green'), (13, 'saiyaman_from_orange')]
@@ -28,8 +34,8 @@ FIELD = 'assets/scripts/gUnknown_08780550.evt'
 def debug_edits(first_form):
     """Join Vegito and guest Broly at the start, and open the picker, then save, when the intro ends."""
     heal = ''.join('    push %d\n    set %s\n' % (v, n) for v, n in ((500, 'max_hp'), (500, 'hp'), (100, 'max_ki'), (100, 'ki')))
-    flags = ''.join('    pushn %d\n    call set_flag\n' % f for f in sorted({u['flag'] for u in json.load(open('ultimate/outfits.json'))['unlocks']}))
-    join = ('step auto code\n' + flags + '    call 0x97(1)\n    call 0x97(6)\n    call 0x97(8)\n    call 0x95(1)\n' + heal + '    call 0xD0(10)\n    call 0xA4(1, 20)\n    call 0xA4(1, 18)\n    call 0x95(6)\n' + heal + '    call 0x95(8)\n' + heal +
+    flags = ''.join('    pushn %d\n    call set_flag\n' % f for f in sorted({o['flag'] for l in json.load(open('ultimate/outfits.json'))['characters'].values() for o in l if o['flag']}))
+    join = ('step auto code\n' + flags + '    call 0x97(1)\n    call 0x97(3)\n    call 0x97(4)\n    call 0x97(6)\n    call 0x97(8)\n    call 0x95(3)\n' + heal + '    call 0xD0(21)\n    call 0x95(4)\n' + heal + '    call 0xD0(26)\n    call 0x95(1)\n' + heal + '    call 0xD0(15)\n    pushn 1, 107\n    call 0x9D\n    call 0xA4(1, 20)\n    call 0xA4(1, 18)\n    call 0x95(6)\n' + heal + '    call 0x95(8)\n' + heal +
             '    call 0xD0(%d)\n    call 0x95(0)\n    end\n' % first_form)
     s = open(INTRO).read()
     assert 'step 19 raw' in s
@@ -96,19 +102,36 @@ def find_once(rom, needle, what):
     return i
 
 
-def patch_forms(rom, clean, cfg):
+def add_actors(rom, clean):
+    combo = open(COMBO, 'rb').read()
+    if hashlib.sha1(combo).hexdigest() != COMBO_SHA1:
+        sys.exit('%s is not the Legacy of Goku I & II (USA) cart (SHA-1 mismatch); set BFU_COMBO.' % COMBO)
+    cfg = json.load(open('ultimate/actors.json'))
+    slots = cfg.pop('_slots')
+    for k, a in cfg.items():
+        if not k.startswith('_'): a['log2_slots'] = slots
+    pal = np.frombuffer(clean[0x701B0 + 768:0x701B0 + 1536], np.uint8).reshape(256, 3)
+    usable = [i for i in range(1, 256) if i not in artclean.MENU_SLOTS]
+    ids, end = sprites.build_actors(rom, cfg, None, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal))
+    return ids, end
+
+
+def patch_forms(rom, clean, cfg, actors):
     old = find_once(rom, clean[FORMS:FORMS + FORM_SIZE * FORM_COUNT], 'form table')
     rows = bytearray(rom[old:old + FORM_SIZE * FORM_COUNT])
     index = {}
+    ids = {r['id']: k for k, r in enumerate(cfg['rows'])}
     for k, r in enumerate(cfg['rows']):
         row = bytearray(rows[FORM_SIZE * r['copy']:FORM_SIZE * (r['copy'] + 1)])
-        struct.pack_into('<HH', row, 2, r['name'], r.get('status_name', r['name']))
+        if 'name' in r:
+            struct.pack_into('<HH', row, 2, r['name'], r.get('status_name', r['name']))
         row[0x0C] = r['owner']
-        struct.pack_into('<H', row, 0x0E, r['character'])
+        struct.pack_into('<H', row, 0x0E, actors[r['actor']] + 9 if 'actor' in r else r['character'])
         if 'portrait' in r:
             row[0x10:0x16] = bytes([r['portrait']]) * 6
-        row[0x16] = r.get('up', 255)
-        row[0x17] = r.get('down', 255)
+        for off, key in ((0x16, 'up'), (0x17, 'down')):
+            v = r.get(key, 255)
+            row[off] = v if isinstance(v, int) else FORM_COUNT + ids[v]
         if 'flags' in r:
             struct.pack_into('<H', row, 0, r['flags'])
         rows += row
@@ -143,12 +166,13 @@ def add_outfits(rom, clean, at):
     """Compile the outfit code with its table at `at`, then point the Switch Character screen's vtable at it."""
     cfg = json.load(open('ultimate/outfits.json'))['characters']
     index, table = [], []
+    fm = json.load(open(OUT + '/_forms.json'))
     for c in range(9):
         lst = cfg.get(str(c), [])
         index.append('{%d,%d}' % (len(table), len(lst)))
-        table += ['{%d,0,%d,(const u16 *)L"%s"}' % (o['form'], o['flag'], o['name']) for o in lst]
+        form = lambda v: v if isinstance(v, int) else fm[v]
+        table += ['{%d,%d,%d,(const u16 *)L"%s"}' % (form(o['form']), o.get('also', 255), o['flag'], o['name']) for o in lst]
     d = tempfile.mkdtemp()
-    fm = json.load(open(OUT + '/_forms.json'))
     pairs = ['{%d,%d}' % (base, 14 if row == 14 else fm[row]) for base, row in SAIYAMAN]
     c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs))
     open(d + '/o.c', 'w').write(c)
@@ -198,8 +222,9 @@ def main():
     rom = bytearray(open('buusfury_modern.gba', 'rb').read())
     if len(rom) != 0x800000 or set(rom[-16:]) != {0xFF}:
         sys.exit('modern ROM has outgrown the 8 MB base; move SPACE')
-    rom += b'\xff' * 0x100000
-    index, free = patch_forms(rom, clean, cfg)
+    rom += b'\xff' * 0x800000
+    actors, actors_end = add_actors(rom, clean)
+    index, free = patch_forms(rom, clean, cfg, actors)
     os.makedirs(OUT, exist_ok=True)
     json.dump(index, open(OUT + '/_forms.json', 'w'))
     free = add_outfits(rom, clean, (free + 3) & ~3)
@@ -211,7 +236,10 @@ def main():
         struct.pack_into('<I', rom, tab + 4 * DEBUG_NATIVE, ROM_BASE + at + 1)
     os.makedirs(OUT, exist_ok=True)
     name = 'BFU_debug' if debug else 'BFU'
-    out = bytes(rom)
+    if free >= ACTORS_AT or actors_end > 0x1000000:
+        sys.exit('ROM layout overflow')
+    size = (actors_end + 0xFFFFF) & ~0xFFFFF
+    out = bytes(rom[:size])
     if bps.apply(clean, bps.make(clean, out)) != out:
         sys.exit('BPS round trip failed')
     open('%s/%s.bps' % (OUT, name), 'wb').write(bps.make(clean, out))

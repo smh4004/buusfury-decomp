@@ -1,0 +1,56 @@
+{
+ "_note": "LoG2 Saiyan armor actors. Slots: BF animation slot -> LoG2 animation (0 idle, 1 walk, 2 run, 3 hurt and fall, 4 charge, 5 ki, 6-8 melee). Moves LoG2 lacks reuse the nearest animation until art exists.",
+ "_slots": {
+  "0": 0,
+  "1": 1,
+  "2": 2,
+  "3": "4@0:3",
+  "4": 6,
+  "5": 7,
+  "6": 8,
+  "7": "3@0:1",
+  "8": 5,
+  "9": 5,
+  "10": 4,
+  "12": 0,
+  "13": 4,
+  "14": 7,
+  "15": "3@0:1",
+  "16": 3,
+  "17": 3,
+  "18": "3@3:0:-1",
+  "19": 0,
+  "20": 6,
+  "21": 5
+ },
+ "vegeta_armor": {
+  "template": 270,
+  "log2_record": "r134",
+  "stretch": true
+ },
+ "vegeta_armor_ss": {
+  "template": 273,
+  "log2_record": "r136",
+  "stretch": true
+ },
+ "trunks_armor": {
+  "template": 260,
+  "log2_record": "r126",
+  "stretch": true
+ },
+ "trunks_armor_ss": {
+  "template": 261,
+  "log2_record": "r127",
+  "stretch": true
+ },
+ "gohan_armor": {
+  "template": 98,
+  "log2_record": "r52",
+  "stretch": true
+ },
+ "gohan_armor_ss": {
+  "template": 105,
+  "log2_record": "r55",
+  "stretch": true
+ }
+}

@@ -23,7 +23,7 @@ d = tempfile.mkdtemp(prefix='bfu')
 G = 0x03001068; SLOT = 0x03001560; REC = 0x68; FORM = 0x14
 
 tail = ['tap A 60'] * 3 + ['run 60', 'shot release', 'dump g 03001068 8a8']
-o = run(OUT + '/BFU_PERSONAL_USE_ONLY.gba', ['guardon 0x08900000'] + route + tail, d)
+o = run(OUT + '/BFU_PERSONAL_USE_ONLY.gba', ['guardon 0x09000000'] + route + tail, d)
 check('release: opening plays with no bad jumps', 'bad pc' not in o)
 rel = open(d + '/g.bin', 'rb').read()
 run('baserom.gba', route + tail, d)
@@ -32,7 +32,7 @@ check('release: game state matches the clean ROM after the opening', rel == base
 
 forms = json.load(open(OUT + '/BFU_debug.map.json'))['forms']; broly = forms['broly']
 rom = OUT + '/BFU_debug_PERSONAL_USE_ONLY.gba'; sav = os.path.join(d, 'g.sav')
-one = ['guardon 0x08900000'] + route + ['tap A 60', 'tap A 60', 'run 30', 'shot picker', 'tap RIGHT 40', 'tap RIGHT 40', 'tap RIGHT 40', 'tap A 200', 'run 200',
+one = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30', 'shot picker', 'tap RIGHT 40', 'tap RIGHT 40', 'tap RIGHT 40', 'tap RIGHT 40', 'tap RIGHT 40', 'tap A 200', 'run 200',
        'shot picked', 'dump a 03001068 8a8']
 o = run(rom, one, d, sav)
 check('debug: no bad jumps through picker and save', 'bad pc' not in o)
@@ -40,7 +40,7 @@ a = open(d + '/a.bin', 'rb').read()
 check('debug: Broly chosen (current character 8)', a[0] == 8)
 check('debug: guest slot on form %d' % broly, a[0x4F8 + 8 * REC + FORM] == broly)
 check('debug: 8 KB save written', os.path.exists(sav) and os.path.getsize(sav) == 8192)
-two = ['guardon 0x08900000', 'run 600', 'tap START 60', 'tap START 60', 'tap A 90', 'tap A 120', 'shot slots', 'tap A 200', 'tap A 200', 'run 200', 'shot loaded',
+two = ['guardon 0x09000000', 'run 600', 'tap START 60', 'tap START 60', 'tap A 90', 'tap A 120', 'shot slots', 'tap A 200', 'tap A 200', 'run 200', 'shot loaded',
        'dump b 03001068 8a8', 'keys RIGHT', 'run 30', 'keys', 'tap A 8', 'shot attack', 'hash']
 o = run(rom, two, d, sav)
 b = open(d + '/b.bin', 'rb').read()
@@ -48,11 +48,12 @@ check('reload: no bad jumps', 'bad pc' not in o)
 check('reload: still Broly', b[0] == 8 and b[0x4F8 + 8 * REC + FORM] == broly)
 
 # Outfit menu: Gohan is the second character. Down twice = orange gi; B cancels; A keeps it.
-pick = ['guardon 0x08900000'] + route + ['tap A 60', 'tap A 60', 'run 30', 'tap RIGHT 40', 'tap DOWN 30', 'tap DOWN 30', 'shot outfit']
+pick = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30', 'tap RIGHT 40', 'tap DOWN 30', 'tap DOWN 30', 'shot outfit']
 o = run(rom, pick + ['tap B 150', 'run 100', 'dump c 03001068 8a8'], d)
 c = open(d + '/c.bin', 'rb').read()
 GOHAN = 0x4F8 + REC
 check('outfit: no bad jumps on cancel', 'bad pc' not in o)
+check('story: a story form change overrides the worn outfit (green to school)', c[GOHAN + FORM] == 10)
 check('outfit: B restores school uniform and keeps Goku', c[GOHAN + FORM] == 10 and c[0] == 0)
 skills = list(c[GOHAN + 0x0D:GOHAN + 0x0D + c[GOHAN + 0x0C]])
 sel = '%08x' % (0x03001560 + REC + 0x15)
@@ -75,10 +76,23 @@ check('saiyaman: costume off returns to the orange gi', i == 13)
 flag_byte = lambda f: '%08x' % (0x03001068 + 0x55 + f // 8)
 lock = [x for x in pick if x not in ('tap DOWN 30', 'shot outfit')]
 at = lock.index('tap RIGHT 40')
-lock[at:at] = ['poke8 %s 00' % flag_byte(600)]
+lock[at:at] = ['poke8 %s 00' % flag_byte(600), 'poke8 %s 00' % flag_byte(610)]
 o = run(rom, lock + ['tap DOWN 30', 'tap DOWN 30', 'tap A 150', 'run 100', 'dump j 03001068 8a8'], d)
 print('flag byte value test')
 j = open(d + '/j.bin', 'rb').read()
 check('unlocks: locked outfits are skipped (all locked stays school uniform)', j[GOHAN + FORM] == 10)
+
+# Saiyan armor: each outfit transforms and returns, attacks, and uses beam skills without hanging. Scrolling keeps sprites inside the frame.
+for who, char, rights, key, base, ss in (('Gohan', 1, 1, 'UP', 'gohan_armor', 'gohan_armor_ss'), ('Trunks', 3, 2, 'DOWN', 'trunks_armor', 'trunks_armor_ss'), ('Vegeta', 4, 3, 'DOWN', 'vegeta_armor', 'vegeta_armor_ss')):
+    rec = 0x03001560 + REC * char
+    pk = ['poke8 %08x %02x' % (rec + 0x0C, 3), 'poke8 %08x %02x' % (rec + 0x0D, 20), 'poke8 %08x %02x' % (rec + 0x0E, 15), 'poke8 %08x %02x' % (rec + 0x0F, 10)]
+    def skill(n): return ['poke8 %08x %02x' % (rec + 0x15, n), 'run 5', 'keys B', 'run 12', 'keys', 'run 200']
+    lines = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * rights + ['tap %s 30' % key, 'tap A 150', 'run 100'] + pk + ['dump k 03001068 8a8', 'shot armor_' + who] + skill(0) + ['dump l 03001068 8a8', 'shot armorss_' + who, 'tap A 8', 'run 30'] + skill(1) + skill(2) + skill(0) + ['dump m 03001068 8a8', 'tap A 8', 'run 30', 'keys R', 'run 20', 'keys', 'run 20']
+    o = run(rom, lines, d)
+    at = 0x4F8 + REC * char + FORM
+    check('armor %s: no bad jumps' % who, 'bad pc' not in o)
+    check('armor %s: worn' % who, open(d + '/k.bin', 'rb').read()[at] == forms[base])
+    check('armor %s: Super Saiyan' % who, open(d + '/l.bin', 'rb').read()[at] == forms[ss])
+    check('armor %s: back to armor' % who, open(d + '/m.bin', 'rb').read()[at] == forms[base])
 print('screens in', d)
 sys.exit(1 if fails else 0)
