@@ -1,0 +1,82 @@
+#!/usr/bin/env python3
+"""Emulator test for Zone 26 (build `--debug --zone` first; set BFU_PROTO). From Snake Way (debug door) plays every door both ways,
+then the Super 13 fight and its reward, and the West City resident who starts the quest."""
+import json, os, re, struct, subprocess, sys, tempfile
+sys.path[:0] = ['ultimate', 'ultimate/lib', 'tools/scripts']
+import zone26
+H, ROM = 'tools/harness/harness', 'ultimate/out/BFU_debug_zone_PERSONAL_USE_ONLY.gba'
+PROTO = os.environ['BFU_PROTO']; P = open(PROTO, 'rb').read()
+cfg = json.load(open('ultimate/zone26.json'))
+masks = {a: zone26.floor_mask(P, PROTO, a) for a in range(1, 16)}
+D = zone26.links(cfg, masks)
+fails = []
+def check(n, ok):
+    print(('PASS ' if ok else 'FAIL ') + n)
+    if not ok: fails.append(n)
+d = sys.argv[1] if len(sys.argv) > 1 else tempfile.mkdtemp(prefix='z26')
+def run(lines):
+    p = d + '/s.txt'; open(p, 'w').write('\n'.join(lines) + '\n')
+    return subprocess.run([H, ROM, p, d], capture_output=True, text=True, timeout=500).stdout
+start = open('tools/harness/long.txt').read().split('\n')[1:93] + ['tap A 60'] * 4 + ['run 60', 'keys DOWN', 'run 30', 'keys', 'run 200']
+AT = '0300197C'; KEYS = 'DOWN UP LEFT RIGHT'.split()
+PL, BOSS_PL = 0x0202F8E4, 0x0202E638   # the player object: where it lives in a plain room and with a boss loaded
+def go(lines, door, pl, tag, settle=110):
+    x0, y0, x1, y1 = door['rect']
+    lines += ['poke %08X %08X' % (pl + 0x1A0, (x0 + x1) // 2 << 8), 'poke %08X %08X' % (pl + 0x1A4, ((y0 + y1) // 2) << 8),
+              'keys ' + KEYS[door['key']], 'run 12', 'keys', 'run %d' % settle, 'mem %s 1' % AT, 'shot ' + tag]
+lines = list(start); moves = []; seen = set()
+def walk(a):
+    for door in D[a]:
+        b = door['to']
+        if 'world' in door or (a, b) in seen: continue
+        seen.update(((a, b), (b, a))); moves.append((a, b)); go(lines, door, BOSS_PL if a == 15 else PL, 'm%02d' % len(moves))
+        walk(b)
+        back = [x for x in D[b] if x['to'] == a][0]; moves.append((b, a)); go(lines, back, BOSS_PL if b == 15 else PL, 'm%02d' % len(moves))
+walk(1)
+out = run(lines); got = [int(l.split(':')[1].split()[0], 16) for l in out.splitlines() if l.startswith('mem 0300197c')]
+bad = [(m, hex(g)) for m, g in zip(moves, got) if (g & 255, g >> 8 & 255) != (26, m[1])]
+check('all %d door moves land in the right room' % len(moves), len(got) == len(moves) and not bad)
+if bad: print(bad)
+check('no bad jumps through the zone', 'bad pc' not in out)
+
+def talk_to(base):
+    """He wanders later, so right after arriving he's still at his spawn: stand just below him and press A."""
+    pl = int([l for l in run(base + ['mem 03001C34 1']).splitlines() if l.startswith('mem 03001c34')][-1].split()[2], 16)
+    return base + ['poke %08X %08X' % (pl + 0x1A0, 320 << 8), 'poke %08X %08X' % (pl + 0x1A4, 382 << 8), 'run 2', 'keys UP', 'run 6', 'keys', 'run 4', 'tap A 80']
+
+
+route = list(start)
+for a in (1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14):
+    nxt = {8: 10}.get(a, a + 1); go(route, [x for x in D[a] if x['to'] == nxt and 'world' not in x][0], PL, 'r%02d' % a)
+out = run(route + ['run 30', 'dump w 02000000 40000', 'shot arena'])
+w = open(d + '/w.bin', 'rb').read(); hp = struct.pack('<I', 150000 << 10)
+i = w.find(hp); check('Super 13 is in the arena with 150000 HP', i >= 0)
+hpa = 0x02000000 + i
+x, y = struct.unpack_from('<II', w, i - 0xEC)
+fight = route + ['run 30', 'mem %08X 1' % hpa, 'poke %08X %08X' % (hpa, 2 << 10), 'poke %08X %08X' % (BOSS_PL + 0x1A0, x), 'poke %08X %08X' % (BOSS_PL + 0x1A4, y + (20 << 8))]
+for _ in range(14): fight += ['poke8 03001577 7F', 'keys UP', 'run 6', 'keys', 'tap A 14', 'tap B 14']   # Goku is level 1 here: keep him alive
+fight += ['shot hit', 'mem %08X 1' % hpa, 'run 90', 'tap A 40', 'tap A 40', 'tap A 40', 'mem %s 1' % AT, 'shot westcity']
+talk = lambda base: talk_to(base)
+fight = talk(fight) + ['shot said', 'tap A 60', 'shot said2', 'tap A 60', 'run 60', 'shot after', 'dump g 03001068 8a8']
+out = run(fight)
+g = open(d + '/g.bin', 'rb').read(); g_flag_off = g[0x55 + 149 // 8] & ~(1 << 149 % 8); flag = lambda n: g[0x55 + n // 8] >> (n % 8) & 1
+ats = [l for l in out.splitlines() if l.startswith('mem 0300197c')]
+check('no bad jumps in the fight', 'bad pc' not in out)
+check('beating Super 13 sets flag 621', flag(621) == 1)
+check('the win returns you to West City', ats and int(ats[-1].split(':')[1].split()[0], 16) & 0xFFFF == 0x0104)
+check('the resident gives the reward: Saiyan armor', all(flag(n) for n in (610, 611, 612, 622)))
+
+# Start of the quest: from 26:1's road back to West City, walk up to the same resident, get sent in.
+intro = list(start); go(intro, [x for x in D[1] if 'world' in x][0], PL, 'home')
+intro = talk(intro) + ['shot ask', 'tap A 60', 'shot ask2', 'tap A 60', 'shot ask3', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'shot zone']
+out = run(intro); ats = [l for l in out.splitlines() if l.startswith('mem 0300197c')]
+check('the resident sends you to Zone 26 once the game is beaten', int(ats[-1].split(':')[1].split()[0], 16) & 0xFFFF == 0x011A)
+
+# Before the ending (flag 149 clear) he still only talks about ghosts: no way in.
+early = list(start); go(early, [x for x in D[1] if 'world' in x][0], PL, 'home2')
+early += ['poke8 %08X %02X' % (0x03001068 + 0x55 + 149 // 8, g_flag_off)]
+early = talk(early) + ['shot ghost', 'tap A 60', 'tap A 60', 'tap A 60', 'run 120', 'mem %s 1' % AT]
+out = run(early); ats = [l for l in out.splitlines() if l.startswith('mem 0300197c')]
+check('before the ending he stays a normal resident', int(ats[-1].split(':')[1].split()[0], 16) & 0xFFFF == 0x0104)
+if fails: print('FAILED:', fails); sys.exit(1)
+print('screens in', d)

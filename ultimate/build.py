@@ -34,10 +34,67 @@ INTRO = 'assets/scripts/gUnknown_0877CBF0.evt'
 FIELD = 'assets/scripts/gUnknown_08780550.evt'
 
 
+QUEST_NPC = 'assets/scripts/gUnknown_08785580.evt'   # the West City resident outside the Z-Mart
+
+
+def quest_npc(src):
+    """Post-game, this resident sends you to Zone 26, and rewards you once Super 13 is beaten (his death script runs this list)."""
+    head, old = src.split('step 1 say', 1)
+    return head + '''step 1 code
+    pushn 622
+    call flag
+    jz L1
+    push 11
+    end
+L1:
+    pushn 621
+    call flag
+    jz L2
+    push 8
+    end
+L2:
+    call flag(149)
+    jz L3
+    push 4
+L3:
+    end
+step 2 say''' + old.rstrip() + '''
+step auto code
+    push 99
+    end
+step auto say 0x85 "Something's wrong past the Z-Mart. Dr. Gero's old computer has woken up!"
+step auto say 0x85 "It built one last Android, up in the snow. Hurry!"
+step auto code
+    call 0x78(30)
+    pushn 26, 1, 1, 128, 240
+    call 0x77
+    call 0x79(30)
+    end
+step auto code
+    push 99
+    end
+step auto say 0x85 "The signal stopped! You beat Super 13!"
+step auto say 0x85 "Capsule Corporation left Saiyan armor for you. Change into it from the Switch Character menu."
+step auto code
+    pushn 622
+    call set_flag
+    pushn 610
+    call set_flag
+    pushn 611
+    call set_flag
+    pushn 612
+    call set_flag
+    push 99
+    end
+step auto say 0x85 "West City's quiet again. Thanks to you."
+'''
+
+
 def debug_edits(first_form):
     """Join Vegito and guest Broly at the start, and open the picker, then save, when the intro ends."""
     heal = ''.join('    push %d\n    set %s\n' % (v, n) for v, n in ((500, 'max_hp'), (500, 'hp'), (100, 'max_ki'), (100, 'ki')))
     flags = ''.join('    pushn %d\n    call set_flag\n' % f for f in sorted({o['flag'] for l in json.load(open('ultimate/outfits.json'))['characters'].values() for o in l if o['flag']}))
+    if '--zone' in sys.argv: flags += '    pushn 149\n    call set_flag\n'
     join = ('step auto code\n' + flags + '    call 0x97(1)\n    call 0x97(3)\n    call 0x97(4)\n    call 0x97(6)\n    call 0x97(8)\n    call 0x95(3)\n' + heal + '    call 0xD0(21)\n    call 0x95(4)\n' + heal + '    call 0xD0(26)\n    call 0x95(1)\n' + heal + '    call 0xD0(15)\n    pushn 1, 107\n    call 0x9D\n    call 0xA4(1, 20)\n    call 0xA4(1, 18)\n    call 0x95(6)\n' + heal + '    call 0x95(8)\n' + heal +
             '    call 0xD0(%d)\n    call 0x95(0)\n    end\n' % first_form)
     s = open(INTRO).read()
@@ -46,13 +103,11 @@ def debug_edits(first_form):
     if '--enemy' in sys.argv:
         open(ACTORS_FILE, 'a').write('enemy 8 0x70 0xB0 34   ; debug: a Bomber to test attacks on\n')
     s = open(FIELD).read()
-    area = next((a for a in sys.argv if a.startswith('--area=')), None)
-    if area:
-        open(INTRO, 'w').write(open(INTRO).read().replace('step 19 raw', 'step auto code\n    call 0x72(%s)\n    end\nstep 19 raw' % area[7:], 1))
+    zone = '--zone' in sys.argv
     tail = '    set 0x10\n    end\n'
     i = s.rfind(tail)
     assert i > 0
-    open(FIELD, 'w').write(s[:i] + '    set 0x10\n    call 0x8D\n    call 0x%X\n    end\n' % DEBUG_NATIVE + s[i + len(tail):])
+    open(FIELD, 'w').write(s[:i] + (tail if zone else '    set 0x10\n    call 0x8D\n    call 0x%X\n    end\n' % DEBUG_NATIVE) + s[i + len(tail):])
 
 
 def unlock_edits():
@@ -248,6 +303,9 @@ def main():
         for p, s in unlock_edits_paths().items():
             saved.setdefault(p, s)
         unlock_edits()
+        saved.setdefault(QUEST_NPC, open(QUEST_NPC).read())
+        npc = quest_npc(saved[QUEST_NPC])
+        open(QUEST_NPC, 'w').write(npc)
         if debug:
             debug_edits(FORM_COUNT)
         subprocess.run(['make', 'modern'], check=True, stdout=subprocess.DEVNULL)
@@ -265,9 +323,11 @@ def main():
     free = add_outfits(rom, clean, (free + 3) & ~3)
     sys.path.insert(0, 'ultimate')
     import zone26
-    zone_end, zone_info = zone26.apply(rom, clean, PROTO, LOG2, actors_end, actors)
+    zone_end, zone_info = zone26.apply(rom, clean, PROTO, LOG2, actors_end, actors, debug and '--zone' in sys.argv)
     print('zone 26 tiles:', zone_info)
     actors_end = zone_end
+    npc = symbol('gUnknown_080783A0') - ROM_BASE      # the quest giver stands still: his wander box shrinks to his own spot
+    struct.pack_into('<4H', rom, npc - 8, 320, 360, 320, 360)
     if debug:
         at = (free + 3) & ~3
         code = save_stub(at)
@@ -275,7 +335,7 @@ def main():
         tab = find_once(rom, clean[NATIVES:NATIVES + 64], 'native table')
         struct.pack_into('<I', rom, tab + 4 * DEBUG_NATIVE, ROM_BASE + at + 1)
     os.makedirs(OUT, exist_ok=True)
-    name = ('BFU_debug_enemy' if '--enemy' in sys.argv else 'BFU_debug_area' if any(a.startswith('--area=') for a in sys.argv) else 'BFU_debug') if debug else 'BFU'
+    name = ('BFU_debug_enemy' if '--enemy' in sys.argv else 'BFU_debug_zone' if '--zone' in sys.argv else 'BFU_debug') if debug else 'BFU'
     if free >= ACTORS_AT or actors_end > 0x1000000:
         sys.exit('ROM layout overflow')
     size = (actors_end + 0xFFFFF) & ~0xFFFFF

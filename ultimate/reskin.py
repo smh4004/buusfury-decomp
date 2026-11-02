@@ -133,6 +133,13 @@ def build_all(proto, log2, bfrom, log2_index='../log2-decomp/assets/maps/index.c
     return res, bfpal
 
 
+def blockers(proto, a):
+    """Cells the reskin draws as solid: cliff faces and trees. The prototype's mask lets you walk over some of them."""
+    G = M.Game(proto, 0x08000000, PROTO_PAL); img = layers(G, map_of(G, a)); h, w = img.shape
+    H, W = h // 8 * 8, w // 8 * 8; c = img[:H, :W].reshape(H // 8, 8, W // 8, 8)
+    return ((c == ICE_DEEP).mean((1, 3)) > 0.5) | (c == 10).all((1, 3))
+
+
 def main():
     proto, log2, bfrom, out = sys.argv[1:5]
     res, bfpal = build_all(proto, log2, bfrom)

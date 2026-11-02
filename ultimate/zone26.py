@@ -4,6 +4,7 @@ import json, os, struct, sys
 import numpy as np
 from wfz import decompress_stream
 import reskin
+sys.path.insert(0, 'tools/scripts')
 
 BASE = 0x08000000
 TABLE_LIT, COUNT_INSN, AREAS, COUNT = 0x8A58, 0x125E0, 0x8E2E0, 452
@@ -43,7 +44,7 @@ def tile_map(img):
     return tiles, cells
 
 
-def build_map(W, P, a, img):
+def build_map(W, P, a, img, mask):
     """The map record from one reskinned image; everything else from the prototype's record. Returns bus M."""
     m = reskin.map_of_raw(P, a); w = list(struct.unpack_from('<21I', P, m))
     tiles, cells = tile_map(img); H, Wd = cells.shape
@@ -63,7 +64,7 @@ def build_map(W, P, a, img):
     nw[4] = nw[5] = 0
     nw[6], nw[7], nw[8], nw[9] = n, n1, n2, layer
     nw[10] = nw[11] = nw[12] = 0
-    nw[14] = wfz_copy(W, P, w[14]); nw[15] = wfz_copy(W, P, w[15])
+    nw[14] = W.stored(mask.tobytes()) ; nw[15] = wfz_copy(W, P, w[15])
     nw[17] = 1
     deltas = np.ones(len(tiles), np.int64) * 0                       # ids 0,1,2..: consecutive
     nw[19] = W.stored(deltas.astype('<u2').tobytes())
@@ -74,18 +75,94 @@ def build_map(W, P, a, img):
     return BASE + M, len(tiles)
 
 
-def apply(rom, clean, proto_path, log2_path, at, actor_ids=None):
+def floor_mask(P, proto_path, a):
+    """Walkable cells, 256 per row: the prototype's mask minus what the reskin draws as solid."""
+    m = reskin.map_of_raw(P, a); o = struct.unpack_from('<I', P, m + 0x38)[0] - BASE; t, size = struct.unpack_from('<II', P, o)
+    d = P[o + 8:o + 8 + size] if t == 0 else bytes(decompress_stream(P, o + 8, size)[0])
+    bits = np.unpackbits(np.frombuffer(d, np.uint8), bitorder='little').reshape(-1, 256).copy()
+    b = reskin.blockers(proto_path, a); h, w = min(b.shape[0], bits.shape[0]), min(b.shape[1], 256)
+    bits[:h, :w][b[:h, :w]] = 0
+    return bits
+
+
+def audit(a, mask, doors):
+    """Every door must be walkable to every other door in this room."""
+    def cells(d):
+        x0, y0, x1, y1 = d['rect']
+        return [(y, x) for y in range(y0 // 8, (y1 + 7) // 8) for x in range(x0 // 8, (x1 + 7) // 8) if y < mask.shape[0] and x < 256 and mask[y, x]]
+    if not doors: return
+    start = cells(doors[0])
+    if not start: sys.exit('Zone 26: room %d door %s is on solid ground' % (a, doors[0]['rect']))
+    seen = set(start); q = list(start)
+    while q:
+        y, x = q.pop()
+        for n in ((y + 1, x), (y - 1, x), (y, x + 1), (y, x - 1)):
+            if 0 <= n[0] < mask.shape[0] and 0 <= n[1] < 256 and n not in seen and mask[n]: seen.add(n); q.append(n)
+    for d in doors:
+        if not seen.intersection(cells(d)):
+            sys.exit('Zone 26: room %d door %s cut off from door %s' % (a, d['rect'], doors[0]['rect']))
+
+
+KEY = {'down': 0, 'up': 1, 'left': 2, 'right': 3}
+
+
+def door(cfg, a, side, s, e, masks):
+    """The strip at this opening and where you land coming through it: (rect, key to walk through, arrival). The strip sits on
+    the outermost line of cells you can actually stand on across most of the opening."""
+    m = masks[a]; c = (s + e) // 2; n = (e - s) // 8
+    open_y = [y for y in range(m.shape[0]) if m[y, s // 8:e // 8].sum() * 2 > n]
+    open_x = [x for x in range(256) if m[s // 8:e // 8, x].sum() * 2 > n]
+    if side == 'top': t = open_y[0] * 8; return (s, t, e, t + 9), 'up', (c, t + 16)
+    if side == 'bottom': t = (open_y[-1] + 1) * 8; return (s, t - 9, e, t), 'down', (c, t - 20)
+    if side == 'left': t = open_x[0] * 8; return (t, s, t + 9, e), 'left', (t + 14, c)
+    t = (open_x[-1] + 1) * 8; return (t - 9, s, t, e), 'right', (t - 14, c)
+
+
+def links(cfg, masks):
+    out = {}
+    for a, sa, s0, e0, b, sb, s1, e1 in cfg['links']:
+        if isinstance(b, list):                       # an exit out of the zone: [world, area, x, y]
+            ra, ka, _ = door(cfg, a, sa, s0, e0, masks)
+            out.setdefault(a, []).append(dict(rect=ra, key=KEY[ka], world=b[0], to=b[1], arrive=(b[2], b[3])))
+            continue
+        ra, ka, ta = door(cfg, a, sa, s0, e0, masks); rb, kb, tb = door(cfg, b, sb, s1, e1, masks)
+        out.setdefault(a, []).append(dict(rect=ra, key=KEY[ka], to=b, arrive=tb))
+        out.setdefault(b, []).append(dict(rect=rb, key=KEY[kb], to=a, arrive=ta))
+    return out
+
+
+BOSS_ROW, STATS = 114, 0x711274      # 114 is placed nowhere in the game
+
+
+def boss_stats(W, rom, stats):
+    """Super 13: above Kid Buu (level 100, 125000 HP). Death script: flag 621, heal, back to the West City resident, who gives the reward."""
+    import bfscript
+    code = bfscript.asm('    pushn 621\n    call set_flag\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(30)\n    pushn 4, 1, 1, 320, 392\n    call 0x77\n    call 0x79(30)\n    end\n')
+    code = code if isinstance(code, (bytes, bytearray)) else bytes(code[0])
+    row = stats + 28 * BOSS_ROW; dabura = stats + 28 * 18
+    rom[row:row + 28] = rom[dabura:dabura + 28]
+    struct.pack_into('<II', rom, row, 96175, 150000)
+    rom[row + 0xC:row + 0x10] = bytes((160, 70, 115, 105))
+    rom[row + 0x10] = 96
+    struct.pack_into('<II', rom, row + 0x14, 0x08708920, W.put(bytes(code)))   # this handler is the one that runs death scripts
+
+
+def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=False):
     P = open(proto_path, 'rb').read()
     res, _ = reskin.build_all(proto_path, log2_path, 'baserom.gba')
     cfg = json.load(open('ultimate/zone26.json')); W = Writer(rom, at); rows = []; info = {}
+    masks = {a: floor_mask(P, proto_path, a) for a in res}
+    doors = links(cfg, masks)
+    boss_stats(W, rom, STATS)
     temp = bytes(rom[AREAS + 56 * [k for k in range(COUNT) if rom[AREAS + 56 * k] == 4 and rom[AREAS + 56 * k + 1] == 1][0]:][:56])
     for a, img in res.items():
-        M, nt = build_map(W, P, a, img); info[a] = nt
+        mask = masks[a]; audit(a, mask, doors.get(a, []))
+        M, nt = build_map(W, P, a, img, np.packbits(mask.reshape(-1), bitorder='little')); info[a] = nt
         ent = bytearray(temp); ac = cfg['areas'].get(str(a), {})
         exits = []
-        for d in ac.get('doors', []):
+        for d in doors.get(a, []):
             x0, y0, x1, y1 = d['rect']; ax, ay = d['arrive']
-            dest = d['key'] | 26 << 8 | d['to'] << 16 | 1 << 24
+            dest = d['key'] | d.get('world', 26) << 8 | d['to'] << 16 | 1 << 24
             o = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], x0, y0, x1, y1, dest, ay << 16 | ax))
             exits.append((0, o))
         objs = []
@@ -101,6 +178,12 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None):
         struct.pack_into('<I', ent, 0x2C, W.put(struct.pack('<I', M + 4)))
         struct.pack_into('<I', ent, 0x30, 0)
         rows.append(bytes(ent))
+    if debug_door:          # debug: walk down anywhere on Snake Way to reach 26:1
+        e = next(AREAS + 56 * k for k in range(COUNT) if rom[AREAS + 56 * k] == 1 and rom[AREAS + 56 * k + 1] == 1)
+        o = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], 0, 0, 1024, 1024, 0 | 26 << 8 | 1 << 16 | 1 << 24, 200 << 16 | 120))
+        old = rom[e + 3]; ptr = struct.unpack_from('<I', rom, e + 0x10)[0]
+        list_ = bytes(rom[ptr - BASE:ptr - BASE + 8 * old]) if old else b''
+        struct.pack_into('<I', rom, e + 0x10, W.put(list_ + struct.pack('<II', 0, o))); rom[e + 3] = old + 1
     n = COUNT + len(rows); tab = W.put(bytes(rom[AREAS:AREAS + 56 * COUNT]) + b''.join(rows))
     struct.pack_into('<I', rom, TABLE_LIT, tab)
     a_ = min(0xFF, n // 2)

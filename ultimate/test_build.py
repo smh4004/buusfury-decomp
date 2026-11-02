@@ -49,8 +49,9 @@ check('reload: still Broly', b[0] == 8 and b[0x4F8 + 8 * REC + FORM] == broly)
 
 # Select Game: a save whose area this ROM lacks must read as New Game, not stop on "Unable to find area". Reuses the Broly save.
 romb = bytearray(open(rom, 'rb').read())
-for k in range(452):
-    e = 0x8E2E0 + 56 * k
+tab = int.from_bytes(romb[0x8A58:0x8A5C], 'little') - 0x08000000
+for k in range(467):
+    e = tab + 56 * k
     if romb[e] == 1 and romb[e + 1] == 1: romb[e] = 0xEE
 foreign = os.path.join(d, 'foreign.gba'); open(foreign, 'wb').write(romb)
 before = open(sav, 'rb').read(); sav2 = os.path.join(d, 'foreign.sav'); open(sav2, 'wb').write(before)
