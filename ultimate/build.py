@@ -268,6 +268,10 @@ def add_outfits(rom, clean, at):
     rom[IN:IN + 10] = bytes.fromhex('0149fe460847') + struct.pack('<I', sym['saiyaman_hook_in'] | 1)
     rom[OUT_SITE:OUT_SITE + 12] = bytes.fromhex('0149fe460847') + struct.pack('<I', sym['saiyaman_hook_out'] | 1) + bytes.fromhex('c046')
     patch_slot_read(rom, sym)
+    i = rom.find(bytes.fromhex('092c'), 0x4C70, 0x4C84)    # Select Game draws 8 characters, not the guest slot: Broly's size covered the text
+    if i < 0:
+        sys.exit('Select Game party loop changed')
+    rom[i:i + 2] = bytes.fromhex('082c')
     return at + len(code)
 
 
