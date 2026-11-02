@@ -47,6 +47,18 @@ b = open(d + '/b.bin', 'rb').read()
 check('reload: no bad jumps', 'bad pc' not in o)
 check('reload: still Broly', b[0] == 8 and b[0x4F8 + 8 * REC + FORM] == broly)
 
+# Select Game: a save whose area this ROM lacks must read as New Game, not stop on "Unable to find area". Reuses the Broly save.
+romb = bytearray(open(rom, 'rb').read())
+for k in range(452):
+    e = 0x8E2E0 + 56 * k
+    if romb[e] == 1 and romb[e + 1] == 1: romb[e] = 0xEE
+foreign = os.path.join(d, 'foreign.gba'); open(foreign, 'wb').write(romb)
+before = open(sav, 'rb').read(); sav2 = os.path.join(d, 'foreign.sav'); open(sav2, 'wb').write(before)
+sel = ['guardon 0x09000000', 'run 600', 'tap START 60', 'tap START 60', 'tap A 90', 'tap A 120', 'run 60', 'shot foreign_slots', 'tap A 200', 'tap A 200', 'run 200', 'dump f 03001068 8a8', 'hash']
+o = run(foreign, sel, d, sav2)
+check('foreign save: Select Game survives and New Game starts', 'bad pc' not in o and open(d + '/f.bin', 'rb').read()[1] & 1 == 0)
+check('foreign save: the save file itself is untouched', open(sav2, 'rb').read() == before)
+
 # Outfit menu: Gohan is the second character. Down twice = orange gi; B cancels; A keeps it.
 pick = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30', 'tap RIGHT 40', 'tap DOWN 30', 'tap DOWN 30', 'shot outfit']
 o = run(rom, pick + ['tap B 150', 'run 100', 'dump c 03001068 8a8'], d)

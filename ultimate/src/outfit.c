@@ -221,3 +221,23 @@ WRAP(state_a, 0x08012D8B)
 WRAP(state_b, 0x08012DEF)
 WRAP(state_c, 0x08013023)
 WRAP(state_d, 0x080131BB)
+
+
+/* Select Game: a save this ROM can't place (say another game's save that the emulator attached) used to stop the game with
+   "Unable to find area". Such a slot now reads as empty, so it shows New Game. */
+int slot_read(u8 *buffer, int slot)
+{
+    int result = ((int (*)(u8 *, int))0x080048A1)(buffer, slot);
+    if (buffer[1] & 1) {
+        const u8 *row = *(const u8 **)0x08008A58;
+        int n = ((int (*)(void))0x080125E1)();
+        while (n > 0 && (row[0] != buffer[0x8A0] || row[1] != buffer[0x8A1])) { row += 56; n--; }
+        if (n <= 0) buffer[1] &= ~1;
+    }
+    return result;
+}
+
+void *slot_area(u8 *buffer)
+{
+    return ((void *(*)(int, int))0x080089FD)(buffer[0x8A0], buffer[0x8A1]);
+}

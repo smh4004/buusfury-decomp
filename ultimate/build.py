@@ -206,7 +206,27 @@ def add_outfits(rom, clean, at):
         sys.exit('Great Saiyaman code changed')
     rom[IN:IN + 10] = bytes.fromhex('0149fe460847') + struct.pack('<I', sym['saiyaman_hook_in'] | 1)
     rom[OUT_SITE:OUT_SITE + 12] = bytes.fromhex('0149fe460847') + struct.pack('<I', sym['saiyaman_hook_out'] | 1) + bytes.fromhex('c046')
+    patch_slot_read(rom, sym)
     return at + len(code)
+
+
+def thumb_bl(at, to):
+    d = (to - (at + 4)) >> 1
+    return struct.pack('<HH', 0xF000 | (d >> 11 & 0x7FF), 0xF800 | (d & 0x7FF))
+
+
+def patch_slot_read(rom, sym):
+    """Send the game's three save-slot reads through slot_read. Code that far away is out of bl range, so sub_08004A76's
+    18 bytes become two veneers; its one job moves to slot_area."""
+    AREA, VENEER = 0x4A76, 0x4A7A
+    if rom[AREA:AREA + 18] != bytes.fromhex('45214901401808b54178007803f0bbff08bd'):
+        sys.exit('sub_08004A76 changed: %s' % rom[AREA:AREA + 18].hex())
+    rom[AREA:AREA + 18] = bytes.fromhex('024a1047024a1047') + bytes(2) + struct.pack('<II', sym['slot_area'] | 1, sym['slot_read'] | 1)
+    sites = [i for i in range(0x4000, 0x30000, 2) if rom[i:i + 4] == thumb_bl(i, 0x48A0)]
+    if len(sites) != 3:
+        sys.exit('expected 3 save-slot reads, found %s' % [hex(i) for i in sites])
+    for i in sites:
+        rom[i:i + 4] = thumb_bl(i, VENEER)
 
 
 def main():
