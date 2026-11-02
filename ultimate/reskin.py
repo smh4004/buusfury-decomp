@@ -71,6 +71,26 @@ def smooth(mask, r=5):
     return f > 0.5
 
 
+def blur(mask, r):
+    """Box blur twice: 1 well inside a region, 0 well outside, a soft ramp at its edge."""
+    f = mask.astype(np.float32)
+    for _ in range(2):
+        for axis in (0, 1):
+            pad = [(r + 1, r) if i == axis else (0, 0) for i in range(2)]
+            c = np.cumsum(np.pad(f, pad, mode='edge'), axis)
+            f = (np.take(c, np.arange(2 * r + 1, c.shape[axis]), axis) - np.take(c, np.arange(0, c.shape[axis] - 2 * r - 1), axis)) / (2 * r + 1)
+    return f
+
+
+def noise(shape, seed, cell=7):
+    """Smooth random field in -1..1, the same every build, so edges wander instead of running straight."""
+    rng = np.random.RandomState(seed)
+    h, w = shape
+    g = rng.uniform(-1, 1, (h // cell + 2, w // cell + 2)).astype(np.float32)
+    g = np.repeat(np.repeat(g, cell, 0), cell, 1)[:h, :w]
+    return blur(g, cell // 2) * 1.8
+
+
 def dilate(mask, r):
     out = mask.copy()
     for _ in range(r):
@@ -93,6 +113,19 @@ def paving_tile():
     t = np.empty((16, 16, 3), np.uint8); t[:] = (240, 232, 224)
     t[15] = (200, 200, 200); t[:, 15] = (200, 200, 200)
     return t
+
+
+def canopy_sprite(crop):
+    """Just the leaves of a West City tree: its green-dominant pixels, with pinholes filled, so no scraps of its lawn come along."""
+    c = crop.astype(int)
+    a = (c[..., 1] - c[..., 0] > 30) & (c[..., 1] - c[..., 2] > 20)
+    b = blur(a, 2) > 0.55
+    a = a | b
+    ys, xs = np.nonzero(a)
+    a = a[ys.min():ys.max() + 1, xs.min():xs.max() + 1]; crop = crop[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
+    crop = crop.copy(); fill = a & (crop[..., 1].astype(int) - crop[..., 0] <= 30)
+    crop[fill] = (0, 88, 8)
+    return crop, a
 
 
 def key(rgb):
@@ -133,59 +166,10 @@ def river_below(img):
     """Faces in a column that ends in open air, as at the bridge. False everywhere in rooms with no river."""
     open_air = ~np.isin(img, (ICE_FLOOR, ICE_WALL, ICE_DEEP)) & (img != 0)
     out = np.zeros_like(open_air)
-    if not open_air.any(): return out
+    if not open_air.any() or (img == ICE_FLOOR).mean() < 0.12 or (img == 10).any(): return out      # city rooms have no river
     for x in np.nonzero(open_air.any(0))[0]:
         out[:np.nonzero(open_air[:, x])[0][-1] + 1, x] = True
     return out
-
-
-def glacier(w, h, seed):
-    """A small glacier drawn in the ice colours of LoG2's frozen ponds: jagged peaks, a lit side, a shaded side, white caps."""
-    rgb = np.zeros((h, w, 3), np.uint8); a = np.zeros((h, w), bool)
-    light, mid, dark, white = (168, 240, 248), (96, 208, 224), (40, 136, 152), (240, 252, 252)
-    n = 2 + seed % 2
-    peaks = [(w * (2 * i + 1) // (2 * n), h - 4 - (h // 3 if (i + seed) % 2 else 0)) for i in range(n)]
-    for x in range(w):
-        edge = min(x, w - 1 - x)
-        best = 0; ridge = 0
-        for px, ph in peaks:
-            v = ph - abs(x - px) * 1.15
-            if v > best: best = v; ridge = px
-        jag = ((x * 37 + seed * 11) % 5) - 2
-        top = int(h - 1 - max(min(best, edge * 2.2), 0)) + jag // 2
-        for y in range(max(top, 0), h):
-            a[y, x] = True
-            depth = y - top
-            lit = x < ridge - (y - top) // 3
-            c = white if depth < 3 else light if lit else mid
-            if y > h - 1 - h // 4: c = mid if lit else dark
-            if not lit and (x + y) % 7 == 0 and depth > 4: c = dark
-            rgb[y, x] = c
-        if a[:, x].any():
-            t = np.nonzero(a[:, x])[0][0]
-            rgb[h - 1, x] = dark
-    return rgb, a
-
-
-def place_glaciers(rgb, top, keep_clear, area):
-    """At most two per room, on high ground clear of every edge."""
-    h, w = top.shape; placed = 0; sizes = ((56, 44), (40, 32), (32, 26))
-    spots = [(y, x) for y in range(0, h - 24, 8) for x in range(0, w - 24, 8)]
-    spots.sort(key=lambda s: (s[0] * 31 + s[1] * 17 + area * 101) % 257)
-    taken = np.zeros((h, w), bool)
-    for y, x in spots:
-        for gw, gh in sizes:
-            if y + gh + 4 > h or x + gw > w: continue
-            box = top[y:y + gh + 4, x:x + gw]
-            if box.all() and not keep_clear[y:y + gh + 4, x:x + gw].any() and not taken[max(y - 40, 0):y + gh + 40, max(x - 56, 0):x + gw + 56].any():
-                spr = glacier(gw, gh, area + placed)
-                yy, xx = np.indices((4, gw))
-                sh = rgb[y + gh:y + gh + 4, x:x + gw]
-                sh[(xx + yy) % 2 == 0] = (168, 200, 232)
-                stamp(rgb, spr, x, y)
-                taken[y:y + gh, x:x + gw] = True; placed += 1
-                break
-        if placed == 2: break
 
 
 ROUND = {}                 # area -> the smoothed floor outline, which collision follows
@@ -254,11 +238,10 @@ def snow_room(img, tex, area=0, doors=()):
         shade[y:min(y + 6, h), x] = True
     shade &= round_floor
     rgb[shade & ((xx + yy) % 2 == 0)] = (168, 200, 232)
-    place_glaciers(rgb, top & ~standing, grow(round_floor, 16) | standing | face, area)
     return rgb, drawn
 
 
-def city_room(img, road, pal, tex, walk=None, area=0):
+def city_room(img, road, pal, tex, walk=None, area=0, doors=()):
     """West City style: grass and trees for the blockers, plain road, paving instead of the prototype's pink."""
     h, w = img.shape
     rgb = pal[img][..., :3].copy()
@@ -278,18 +261,30 @@ def city_room(img, road, pal, tex, walk=None, area=0):
         now_open = np.repeat(np.repeat(open_cells & cells, 8, 0), 8, 1)   # opened up: paving instead of trees
         grey[:H, :W] &= ~now_open
         paved = np.zeros((h, w), bool); paved[:H, :W] = now_open
-    if grey.any():
-        rgb[grey] = tiled(tex['grass'], h, w)[grey]
-        t = tex['tree']; th, tw = t[1].shape
-        for row, y in enumerate(range(-16, h, 48)):
-            for x in range(-40 if row % 2 else -8, w, 64):
-                if grey[max(y + th // 2, 0):min(y + th, h), max(x + 16, 0):min(x + tw - 16, w)].any():
-                    stamp(rgb, t, x, y, grey)
     if road.any():
         rgb[road] = tiled(tex['road'], h, w)[road]
     if paved is not None and paved.any():
         rgb[paved] = tiled(tex['paving'], h, w)[paved]
-    p = rgb.astype(int); pink = (p[..., 0] > 200) & (p[..., 0] - p[..., 2] > 25) & (p[..., 1] > 170) & (img > 0) & ~grey
+    # grass with a wandering edge instead of the prototype's square blocks, trees set back inside it
+    if grey.any():
+        near = blur(grey, 10)
+        field = near + noise((h, w), area + 40, 13) * 0.42
+        lawn = (field > 0.5) & (near > 0.04) | (near > 0.92)      # edges wander, but no islands out on the road and no holes in the woods
+        for d in doors:                                         # nothing grows across a way out
+            x0, y0, x1, y1 = d['rect']
+            lawn[max(y0 - 24, 0):y1 + 24, x0:x1] = False
+        ground = np.isin(img, (PAVING, ROAD_IDX, 10)) | road | grey | (paved if paved is not None else False)
+        lawn &= ground
+        rgb[grey & ~lawn] = tiled(tex['paving'], h, w)[grey & ~lawn]
+        rgb[lawn] = tiled(tex['grass'], h, w)[lawn]
+        t = tex['tree']; th, tw = t[1].shape
+        for row, y in enumerate(range(-32, h, 32)):                # back to front, tops set well inside the grass
+            for col, x in enumerate(range(-tw // 2 // 8 * 8 if row % 2 else 0, w, (tw - 32) // 8 * 8)):
+                x += (row * 7 + col * 13) % 3 * 8; y2 = y + (row * 5 + col * 11) % 3 * 8      # on 8-pixel steps: repeats share tiles
+                cy, cx = min(max(y2 + th // 2, 0), h - 1), min(max(x + tw // 2, 0), w - 1)
+                if near[cy, cx] > 0.7:
+                    stamp(rgb, t, x, y2, lawn)
+    p = rgb.astype(int); pink = (p[..., 0] > 200) & (p[..., 0] - p[..., 2] > 25) & (p[..., 1] > 170) & (img > 0) & ~grey & (img != 10)
     pc = np.zeros((h, w), bool)
     pc[:H, :W] = np.repeat(np.repeat(pink[:H, :W].reshape(H // 8, 8, W // 8, 8).mean((1, 3)) > 0.6, 8, 0), 8, 1)
     rgb[pc] = tiled(tex['paving'], h, w)[pc]
@@ -310,10 +305,21 @@ def reskin(img, road, pal, tex, area=0, walk=None, doors=()):
             rgb[bottom - c.shape[0]:bottom, cx - c.shape[1] // 2:cx - c.shape[1] // 2 + c.shape[1]] = c
         rgb[img == 0] = 0
         return rgb.astype(np.uint8)
-    rgb = city_room(img, road, pal, tex, walk, area)
+    rgb = city_room(img, road, pal, tex, walk, area, doors)
     if area == 5:                                              # the walk up out of the city into the snow
         snow, ice = snow_room(img, tex, area, doors)
-        rgb[ice] = snow[ice]
+        # the city thaws into the snow over a wandering edge with a few drifts, not a straight line
+        field = blur(ice, 10) + noise(img.shape, 77, 5) * 0.32
+        cold = (field > 0.5) | ROUND[area]
+        rgb[cold] = snow[cold]
+        thawed = ice & ~cold                                    # prototype colours left over where the edge pulled back
+        rgb[thawed] = tiled(tex['paving'], *img.shape)[thawed]
+        specks = (img == 2) & ~cold
+        rgb[specks] = tiled(tex['paving'], *img.shape)[specks]
+        p = rgb.astype(int); pale = (abs(p[..., 0] - 240) < 12) & (abs(p[..., 1] - 232) < 12) & (abs(p[..., 2] - 224) < 12)
+        pale[210:] = False                                      # above the paved part, bare ground is snow, not paving
+        grid = (abs(p[..., 0] - 200) < 3) & (abs(p[..., 1] - 200) < 3) & (abs(p[..., 2] - 200) < 3); grid[210:] = False
+        rgb[pale | grid] = tiled(tex['snow'], *img.shape)[pale | grid]
     rgb[img == 0] = 0
     return rgb.astype(np.uint8)
 
@@ -332,7 +338,7 @@ def build_all(proto, log2, bfrom, log2_index='../log2-decomp/assets/maps/index.c
     floor = s3[290:380, 160:256]                 # plain snow, the ground the cut-outs are drawn on
     grass = city[470:502, 490:522]; lawn = city[470:540, 486:540]
     tex = dict(cave=s9[66:104, 124:172], snow=s9[320:384, 0:64], cliff=s3[16:64, 0:128], river=s3[204:236, 212:244],
-               grass=grass, tree=sprite(city[432:544, 196:292], lawn), road=city[345:377, 96:128], paving=paving_tile())
+               grass=grass, tree=canopy_sprite(city[432:520, 196:292]), road=city[345:377, 96:128], paving=paving_tile())
     res = {}
     for a in range(1, 16):
         m = map_of(G, a); img = layers(G, m)

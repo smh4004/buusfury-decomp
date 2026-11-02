@@ -40,7 +40,7 @@ def tile_map(img):
                 if b in seen: cells[y, x] = seen[b] | flag; break
             else:
                 b = t.tobytes(); seen[b] = len(tiles); cells[y, x] = len(tiles); tiles.append(b)
-    if len(tiles) > 1024: raise ValueError('%d tiles: over the 1024 a map can use' % len(tiles))
+    if len(tiles) > 896: raise ValueError('%d tiles: over the 896 the largest retail map uses' % len(tiles))
     return tiles, cells
 
 
