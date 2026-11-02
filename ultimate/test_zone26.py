@@ -57,7 +57,7 @@ fight = route + ['run 30', 'mem %08X 1' % hpa, 'poke %08X %08X' % (hpa, 2 << 10)
 for _ in range(14): fight += ['poke8 03001577 7F', 'keys UP', 'run 6', 'keys', 'tap A 14', 'tap B 14']   # Goku is level 1 here: keep him alive
 fight += ['shot hit', 'mem %08X 1' % hpa, 'run 90', 'tap A 40', 'tap A 40', 'tap A 40', 'mem %s 1' % AT, 'shot westcity']
 talk = lambda base: talk_to(base)
-fight = talk(fight) + ['shot said', 'tap A 60', 'shot said2', 'tap A 60', 'run 60', 'shot after', 'dump g 03001068 8a8']
+fight = talk(fight) + ['shot said', 'tap A 60', 'shot said2', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot after', 'dump g 03001068 8a8']
 out = run(fight)
 g = open(d + '/g.bin', 'rb').read(); g_flag_off = g[0x55 + 149 // 8] & ~(1 << 149 % 8); flag = lambda n: g[0x55 + n // 8] >> (n % 8) & 1
 ats = [l for l in out.splitlines() if l.startswith('mem 0300197c')]
@@ -71,6 +71,20 @@ intro = list(start); go(intro, [x for x in D[1] if 'world' in x][0], PL, 'home')
 intro = talk(intro) + ['shot ask', 'tap A 60', 'shot ask2', 'tap A 60', 'shot ask3', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'shot zone']
 out = run(intro); ats = [l for l in out.splitlines() if l.startswith('mem 0300197c')]
 check('the resident sends you to Zone 26 once the game is beaten', int(ats[-1].split(':')[1].split()[0], 16) & 0xFFFF == 0x011A)
+
+# Spirit Bomb: Goku has it in this build (skill 19). Select it, use it next to Super 13, and it should hurt him and spend energy.
+sb = route + ['run 30', 'poke %08X %08X' % (BOSS_PL + 0x1A0, x), 'poke %08X %08X' % (BOSS_PL + 0x1A4, y + (64 << 8)), 'keys UP', 'run 4', 'keys', 'run 4',
+              'poke8 03001575 4', 'poke8 0300157B 00', 'poke8 0300157A 64', 'poke8 03001577 7F', 'mem 03001578 2', 'tap B 10', 'mem %08X 1' % hpa]
+for i, n in enumerate((40, 40, 40, 30, 30, 20, 20, 30)):
+    sb += ['poke8 03001577 7F', 'run %d' % n, 'shot sb%d' % i]
+sb += ['mem %08X 1' % hpa, 'mem 03001578 2', 'mem 0203FF40 1']
+out = run(sb); mems = [l for l in out.splitlines() if l.startswith('mem')]
+left = lambda l: int(l.split(':')[1].split()[0], 16)
+check('no bad jumps with the Spirit Bomb', 'bad pc' not in out)
+hps = [m for m in mems if m.startswith('mem %08x' % hpa)]
+check('the Spirit Bomb hits Super 13 hard', len(hps) >= 2 and left(hps[-1]) < left(hps[0]) - (800 << 10))
+print('bomb memory', mems[-1], hps)
+check('the Spirit Bomb finishes', left(mems[-1]) >> 16 == 0)
 
 # Before the ending (flag 149 clear) he still only talks about ghosts: no way in.
 early = list(start); go(early, [x for x in D[1] if 'world' in x][0], PL, 'home2')

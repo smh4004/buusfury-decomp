@@ -216,7 +216,8 @@ static void charged_melee(void *player) {
 }
 
 typedef void (*state_fn)(void *, void *, int, int);
-#define WRAP(name, addr) void name(void *s, void *p, int a, int b) { charged_melee(p); ((state_fn)(addr))(s, p, a, b); }
+static int spirit_tick(void *player);
+#define WRAP(name, addr) void name(void *s, void *p, int a, int b) { if (spirit_tick(p)) return; charged_melee(p); ((state_fn)(addr))(s, p, a, b); }
 WRAP(state_a, 0x08012D8B)
 WRAP(state_b, 0x08012DEF)
 WRAP(state_c, 0x08013023)
@@ -240,4 +241,118 @@ int slot_read(u8 *buffer, int slot)
 void *slot_area(u8 *buffer)
 {
     return ((void *(*)(int, int))0x080089FD)(buffer[0x8A0], buffer[0x8A1]);
+}
+
+
+/* Spirit Bomb (skill 19). Goku holds his arms up while the game's own ending disc grows over his head, then it flies the way he
+   faces and bursts, hitting everything nearby hard. It needs no action object: the movement states call spirit_tick each frame.
+   The disc takes effect slot 0; whatever was there goes back afterwards. */
+#define Enough ((int (*)(void *, int))0x080134B9)
+#define Spend ((void (*)(void *, int))0x08013599)
+#define NativeDisc ((void (*)(int *))0x08003B95)
+#define NativeAlpha ((void (*)(int *))0x08000959)
+#define NativeFlash ((void (*)(int *))0x08001305)
+#define SetEffect ((void (*)(void *, int, void *))0x0800927F)
+#define EFFECTS (*(u32 **)(*(u32 *)0x08003C44 + 0x10))
+#define ALPHA_MIRROR (*(u8 **)0x08009900)
+struct spirit { u16 frame; u16 phase; int x, y, r; void *old, *old3; u32 ticker[2]; u8 eva, evb; };
+extern const int spirit_vt[6];
+#define SB (*(struct spirit *)0x0203FF40)
+#define GROW_FRAMES 90
+#define FLY_FRAMES 36
+#define BURST_FRAMES 16
+#define SPIRIT_POWER 0x8000
+static const int BURST_RECT[4] = {-100, -80, 200, 160};   /* x, y, width, height */
+
+static int spirit_cost(u8 *rec) { int c = *(u16 *)(rec + 0x1C) / 2; return c < 30 ? 30 : c; }
+
+int spirit_usable(u8 *rec)
+{
+    if (!COMBAT_AREA || SB.phase) return 0;
+    return Enough(rec, spirit_cost(rec));
+}
+
+static void spirit_draw(void)
+{
+    int st[5] = {4, SB.x, SB.y, SB.r, 80};
+    NativeDisc(st);
+}
+
+static void spirit_end(void)
+{
+    SetEffect(EFFECTS, 0, SB.old);
+    ALPHA_MIRROR[2] = SB.eva; ALPHA_MIRROR[3] = SB.evb;
+    SB.phase = 0;
+    EFFECTS[3] = SB.old3;
+    { int st[6] = {5, 5, 200, 200, 255, 10}; NativeFlash(st); }      /* takes an effect slot itself, so only once the bomb has let go */
+}
+
+const int spirit_vt[6] = {0x53A1, 0x53A2, 0x53A3, 0x53A4, 0x53A5, 0x53A6};   /* offsets from itself, filled in by build.py */
+
+void spirit_use(u8 *rec, void *player)
+{
+    int *p = (int *)player, st[3] = {2, 100, 15};
+    Spend(rec, spirit_cost(rec));
+    SB.old = (void *)EFFECTS[0];
+    EFFECTS[0] = 0;
+    SB.eva = ALPHA_MIRROR[2]; SB.evb = ALPHA_MIRROR[3];
+    NativeAlpha(st);
+    SB.x = p[0x68] >> 8; SB.y = (p[0x69] >> 8) - 58; SB.r = 4;
+    SB.frame = 0; SB.phase = 1;
+    SB.old3 = (void *)EFFECTS[3];
+    SB.ticker[0] = (u32)spirit_vt;
+    EFFECTS[3] = (u32)SB.ticker;
+    PlaySound((void *)0x03003E5C, (void *)SOUND_MOVE, 0x40, 0);
+    spirit_draw();
+}
+
+static void spirit_burst(void *player)
+{
+    u32 hit[16];
+    int pos[2], i;
+    for (i = 0; i < 16; i++) hit[i] = 0;
+    pos[0] = SB.x; pos[1] = SB.y;
+    *(u8 *)&hit[0] = 1;
+    RectAt(&hit[1], BURST_RECT, pos);
+    *(u8 *)&hit[5] = *((u8 *)player + 0x10);
+    hit[6] = SPIRIT_POWER;
+    hit[7] = 0x086B8098;
+    hit[8] = (u32)player;
+    hit[12] = (u32)player;
+    HitObjects((void *)0x03001C4C, 0, hit);
+    Quake(0x20, 0x4B);
+    PlaySound((void *)0x03003E5C, (u8 *)SOUND_HIT + 0x30 * 12, 0x40, 0);
+}
+
+/* The bomb keeps going even if Goku is knocked about, so it runs from an effect slot, which the game updates every frame. */
+void spirit_nop(void) {}
+
+void spirit_update(void)
+{
+    void *player = *(void **)0x03001C34;
+    u8 dir = *((u8 *)player + 0x10);
+    SB.frame++;
+    if (SB.phase == 1) {
+        if (SB.r < 48 && SB.frame % 2 == 0) SB.r++;
+        spirit_draw();
+        if (SB.frame >= GROW_FRAMES) { SB.phase = 2; SB.frame = 0; }
+    } else if (SB.phase == 2) {
+        if (dir == 0) SB.y += 2; else if (dir == 1) SB.y -= 2; else if (dir == 2) SB.x -= 2; else SB.x += 2;
+        spirit_draw();
+        if (SB.frame >= FLY_FRAMES) { spirit_burst(player); SB.phase = 3; SB.frame = 0; }
+    } else if (SB.phase == 3) {
+        if (SB.r < 96) SB.r += 4;                         /* much larger than this hangs the disc code */
+        spirit_draw();
+        if (SB.frame % 6 == 0) spirit_burst(player);      /* it keeps hitting as it bursts */
+        if (SB.frame >= BURST_FRAMES) spirit_end();
+    }
+}
+
+void spirit_destroyed(void) { SB.phase = 0; }     /* a new area clears every effect, this one included */
+
+/* Non-zero while Goku is busy with the bomb: the state's normal update is skipped so he stands still. */
+static int spirit_tick(void *player)
+{
+    if (SB.phase == 1 || (SB.phase == 2 && SB.frame < 12)) { charge_pose(player); return 1; }
+    return 0;
 }

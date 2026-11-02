@@ -8,7 +8,7 @@ Steps: apply edits to assets (debug only for now), `make modern`, move the form 
 append ultimate/forms.json rows, then write ultimate/out/BFU[_debug].bps and a personal-use .gba.
 Asset edits are always undone afterwards, so assets/ stays a clean extract.
 """
-import hashlib, json, os, shutil, struct, subprocess, sys, tempfile
+import hashlib, json, os, re, shutil, struct, subprocess, sys, tempfile
 sys.path.insert(0, os.path.join('tools'))
 sys.path.insert(0, 'ultimate/lib')
 import bps
@@ -34,6 +34,8 @@ INTRO = 'assets/scripts/gUnknown_0877CBF0.evt'
 FIELD = 'assets/scripts/gUnknown_08780550.evt'
 
 
+SKILLS, SPIRIT_SKILL, SPIRIT_NAME = 0x71DB04, 19, 1050      # UI 1050 and 1053 are unused text
+UI = 'assets/text/ui_strings.txt'
 QUEST_NPC = 'assets/scripts/gUnknown_08785580.evt'   # the West City resident outside the Z-Mart
 
 
@@ -44,7 +46,7 @@ def quest_npc(src):
     pushn 622
     call flag
     jz L1
-    push 11
+    push 12
     end
 L1:
     pushn 621
@@ -75,9 +77,12 @@ step auto code
     end
 step auto say 0x85 "The signal stopped! You beat Super 13!"
 step auto say 0x85 "Capsule Corporation left Saiyan armor for you. Change into it from the Switch Character menu."
+step auto say 0x85 "And Goku, you learned the Spirit Bomb! Press L to select it."
 step auto code
     pushn 622
     call set_flag
+    pushn 0, 19
+    call 0xA4
     pushn 610
     call set_flag
     pushn 611
@@ -94,7 +99,7 @@ def debug_edits(first_form):
     """Join Vegito and guest Broly at the start, and open the picker, then save, when the intro ends."""
     heal = ''.join('    push %d\n    set %s\n' % (v, n) for v, n in ((500, 'max_hp'), (500, 'hp'), (100, 'max_ki'), (100, 'ki')))
     flags = ''.join('    pushn %d\n    call set_flag\n' % f for f in sorted({o['flag'] for l in json.load(open('ultimate/outfits.json'))['characters'].values() for o in l if o['flag']}))
-    if '--zone' in sys.argv: flags += '    pushn 149\n    call set_flag\n'
+    if '--zone' in sys.argv: flags += '    pushn 149\n    call set_flag\n    pushn 0, 19\n    call 0xA4\n'
     join = ('step auto code\n' + flags + '    call 0x97(1)\n    call 0x97(3)\n    call 0x97(4)\n    call 0x97(6)\n    call 0x97(8)\n    call 0x95(3)\n' + heal + '    call 0xD0(21)\n    call 0x95(4)\n' + heal + '    call 0xD0(26)\n    call 0x95(1)\n' + heal + '    call 0xD0(15)\n    pushn 1, 107\n    call 0x9D\n    call 0xA4(1, 20)\n    call 0xA4(1, 18)\n    call 0x95(6)\n' + heal + '    call 0x95(8)\n' + heal +
             '    call 0xD0(%d)\n    call 0x95(0)\n    end\n' % first_form)
     s = open(INTRO).read()
@@ -268,6 +273,14 @@ def add_outfits(rom, clean, at):
     rom[IN:IN + 10] = bytes.fromhex('0149fe460847') + struct.pack('<I', sym['saiyaman_hook_in'] | 1)
     rom[OUT_SITE:OUT_SITE + 12] = bytes.fromhex('0149fe460847') + struct.pack('<I', sym['saiyaman_hook_out'] | 1) + bytes.fromhex('c046')
     patch_slot_read(rom, sym)
+    vt = sym['spirit_vt'] - ROM_BASE                      # 0 delete, 2 update every frame, others do nothing
+    for k, name in enumerate(('spirit_destroyed', 'spirit_nop', 'spirit_update', 'spirit_nop', 'spirit_nop', 'spirit_nop')):
+        struct.pack_into('<i', rom, vt + 4 * k, (sym[name] | 1) - (ROM_BASE + vt))
+    row = SKILLS + 24 * SPIRIT_SKILL                     # an unused skill row: its stubs become the Spirit Bomb
+    if struct.unpack_from('<II', rom, row + 4) != (0x08019D25, 0x08019D29):
+        sys.exit('skill row %d is in use' % SPIRIT_SKILL)
+    struct.pack_into('<HHII', rom, row, SPIRIT_NAME, SPIRIT_NAME + 3, sym['spirit_usable'] | 1, sym['spirit_use'] | 1)
+    rom[row + 12:row + 24] = rom[SKILLS + 24 * 15 + 12:SKILLS + 24 * 15 + 24]
     i = rom.find(bytes.fromhex('092c'), 0x4C70, 0x4C84)    # Select Game draws 8 characters, not the guest slot: Broly's size covered the text
     if i < 0:
         sys.exit('Select Game party loop changed')
@@ -308,6 +321,8 @@ def main():
             saved.setdefault(p, s)
         unlock_edits()
         saved.setdefault(QUEST_NPC, open(QUEST_NPC).read())
+        saved.setdefault(UI, open(UI).read())
+        open(UI, 'w').write(re.sub(r'(?m)^1053\t.*$', '1053\tPress the B Button to gather energy above you, then throw it. It uses half your energy.', re.sub(r'(?m)^1050\t.*$', '1050\tSpirit Bomb', saved[UI])))
         npc = quest_npc(saved[QUEST_NPC])
         open(QUEST_NPC, 'w').write(npc)
         if debug:
