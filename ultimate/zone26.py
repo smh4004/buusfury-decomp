@@ -82,7 +82,21 @@ def floor_mask(P, proto_path, a):
     bits = np.unpackbits(np.frombuffer(d, np.uint8), bitorder='little').reshape(-1, 256).copy()
     b = reskin.blockers(proto_path, a); h, w = min(b.shape[0], bits.shape[0]), min(b.shape[1], 256)
     bits[:h, :w][b[:h, :w]] = 0
+    edits = json.load(open('ultimate/zone26.json')).get('ground', {}).get(str(a), {})
+    for x0, y0, x1, y1 in edits.get('close', []): bits[y0 // 8:y1 // 8, x0 // 8:x1 // 8] = 0
+    for x0, y0, x1, y1 in edits.get('open', []): bits[y0 // 8:y1 // 8, x0 // 8:x1 // 8] = 1
     return bits
+
+
+def follow_outline(mask, outline, doors):
+    """Collision matches the drawn snow: a cell mostly outside the smoothed outline is solid (door cells stay open)."""
+    h, w = outline.shape; H, W = h // 8, w // 8
+    inside = outline[:H * 8, :W * 8].reshape(H, 8, W, 8).mean((1, 3)) >= 0.5
+    out = mask.copy(); hh, ww = min(H, out.shape[0]), min(W, 256)
+    out[:hh, :ww] &= inside[:hh, :ww]
+    for d in doors:
+        x0, y0, x1, y1 = d['rect']; out[y0 // 8:(y1 + 7) // 8, x0 // 8:(x1 + 7) // 8] = mask[y0 // 8:(y1 + 7) // 8, x0 // 8:(x1 + 7) // 8]
+    return out
 
 
 def audit(a, mask, doors):
@@ -120,6 +134,8 @@ def door(cfg, a, side, s, e, masks):
 
 def links(cfg, masks):
     out = {}
+    for a, extra in cfg.get('doors', {}).items():
+        for d in extra: out.setdefault(int(a), []).append(dict(rect=tuple(d['rect']), key=d['key'], world=d['world'], to=d['to'], arrive=tuple(d['arrive'])))
     for a, sa, s0, e0, b, sb, s1, e1 in cfg['links']:
         if isinstance(b, list):                       # an exit out of the zone: [world, area, x, y]
             ra, ka, _ = door(cfg, a, sa, s0, e0, masks)
@@ -149,10 +165,12 @@ def boss_stats(W, rom, stats):
 
 def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=False):
     P = open(proto_path, 'rb').read()
-    res, _ = reskin.build_all(proto_path, log2_path, 'baserom.gba')
     cfg = json.load(open('ultimate/zone26.json')); W = Writer(rom, at); rows = []; info = {}
-    masks = {a: floor_mask(P, proto_path, a) for a in res}
+    masks = {a: floor_mask(P, proto_path, a) for a in range(1, 16)}
     doors = links(cfg, masks)
+    res, _ = reskin.build_all(proto_path, log2_path, 'baserom.gba', masks=masks, doors=doors)
+    for a, o in reskin.ROUND.items():
+        if a >= 6: masks[a] = follow_outline(masks[a], o, doors.get(a, []))
     boss_stats(W, rom, STATS)
     temp = bytes(rom[AREAS + 56 * [k for k in range(COUNT) if rom[AREAS + 56 * k] == 4 and rom[AREAS + 56 * k + 1] == 1][0]:][:56])
     for a, img in res.items():

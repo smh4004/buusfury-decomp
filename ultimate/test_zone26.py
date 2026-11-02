@@ -86,6 +86,14 @@ check('the Spirit Bomb hits Super 13 hard', len(hps) >= 2 and left(hps[-1]) < le
 print('bomb memory', mems[-1], hps)
 check('the Spirit Bomb finishes', left(mems[-1]) >> 16 == 0)
 
+# The Z-Mart's front door works too, and opens onto the game's own shop.
+shop = list(start)
+for a in (1,):
+    go(shop, [x for x in D[a] if x['to'] == 2 and 'world' not in x][0], PL, 'to2')
+go(shop, [x for x in D[2] if 'world' in x][0], PL, 'shop')
+out = run(shop); ats = [l for l in out.splitlines() if l.startswith('mem 0300197c')]
+check("the Z-Mart door opens the shop", int(ats[-1].split(':')[1].split()[0], 16) & 0xFFFF == 92 << 8)
+
 # Before the ending (flag 149 clear) he still only talks about ghosts: no way in.
 early = list(start); go(early, [x for x in D[1] if 'world' in x][0], PL, 'home2')
 early += ['poke8 %08X %02X' % (0x03001068 + 0x55 + 149 // 8, g_flag_off)]
