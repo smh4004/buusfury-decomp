@@ -138,3 +138,64 @@ __asm__(
 ".syntax unified\n.thumb\n.global saiyaman_hook_in, saiyaman_hook_out\n.thumb_func\nsaiyaman_hook_in:\n"
 "push {lr}\nldrb r0, [r5, #0x14]\nbl saiyaman_in\nstrb r0, [r5, #0x14]\nmovs r1, #24\nmuls r0, r1\nadds r0, r0, r6\npop {r1}\nadds r1, #5\nbx r1\n"
 ".thumb_func\nsaiyaman_hook_out:\npush {lr}\nldrb r0, [r5, #0x14]\nbl saiyaman_out\nstrb r0, [r5, #0x14]\nmovs r1, #24\nmuls r0, r1\nadds r0, r0, r6\nldr r2, =0x0801711D\nbl 1f\npop {r1}\nadds r1, #7\nbx r1\n1: bx r2\n.ltorg\n");
+
+/* Charged melee, from Legacy of Goku II: hold A until charged, release for one strong hit. Melee and movement states
+   call these wrappers once per frame. The hit reuses the game's melee code with temporarily raised strength. */
+#define CHARGE_FRAMES 30
+#define CHARGE_COUNT (*(u16 *)0x0203FF3C)
+#define CURRENT_CHARACTER (*(u8 *)0x03001068)
+#define COMBAT_AREA (*(u32 *)0x03001988)
+#define Melee ((void (*)(void *))0x08012A25)
+#define SpriteSlot ((void (*)(void *, int))0x0800ECDB)
+#define CALL_V(obj, off) ((u32 (*)(void *, ...))(*(u32 *)(obj) + *(int *)(*(u32 *)(obj) + (off))))
+
+static int has_slot(void *player, int slot) {
+    u8 *actor = (u8 *)*(u32 *)((u8 *)player + 0x58);
+    return (*(u32 *)actor & 0xFF) > (u32)slot && *(u32 *)(actor + 0x54 + slot * 4) != 0;
+}
+
+/* Same hit as the game's melee (sub_08012A24), with its 0x400 power value raised. */
+#define CHARGED_POWER 0xA00
+#define RectAt ((void (*)(void *, const void *, int *))0x08052FD5)
+#define HitObjects ((int (*)(void *, int, void *))0x08011C0D)
+#define Random ((int (*)(int))0x0803FACD)
+#define Quake ((void (*)(int, int))0x0800797D)
+static void charged_hit(void *player) {
+    u32 hit[16];
+    int pos[2], i, *p = (int *)player;
+    for (i = 0; i < 16; i++) hit[i] = 0;
+    pos[0] = p[0x68] >> 8; pos[1] = p[0x69] >> 8;
+    *(u8 *)&hit[0] = 1;
+    RectAt(&hit[1], (const u8 *)MELEE_RECTS + *((u8 *)player + 0x10) * 0x10, pos);
+    *(u8 *)&hit[5] = *((u8 *)player + 0x10);
+    hit[6] = CHARGED_POWER;
+    hit[7] = 0x086B8098;
+    hit[8] = (u32)player;
+    hit[12] = (u32)player;
+    if (HitObjects((void *)0x03001C4C, 0, hit)) {
+        PlaySound((void *)0x03003E5C, (u8 *)SOUND_HIT + (Random(2) + 0x30) * 12, 0x40, 0);
+        Quake(0xF, 0x4B);
+    }
+    CALL_V(player, 0x28)(player, 4 + Random(3));
+}
+
+static void charged_melee(void *player) {
+    u8 *input = (u8 *)CALL_V(player, 0x84)(player);
+    int held = *(u16 *)(input + 2) & 1, n = CHARGE_COUNT;
+    if (!COMBAT_AREA) { CHARGE_COUNT = 0; return; }
+    if (held) {
+        if (n < 255) CHARGE_COUNT = ++n;
+        if (n == CHARGE_FRAMES) PlaySound((void *)0x03003E5C, (void *)SOUND_MOVE, 0x40, 0);
+        if (n == CHARGE_FRAMES && has_slot(player, 13)) { SpriteSlot(player, 13); *(int *)((u8 *)player + 0x30) = 0; *(int *)((u8 *)player + 0x38) = 0; }
+        return;
+    }
+    CHARGE_COUNT = 0;
+    if (n >= CHARGE_FRAMES) charged_hit(player);
+}
+
+typedef void (*state_fn)(void *, void *, int, int);
+#define WRAP(name, addr) void name(void *s, void *p, int a, int b) { charged_melee(p); ((state_fn)(addr))(s, p, a, b); }
+WRAP(state_a, 0x08012D8B)
+WRAP(state_b, 0x08012DEF)
+WRAP(state_c, 0x08013023)
+WRAP(state_d, 0x080131BB)

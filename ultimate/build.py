@@ -27,6 +27,7 @@ COMBO = os.environ.get('BFU_COMBO', 'combo.gba')   # Legacy of Goku I & II cart;
 DEBUG_NATIVE = 0xF7              # debug builds only: "save to slot 1" (not used by any game script)
 OUT = 'ultimate/out'
 SAIYAMAN = [(10, 14), (15, 'saiyaman_from_green'), (13, 'saiyaman_from_orange')]
+ACTORS_FILE = 'assets/areas/a033_w01_01_Snakeway.actors'
 INTRO = 'assets/scripts/gUnknown_0877CBF0.evt'
 FIELD = 'assets/scripts/gUnknown_08780550.evt'
 
@@ -40,6 +41,8 @@ def debug_edits(first_form):
     s = open(INTRO).read()
     assert 'step 19 raw' in s
     open(INTRO, 'w').write(s.replace('step 19 raw', join + 'step 19 raw', 1))
+    if '--enemy' in sys.argv:
+        open(ACTORS_FILE, 'a').write('enemy 8 0x70 0xB0 34   ; debug: a Bomber to test attacks on\n')
     s = open(FIELD).read()
     tail = '    set 0x10\n    end\n'
     i = s.rfind(tail)
@@ -176,7 +179,7 @@ def add_outfits(rom, clean, at):
     pairs = ['{%d,%d}' % (base, 14 if row == 14 else fm[row]) for base, row in SAIYAMAN]
     c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs))
     open(d + '/o.c', 'w').write(c)
-    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C')]
+    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
     syms = ['-Wl,--defsym=form_table=0x%X' % (ROM_BASE + SPACE), '-Wl,-Ttext=0x%X' % (ROM_BASE + at), '-Wl,-e,picker_update', '-Wl,--no-warn-rwx-segments']
     lib = subprocess.run(['arm-none-eabi-gcc', '-mthumb', '-mcpu=arm7tdmi', '-print-libgcc-file-name'], capture_output=True, text=True, check=True).stdout.strip()
     subprocess.run(['arm-none-eabi-gcc'] + flags + syms + [d + '/o.c', lib, '-o', d + '/o.elf'], check=True)
@@ -192,6 +195,12 @@ def add_outfits(rom, clean, at):
         if ROM_BASE + vt + struct.unpack_from('<i', rom, vt + 4 * slot)[0] != want:
             sys.exit('vtable slot %d changed' % slot)
         struct.pack_into('<i', rom, vt + 4 * slot, (sym[name] | 1) - (ROM_BASE + vt))
+    for vt, want, name in ((0x4C384, 0x08012D8B, 'state_a'), (0x4BEF0, 0x08012DEF, 'state_b'), (0x4C790, 0x08013023, 'state_c'), (0x4C3A8, 0x080131BB, 'state_d')):
+        if ROM_BASE + vt + struct.unpack_from('<i', rom, vt + 8)[0] != want:
+            sys.exit('state vtable changed at 0x%X' % vt)
+        struct.pack_into('<i', rom, vt + 8, (sym[name] | 1) - (ROM_BASE + vt))
+    if rom[0x3C344C:0x3C348C] != clean[0x3C344C:0x3C348C]:
+        sys.exit('melee rectangles moved')
     IN, OUT_SITE = 0x1C5F2, 0x1C2D2
     if rom[IN:IN + 10] != bytes.fromhex('0e202875301cff305130') or rom[OUT_SITE:OUT_SITE + 8] != bytes.fromhex('0a202875301cf030'):
         sys.exit('Great Saiyaman code changed')
@@ -208,7 +217,7 @@ def main():
     if not os.path.exists('assets/manifest.json'):
         subprocess.run(['make', 'extract'], check=True, stdout=subprocess.DEVNULL)
     cfg = json.load(open('ultimate/forms.json'))
-    saved = {p: open(p).read() for p in (INTRO, FIELD)}
+    saved = {p: open(p).read() for p in (INTRO, FIELD, ACTORS_FILE)}
     try:
         for p, s in unlock_edits_paths().items():
             saved.setdefault(p, s)
@@ -235,7 +244,7 @@ def main():
         tab = find_once(rom, clean[NATIVES:NATIVES + 64], 'native table')
         struct.pack_into('<I', rom, tab + 4 * DEBUG_NATIVE, ROM_BASE + at + 1)
     os.makedirs(OUT, exist_ok=True)
-    name = 'BFU_debug' if debug else 'BFU'
+    name = ('BFU_debug_enemy' if '--enemy' in sys.argv else 'BFU_debug') if debug else 'BFU'
     if free >= ACTORS_AT or actors_end > 0x1000000:
         sys.exit('ROM layout overflow')
     size = (actors_end + 0xFFFFF) & ~0xFFFFF

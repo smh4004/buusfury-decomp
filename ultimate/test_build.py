@@ -94,5 +94,23 @@ for who, char, rights, key, base, ss in (('Gohan', 1, 1, 'UP', 'gohan_armor', 'g
     check('armor %s: worn' % who, open(d + '/k.bin', 'rb').read()[at] == forms[base])
     check('armor %s: Super Saiyan' % who, open(d + '/l.bin', 'rb').read()[at] == forms[ss])
     check('armor %s: back to armor' % who, open(d + '/m.bin', 'rb').read()[at] == forms[base])
+
+# Charged melee: hold A, release. Measured against a Bomber placed beside the player; every character must survive it.
+base = [l for l in open('tools/harness/enemy_test.txt').read().split('\n') if l and not l.startswith('#') and not l.startswith('mem ') and not l.startswith('shot ') and l not in ('tap B 20', 'run 200')]
+ENEMY_HP, ENEMY_X, ENEMY_Y, PX = '0202e558', '0202e46c', '0202e470', '0202de1c'
+erom = OUT + '/BFU_debug_enemy_PERSONAL_USE_ONLY.gba'
+run_txt = run(erom, base + ['mem %s 2' % PX], d)
+m = re.search(r'mem %s: ([0-9a-f]+) ([0-9a-f]+)' % PX, run_txt)
+x, y = int(m.group(1), 16), int(m.group(2), 16)
+place = ['poke %s %x' % (ENEMY_X, x - (18 << 8)), 'poke %s %x' % (ENEMY_Y, y)]
+o = run(erom, ['guardon 0x09000000'] + base + place + ['run 1', 'mem %s 1' % ENEMY_HP, 'keys A', 'run 160'] + place + ['mem %s 1' % ENEMY_HP, 'keys', 'run 15', 'mem %s 1' % ENEMY_HP, 'run 200', 'shot charged_kill', 'tap A 25', 'run 30'], d)
+hp = [(lambda v: v - (1 << 32) if v >= 1 << 31 else v)(int(v, 16)) >> 10 for v in re.findall(r'mem %s: ([0-9a-f]+)' % ENEMY_HP, o)]
+print('enemy HP readings', hp)
+check('charged: no bad jumps', 'bad pc' not in o)
+check('charged: release hurts the enemy', hp[2] < hp[1])
+check('charged: stronger than the normal hit before it', hp[1] - hp[2] > hp[0] - hp[1] > 0)
+for name, rights in (('Goku', 0), ('Gohan', 1), ('Trunks', 2), ('Vegeta', 3), ('Vegito', 4), ('Broly', 5)):
+    o = run(rom, ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * rights + ['tap A 150', 'run 100', 'keys A', 'run 80', 'shot hold_' + name, 'keys', 'run 3', 'shot hit_' + name, 'run 40', 'tap A 20', 'dump n 03001068 8a8'], d)
+    check('charged %s: no bad jumps' % name, 'bad pc' not in o)
 print('screens in', d)
 sys.exit(1 if fails else 0)
