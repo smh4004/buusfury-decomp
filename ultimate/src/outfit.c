@@ -106,8 +106,32 @@ static void scroll_row(void *obj, int first_frame) {
     }
 }
 
+/* The story borrows the guest slot for Hercule and Android 18. Afterwards it holds that form, which the guest's outfit list doesn't have,
+   so a joined guest comes back in the first outfit it has unlocked when the screen opens. Skipped if that form is the one being played. */
+static void restore_borrowed(void *obj) {
+    int n = *field(obj, OBJ_COUNT), s, i;
+    for (s = 0; s < n; s++) {
+        int c = *field(obj, OBJ_LIST + s * 8), first, count, have = 0;
+        if (c != 7 && c != 8) continue;
+        if (c == *(u8 *)0x03001068) continue;
+        first = outfit_index[c][0]; count = outfit_index[c][1];
+        for (i = 0; i < count; i++) if (outfit_table[first + i].form == FORM_OF(c) || outfit_table[first + i].also == FORM_OF(c)) have = 1;
+        if (have) continue;
+        for (i = 0; i < count; i++) {
+            const struct outfit *o = &outfit_table[first + i];
+            if (o->flag && !GetFlag((void *)0x03001068, o->flag)) continue;
+            FORM_OF(c) = o->form;
+            Sprite_SetCharacter((void *)*field(obj, OBJ_LIST + 4 + s * 8), Form_Sprite((void *)(form_table + o->form * 24)));
+            Sprite_SetFacing((void *)*field(obj, OBJ_LIST + 4 + s * 8), 1);
+            Sprite_SetBehaviour((void *)*field(obj, OBJ_LIST + 4 + s * 8), (void *)0x03001B58);
+            break;
+        }
+    }
+}
+
 int picker_update(void *obj) {
     int first = LABEL_OWNER != ((u32)obj ^ SNAP_MAGIC), r;
+    if (first) restore_borrowed(obj);
     if (KEYS_NEW & KEY_UP) cycle(obj, -1);
     else if (KEYS_NEW & KEY_DOWN) cycle(obj, 1);
     update_label(obj);
@@ -355,4 +379,36 @@ static int spirit_tick(void *player)
 {
     if (SB.phase == 1 || (SB.phase == 2 && SB.frame < 12)) { charge_pose(player); return 1; }
     return 0;
+}
+
+/* Script native party_join(character, form). The first time a post-game character joins, they start level with whoever is playing, leaning towards
+   how they fight, with their own skills. Later calls change nothing, so an outfit chosen earlier stays on. */
+#define REC(c) (RECORDS + (c) * RECORD_SIZE)
+#define R16(r, o) (*(u16 *)((r) + (o)))
+#define EXP(r) (*(u32 *)((r) + 0x24))
+static const u8 guest_skills[] = {2, 7, 2};                 /* count, Energy Blast, Big Bang: Energy Punch hangs on Super 13's animations */
+static const u8 gogeta_skills[] = {5, 7, 3, 5, 20, 21};     /* count, his own three, Super Saiyan, Super Saiyan Blue */
+static int scale(int v, int pct) { v = v * pct / 100; return v > 255 ? 255 : v; }
+void party_join(int *sp) {
+    int n = *sp, form = sp[n], c = sp[n - 1], i;
+    u8 *r = REC(c), *cur = REC(*(u8 *)0x03001068);
+    const u8 *skills = c == 8 ? guest_skills : gogeta_skills;
+    static const u8 lean[2][3] = {{110, 110, 110}, {120, 85, 110}};    /* strength, power, endurance: Gogeta, Broly */
+    const u8 *l = lean[c == 8];
+    *sp = n - 2;
+    if (r[0] & 1) return;
+    r[0] |= 1;
+    FORM_OF(c) = form;
+    if (EXP(cur) > EXP(r)) EXP(r) = EXP(cur);
+    if (R16(cur, 0x18) > R16(r, 0x18)) R16(r, 0x18) = R16(cur, 0x18);
+    if (R16(cur, 0x1C) > R16(r, 0x1C)) R16(r, 0x1C) = R16(cur, 0x1C);
+    R16(r, 0x16) = R16(r, 0x18); R16(r, 0x1A) = R16(r, 0x1C);
+    for (i = 0; i < 3; i++) {
+        int v = scale(cur[0x28 + i], l[i]);
+        if (v > r[0x28 + i]) r[0x28 + i] = v;
+    }
+    if (cur[0x2C] > r[0x2C]) r[0x2C] = cur[0x2C];   /* unspent stat points */
+    r[0x0C] = skills[0];
+    for (i = 0; i < skills[0]; i++) r[0x0D + i] = skills[1 + i];
+    r[0x15] = 0;
 }

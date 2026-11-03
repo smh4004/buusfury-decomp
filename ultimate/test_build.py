@@ -66,6 +66,26 @@ o = run(rom, ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30']
 p = open(d + '/p.bin', 'rb').read()
 check('Broly Full Power can be chosen, walks and attacks', 'bad pc' not in o and p[0] == 8 and p[0x4F8 + 8 * REC + FORM] == bfp)
 
+# Post-game guests and Gogeta. Debug joins Broly; poke Gogeta in and let the save at the end of the menu record what was picked.
+R7, R8 = 0x03001560 + 7 * REC, 0x03001560 + 8 * REC
+post = ['guardon 0x09000000'] + route + ['poke8 %08X 03' % R7] + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5
+sav3 = os.path.join(d, 'post.sav')
+o = run(rom, post + ['tap DOWN 40', 'tap DOWN 40', 'shot ssb_menu', 'tap RIGHT 40', 'tap DOWN 40', 'tap DOWN 40', 'tap DOWN 40', 'shot s13_menu', 'tap LEFT 40', 'tap A 200', 'run 200', 'dump a 03001068 8a8'], d, sav3)
+a = open(d + '/a.bin', 'rb').read()
+check('post-game: SSB Gogeta and Super 13 can be chosen together', 'bad pc' not in o and a[0] == 7 and a[0x4F8 + 7 * REC + FORM] == forms['gogeta_ssb_skin'] and a[0x4F8 + 8 * REC + FORM] == forms['super13'])
+o = run(rom, ['guardon 0x09000000', 'run 600', 'tap START 60', 'tap START 60', 'tap A 90', 'tap A 90', 'tap A 200', 'run 300', 'dump b 03001068 8a8'], d, sav3)
+b = open(d + '/b.bin', 'rb').read()
+check('post-game: both survive saving and loading', 'bad pc' not in o and b[0] == 7 and b[0x4F8 + 7 * REC + FORM] == forms['gogeta_ssb_skin'] and b[0x4F8 + 8 * REC + FORM] == forms['super13'])
+# DBS Gogeta transforms twice through the form table and back.
+R = 0x03001560 + 7 * REC
+dbs = post + ['tap DOWN 40', 'tap A 200', 'run 60'] + ['poke8 %08X 05' % (R + 0x0C), 'poke8 %08X 14' % (R + 0x10), 'poke8 %08X 15' % (R + 0x11), 'poke8 %08X 03' % (R + 0x15), 'run 3', 'tap B 120', 'mem %08X 1' % (R + 0x14), 'poke8 %08X 04' % (R + 0x15), 'run 3', 'tap B 120', 'mem %08X 1' % (R + 0x14), 'tap B 120', 'mem %08X 1' % (R + 0x14)]
+o = run(rom, dbs, d); got = [int(l.split(':')[1].split()[0], 16) & 255 for l in o.splitlines() if l.startswith('mem %08x' % (R + 0x14))]
+check('DBS Gogeta: Super Saiyan, then Super Saiyan Blue, then back to base', 'bad pc' not in o and got == [forms['gogeta_dbs_ss'], forms['gogeta_ssb'], forms['gogeta_dbs']])
+# The story borrows the guest slot for Hercule: the screen puts a joined guest back on an outfit he owns.
+o = run(rom, ['guardon 0x09000000'] + route + ['poke8 %08X 2F' % (R8 + 0x14), 'tap A 60', 'tap A 60', 'run 30', 'tap B 120', 'dump a 03001068 8a8'], d)
+a = open(d + '/a.bin', 'rb').read()
+check('a guest borrowed by the story comes back as Broly', 'bad pc' not in o and a[0x4F8 + 8 * REC + FORM] == forms['broly'])
+
 # Outfit menu: Gohan is the second character. Down twice = orange gi; B cancels; A keeps it.
 pick = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30', 'tap RIGHT 40', 'tap DOWN 30', 'tap DOWN 30', 'shot outfit']
 o = run(rom, pick + ['tap B 150', 'run 100', 'dump c 03001068 8a8'], d)

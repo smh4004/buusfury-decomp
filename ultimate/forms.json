@@ -111,6 +111,58 @@
    "owner": 8,
    "name": 1034,
    "portrait": 16
+  },
+  {
+   "id": "android13",
+   "copy": 47,
+   "actor": "android13_player",
+   "owner": 8,
+   "name": 1052
+  },
+  {
+   "id": "super13",
+   "copy": 47,
+   "actor": "super13",
+   "owner": 8,
+   "name": 1056
+  },
+  {
+   "id": "gogeta_dbs",
+   "copy": 21,
+   "actor": "gogeta_dbs",
+   "owner": 7,
+   "name": 1054,
+   "portrait": 34,
+   "up": "gogeta_dbs_ss"
+  },
+  {
+   "id": "gogeta_dbs_ss",
+   "copy": 3,
+   "actor": "gogeta_dbs_ss",
+   "owner": 7,
+   "name": 136,
+   "portrait": 34,
+   "up": "gogeta_ssb",
+   "down": "gogeta_dbs"
+  },
+  {
+   "id": "gogeta_ssb",
+   "copy": 5,
+   "actor": "gogeta_ssb",
+   "owner": 7,
+   "name": 1055,
+   "portrait": 34,
+   "down": "gogeta_dbs_ss"
+  },
+  {
+   "id": "gogeta_ssb_skin",
+   "copy": 21,
+   "actor": "gogeta_ssb",
+   "owner": 7,
+   "name": 1055,
+   "portrait": 34,
+   "up": 255,
+   "down": 255
   }
  ],
  "edit": {

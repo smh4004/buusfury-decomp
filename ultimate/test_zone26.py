@@ -61,13 +61,13 @@ def kill(base, hp):
 def at(out):
     return int([l for l in out.splitlines() if l.startswith('mem 0300197c')][-1].split(':')[1].split()[0], 16) & 0xFFFF
 base = route + ['run 30', 'shot arena']
-hp1 = boss(base, 60000)[0]; check('Android 13 is in the arena with 60000 HP', hp1 is not None)
-phase = kill(base, 60000) + ['poke8 03001577 7F'] + ['tap A 25'] * 11 + ['run 170', 'shot change', 'mem 0300197C 1']
+hp1 = boss(base, 30000)[0]; check('Android 13 is in the arena with 30000 HP', hp1 is not None)
+phase = kill(base, 30000) + ['poke8 03001577 7F'] + ['tap A 25'] * 11 + ['run 170', 'shot change', 'mem 0300197C 1']
 out = run(phase); check('beating Android 13 starts his change', at(out) == (16 << 8 | 26))
 two = phase + ['keys UP', 'run 60', 'keys', 'run 120', 'shot phase2', 'mem 0300197C 1']
 out = run(two); check('walking up to him starts phase two', at(out) == (17 << 8 | 26))
-hp2 = boss(two, 150000)[0]; check('Super 13 has 150000 HP', hp2 is not None)
-end = kill(two, 150000) + ['poke8 03001577 7F'] + ['tap A 30'] * 16 + ['shot struggle'] + ['keys A', 'run 1', 'keys', 'run 1'] * 120
+hp2 = boss(two, 75000)[0]; check('Super 13 has 75000 HP', hp2 is not None)
+end = kill(two, 75000) + ['poke8 03001577 7F'] + ['tap A 30'] * 16 + ['shot struggle'] + ['keys A', 'run 1', 'keys', 'run 1'] * 120
 end += ['shot bomb', 'run 500', 'shot home_after', 'mem 0300197C 1', 'tap A 40', 'keys LEFT', 'run 10', 'keys', 'dump g 03001068 8a8']
 out = run(end); g = open(d + '/g.bin', 'rb').read(); flag = lambda n: g[0x55 + n // 8] >> (n % 8) & 1; g_flag_off = g[0x55 + 149 // 8] & ~(1 << 149 % 8)
 check('no bad jumps through the whole fight', 'bad pc' not in out)
@@ -75,9 +75,14 @@ check('beating Super 13 plays the finish and sets flag 621', flag(621) == 1 and 
 check('the finish returns you to West City', at(out) == 0x0104)
 talk = lambda b: talk_to(b)
 home = end[:end.index('tap A 40')]
-reward = talk(home) + ['shot said', 'tap A 60', 'shot said2', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot after', 'dump g 03001068 8a8']
+# Join state as in a real game: neither Gogeta nor the guest yet (debug joins the guest at the start).
+reward = talk(home + ['poke8 %08X 02' % (0x03001560 + 8 * 0x68), 'poke8 %08X 02' % (0x03001560 + 7 * 0x68)]) + ['shot said', 'tap A 60', 'shot said2', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot after', 'dump g 03001068 8a8']
 out = run(reward); g = open(d + '/g.bin', 'rb').read()
 check('the resident gives the rewards: Saiyan armor and Broly Full Power', all(flag(n) for n in (610, 611, 612, 613, 622)))
+forms = json.load(open('ultimate/out/BFU_debug_zone.map.json'))['forms']; rec = lambda c: g[0x4F8 + c * 0x68:0x4F8 + (c + 1) * 0x68]
+check('the reward adds DBS Gogeta and Super 13 to the party', rec(7)[0] & 1 == 1 and rec(8)[0] & 1 == 1 and rec(7)[0x14] == forms['gogeta_dbs'] and rec(8)[0x14] == forms['super13'])
+check('DBS Gogeta keeps his own moves and gains both transformations', list(rec(7)[0x0C:0x12]) == [5, 7, 3, 5, 20, 21])
+print('   Gogeta joined at', list(rec(7)[0x28:0x2B]), 'guest at', list(rec(8)[0x28:0x2B]))
 
 # Start of the quest: from 26:1's road back to West City, walk up to the same resident, get sent in.
 intro = list(start); go(intro, [x for x in D[1] if 'world' in x][0], PL, 'home')
@@ -86,7 +91,7 @@ out = run(intro); ats = [l for l in out.splitlines() if l.startswith('mem 030019
 check('the resident sends you to Zone 26 once the game is beaten', int(ats[-1].split(':')[1].split()[0], 16) & 0xFFFF == 0x011A)
 
 # Spirit Bomb: Goku has it in this build (skill 19). Select it, use it next to Super 13, and it should hurt him and spend energy.
-a13, x, y = boss(route + ['run 30'], 60000); hpa = a13
+a13, x, y = boss(route + ['run 30'], 30000); hpa = a13
 sb = route + ['run 30', 'poke %08X %08X' % (BOSS_PL + 0x1A0, x), 'poke %08X %08X' % (BOSS_PL + 0x1A4, y + (64 << 8)), 'keys UP', 'run 4', 'keys', 'run 4',
               'poke8 03001575 4', 'poke8 0300157B 00', 'poke8 0300157A 64', 'poke8 03001577 7F', 'mem 03001578 2', 'tap B 10', 'mem %08X 1' % hpa]
 for i, n in enumerate((40, 40, 40, 30, 30, 20, 20, 30)):

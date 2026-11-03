@@ -51,13 +51,42 @@
   "8": [
    {
     "form": "broly",
-    "flag": 0,
+    "flag": 111,
     "name": "Broly"
    },
    {
     "form": "broly_fp",
     "flag": 613,
     "name": "Full Power"
+   },
+   {
+    "form": "android13",
+    "flag": 614,
+    "name": "Android 13"
+   },
+   {
+    "form": "super13",
+    "flag": 614,
+    "name": "Super 13"
+   }
+  ],
+  "7": [
+   {
+    "form": 41,
+    "also": 44,
+    "flag": 615,
+    "name": "Gogeta"
+   },
+   {
+    "form": "gogeta_dbs",
+    "also": "gogeta_dbs_ss",
+    "flag": 615,
+    "name": "DBS Gogeta"
+   },
+   {
+    "form": "gogeta_ssb_skin",
+    "flag": 615,
+    "name": "SSB Gogeta"
    }
   ]
  },

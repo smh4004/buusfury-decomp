@@ -9,6 +9,7 @@ sys.path.insert(0, 'tools/scripts')
 BASE = 0x08000000
 TABLE_LIT, COUNT_INSN, AREAS, COUNT = 0x8A58, 0x125E0, 0x8E2E0, 452
 WARP = (0x08007675, 0x0800776D)
+TRIGGER = (0x0800742D, 0x080077DF)   # an exit that runs a step list when you're inside its rectangle
 LAYER_FN = 0x08008087
 MUSIC_FIELD = 6
 
@@ -149,11 +150,10 @@ def links(cfg, masks):
 
 STATS = 0x711274
 PHASE1_ROW, BOSS_ROW = 113, 114      # placed nowhere else in the game
-TRIGGER = (0x0800742D, 0x080077DF)   # an exit that runs a step list when you're inside its rectangle
 
 
 def boss_stats(W, rom, stats):
-    """Android 13 first, then Super 13 above Kid Buu (level 100, 125000 HP). Reloading a room in place loses the player, so each stage
+    """Android 13 first, then Super 13, whose stats top Kid Buu's (150, 66, 110, 100); 105000 HP across the two phases against his 125000. At level 99 with an even build a punch does about 125 to Android 13 and 120 to Super 13, so this is 250 + 620 punches before charged hits and skills, and two of his hits still take a level 99 fighter down. Reloading a room in place loses the player, so each stage
     of the fight is its own copy of the arena: 15 Android 13, 16 his change, 17 Super 13, 18 the Spirit Bomb finish."""
     import bfscript
     def death(flag, area):
@@ -165,8 +165,8 @@ def boss_stats(W, rom, stats):
         rom[r + 0xC:r + 0x10] = bytes(stat)
         rom[r + 0x10] = phys
         struct.pack_into('<II', rom, r + 0x14, 0x08708920, death(flag, area))     # this handler is the one that runs death scripts
-    row(PHASE1_ROW, 40000, 60000, (150, 60, 90, 90), 128, 620, 16)
-    row(BOSS_ROW, 96175, 150000, (160, 70, 115, 105), 96, 625, 18)
+    row(PHASE1_ROW, 40000, 30000, (150, 60, 90, 90), 128, 620, 16)
+    row(BOSS_ROW, 96175, 75000, (160, 70, 115, 105), 96, 625, 18)
 
 
 def condition(W, text):
@@ -174,7 +174,7 @@ def condition(W, text):
     return W.put(bytes(bfscript.asm(text)))
 
 
-def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=False, quest_list=0):
+def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=False, quest_list=0, ending_list=0):
     P = open(proto_path, 'rb').read()
     cfg = json.load(open('ultimate/zone26.json')); W = Writer(rom, at); rows = []; info = {}
     masks = {a: floor_mask(P, proto_path, a) for a in range(1, 16)}
@@ -237,12 +237,14 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
                 st[3] = len(ex)
                 struct.pack_into('<I', st, 0x10, W.put(b''.join(struct.pack('<II', *x) for x in ex)) if ex else 0)
                 rows.append(bytes(st))
-    if debug_door:          # debug: walk down anywhere on Snake Way to reach 26:1
+    if debug_door:          # debug: on Snake Way, x>=96 walk down reaches 26:1; x 48-96 walk up reaches Broly; x<48 starts the ending
         e = next(AREAS + 56 * k for k in range(COUNT) if rom[AREAS + 56 * k] == 1 and rom[AREAS + 56 * k + 1] == 1)
-        o = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], 0, 0, 1024, 1024, 0 | 26 << 8 | 1 << 16 | 1 << 24, 200 << 16 | 120))
+        o = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], 96, 0, 1024, 1024, 0 | 26 << 8 | 1 << 16 | 1 << 24, 200 << 16 | 120))
         old = rom[e + 3]; ptr = struct.unpack_from('<I', rom, e + 0x10)[0]
         list_ = bytes(rom[ptr - BASE:ptr - BASE + 8 * old]) if old else b''
-        struct.pack_into('<I', rom, e + 0x10, W.put(list_ + struct.pack('<II', 0, o))); rom[e + 3] = old + 1
+        o2 = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], 48, 0, 96, 1024, 1 | 15 << 8 | 32 << 16 | 1 << 24, 290 << 16 | 224))   # x 48-96, walk up: story Broly
+        o3 = W.put(struct.pack('<2I4HI', TRIGGER[0], TRIGGER[1], 0, 0, 48, 1024, ending_list))   # stand at x<48: the ending from step 67 (build.py makes step 1 jump there)
+        struct.pack_into('<I', rom, e + 0x10, W.put(list_ + struct.pack('<IIIIII', 0, o, 0, o2, 0, o3))); rom[e + 3] = old + 3
     n = COUNT + len(rows); tab = W.put(bytes(rom[AREAS:AREAS + 56 * COUNT]) + b''.join(rows))
     struct.pack_into('<I', rom, TABLE_LIT, tab)
     a_ = min(0xFF, n // 2)

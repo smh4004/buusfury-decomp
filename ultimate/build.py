@@ -14,6 +14,8 @@ sys.path.insert(0, 'ultimate/lib')
 import bps
 import numpy as np
 import sprites, artclean
+sys.path.insert(0, 'ultimate')
+import gogeta
 
 CLEAN_SHA1 = 'f1c4b07554d2a3b1ad2f325307051e775ce68087'
 ROM_BASE = 0x08000000
@@ -26,11 +28,16 @@ COMBO_SHA1 = 'f02d179accbeb9b68bcaef8720eb0ae426dde6ee'
 PROTO = os.environ.get('BFU_PROTO', 'protoD.gba')   # Prototype D cart: Super 13 and Zone 26
 LOG2 = os.environ.get('BFU_LOG2', 'log2.gba')      # Legacy of Goku II (USA): Zone 26's snow tiles
 COMBO = os.environ.get('BFU_COMBO', 'combo.gba')   # Legacy of Goku I & II cart; LoG2 = its second 8 MB
+JOIN_NATIVE = 0xE8               # party_join in outfit.c; no game script calls this native
+JOIN_OLD = 0x08003891
+SUPER_BLUE_SKILL = 21            # a skill row with stubs only: becomes Super Saiyan Blue
+BROLY_DEFEAT = 'assets/scripts/gUnknown_0879321C.evt'
 DEBUG_NATIVE = 0xF7              # debug builds only: "save to slot 1" (not used by any game script)
 OUT = 'ultimate/out'
 SAIYAMAN = [(10, 14), (15, 'saiyaman_from_green'), (13, 'saiyaman_from_orange')]
 ACTORS_FILE = 'assets/areas/a033_w01_01_Snakeway.actors'
 INTRO = 'assets/scripts/gUnknown_0877CBF0.evt'
+ENDING = 'assets/scripts/gUnknown_08796114.evt'
 FIELD = 'assets/scripts/gUnknown_08780550.evt'
 
 
@@ -43,10 +50,34 @@ def new_actor_ids():
     """Ids add_actors will give: actors.json's new actors in order, then Super 13 and Android 13. Checked after the build."""
     cfg = json.load(open('ultimate/actors.json'))
     n = ACTOR_BASE + sum(1 for k, a in cfg.items() if not k.startswith('_') and 'replace' not in a)
-    return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2}
+    return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2, 'gogeta_dbs': n + 3, 'gogeta_dbs_ss': n + 4, 'gogeta_ssb': n + 5, 'android13_player': n + 6}
 
 
 QUEST_NPC = 'assets/scripts/gUnknown_08785580.evt'   # the West City resident outside the Z-Mart
+
+
+UI_EDITS = {1051: 'Press the B Button to transform into a Super Saiyan Blue. You must already be a Super Saiyan to use this technique.', 1052: 'Android 13', 1054: 'DBS Gogeta', 1055: 'SSB Gogeta', 1056: 'Super 13', 1057: 'Super Saiyan Blue'}
+
+
+def form_row(name):
+    rows = json.load(open('ultimate/forms.json'))['rows']
+    return FORM_COUNT + [r['id'] for r in rows].index(name)
+
+
+def broly_defeat(src):
+    """Beating Broly in the story adds him to the party, and says so once the fight's closing scene has played."""
+    head = '    call set_flag(111)\n'
+    tail = '    call 0x7B(50)\n    call 0x33(0)\n    end\n'
+    if src.count(head) != 1 or not src.endswith(tail):
+        sys.exit('Broly defeat script changed')
+    src = src.replace(head, head + '    pushn 8, %d\n    call 0x%X\n' % (form_row('broly'), JOIN_NATIVE))
+    return src[:-len(tail)] + '''    call 0x7B(50)
+    end
+step 2 say 0x00 "Broly joins you! Pick him on the Switch Character menu."
+step 3 code
+    call 0x33(0)
+    end
+'''
 
 
 def quest_npc(src):
@@ -111,7 +142,7 @@ step auto code
     push 21
     end
 step auto say 0x85 "The signal stopped! You beat Super 13!"
-step auto say 0x85 "Capsule Corporation left Saiyan armor for you. Change into it from the Switch Character menu."
+step auto say 0x85 "Saiyan armor from Capsule Corp, and new allies! See the Switch Character menu."
 step auto say 0x85 "And Goku, you learned the Spirit Bomb! Press L to select it."
 step auto code
     pushn 622
@@ -126,6 +157,14 @@ step auto code
     call set_flag
     pushn 613
     call set_flag
+    pushn 614
+    call set_flag
+    pushn 615
+    call set_flag
+    pushn 8, %d
+    call 0x%X
+    pushn 7, %d
+    call 0x%X
     push 21
     end
 step auto say 0x85 "West City's quiet again. Thanks to you."
@@ -215,7 +254,7 @@ L2:
     end
 step auto code
     end
-''' % (super13, super13, super13, super13)
+''' % (form_row('super13'), JOIN_NATIVE, form_row('gogeta_dbs'), JOIN_NATIVE, super13, super13, super13, super13)
 
 
 def debug_edits(first_form):
@@ -228,6 +267,11 @@ def debug_edits(first_form):
     s = open(INTRO).read()
     assert 'step 19 raw' in s
     open(INTRO, 'w').write(s.replace('step 19 raw', join + 'step 19 raw', 1))
+    if '--zone' in sys.argv:                             # the debug door to the ending starts from its last scene
+        e = open(ENDING).read()
+        e, n = re.subn(r'(?m)^(step 1 z?code[^\n]*\n)', r'\1    push 66\n    end\n', e, 1)
+        if n != 1: sys.exit('ending step 1 is not code')
+        open(ENDING, 'w').write(e)
     if '--enemy' in sys.argv:
         open(ACTORS_FILE, 'a').write('enemy 8 0x70 0xB0 34   ; debug: a Bomber to test attacks on\n')
     s = open(FIELD).read()
@@ -388,12 +432,17 @@ def add_actors(rom, clean):
         if not k.startswith('_') and 'replace' not in a: a['log2_slots'] = slots
     pal = np.frombuffer(clean[0x701B0 + 768:0x701B0 + 1536], np.uint8).reshape(256, 3)
     usable = [i for i in range(1, 256) if i not in artclean.MENU_SLOTS]
-    cfg['super13'] = {'proto_actor': 230}
+    cfg['super13'] = {'proto_actor': 230, 'fill': {8: 9, 10: 9, 11: 0, 12: 0, 13: 9, 14: 4, 15: 7, 16: 17}}
     clean_dir = tempfile.mkdtemp()
     android13_frames(clean_dir, usable, pal)
     cfg['android13'] = {'template': 157, 'slots': ANDROID13_SLOTS}
     broly_frames(clean_dir, usable, pal)
     cfg['broly_fp'] = {'template': 29, 'slots': BROLY_SLOTS, 'big': True, 'stretch': True}
+    one = indexer(usable, pal)
+    for actor, form in (('gogeta_dbs', 'base'), ('gogeta_dbs_ss', 'ssj'), ('gogeta_ssb', 'ssb')):
+        gogeta.write_frames(clean_dir, form, one)
+        cfg[actor] = {'template': 93, 'slots': gogeta.slots(form), 'stretch': True}
+    cfg['android13_player'] = {'template': 93, 'slots': ANDROID13_SLOTS, 'stretch': True}    # the boss's small record can't carry a playable form
     ids, end = sprites.build_actors(rom, cfg, clean_dir, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal), open(PROTO, 'rb').read())
     return ids, end
 
@@ -453,7 +502,7 @@ def add_outfits(rom, clean, at):
         lst = cfg.get(str(c), [])
         index.append('{%d,%d}' % (len(table), len(lst)))
         form = lambda v: v if isinstance(v, int) else fm[v]
-        table += ['{%d,%d,%d,(const u16 *)L"%s"}' % (form(o['form']), o.get('also', 255), o['flag'], o['name']) for o in lst]
+        table += ['{%d,%d,%d,(const u16 *)L"%s"}' % (form(o['form']), form(o.get('also', 255)), o['flag'], o['name']) for o in lst]
     d = tempfile.mkdtemp()
     pairs = ['{%d,%d}' % (base, 14 if row == 14 else fm[row]) for base, row in SAIYAMAN]
     c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs))
@@ -489,6 +538,15 @@ def add_outfits(rom, clean, at):
     vt = sym['spirit_vt'] - ROM_BASE                      # 0 delete, 2 update every frame, others do nothing
     for k, name in enumerate(('spirit_destroyed', 'spirit_nop', 'spirit_update', 'spirit_nop', 'spirit_nop', 'spirit_nop')):
         struct.pack_into('<i', rom, vt + 4 * k, (sym[name] | 1) - (ROM_BASE + vt))
+    tab = find_once(rom, clean[NATIVES:NATIVES + 64], 'native table')
+    if struct.unpack_from('<I', rom, tab + 4 * JOIN_NATIVE)[0] != JOIN_OLD:
+        sys.exit('native 0x%X changed' % JOIN_NATIVE)
+    struct.pack_into('<I', rom, tab + 4 * JOIN_NATIVE, sym['party_join'] | 1)
+    row = SKILLS + 24 * SUPER_BLUE_SKILL                  # Super Saiyan 3's code runs on the form table's up and down, so only the words change
+    if struct.unpack_from('<II', rom, row + 4) != (0x08019D25, 0x08019D29):
+        sys.exit('skill row %d is in use' % SUPER_BLUE_SKILL)
+    rom[row:row + 24] = rom[SKILLS + 24 * 22:SKILLS + 24 * 23]
+    struct.pack_into('<HH', rom, row, 1057, 1051)
     row = SKILLS + 24 * SPIRIT_SKILL                     # an unused skill row: its stubs become the Spirit Bomb
     if struct.unpack_from('<II', rom, row + 4) != (0x08019D25, 0x08019D29):
         sys.exit('skill row %d is in use' % SPIRIT_SKILL)
@@ -528,7 +586,7 @@ def main():
     if not os.path.exists('assets/manifest.json'):
         subprocess.run(['make', 'extract'], check=True, stdout=subprocess.DEVNULL)
     cfg = json.load(open('ultimate/forms.json'))
-    saved = {p: open(p).read() for p in (INTRO, FIELD, ACTORS_FILE)}
+    saved = {p: open(p).read() for p in (INTRO, FIELD, ACTORS_FILE, ENDING)}
     try:
         for p, s in unlock_edits_paths().items():
             saved.setdefault(p, s)
@@ -536,6 +594,13 @@ def main():
         saved.setdefault(QUEST_NPC, open(QUEST_NPC).read())
         saved.setdefault(UI, open(UI).read())
         open(UI, 'w').write(re.sub(r'(?m)^1053\t.*$', '1053\tPress the B Button to gather energy above you, then throw it. It uses half your energy.', re.sub(r'(?m)^1050\t.*$', '1050\tSpirit Bomb', saved[UI])))
+        saved.setdefault(BROLY_DEFEAT, open(BROLY_DEFEAT).read())
+        open(BROLY_DEFEAT, 'w').write(broly_defeat(saved[BROLY_DEFEAT]))
+        ui = open(UI).read()
+        for k, v in UI_EDITS.items():
+            ui, n = re.subn(r'(?m)^%d\t.*$' % k, '%d\t%s' % (k, v), ui)
+            if n != 1: sys.exit('UI string %d not found' % k)
+        open(UI, 'w').write(ui)
         npc = quest_npc(saved[QUEST_NPC])
         open(QUEST_NPC, 'w').write(npc)
         if debug:
@@ -555,7 +620,7 @@ def main():
     free = add_outfits(rom, clean, (free + 3) & ~3)
     sys.path.insert(0, 'ultimate')
     import zone26
-    zone_end, zone_info = zone26.apply(rom, clean, PROTO, LOG2, actors_end, actors, debug and '--zone' in sys.argv, symbol('gUnknown_08785580'))
+    zone_end, zone_info = zone26.apply(rom, clean, PROTO, LOG2, actors_end, actors, debug and '--zone' in sys.argv, symbol('gUnknown_08785580'), symbol('gUnknown_08796114'))
     print('zone 26 tiles:', zone_info)
     actors_end = zone_end
     if {k: actors[k] for k in new_actor_ids()} != new_actor_ids():

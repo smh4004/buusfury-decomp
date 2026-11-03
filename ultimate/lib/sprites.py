@@ -175,6 +175,9 @@ def build_actors(rom, cfg, clean_dir, at, l2=None, colour_ctx=None, proto=None):
         if 'proto_actor' in a:                             # whole actor copied from the Prototype D cart
             if proto is None: continue
             rec = proto_actor(ins, proto, a['proto_actor']); n = rec[0]
+            for slot, src in a.get('fill', {}).items():    # the prototype never played these on a boss; a playable form does
+                if not struct.unpack_from('<I', rec, 0x54 + 4 * int(slot))[0]:
+                    struct.pack_into('<I', rec, 0x54 + 4 * int(slot), struct.unpack_from('<I', rec, 0x54 + 4 * src)[0])
         else:
             if 'template_orig' in a:                       # BF's own record, even if that actor was replaced above
                 tp = struct.unpack_from('<I', rom, ACTOR_LIST + 4 * a['template_orig'])[0] - BASE
