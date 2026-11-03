@@ -123,6 +123,10 @@ for k, _ in enumerate(zone26.RUSH):
     for attempt in range(12):
         found = rush_boss(rush, hp)
         if found[0] is None: found = boss_any(rush)
+        if found[0] is None:         # already beaten and on its way out: dismiss any boxes and wait
+            rush = rush + ['tap A 30'] * 4 + ['run 200', 'mem %s 1' % AT]; out = run(rush)
+            if 'bad pc' in out or at(out) != here: break
+            continue
         a_, x_, y_ = found; pl_ = ptr(rush)
         heal = ['poke8 03001577 7F', 'poke %08X %08X' % (pl_ + 0x28C, 30000 << 10)]
         near = ['poke %08X %08X' % (pl_ + 0x1A0, x_), 'poke %08X %08X' % (pl_ + 0x1A4, y_ + (20 << 8))]
