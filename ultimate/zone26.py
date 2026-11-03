@@ -171,6 +171,11 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
     res, _ = reskin.build_all(proto_path, log2_path, 'baserom.gba', masks=masks, doors=doors)
     for a, o in reskin.ROUND.items():
         if a >= 6: masks[a] = follow_outline(masks[a], o, doors.get(a, []))
+    for a, c in reskin.COVER.items():
+        m = masks[a].copy(); b = reskin.BARE[a]; bh, bw = b.shape[0] // 8, b.shape[1] // 8
+        bare = b[:bh * 8, :bw * 8].reshape(bh, 8, bw, 8).mean((1, 3)) > 0.5
+        m[:min(bh, m.shape[0]), :min(bw, 256)] |= bare[:min(bh, m.shape[0]), :min(bw, 256)]
+        masks[a] = follow_outline(m, ~c, doors.get(a, []))
     boss_stats(W, rom, STATS)
     temp = bytes(rom[AREAS + 56 * [k for k in range(COUNT) if rom[AREAS + 56 * k] == 4 and rom[AREAS + 56 * k + 1] == 1][0]:][:56])
     for a, img in res.items():

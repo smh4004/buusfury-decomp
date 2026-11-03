@@ -115,17 +115,36 @@ def paving_tile():
     return t
 
 
-def canopy_sprite(crop):
-    """Just the leaves of a West City tree: its green-dominant pixels, with pinholes filled, so no scraps of its lawn come along."""
-    c = crop.astype(int)
-    a = (c[..., 1] - c[..., 0] > 30) & (c[..., 1] - c[..., 2] > 20)
-    b = blur(a, 2) > 0.55
-    a = a | b
+def biggest_part(mask):
+    """The largest touching group of pixels, which drops the specks of lawn caught in a cut-out."""
+    seen = np.zeros_like(mask); best = []
+    for start in zip(*np.nonzero(mask)):
+        if seen[start]: continue
+        part = []; todo = [start]; seen[start] = True
+        while todo:
+            y, x = todo.pop(); part.append((y, x))
+            for ny in (y - 1, y, y + 1):
+                for nx in (x - 1, x, x + 1):
+                    if 0 <= ny < mask.shape[0] and 0 <= nx < mask.shape[1] and mask[ny, nx] and not seen[ny, nx]:
+                        seen[ny, nx] = True; todo.append((ny, nx))
+        if len(part) > len(best): best = part
+    out = np.zeros_like(mask)
+    for p in best: out[p] = True
+    return out
+
+
+def tree_sprite(field):
+    """A whole tree exactly as the game draws it: this one stands alone in Buu's Fury's HFIL field (12:9), so nothing overlaps its
+    outline. The dirt around it is dropped by colour; the art itself is never cut or repainted."""
+    crop = field[120:240, 264:376].copy(); c = crop.astype(int); h, w = crop.shape[:2]
+    yy, xx = np.indices((h, w))
+    leaves = (c[..., 1] - c[..., 0] > 20) & (c[..., 1] > c[..., 2])
+    outside = ((xx - 56) / 54.0) ** 2 + ((yy - 52) / 52.0) ** 2 > 1
+    ground = np.unique(key(crop[outside & (yy < 70)]))
+    trunk = (yy >= 70) & (c.sum(2) < 240) & (np.abs(c[..., 0] - c[..., 2]) < 40) & ~np.isin(key(crop), ground)
+    a = biggest_part(leaves | trunk)
     ys, xs = np.nonzero(a)
-    a = a[ys.min():ys.max() + 1, xs.min():xs.max() + 1]; crop = crop[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
-    crop = crop.copy(); fill = a & (crop[..., 1].astype(int) - crop[..., 0] <= 30)
-    crop[fill] = (0, 88, 8)
-    return crop, a
+    return crop[ys.min():ys.max() + 1, xs.min():xs.max() + 1], a[ys.min():ys.max() + 1, xs.min():xs.max() + 1]
 
 
 def key(rgb):
@@ -172,6 +191,8 @@ def river_below(img):
     return out
 
 
+BARE = {}                  # area -> blocked ground no tree ended up on: it looks open, so it is open
+COVER = {}                 # area -> pixels under trees, which collision follows
 ROUND = {}                 # area -> the smoothed floor outline, which collision follows
 
 
@@ -265,25 +286,28 @@ def city_room(img, road, pal, tex, walk=None, area=0, doors=()):
         rgb[road] = tiled(tex['road'], h, w)[road]
     if paved is not None and paved.any():
         rgb[paved] = tiled(tex['paving'], h, w)[paved]
-    # grass with a wandering edge instead of the prototype's square blocks, trees set back inside it
+    # woods: whole trees placed over the blocked ground, back to front. The tree line is the trees' own outline.
     if grey.any():
-        near = blur(grey, 10)
-        field = near + noise((h, w), area + 40, 13) * 0.42
-        lawn = (field > 0.5) & (near > 0.04) | (near > 0.92)      # edges wander, but no islands out on the road and no holes in the woods
-        for d in doors:                                         # nothing grows across a way out
-            x0, y0, x1, y1 = d['rect']
-            lawn[max(y0 - 24, 0):y1 + 24, x0:x1] = False
-        ground = np.isin(img, (PAVING, ROAD_IDX, 10)) | road | grey | (paved if paved is not None else False)
-        lawn &= ground
-        rgb[grey & ~lawn] = tiled(tex['paving'], h, w)[grey & ~lawn]
-        rgb[lawn] = tiled(tex['grass'], h, w)[lawn]
         t = tex['tree']; th, tw = t[1].shape
-        for row, y in enumerate(range(-32, h, 32)):                # back to front, tops set well inside the grass
-            for col, x in enumerate(range(-tw // 2 // 8 * 8 if row % 2 else 0, w, (tw - 32) // 8 * 8)):
-                x += (row * 7 + col * 13) % 3 * 8; y2 = y + (row * 5 + col * 11) % 3 * 8      # on 8-pixel steps: repeats share tiles
-                cy, cx = min(max(y2 + th // 2, 0), h - 1), min(max(x + tw // 2, 0), w - 1)
-                if near[cy, cx] > 0.7:
-                    stamp(rgb, t, x, y2, lawn)
+        clear = np.zeros((h, w), bool)
+        for d in doors:
+            x0, y0, x1, y1 = d['rect']; clear[max(y0 - 8, 0):y1 + 8, max(x0 - 4, 0):x1 + 4] = True
+        inner = blur(grey, 6) > 0.5
+        base = tex['snow'] if area == 5 else tex['paving']
+        rgb[grey] = tiled(base, h, w)[grey]
+        cover = np.zeros((h, w), bool)
+        for row, y in enumerate(range(-48, h, 32)):
+            for x in range(-40 if row % 2 else -8, w, 48):
+                foot = (min(max(y + th // 2, 0), h - 1), min(max(x + tw // 2, 0), w - 1))
+                if not inner[foot]: continue
+                y0, y1, x0, x1 = max(y, 0), min(y + th, h), max(x, 0), min(x + tw, w)
+                if (clear[y0:y1, x0:x1] & t[1][y0 - y:y1 - y, x0 - x:x1 - x]).any(): continue
+                stamp(rgb, t, x, y)
+                cover[y0:y1, x0:x1] |= t[1][y0 - y:y1 - y, x0 - x:x1 - x]
+        holes = (blur(cover, 5) > 0.8) & ~cover                # small gaps between crowns are deep shade
+        rgb[holes] = (0, 56, 16)
+        cover |= holes
+        COVER[area] = cover; BARE[area] = grey & ~cover
     p = rgb.astype(int); pink = (p[..., 0] > 200) & (p[..., 0] - p[..., 2] > 25) & (p[..., 1] > 170) & (img > 0) & ~grey & (img != 10)
     pc = np.zeros((h, w), bool)
     pc[:H, :W] = np.repeat(np.repeat(pink[:H, :W].reshape(H // 8, 8, W // 8, 8).mean((1, 3)) > 0.6, 8, 0), 8, 1)
@@ -306,20 +330,26 @@ def reskin(img, road, pal, tex, area=0, walk=None, doors=()):
         rgb[img == 0] = 0
         return rgb.astype(np.uint8)
     rgb = city_room(img, road, pal, tex, walk, area, doors)
+    if area == 1:                                              # the prototype's pink patches: one even paved square
+        floor1 = ~COVER.get(1, np.zeros(img.shape, bool)) & (img != 0)
+        rgb[floor1] = tiled(tex['paving'], *img.shape)[floor1]
     if area == 5:                                              # the walk up out of the city into the snow
         snow, ice = snow_room(img, tex, area, doors)
-        # the city thaws into the snow over a wandering edge with a few drifts, not a straight line
-        field = blur(ice, 10) + noise(img.shape, 77, 5) * 0.32
-        cold = (field > 0.5) | ROUND[area]
-        rgb[cold] = snow[cold]
-        thawed = ice & ~cold                                    # prototype colours left over where the edge pulled back
-        rgb[thawed] = tiled(tex['paving'], *img.shape)[thawed]
-        specks = (img == 2) & ~cold
-        rgb[specks] = tiled(tex['paving'], *img.shape)[specks]
-        p = rgb.astype(int); pale = (abs(p[..., 0] - 240) < 12) & (abs(p[..., 1] - 232) < 12) & (abs(p[..., 2] - 224) < 12)
-        pale[210:] = False                                      # above the paved part, bare ground is snow, not paving
-        grid = (abs(p[..., 0] - 200) < 3) & (abs(p[..., 1] - 200) < 3) & (abs(p[..., 2] - 200) < 3); grid[210:] = False
-        rgb[pale | grid] = tiled(tex['snow'], *img.shape)[pale | grid]
+        # the walk up out of the city: snow with its smooth outline and stony line, under the trees
+        cold = ROUND[area]
+        keep = COVER.get(area, np.zeros(img.shape, bool))
+        rgb[cold & ~keep] = snow[cold & ~keep]
+        rest = ice & ~cold & ~keep
+        rgb[rest] = snow[rest]
+        # the paved street ends under a soft curve of drifted snow, with a little shade along it
+        hh, ww = img.shape; yy, xx = np.indices((hh, ww))
+        curve = 292 + 6 * np.sin(xx / 23.0) + 3 * np.sin(xx / 9.0)
+        low = (yy > 262) & ~keep & (img != 0)
+        rgb[low] = tiled(tex['snow'], hh, ww)[low]
+        street = (yy > curve) & ~keep & (img != 0)
+        rgb[street] = tiled(tex['paving'], hh, ww)[street]
+        shade = (yy > curve - 3) & (yy <= curve) & ~keep & (img != 0) & ((xx + yy) % 2 == 0)
+        rgb[shade] = (168, 200, 232)
     rgb[img == 0] = 0
     return rgb.astype(np.uint8)
 
@@ -338,7 +368,7 @@ def build_all(proto, log2, bfrom, log2_index='../log2-decomp/assets/maps/index.c
     floor = s3[290:380, 160:256]                 # plain snow, the ground the cut-outs are drawn on
     grass = city[470:502, 490:522]; lawn = city[470:540, 486:540]
     tex = dict(cave=s9[66:104, 124:172], snow=s9[320:384, 0:64], cliff=s3[16:64, 0:128], river=s3[204:236, 212:244],
-               grass=grass, tree=canopy_sprite(city[432:520, 196:292]), road=city[345:377, 96:128], paving=paving_tile())
+               grass=grass, tree=tree_sprite(np.array(B.render(bidx['w12_a09_HFIL'])[0].convert('RGB'))), road=city[345:377, 96:128], paving=paving_tile())
     res = {}
     for a in range(1, 16):
         m = map_of(G, a); img = layers(G, m)
