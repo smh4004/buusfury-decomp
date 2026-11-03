@@ -31,12 +31,15 @@ extern const u16 outfit_index[9][2];           /* first entry, count, per charac
 extern const struct outfit outfit_table[];
 extern const u8 form_table[];
 
-/* The guest slot has one skill list but different fighters: Broly's forms use Eraser Cannon, Android 13's and Super 13's use SS Deadly Bomber. */
+/* The guest slot has one skill list but different fighters, so the list follows the outfit. A story form (Hercule, say) leaves it alone. */
 static void guest_sync(void) {
     u8 *r = RECORDS + 8 * RECORD_SIZE;
-    int want = (FORM_OF(8) == FORM_A13 || FORM_OF(8) == FORM_S13) ? BOMBER_SKILL : ERASER_SKILL, i;
-    for (i = 0; i < r[0x0C] && i < 7; i++)
-        if (r[0x0D + i] == ERASER_SKILL || r[0x0D + i] == BOMBER_SKILL) r[0x0D + i] = want;
+    int form = FORM_OF(8), second = 8, third;
+    if (form == FORM_BROLY || form == FORM_FP) third = ERASER_SKILL;
+    else if (form == FORM_A13 || form == FORM_S13) third = BOMBER_SKILL;
+    else if (form == FORM_PICCOLO) { second = 17; third = BEAM_SKILL; }
+    else return;
+    r[0x0C] = 3; r[0x0D] = 7; r[0x0E] = second; r[0x0F] = third;
 }
 
 static u32 *field(void *obj, int off) { return (u32 *)((u8 *)obj + off); }
@@ -396,13 +399,12 @@ static int spirit_tick(void *player)
 #define REC(c) (RECORDS + (c) * RECORD_SIZE)
 #define R16(r, o) (*(u16 *)((r) + (o)))
 #define EXP(r) (*(u32 *)((r) + 0x24))
-static const u8 guest_skills[] = {3, 7, 8, ERASER_SKILL};   /* count, Energy Blast, Energy Punch, Eraser Cannon */
 static const u8 gogeta_skills[] = {5, 7, 3, 5, 20, 21};     /* count, his own three, Super Saiyan, Super Saiyan Blue */
 static int scale(int v, int pct) { v = v * pct / 100; return v > 255 ? 255 : v; }
 void party_join(int *sp) {
     int n = *sp, form = sp[n], c = sp[n - 1], i;
     u8 *r = REC(c), *cur = REC(*(u8 *)0x03001068);
-    const u8 *skills = c == 8 ? guest_skills : gogeta_skills;
+    const u8 *skills = gogeta_skills;
     static const u8 lean[2][3] = {{110, 110, 110}, {120, 85, 110}};    /* strength, power, endurance: Gogeta, Broly */
     const u8 *l = lean[c == 8];
     *sp = n - 2;
@@ -418,8 +420,10 @@ void party_join(int *sp) {
         if (v > r[0x28 + i]) r[0x28 + i] = v;
     }
     if (cur[0x2C] > r[0x2C]) r[0x2C] = cur[0x2C];   /* unspent stat points */
-    r[0x0C] = skills[0];
-    for (i = 0; i < skills[0]; i++) r[0x0D + i] = skills[1 + i];
+    if (c != 8) {
+        r[0x0C] = skills[0];
+        for (i = 0; i < skills[0]; i++) r[0x0D + i] = skills[1 + i];
+    }
     r[0x15] = 0;
     guest_sync();
 }
@@ -454,3 +458,27 @@ void eraser_start(u32 *self, void *player) { ball_start(self, player, eraser_par
 void bomber_start(u32 *self, void *player) { ball_start(self, player, bomber_params); }
 void eraser_use(u8 *record, void *sprite) { ball_use(record, sprite, eraser_vt); }
 void bomber_use(u8 *record, void *sprite) { ball_use(record, sprite, bomber_vt); }
+
+/* Special Beam Cannon: the Kamehameha's code with its own frames, the same way. */
+#define MemCopy ((void (*)(void *, const void *, int))0x08049139)
+#define Kamehameha_Start ((void (*)(u32 *, void *))0x0801BDD5)
+const u32 beam_params[12] = {1};
+const int beam_vt[9] = {1};
+void beam_start(u32 *self, void *player) {
+    u32 *beam;
+    Kamehameha_Start(self, player);
+    beam = (u32 *)self[2];
+    if (beam) {                                /* the charging ball's frames, and its first frame already copied to VRAM */
+        const u32 *mine = &beam_params[self[3] * 4];
+        beam[0x40 / 4] = (u32)mine;
+        beam[0x44 / 4] = beam[0x48 / 4] = beam[0x4C / 4] = mine[2];
+        MemCopy((u8 *)0x06010000 + *(u16 *)(beam + 3) * 0x20, (void *)((u32 *)mine[2])[2], 0x40);
+    }
+}
+void beam_use(u8 *record, void *sprite) {
+    int level = record[record[0x15] * 2 + 0x2E];
+    u32 *b = Alloc(0x10);
+    if (b) { b[0] = (u32)beam_vt; b[1] = 0; b[3] = level; }
+    Sprite_SetFacing(sprite, 0x12);
+    Sprite_SetBehaviour(sprite, b);
+}

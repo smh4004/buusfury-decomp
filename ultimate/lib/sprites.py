@@ -207,7 +207,7 @@ def build_actors(rom, cfg, clean_dir, at, l2=None, colour_ctx=None, proto=None):
                         img = onearm.remove_arm(img, m)
                         if ssj: img = onearm.ssj_hair(img)
                     return key, img
-            for slot, k in {**a.get('log2_slots', {}), **a.get('extra_slots', {})}.items():
+            for slot, k in {**a.get('log2_slots', {}), **a.get('log2_overrides', {}), **a.get('extra_slots', {})}.items():
                 if int(slot) >= n: continue                # the template has fewer slots (e.g. Goku 106 has 16)
                 old = struct.unpack_from('<I', rec, 0x54 + 4 * int(slot))[0]
                 want = struct.unpack_from('<I', rom, old - BASE)[0] if a.get('stretch') and old else 0

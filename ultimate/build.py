@@ -33,6 +33,7 @@ JOIN_OLD = 0x08003891
 ERASER_SKILL = 24                # a new row past the retail table: Big Bang's code with green frames
 ERASER_UI = 1534                 # strings past the retail table: name, description of each new move
 BOMBER_SKILL = 25
+BEAM_SKILL = 26                  # Special Beam Cannon: the Kamehameha's code with gold and purple frames
 # Strength against Big Bang per skill level: 2.5x and 2x in total damage. Each hit rounds down, which costs low levels more, so they get a bigger multiplier (measured on Android 13 at Power 80).
 NEW_MOVES = (('eraser', ERASER_SKILL, (2.95, 2.85, 2.45), 'Eraser Cannon', 'Press the B Button and release to emit a large ball of green energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (0.2, 0.6, 1, 0, 0.15, 0.6)),
              ('bomber', BOMBER_SKILL, (2.4, 2.2, 2), 'SS Deadly Bomber', 'Press the B Button and release to emit a large ball of pink energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (1, 0, 0.15, 0.65, 0.35, 0.5)))
@@ -167,6 +168,8 @@ step auto code
     pushn 614
     call set_flag
     pushn 615
+    call set_flag
+    pushn 616
     call set_flag
     pushn 8, %d
     call 0x%X
@@ -465,6 +468,7 @@ def add_actors(rom, clean):
     for actor, form in (('gogeta_dbs', 'base'), ('gogeta_dbs_ss', 'ssj'), ('gogeta_ssb', 'ssb')):
         gogeta.write_frames(clean_dir, form, one)
         cfg[actor] = {'template': 93, 'slots': gogeta.slots(form), 'stretch': True, 'grow': lengths}
+    cfg['piccolo']['grow'] = lengths
     cfg['android13_player'] = {'template': 93, 'slots': ANDROID13_SLOTS, 'stretch': True, 'grow': lengths}    # the boss's small record can't carry a playable form
     cfg['super13_player'] = {'proto_actor': 230, 'fill': {8: 9, 10: 9, 11: 0, 12: 0, 13: 9, 14: 4, 15: 7, 16: 17}, 'grow': lengths}
     ids, end = sprites.build_actors(rom, cfg, clean_dir, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal), open(PROTO, 'rb').read())
@@ -531,7 +535,7 @@ def add_outfits(rom, clean, at):
     pairs = ['{%d,%d}' % (base, 14 if row == 14 else fm[row]) for base, row in SAIYAMAN]
     c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs))
     open(d + '/o.c', 'w').write(c)
-    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
+    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
     syms = ['-Wl,--defsym=form_table=0x%X' % (ROM_BASE + SPACE), '-Wl,-Ttext=0x%X' % (ROM_BASE + at), '-Wl,-e,picker_update', '-Wl,--no-warn-rwx-segments']
     lib = subprocess.run(['arm-none-eabi-gcc', '-mthumb', '-mcpu=arm7tdmi', '-print-libgcc-file-name'], capture_output=True, text=True, check=True).stdout.strip()
     subprocess.run(['arm-none-eabi-gcc'] + flags + syms + [d + '/o.c', lib, '-o', d + '/o.elf'], check=True)
@@ -627,6 +631,38 @@ def add_eraser(rom, clean, sym, at):
         struct.pack_into('<I', row, 20, sym[name + '_use'] | 1)
         rows.append(bytes(row))
         strings += [put(t.encode('utf-16-le') + b'\0\0') for t in (title, text)]
+    # Special Beam Cannon: copies of the Kamehameha's frame records, each {header, attributes, tile data} rows. The core goes pale yellow, the middle gold, and the rim purple.
+    BEAM_TINT = {2: (248, 248, 216), 30: (248, 248, 216), 29: (248, 248, 144), 76: (248, 248, 72), 28: (248, 248, 72), 5: (248, 248, 72), 195: (248, 208, 0), 27: (248, 208, 0), 110: (248, 208, 0),
+                 75: (168, 48, 224), 109: (168, 48, 224), 74: (112, 24, 168), 4: (112, 24, 168)}
+    def beam_colour(v):
+        if v == 0: return 0
+        return one(np.array(BEAM_TINT.get(v, tuple(pal[v])), dtype=int))
+    remap = bytes(beam_colour(v) for v in range(256)); copies = {}
+    def frames(o, count):
+        out = bytearray(clean[o:o + 12 * count])
+        for k in range(0, 12 * count, 12):
+            tiles = struct.unpack_from('<I', out, k + 8)[0]
+            if not 0x08700000 <= tiles < 0x08800000: continue
+            if tiles not in copies:
+                t = tiles - ROM_BASE; copies[tiles] = put(bytes(clean[t:t + out[k + 2] * out[k + 3]]).translate(remap))
+            struct.pack_into('<I', out, k + 8, copies[tiles])
+        return put(bytes(out))
+    BEAM_PARAMS, BEAM_VT = 0x71DA68, 0x4D9F8
+    shape, table = {}, sym['beam_params'] - ROM_BASE
+    for i in range(3):
+        a, strength, body, head = struct.unpack_from('<4I', clean, BEAM_PARAMS + 16 * i)
+        shape.setdefault(body, frames(body - ROM_BASE, 9))
+        struct.pack_into('<4I', rom, table + 16 * i, a, strength, shape[body], frames(head - ROM_BASE, 64))
+    vt = sym['beam_vt'] - ROM_BASE
+    for k in range(9):
+        fn = ROM_BASE + BEAM_VT + struct.unpack_from('<i', clean, BEAM_VT + 4 * k)[0]
+        struct.pack_into('<i', rom, vt + 4 * k, ((sym['beam_start'] | 1) if k == 0 else fn) - (ROM_BASE + vt))
+    row = bytearray(clean[SKILL_ROWS + 24 * 15:SKILL_ROWS + 24 * 16])
+    struct.pack_into('<II', row, 4, *[put(bytes(clean[p - ROM_BASE:p - ROM_BASE + 0x200]).translate(remap)) for p in struct.unpack_from('<II', clean, SKILL_ROWS + 24 * 15 + 4)])
+    struct.pack_into('<HH', row, 12, ERASER_UI + len(strings), ERASER_UI + len(strings) + 1)
+    struct.pack_into('<I', row, 20, sym['beam_use'] | 1)
+    rows.append(bytes(row))
+    strings += [put(t.encode('utf-16-le') + b'\0\0') for t in ('Special Beam Cannon', 'Press the B Button and hold it to charge, then release to fire a thin, piercing beam of energy from your fingertips.')]
     if struct.unpack_from('<I', rom, 0x13618)[0] != ROM_BASE + SKILL_ROWS:
         sys.exit('skill table reference moved')
     struct.pack_into('<I', rom, 0x13618, put(bytes(rom[SKILL_ROWS:SKILL_ROWS + 24 * ERASER_SKILL]) + b''.join(rows)))

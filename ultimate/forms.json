@@ -163,6 +163,13 @@
    "portrait": 34,
    "up": 255,
    "down": 255
+  },
+  {
+   "id": "piccolo",
+   "copy": 49,
+   "actor": "piccolo",
+   "owner": 8,
+   "name": 169
   }
  ],
  "edit": {
