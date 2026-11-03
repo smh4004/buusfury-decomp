@@ -441,7 +441,7 @@ L1:
 %s    push {END}
     end
 """ % (zone26.TOUR_ORDERED, zone26.tour_first(), zone26.tour_draw(0)))
-    say('trials', "Four trials, as the hero named. 30,000 Zenie each, and a prize for clearing all four!")
+    say('trials', "Four trials, as the hero named. Zenie and gear for each, and a prize for all four!")
     say('trial_menu', '\\n'.join('- %s vs %s' % (t[1], t[4]) for t in trials))
     code('trial_go', ''.join('    call 0x18\n    push %d\n    eq\n    jz L%d\n    call 0x95(%d)\n    call 0x78(30)\n    pushn 26, %d, 1, 360, 420\n    call 0x77\n    call 0x79(30)\n    push {END}\n    end\nL%d:\n' % (k, k + 1, t[0], zone26.trial_first() + k, k + 1) for k, t in enumerate(trials)) + '    push {END}\n    end\n')
     def status(name, flag, done, todo, nxt):
@@ -452,16 +452,16 @@ L1:
         code(name + '_next', '    push {%s}\n    end\n' % nxt)
     status('rewards', 641, "Boss Rush: cleared! Majin Buu, Super Janemba and Kid Buu are on your side.", "Boss Rush: win it and Majin Buu, Super Janemba and Kid Buu join you.", 'rew2')
     status('rew2', 644, "World Tournament: cleared! Each win pays 100,000 Zenie.", "World Tournament: each win pays 100,000 Zenie.", 'rew3')
-    status('rew3', zone26.TRIAL_ALL, "Trials: all four cleared! You earned ten Senzu Beans.", "Trials: 30,000 Zenie each. Clear all four for ten Senzu Beans.", 'END')
+    status('rew3', zone26.TRIAL_ALL, "Trials: all four cleared! You earned the Geromantium Bandana.", "Trials: Zenie and gear each. All four: Geromantium Bandana and ten Senzu Beans.", 'END')
     say('tour_won', "You won the World Tournament! That's 100,000 Zenie. Come back any time.")
     code('tour_won_go', '    pushn 644\n    call set_flag\n    push {END}\n    end\n')
     say('rush_won', "You beat all nine! Majin Buu, Super Janemba and Kid Buu join you. See Switch Character.")
     code('rush_won_go', '    pushn 641\n    call set_flag\n    push {END}\n    end\n')
     for k, t in enumerate(trials):
-        say('trial%d' % k, "%s beat %s! Here's your 30,000 Zenie." % (t[1], t[4]))
-        code('trial%d_go' % k, '    pushn %d\n    call set_flag\n    pushn %d\n    call 0x%X\n    push {END}\n    end\n' % (paid(k), zone26.TRIAL_PRIZE, zone26.ADD_ZENIE))
-    say('all_won', "All four trials cleared! Take these ten Senzu Beans.")
-    code('all_won_go', '    pushn %d\n    call set_flag\n    pushn %d, %d\n    call 0x81\n    push {END}\n    end\n' % (zone26.TRIAL_ALL, zone26.TRIAL_ITEM, zone26.TRIAL_ITEMS))
+        say('trial%d' % k, "Well done, %s! You beat %s! Take 30,000 Zenie and the %s." % (t[1], t[4], t[6]))
+        code('trial%d_go' % k, '    pushn %d\n    call set_flag\n    pushn %d\n    call 0x%X\n    call 0x93(%d)\n    push {END}\n    end\n' % (paid(k), zone26.TRIAL_PRIZE, zone26.ADD_ZENIE, t[5]))
+    say('all_won', "All four trials cleared! Take this Geromantium Bandana and ten Senzu Beans.")
+    code('all_won_go', '    pushn %d\n    call set_flag\n    pushn %d, %d\n    call 0x81\n    call 0x93(%d)\n    push {END}\n    end\n' % (zone26.TRIAL_ALL, zone26.TRIAL_ITEM, zone26.TRIAL_ITEMS, zone26.TRIAL_GEAR))
     code('last', '    end\n')
     number = {n: k for k, (n, _) in enumerate(steps)}; number['END'] = len(steps)
     return head + ''.join('step auto %s' % re.sub(r'\{(\w+)\}', lambda m: str(number[m.group(1)]), t) for _, t in steps)

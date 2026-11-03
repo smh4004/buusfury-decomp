@@ -163,7 +163,9 @@ TOUR_STATS = ((145, 60, 40, 60), (145, 70, 50, 65), (150, 75, 85, 70))     # lev
 TOUR_NAMES = (('Yamu', 'Spopovich', 'Idasa', 'Olibu', 'Ninja Boss', 'Knight Destroyer'), ('Pikkon', 'Goten', 'Trunks', 'Dabura', 'Pharoah', 'Airship Warlord'),
               ('Super Janemba', 'Broly', 'Majin Buu', 'Super Buu', 'Kid Buu', 'Super 13'))
 TOUR_PICKS, TOUR_PICK, TOUR_GET = 651, 0xE1, 0xE2     # flags 651-659 hold each round's opponent, 3 bits a round; natives tour_pick(round, place) and tour_get(round)
-TRIALS = ((0, 'Goku', 91, 224, 'Pikkon'), (1, 'Gohan', 18, 73, 'Dabura'), (3, 'Vegeta', 28, 43, 'Majin Buu'), (4, 'Trunks', 39, 123, 'Goten'))     # party slot, name, enemy row, character, opponent
+TRIALS = ((0, 'Goku', 91, 224, 'Pikkon', 39, 'Titanium Breastplate'), (1, 'Gohan', 18, 73, 'Dabura', 70, 'Enhanced Energy Gloves'),
+          (3, 'Vegeta', 28, 43, 'Majin Buu', 108, 'Clean Boots'), (4, 'Trunks', 39, 123, 'Goten', 159, 'Clean Belt'))     # party slot, name, enemy row, character, opponent, equipment row, its name
+TRIAL_GEAR = 160                                   # all four: Geromantium Bandana, with the Senzu Beans below
 TRIAL_HP, TRIAL_STATS, TRIAL_PRIZE, TRIAL_ITEM, TRIAL_ITEMS = 40000, (148, 65, 60, 65), 30000, 11, 10    # all four: ten Senzu Beans (item 11)
 TRIAL_WON, TRIAL_PAID, TRIAL_ALL = 661, 665, 669
 HUB_AT = (208, 112)                                # where the tournament official stands in Hercule City; wins come home just below him
@@ -243,7 +245,7 @@ def rush_rows(W, rom, harmless=False):
         if harmless: r[0xD] = r[0xE] = 0
         struct.pack_into('<II', r, 0x14, 0x08708920, W.put(bytes(bfscript.asm(tour_next(k, rnd)))))
         rows += r
-    for k, (_, _, row, _, _) in enumerate(TRIALS):
+    for k, (_, _, row, *_rest) in enumerate(TRIALS):
         r = bytearray(rom[STATS + 28 * row:STATS + 28 * (row + 1)])
         struct.pack_into('<I', r, 4, TRIAL_HP)
         r[0xC:0x10] = bytes(TRIAL_STATS)
@@ -356,7 +358,7 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
         e = W.put(struct.pack('<8I', 0x0800FD55, 0, STATS_COUNT + len(RUSH) + k, 366 << 16 | 360, actor_ids[char] + 9 if isinstance(char, str) else char, 0x080555A0, 1, 0x080716EC))
         struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e))); struct.pack_into('<I', st, 0x10, 0)
         rows.append(bytes(st))
-    for k, (_, _, _, char, _) in enumerate(TRIALS):          # Trials: the stadium's room again, empty but for the opponent
+    for k, (_, _, _, char, *_rest) in enumerate(TRIALS):          # Trials: the stadium's room again, empty but for the opponent
         st = bytearray(stadium); st[0] = 26; st[1] = trial_first() + k; st[3] = 0
         e = W.put(struct.pack('<8I', 0x0800FD55, 0, STATS_COUNT + len(RUSH) + len(tour_list()) + k, 366 << 16 | 360, char, 0x080555A0, 1, 0x080716EC))
         struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e))); struct.pack_into('<I', st, 0x10, 0)

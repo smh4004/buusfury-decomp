@@ -261,9 +261,12 @@ for k, t in enumerate(zone26.TRIALS):
     out = run(trial); g = open(d + '/g.bin', 'rb').read()
     z = [int(l.split()[-1], 16) for l in out.splitlines() if l.startswith('mem 0300155c')]
     check('trial %d pays 30,000 Zenie at the board' % (k + 1), flag(zone26.TRIAL_PAID + k) == 1 and z[-1] - z[-2] == zone26.TRIAL_PRIZE)
+    gear = struct.unpack_from('<%dI' % struct.unpack_from('<I', g, 0xE4)[0], g, 0xE8)
+    check('trial %d gives the %s' % (k + 1, t[6]), t[5] in gear)
 all4 = talk_at(trial, *zone26.HUB_AT) + ['shot trialall', 'run 150', 'tap A 120', 'run 30', 'dump g 03001068 8a8']
 out = run(all4); g = open(d + '/g.bin', 'rb').read()
 check('all four trials earn the ten Senzu Beans', flag(zone26.TRIAL_ALL) == 1 and g[2 + zone26.TRIAL_ITEM] >= zone26.TRIAL_ITEMS)
+check('all four trials earn the Geromantium Bandana', zone26.TRIAL_GEAR in struct.unpack_from('<%dI' % struct.unpack_from('<I', g, 0xE4)[0], g, 0xE8))
 
 
 # Spirit Bomb: Goku has it in this build (skill 19). Select it, use it next to Super 13, and it should hurt him and spend energy.
