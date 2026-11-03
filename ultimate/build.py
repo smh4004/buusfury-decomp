@@ -67,6 +67,7 @@ def new_actor_ids():
     return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2, 'gogeta_dbs': n + 3, 'gogeta_dbs_ss': n + 4, 'gogeta_ssb': n + 5, 'android13_player': n + 6, 'super13_player': n + 7, 'goku_ss2': n + 8, 'goku_ss2_b': n + 9, 'gohan_ss2': n + 10, 'gohan_green_ss2': n + 11, 'vegeta_ss2': n + 12, 'vegeta_ss2_b': n + 13, 'vegeta_armor_ss2': n + 14, 'gohan_armor_ss2': n + 15}
 
 
+TOUR_NPC = 'assets/scripts/gUnknown_08785590.evt'   # the West City resident to the west
 QUEST_NPC = 'assets/scripts/gUnknown_08785580.evt'   # the West City resident outside the Z-Mart
 
 
@@ -105,18 +106,9 @@ def quest_npc(src):
     call not_flag
     and
     jz L8
-    push 26
+    push 22
     end
 L8:
-    pushn 643
-    call flag
-    pushn 644
-    call not_flag
-    and
-    jz L9
-    push 28
-    end
-L9:
     pushn 620
     call flag
     pushn 623
@@ -138,7 +130,7 @@ L5:
     pushn 622
     call flag
     jz L1
-    push 22
+    push 12
     end
 L1:
     pushn 621
@@ -150,7 +142,7 @@ L2:
     pushn 623
     call flag
     jz L7
-    push 30
+    push 24
     end
 L7:
     call flag(149)
@@ -160,7 +152,7 @@ L3:
     end
 step 2 say''' + old.rstrip() + '''
 step auto code
-    push 30
+    push 24
     end
 step auto say 0x85 "Something's wrong past the Z-Mart. Dr. Gero's old computer has woken up!"
 step auto say 0x85 "It built one last Android, up in the snow. Hurry!"
@@ -171,7 +163,7 @@ step auto code
     call 0x79(30)
     end
 step auto code
-    push 30
+    push 24
     end
 step auto say 0x85 "The signal stopped! You beat Super 13!"
 step auto say 0x85 "Saiyan armor from Capsule Corp, and new allies! See the Switch Character menu."
@@ -203,11 +195,15 @@ step auto code
     call 0x%X
     pushn 7, %d
     call 0x%X
-    push 30
+    push 24
     end
-step auto say 0x85 "West City's quiet again. Thanks to you."
+step auto say 0x85 "West City's quiet again. Want a real fight? Here's a Boss Rush: nine bosses, one health bar. Good luck! The door there brings you back."
 step auto code
-    push 30
+    call 0x78(30)
+    pushn 26, 19, 1, 120, 276
+    call 0x77
+    call 0x79(30)
+    push 24
     end
 step auto say 0x00 "Android 13 pulls in the broken parts of 14 and 15!"
 step auto code
@@ -226,7 +222,7 @@ step auto code
     pushn %d, 20, 0
     call 0x51
     call wait(40)
-    push 30
+    push 24
     end
 step auto say 0x02 "He's still standing! I need everyone's energy!"
 step auto code
@@ -291,52 +287,59 @@ L2:
     call 0x33(0)
     end
 step auto code
-    push 30
-    end
-step auto text "Need a real fight? I can send you to a Boss Rush: nine bosses, one health bar. Or the World Tournament: three rounds for 100,000 Zenie.\\n\\n-Boss Rush\\n-World Tournament\\n-Not now"
-step auto code
-    call 0x18
-    push 0
-    eq
-    jz L1
-    call 0x78(30)
-    pushn 26, 19, 1, 120, 276
-    call 0x77
-    call 0x79(30)
-    end
-L1:
-    call 0x18
-    push 1
-    eq
-    jz L2
-    call 0x78(30)
-    pushn 26, 28, 1, 360, 420
-    call 0x77
-    call 0x79(30)
-    end
-L2:
-    push 12
-    end
-step auto code
-    push 30
-    end
-step auto code
+    push 24
     end
 step auto say 0x85 "You beat all nine! Majin Buu, Super Janemba and Kid Buu will fight for you now. See the Switch Character menu."
 step auto code
     pushn 641
     call set_flag
-    push 30
-    end
-step auto say 0x85 "You won the World Tournament! The prize is 100,000 Zenie. Come back any time."
-step auto code
-    pushn 644
-    call set_flag
-    push 30
+    push 24
     end
 step auto code
     end
 ''' % (form_row('super13'), JOIN_NATIVE, form_row('gogeta_dbs'), JOIN_NATIVE, super13, super13, super13, super13)
+
+
+def tournament_npc(src):
+    """After Super 13 this West City resident enters you in the World Tournament, and says so when you win."""
+    head, old = src.split('step 1 say', 1)
+    return head + '''step 1 code
+    pushn 643
+    call flag
+    pushn 644
+    call not_flag
+    and
+    jz L1
+    push 5
+    end
+L1:
+    pushn 622
+    call flag
+    jz L2
+    push 3
+    end
+L2:
+    end
+step 2 say''' + old.rstrip() + '''
+step auto code
+    push 7
+    end
+step auto say 0x85 "The World Tournament is on! Three rounds, 100,000 Zenie to the winner. You're up!"
+step auto code
+    call 0x78(30)
+    pushn 26, 28, 1, 360, 420
+    call 0x77
+    call 0x79(30)
+    push 7
+    end
+step auto say 0x85 "You won the World Tournament! That's 100,000 Zenie. Come back any time."
+step auto code
+    pushn 644
+    call set_flag
+    end
+step auto code
+    end
+'''
 
 
 def debug_edits(first_form):
@@ -871,6 +874,8 @@ def main():
         open(UI, 'w').write(ui)
         npc = quest_npc(saved[QUEST_NPC])
         open(QUEST_NPC, 'w').write(npc)
+        saved.setdefault(TOUR_NPC, open(TOUR_NPC).read())
+        open(TOUR_NPC, 'w').write(tournament_npc(saved[TOUR_NPC]))
         if debug:
             debug_edits(FORM_COUNT)
         subprocess.run(['make', 'modern'], check=True, stdout=subprocess.DEVNULL)
@@ -896,6 +901,7 @@ def main():
         sys.exit('actor ids differ from the ones the quest script used')
     npc = symbol('gUnknown_080783A0') - ROM_BASE      # the quest giver stands still: his wander box shrinks to his own spot
     struct.pack_into('<4H', rom, npc - 8, 320, 360, 320, 360)
+    struct.pack_into('<4H', rom, symbol('gUnknown_080783CC') - ROM_BASE - 8, 96, 328, 96, 328)      # and so does the tournament's
     if debug:
         at = (free + 3) & ~3
         code = save_stub(at)

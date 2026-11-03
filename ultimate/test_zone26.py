@@ -39,6 +39,9 @@ check('all %d door moves land in the right room' % len(moves), len(got) == len(m
 if bad: print(bad)
 check('no bad jumps through the zone', 'bad pc' not in out)
 
+def talk_at(base, x, y):
+    pl = int([l for l in run(base + ['mem 03001C34 1']).splitlines() if l.startswith('mem 03001c34')][-1].split()[2], 16)
+    return base + ['poke %08X %08X' % (pl + 0x1A0, x << 8), 'poke %08X %08X' % (pl + 0x1A4, (y + 22) << 8), 'run 2', 'keys UP', 'run 6', 'keys', 'run 4', 'tap A 80']
 def talk_to(base):
     """He wanders later, so right after arriving he's still at his spawn: stand just below him and press A."""
     pl = int([l for l in run(base + ['mem 03001C34 1']).splitlines() if l.startswith('mem 03001c34')][-1].split()[2], 16)
@@ -95,7 +98,7 @@ check('the resident sends you to Zone 26 once the game is beaten', int(ats[-1].s
 # Boss Rush: once Super 13 is beaten the resident offers it. Nine bosses in a row, then the reward back in West City.
 flag_on = lambda n: 'poke8 %08X %02X' % (0x03001068 + 0x55 + n // 8, 1 << n % 8)
 rush = list(start); go(rush, [x for x in D[1] if 'world' in x][0], PL, 'rhome')
-rush = talk(rush + [flag_on(622)]) + ['poke8 03001588 96', 'poke8 03001589 96', 'poke8 0300158A 96', 'poke8 0300158B 96', 'poke8 03001576 FF', 'poke8 03001577 7F', 'shot board', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'shot rush0']
+rush = talk(rush + [flag_on(622)]) + ['tap A 60', 'poke8 03001588 96', 'poke8 03001589 96', 'poke8 0300158A 96', 'poke8 0300158B 96', 'poke8 03001576 FF', 'poke8 03001577 7F', 'shot board', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'shot rush0']
 out = run(rush); check('the resident offers the Boss Rush and sends you to its first room', at(out) == (zone26.RUSH_FIRST << 8 | 26))
 def boss_any(base):
     """The living boss after the test has already cut its HP."""
@@ -140,14 +143,14 @@ check('beating the last one brings you home to West City', at(out) == 0x0104)
 done = talk(rush + ['poke8 %08X 04' % (0x03001068 + 0x55 + 641 // 8)]) + ['shot rushtalk', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot rushdone', 'dump g 03001068 8a8']
 out = run(done); g = open(d + '/g.bin', 'rb').read()
 check('the resident pays the reward', flag(641) == 1 and 'bad pc' not in out)
-again = talk(done) + ['shot rushagain', 'tap A 200', 'run 120', 'mem %s 1' % AT]
+again = talk(done) + ['shot rushagain', 'tap A 60', 'tap A 200', 'run 120', 'mem %s 1' % AT]
 out = run(again); check('after the reward he offers the Boss Rush again', at(out) == (zone26.RUSH_FIRST << 8 | 26))
 print('rush screens in', d)
 
 # World Tournament: the resident's second choice. Three rounds in the stadium, then the prize and his congratulations.
 tour = list(start); go(tour, [x for x in D[1] if 'world' in x][0], PL, 'thome')
 strong = ['poke8 03001588 96', 'poke8 03001589 96', 'poke8 0300158A 96', 'poke8 0300158B 96', 'poke8 03001576 FF', 'poke8 03001577 7F']
-tour = talk(tour + [flag_on(622)]) + strong + ['tap DOWN 30', 'shot tourboard', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'mem 0300155C 1', 'shot tour0']
+tour = talk_at(tour + [flag_on(622)] + strong, 96, 328) + ['shot tourboard', 'tap A 60', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'mem 0300155C 1', 'shot tour0']
 out = run(tour); first = zone26.RUSH_FIRST + len(zone26.RUSH)
 check('the resident sends you to the World Tournament', at(out) == (first << 8 | 26))
 before = int([l for l in out.splitlines() if l.startswith('mem 0300155c')][-1].split()[-1], 16)
@@ -171,7 +174,7 @@ for k, (_, _, hp, _) in enumerate(zone26.TOUR):
     run(tour + ['shot tour%d' % (k + 1)])
     if k < len(zone26.TOUR) - 1: check('winning moves on to the next round', 'bad pc' not in out and at(out) == ((first + k + 1) << 8 | 26))
 check('winning the final brings you home to West City', at(out) == 0x0104)
-said = talk(tour + ['mem 0300155C 1']) + ['shot tourwon', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'dump g 03001068 8a8']
+said = talk_at(tour + ['mem 0300155C 1'], 96, 328) + ['shot tourwon', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'dump g 03001068 8a8']
 out = run(said); g = open(d + '/g.bin', 'rb').read()
 paid = int([l for l in out.splitlines() if l.startswith('mem 0300155c')][-1].split()[-1], 16)
 print('   zenie', before, paid)
