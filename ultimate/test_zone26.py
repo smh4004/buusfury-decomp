@@ -135,7 +135,7 @@ for k, _ in enumerate(zone26.RUSH):
             if 'bad pc' in out or at(out) != here: break
             continue
         a_, x_, y_ = found; pl_ = ptr(rush)
-        heal = ['poke8 03001577 7F', 'poke %08X %08X' % (pl_ + 0x28C, 30000 << 10)]
+        heal = ['poke8 03001577 7F']
         near = ['poke %08X %08X' % (pl_ + 0x1A0, x_), 'poke %08X %08X' % (pl_ + 0x1A4, y_ + (20 << 8))]
         rush = rush + heal + ['poke %08X %08X' % (a_, 2 << 10)] + near + ['keys UP', 'run 3', 'keys', 'tap A 14'] + heal + ['tap A 30'] * 6 + heal + ['run 150', 'mem %s 1' % AT]
         out = run(rush)
@@ -189,7 +189,7 @@ for k, (rnd, place, row, _) in enumerate(everyone):
             if 'bad pc' in out or at(out) != here: break
             continue
         a_, x_, y_ = found; pl_ = ptr(tour)
-        heal = ['poke8 03001577 7F', 'poke %08X %08X' % (pl_ + 0x28C, 30000 << 10)]
+        heal = ['poke8 03001577 7F']
         near = ['poke %08X %08X' % (pl_ + 0x1A0, x_), 'poke %08X %08X' % (pl_ + 0x1A4, y_ + (20 << 8))]
         tour = tour + heal + ['poke %08X %08X' % (a_, 2 << 10)] + near + ['keys UP', 'run 3', 'keys', 'tap A 14'] + heal + ['tap A 30'] * 6 + heal + ['run 150', 'mem %s 1' % AT]
         out = run(tour)
@@ -223,7 +223,7 @@ for rnd, place in enumerate(wanted):
             if 'bad pc' in out or at(out) != room << 8 | 26: break
             continue
         a_, x_, y_ = found; pl_ = ptr(pick)
-        heal = ['poke8 03001577 7F', 'poke %08X %08X' % (pl_ + 0x28C, 30000 << 10)]
+        heal = ['poke8 03001577 7F']
         near = ['poke %08X %08X' % (pl_ + 0x1A0, x_), 'poke %08X %08X' % (pl_ + 0x1A4, y_ + (20 << 8))]
         pick = pick + heal + ['poke %08X %08X' % (a_, 2 << 10)] + near + ['keys UP', 'run 3', 'keys', 'tap A 14'] + heal + ['tap A 30'] * 6 + heal + ['run 150', 'mem %s 1' % AT]
         out = run(pick)
@@ -250,7 +250,7 @@ for k, t in enumerate(zone26.TRIALS):
             continue
         a_, x_, y_ = found; pl_ = ptr(trial)
         rec_ = 0x03001560 + t[0] * 0x68 + 0x17
-        heal = ['poke8 %08X 7F' % rec_, 'poke %08X %08X' % (pl_ + 0x28C, 30000 << 10)]
+        heal = ['poke8 %08X 7F' % rec_]
         near = ['poke %08X %08X' % (pl_ + 0x1A0, x_), 'poke %08X %08X' % (pl_ + 0x1A4, y_ + (20 << 8))]
         trial = trial + heal + ['poke %08X %08X' % (a_, 2 << 10)] + near + ['keys UP', 'run 3', 'keys', 'tap A 14'] + heal + ['tap A 30'] * 6 + heal + ['run 150', 'mem %s 1' % AT]
         out = run(trial)
