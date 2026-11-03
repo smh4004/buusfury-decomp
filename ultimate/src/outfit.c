@@ -433,6 +433,13 @@ void tour_get(int *sp) {
     sp[n] = place;
 }
 
+/* Trailer build only: push a warp's arguments (world, area, 1, x, y) from RAM a filming script pokes. */
+void trailer_warp(int *sp) {
+    int n = *sp, i;
+    for (i = 0; i < 5; i++) sp[n + 1 + i] = ((volatile int *)0x0203FF60)[i];
+    *sp = n + 5;
+}
+
 /* Script native party_join(character, form). The first time a post-game character joins, they start level with whoever is playing, leaning towards
    how they fight, with their own skills. Later calls change nothing, so an outfit chosen earlier stays on. */
 #define REC(c) (RECORDS + (c) * RECORD_SIZE)

@@ -301,7 +301,27 @@ step auto code
 def tournament_npc(src):
     """The West City resident who ran the World Tournament now sends you to Hercule City. A debug zone build also uses him as a test's way into that city."""
     head, old = src.split('step 1 say', 1)
-    hook = '    pushn 660\n    call flag\n    jz L0\n    call 0x78(30)\n    pushn 3, 1, 1, 208, 134\n    call 0x77\n    call 0x79(30)\n    push 4\n    end\nL0:\n' if '--zone' in sys.argv else ''
+    warp = '    call 0xE3\n' if '--trailer' in sys.argv else '    pushn 3, 1, 1, 208, 134\n'     # a trailer build takes the room from RAM a filming script pokes
+    hook = '    pushn 660\n    call flag\n    jz L0\n    call 0x78(30)\n' + warp + '    call 0x77\n    call 0x79(30)\n    push 4\n    end\nL0:\n' if '--zone' in sys.argv else ''
+    credits = '''step 2 say 0x00 "An unofficial fan project. Dragon Ball Z and Buu's Fury belong to their owners."
+step auto say 0x00 "Broly Full Power sprites by Azure-Oni, ripped by DBZdogs."
+step auto say 0x00 "Gogeta sprites ripped by Mister Man, edited by Azure-Oni."
+step auto code
+    push 6
+    end
+''' if '--trailer' in sys.argv else None
+    if credits:
+        return head + 'step 1 code\n' + hook.replace('push 4', 'push 6') + """    pushn 622
+    call flag
+    jz L2
+    push 4
+    end
+L2:
+    end
+""" + credits + """step auto say 0x5E "The World Tournament has moved to Hercule City. Ask the tournament official!"
+step auto code
+    end
+"""
     return head + 'step 1 code\n' + hook + """    pushn 622
     call flag
     jz L2
@@ -789,6 +809,7 @@ def add_outfits(rom, clean, at):
     import zone26
     struct.pack_into('<I', rom, tab + 4 * zone26.TOUR_PICK, sym['tour_pick'] | 1)
     struct.pack_into('<I', rom, tab + 4 * zone26.TOUR_GET, sym['tour_get'] | 1)
+    if '--trailer' in sys.argv: struct.pack_into('<I', rom, tab + 4 * 0xE3, sym['trailer_warp'] | 1)
     row = SKILLS + 24 * SUPER_BLUE_SKILL                  # Super Saiyan 3's code runs on the form table's up and down, so only the words change
     if struct.unpack_from('<II', rom, row + 4) != (0x08019D25, 0x08019D29):
         sys.exit('skill row %d is in use' % SUPER_BLUE_SKILL)

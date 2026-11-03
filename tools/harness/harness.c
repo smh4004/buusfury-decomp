@@ -6,6 +6,7 @@
  *   run N              run N frames with the held keys
  *   tap KEY [N]        hold KEY for 4 frames then release, wait N frames (default 30)
  *   shot NAME          write outdir/NAME.png and print a frame hash
+ *   audio FILE         write the game's sound to FILE, 16-bit stereo 44100 Hz (`audio -` stops)
  *   hash               print frame hash only
  *   dump NAME ADDR LEN write raw bus memory to outdir/NAME.bin
  *   bp ADDR N          single-step up to N frames until PC == ADDR; print regs, stack and recent ROM jumps
@@ -24,6 +25,7 @@
  * Original code for the buusfury disassembly project.
  */
 #include <mgba/core/core.h>
+#include <mgba/core/blip_buf.h>
 #include <mgba/core/config.h>
 #include <mgba/core/log.h>
 #include <mgba/internal/arm/arm.h>
@@ -67,7 +69,22 @@ static void snap(struct mCore* core, uint32_t pc) {
 
 static uint32_t sync_pc;              /* "syncpc ADDR": one `run` step = one pass of the game loop through ADDR */
 
+static FILE* audio_f;
+static void frame_inner(struct mCore* core);
+/* `audio FILE`: from now on write the game's sound to FILE (16-bit stereo, 44100 Hz); `audio -` stops. */
 static void frame(struct mCore* core) {
+    frame_inner(core);
+    if (!audio_f) return;
+    blip_t* l = core->getAudioChannel(core, 0); blip_t* r = core->getAudioChannel(core, 1);
+    static short buf[8192];
+    int n;
+    while ((n = blip_samples_avail(l)) > 0) {
+        if (n > 4096) n = 4096;
+        blip_read_samples(l, buf, n, 1); blip_read_samples(r, buf + 1, n, 1);
+        fwrite(buf, 4, n, audio_f);
+    }
+}
+static void frame_inner(struct mCore* core) {
     if (sync_pc) {
         /* Game-loop time instead of video time: step until the game passes its frame-sync point once (or at most
          * 8 video frames during loads). Lag frames then don't shift when inputs arrive, so builds that run at a
@@ -181,6 +198,15 @@ int main(int argc, char** argv) {
         if (sscanf(line, "%63s %255s %63s %63s", cmd, a1, a2, a3) < 1) continue;
         if (!strcmp(cmd, "keys")) { keys = parse_keys(a1); core->setKeys(core, keys); }
         else if (!strcmp(cmd, "run")) { int n = atoi(a1); for (int i = 0; i < n; i++) { frame(core); frame_no++; } }
+        else if (!strcmp(cmd, "audio")) {
+            if (audio_f) { fclose(audio_f); audio_f = 0; }
+            if (strcmp(a1, "-")) {
+                core->setAudioBufferSize(core, 4096);
+                blip_set_rates(core->getAudioChannel(core, 0), core->frequency(core), 44100);
+                blip_set_rates(core->getAudioChannel(core, 1), core->frequency(core), 44100);
+                audio_f = fopen(a1, "wb");
+            }
+        }
         else if (!strcmp(cmd, "guardon")) { guard_end = strtoul(a1, 0, 16); }
         else if (!strcmp(cmd, "syncpc")) { sync_pc = strtoul(a1, 0, 16); }
         else if (!strcmp(cmd, "capture")) {
