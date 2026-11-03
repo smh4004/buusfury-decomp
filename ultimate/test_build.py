@@ -86,7 +86,7 @@ o = run(rom, seq, d)
 check('Super 13 can use every attack skill in a row', 'bad pc' not in o)
 # DBS Gogeta transforms twice through the form table and back.
 R = 0x03001560 + 7 * REC
-dbs = post + ['tap DOWN 40', 'tap A 200', 'run 60'] + ['poke8 %08X 05' % (R + 0x0C), 'poke8 %08X 14' % (R + 0x10), 'poke8 %08X 15' % (R + 0x11), 'poke8 %08X 03' % (R + 0x15), 'run 3', 'tap B 220', 'mem %08X 1' % (R + 0x14), 'poke8 %08X 04' % (R + 0x15), 'run 3', 'tap B 220', 'mem %08X 1' % (R + 0x14), 'tap B 220', 'mem %08X 1' % (R + 0x14)]
+dbs = post + ['tap DOWN 40', 'tap A 200', 'run 60'] + ['poke8 %08X 05' % (R + 0x0C), 'poke8 %08X 14' % (R + 0x10), 'poke8 %08X 15' % (R + 0x11), 'poke8 %08X 03' % (R + 0x15), 'run 3', 'tap B 220', 'mem %08X 1' % (R + 0x14), 'poke8 %08X 04' % (R + 0x15), 'run 3', 'tap B 220', 'mem %08X 1' % (R + 0x14), 'tap B 350', 'mem %08X 1' % (R + 0x14)]
 o = run(rom, dbs, d); got = [int(l.split(':')[1].split()[0], 16) & 255 for l in o.splitlines() if l.startswith('mem %08x' % (R + 0x14))]
 check('DBS Gogeta: Super Saiyan, then Super Saiyan Blue, then back to base', 'bad pc' not in o and got == [forms['gogeta_dbs_ss'], forms['gogeta_ssb'], forms['gogeta_dbs']])
 # The story borrows the guest slot for Hercule: the screen puts a joined guest back on an outfit he owns.
