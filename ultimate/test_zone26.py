@@ -109,11 +109,11 @@ def boss_any(base):
             best = (0x02000000 + i, ) + struct.unpack_from('<II', w, i - 0xEC)
     return best
 def rush_boss(base, hp):
-    """The boss by its class and HP, allowing for a few stray punches from the test on the way in."""
+    """The boss by its class and HP, allowing for the test's strong Goku landing stray punches on the way in."""
     run(base + ['dump w 02000000 40000']); w = open(d + '/w.bin', 'rb').read(); best = (None, 0, 0)
     for i in range(0x28C, len(w) - 4, 4):
         v = struct.unpack_from('<i', w, i)[0]
-        if (hp - 5000) << 10 < v <= hp << 10 and struct.unpack_from('<I', w, i - 0x28C)[0] == 0x0804C484:
+        if (hp // 2) << 10 < v <= hp << 10 and struct.unpack_from('<I', w, i - 0x28C)[0] == 0x0804C484:
             best = (0x02000000 + i, ) + struct.unpack_from('<II', w, i - 0xEC)
     return best
 for k, _ in enumerate(zone26.RUSH):
