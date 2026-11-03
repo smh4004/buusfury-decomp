@@ -181,7 +181,7 @@ def rush_rows(W, rom, harmless=False):
     rows = bytearray(rom[STATS:STATS + 28 * STATS_COUNT])
     for k, (row, _) in enumerate(RUSH):
         r = bytearray(rom[STATS + 28 * row:STATS + 28 * (row + 1)])
-        struct.pack_into('<I', r, 4, RUSH_HP[k])
+        struct.pack_into('<II', r, 0, 0, RUSH_HP[k])     # no EXP: a level-up box with a big boss still in memory resets the game
         if harmless: r[0xC] = r[0xD] = 0      # debug zone build only: bosses that can't end the test before it reaches the next room
         last = k == len(RUSH) - 1
         if last:     # home to West City, where the resident pays out: a scene can't start in a room that held a boss
