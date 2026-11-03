@@ -106,9 +106,10 @@ check('debug: Gohan has Special Beam Cannon', 26 in h1[0x0D:0x0D + h1[0x0C]])
 o = run(rom, gh + ['poke8 %08X %02X' % (R1 + 0x15, at_), 'poke8 %08X FF' % (R1 + 0x1A), 'poke8 %08X 00' % (R1 + 0x1B), 'keys RIGHT', 'run 8', 'keys', 'run 3', 'keys B', 'run 60', 'shot gohan_beam', 'keys', 'run 200'], d)
 check('Gohan fires Special Beam Cannon in his armor', 'bad pc' not in o)
 # Super Saiyan 2: pressing Super Saiyan again goes up to it. Goku goes on to Super Saiyan 3 from there; back down from the top. VRAM stays intact (slot 10 on Super Saiyan actors).
-def chain(c, rights, form, skills, presses):
+def chain(c, rights, form, skills, presses, lock=None):
     R_ = 0x03001560 + c * REC
     L = ['guardon 0x09000000'] + route + (['poke8 %08X %02X' % (R_ + 0x14, form)] if form is not None else []) + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * rights + ['tap A 200', 'run 60', 'poke8 %08X %02X' % (R_ + 0x0C, len(skills))]
+    if lock: L += ['poke8 %08X 00' % (0x03001068 + 0x55 + lock // 8)]
     L += ['poke8 %08X %02X' % (R_ + 0x0D + i_, v_) for i_, v_ in enumerate(skills)]
     for p_ in presses:
         L += ['poke8 %08X %02X' % (R_ + 0x15, p_), 'poke8 %08X FF' % (R_ + 0x1A), 'poke8 %08X 00' % (R_ + 0x1B), 'run 1', 'tap B 240', 'mem %08X 1' % (R_ + 0x14)]
@@ -120,6 +121,31 @@ ok_, got_ = chain(4, 3, None, [7, 20], [1, 1, 1])
 check('Vegeta: Super Saiyan, Super Saiyan 2', ok_ and got_[:2] == [28, forms['vegeta_ss2']])
 ok_, got_ = chain(1, 1, forms['gohan_armor'], [7, 20], [1, 1, 1])
 check('Gohan in armor: Super Saiyan, Super Saiyan 2', ok_ and got_[:2] == [forms['gohan_armor_ss'], forms['gohan_armor_ss2']])
+ok_, got_ = chain(3, 2, None, [7, 20], [1, 1, 1])
+check('Trunks: Super Saiyan, Super Saiyan 2', ok_ and got_[:2] == [22, forms['trunks_ss2']])
+ok_, got_ = chain(3, 2, forms['trunks_armor'], [7, 20], [1, 1, 1])
+check('Trunks in armor: Super Saiyan, Super Saiyan 2', ok_ and got_[:2] == [forms['trunks_armor_ss'], forms['trunks_armor_ss2']])
+ok_, got_ = chain(6, 4, 39, [7, 20], [1, 1, 1])
+check('Vegito: Super Saiyan, Super Saiyan 2', ok_ and got_[:2] == [40, forms['vegito_ss2']])
+# Before the story reaches it, pressing Super Saiyan again turns back as in the retail game.
+ok_, got_ = chain(4, 3, None, [7, 20], [1, 1, 1], lock=634)
+check('locked: Vegeta goes Super Saiyan, then back', ok_ and got_[:2] == [28, 26])
+ok_, got_ = chain(0, 0, None, [7, 20], [1, 1, 1], lock=630)
+check('locked: Goku goes Super Saiyan, then back', ok_ and got_[:2] == [4, 2])
+ok_, got_ = chain(0, 0, None, [7, 20, 22], [1, 1], lock=630)
+check('a save with Super Saiyan 3 already has Super Saiyan 2', ok_ and got_[:2] == [4, forms['goku_ss2_b']])
+# The story turns each one on at its own scene: read the scripts back out of the release ROM.
+sys.path[:0] = ['tools/scripts']
+import events, bfscript
+rel_rom = open(OUT + '/BFU_PERSONAL_USE_ONLY.gba', 'rb').read()
+def sets_flag(at, flag):
+    while (t := int.from_bytes(rel_rom[at:at + 4], 'little')) >= 0x08000000:        # the build's edited steps sit past the range events.read_list knows
+        at += 4; step = events.parse_step(rel_rom, t - 0x08000000)
+        code = step['raw'] if step['type'] == 4 else rel_rom[step['code'][0]:step['code'][1]] if 'code' in step else None
+        if code and re.search(r'\b%d\b[^\n]*\n?\s*call set_flag|set_flag\(%d\)' % (flag, flag), bfscript.disasm(code)[0]): return True
+    return False
+for flag_, at_ in json.load(open(OUT + '/BFU.map.json'))['ss2_lists'].items():
+    check('the story sets Super Saiyan 2 flag %s' % flag_, sets_flag(at_, int(flag_)))
 
 # DBS Gogeta transforms twice through the form table and back.
 R = 0x03001560 + 7 * REC
@@ -171,7 +197,7 @@ for who, char, rights, key, base, ss in (('Gohan', 1, 1, 'UP', 'gohan_armor', 'g
     rec = 0x03001560 + REC * char
     pk = ['poke8 %08x %02x' % (rec + 0x0C, 3), 'poke8 %08x %02x' % (rec + 0x0D, 20), 'poke8 %08x %02x' % (rec + 0x0E, 15), 'poke8 %08x %02x' % (rec + 0x0F, 10)]
     def skill(n): return ['poke8 %08x %02x' % (rec + 0x15, n), 'run 5', 'keys B', 'run 12', 'keys', 'run 200']
-    lines = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * rights + ['tap %s 30' % key, 'tap A 150', 'run 100'] + pk + ['dump k 03001068 8a8', 'shot armor_' + who] + skill(0) + ['dump l 03001068 8a8', 'shot armorss_' + who, 'tap A 8', 'run 30'] + skill(1) + skill(2) + (skill(0) + ['run 100'] if who != 'Trunks' else []) + skill(0) + ['run 300', 'dump m 03001068 8a8', 'tap A 8', 'run 30', 'keys R', 'run 20', 'keys', 'run 20']
+    lines = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * rights + ['tap %s 30' % key, 'tap A 150', 'run 100'] + pk + ['dump k 03001068 8a8', 'shot armor_' + who] + skill(0) + ['dump l 03001068 8a8', 'shot armorss_' + who, 'tap A 8', 'run 30'] + skill(1) + skill(2) + skill(0) + ['run 100'] + skill(0) + ['run 300', 'dump m 03001068 8a8', 'tap A 8', 'run 30', 'keys R', 'run 20', 'keys', 'run 20']
     o = run(rom, lines, d)
     at = 0x4F8 + REC * char + FORM
     check('armor %s: no bad jumps' % who, 'bad pc' not in o)
@@ -194,6 +220,23 @@ print('enemy HP readings', hp)
 check('charged: no bad jumps', 'bad pc' not in o)
 check('charged: release hurts the enemy', hp[2] < hp[1])
 check('charged: stronger than the normal hit before it', hp[1] - hp[2] > hp[0] - hp[1] > 0)
+# Super Saiyan 2 hits 1.5x as hard as Super Saiyan, punches and ki. The Bomber waits out of reach during the transformations (it blows itself up near the player). The first press after the walk-in does nothing in this scene.
+def dmg(presses, blast, wait):
+    R_ = 0x03001560; away = ['poke %s %x' % (ENEMY_X, x + (120 << 8)), 'poke %s %x' % (ENEMY_Y, y)]
+    L = base + ['poke8 %08X 02' % (R_ + 0x0C), 'poke8 %08X 07' % (R_ + 0x0D), 'poke8 %08X 14' % (R_ + 0x0E), 'run %d' % wait]
+    for p_ in presses:
+        L += ['poke8 %08X %02X' % (R_ + 0x15, p_), 'poke8 %08X FF' % (R_ + 0x1A), 'poke8 %08X 03' % (R_ + 0x1B), 'keys B', 'run 2', 'keys'] + [v for _ in range(8) for v in away + ['run 30']]
+    o_ = run(erom, L + ['mem %s 2' % PX], d); m_ = re.findall(r'mem %s: ([0-9a-f]+) ([0-9a-f]+)' % PX, o_)[-1]
+    px, py = int(m_[0], 16), int(m_[1], 16); near = ['poke %s %x' % (ENEMY_X, px - ((40 if blast else 18) << 8)), 'poke %s %x' % (ENEMY_Y, py)]
+    L += near + ['run 1', 'poke %s %x' % (ENEMY_HP, 9000 << 10), 'keys LEFT', 'run 2', 'keys', 'run 2'] + near
+    L += (['poke8 %08X 00' % (R_ + 0x15), 'poke8 %08X FF' % (R_ + 0x1A), 'keys B', 'run 2', 'keys'] + [v for _ in range(6) for v in near + ['run 6']] if blast else ['tap A 10'] + near + ['run 12'])
+    o_ = run(erom, L + ['mem %s 1' % ENEMY_HP, 'mem %08X 1' % (R_ + 0x14)], d)
+    return 9000 - int(re.findall(r'mem %s: ([0-9a-f]+)' % ENEMY_HP, o_)[-1], 16) / 1024, int(re.findall(r'mem %08x: ([0-9a-f]+)' % (R_ + 0x14), o_)[-1], 16) & 255
+for kind, blast_ in (('punch', 0), ('ki blast', 1)):
+    a_ = [dmg([1, 1], blast_, w_) for w_ in (1, 4, 7)]; b_ = [dmg([1, 1, 1], blast_, w_) for w_ in (1, 4, 7)]
+    print(kind, 'Super Saiyan', a_, 'Super Saiyan 2', b_)
+    lo, hi = min(v for v, _ in a_), min(v for v, _ in b_)
+    check('Super Saiyan 2 %s is about 1.5x Super Saiyan' % kind, all(f_ == 4 for _, f_ in a_) and all(f_ == forms['goku_ss2_b'] for _, f_ in b_) and lo > 0 and 1.3 < hi / lo < 1.7)
 for name, rights in (('Goku', 0), ('Gohan', 1), ('Trunks', 2), ('Vegeta', 3), ('Vegito', 4), ('Broly', 5)):
     o = run(rom, ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * rights + ['tap A 150', 'run 100', 'keys A', 'run 80', 'shot hold_' + name, 'keys', 'run 3', 'shot hit_' + name, 'run 40', 'tap A 20', 'dump n 03001068 8a8'], d)
     check('charged %s: no bad jumps' % name, 'bad pc' not in o)

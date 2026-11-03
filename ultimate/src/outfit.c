@@ -488,14 +488,37 @@ void beam_use(u8 *record, void *sprite) {
 #define SS_Use ((void (*)(u8 *, void *))0x0801A513)
 #define SS3_Use ((void (*)(u8 *, void *))0x0801A5BD)
 #define SS3_Can ((int (*)(u8 *))0x0801A55F)
-static int has_ss2_above(int form) {
-    const u8 *row = form_table + form * 24;
-    return (row[0] & 1) && row[0x16] != 255 && (form_table[row[0x16] * 24] & 1);
+extern const u8 ss2_rows[];
+static int is_ss2(int form) {
+    const u8 *p;
+    for (p = ss2_rows; *p != 255; p++) if (*p == form) return 1;
+    return 0;
+}
+/* The story sets SS2_FLAG + owner when that character reaches it. Goku learns Super Saiyan 3 in the same scene, so a save made after it counts too. */
+static int ss2_open(const u8 *record, int owner) {
+    int i;
+    if (GetFlag((void *)0x03001068, SS2_FLAG + owner)) return 1;
+    for (i = 0; i < record[0x0C]; i++) if (record[0x0D + i] == 22) return 1;
+    return 0;
+}
+static int has_ss2_above(const u8 *record) {
+    const u8 *row = form_table + record[0x14] * 24;
+    return (row[0] & 1) && row[0x16] != 255 && is_ss2(row[0x16]) && ss2_open(record, row[0x0C]);
 }
 void ss_use(u8 *record, void *sprite) {
-    if (has_ss2_above(record[0x14])) SS3_Use(record, sprite);
+    if (has_ss2_above(record)) SS3_Use(record, sprite);
     else SS_Use(record, sprite);
 }
 int ss3_can(u8 *record) {       /* Super Saiyan 3 starts from Super Saiyan 2, not from Super Saiyan */
-    return has_ss2_above(record[0x14]) ? 0 : SS3_Can(record);
+    return has_ss2_above(record) ? 0 : SS3_Can(record);
+}
+/* Super Saiyan 2 hits 1.5x as hard as Super Saiyan. hit[1] is the attack's damage scale (1024 = normal); team 2 is the player's side.
+   Damage grows with the cube of the Strength stat, so scaling the stat itself would give about three times the damage. */
+void combat_orig(void *defender, int *hit);
+__asm__(".syntax unified\n.thumb\n.thumb_func\ncombat_orig:\npush {r4, r5, r6, r7, lr}\nadds r6, r0, #0\nadds r4, r1, #0\nadds r1, #8\nldr r3, =0x0800E9E1\nbx r3\n.ltorg\n");
+void combat_hook(void *defender, int *hit) {
+    int scale = hit[1];
+    if ((hit[0] & 255) == 2 && is_ss2(FORM_OF(*(u8 *)0x03001068))) hit[1] = scale + (scale >> 1);
+    combat_orig(defender, hit);
+    hit[1] = scale;
 }

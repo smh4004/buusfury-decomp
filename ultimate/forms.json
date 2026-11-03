@@ -88,7 +88,8 @@
    "copy": 22,
    "actor": "trunks_armor_ss",
    "owner": 3,
-   "down": "trunks_armor"
+   "down": "trunks_armor",
+   "up": "trunks_armor_ss2"
   },
   {
    "id": "gohan_armor",
@@ -245,6 +246,30 @@
    "owner": 1,
    "up": 255,
    "down": "gohan_armor"
+  },
+  {
+   "id": "trunks_ss2",
+   "copy": 22,
+   "actor": "trunks_ss2",
+   "owner": 3,
+   "up": 255,
+   "down": 21
+  },
+  {
+   "id": "trunks_armor_ss2",
+   "copy": 22,
+   "actor": "trunks_armor_ss2",
+   "owner": 3,
+   "up": 255,
+   "down": "trunks_armor"
+  },
+  {
+   "id": "vegito_ss2",
+   "copy": 40,
+   "actor": "vegito_ss2",
+   "owner": 6,
+   "up": 255,
+   "down": 39
   }
  ],
  "edit": {
@@ -268,6 +293,12 @@
   },
   "29": {
    "up": "vegeta_ss2_b"
+  },
+  "22": {
+   "up": "trunks_ss2"
+  },
+  "40": {
+   "up": "vegito_ss2"
   }
  }
 }
