@@ -105,7 +105,8 @@ for k, _ in enumerate(zone26.RUSH):
     pl_, x_, y_ = ptr(rush), *boss(rush, hp)[1:]
     tough = 'poke %08X %08X' % (pl_ + 0x28C, 30000 << 10)       # the player object's own HP: a low-level debug Goku wouldn't last
     near = ['poke %08X %08X' % (pl_ + 0x1A0, x_), 'poke %08X %08X' % (pl_ + 0x1A4, y_ + (20 << 8))]
-    rush = rush + ['poke %08X %08X' % (a_, 2 << 10), tough] + near + ['keys UP', 'run 4', 'keys', 'tap A 12'] + [tough, 'keys UP', 'run 2', 'keys', 'tap A 18'] * 6 + ['tap A 30'] * 14 + [tough, 'run 300', 'shot rush%d' % (k + 1), 'mem %s 1' % AT]
+    heal = ['poke8 03001577 7F', tough]        # both copies of his HP: the record, and the object in the room. Going down here ends at the title screen, whose A presses then start a new game
+    rush = rush + ['poke %08X %08X' % (a_, 2 << 10)] + heal + near + ['keys UP', 'run 4', 'keys', 'tap A 12'] + (heal + ['keys UP', 'run 2', 'keys', 'tap A 18']) * 6 + (heal + ['tap A 30']) * 14 + heal + ['run 100'] + heal + ['run 100'] + heal + ['run 100', 'shot rush%d' % (k + 1), 'mem %s 1' % AT]
     out = run(rush)
     if k < len(zone26.RUSH) - 1: check('beating it moves on to the next room', 'bad pc' not in out and at(out) == ((zone26.RUSH_FIRST + k + 1) << 8 | 26))
 check('beating the last one brings you home to West City', at(out) == 0x0104)
