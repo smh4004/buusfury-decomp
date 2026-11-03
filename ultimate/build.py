@@ -58,7 +58,7 @@ def new_actor_ids():
     """Ids add_actors will give: actors.json's new actors in order, then Super 13 and Android 13. Checked after the build."""
     cfg = json.load(open('ultimate/actors.json'))
     n = ACTOR_BASE + sum(1 for k, a in cfg.items() if not k.startswith('_') and 'replace' not in a)
-    return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2, 'gogeta_dbs': n + 3, 'gogeta_dbs_ss': n + 4, 'gogeta_ssb': n + 5, 'android13_player': n + 6, 'super13_player': n + 7}
+    return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2, 'gogeta_dbs': n + 3, 'gogeta_dbs_ss': n + 4, 'gogeta_ssb': n + 5, 'android13_player': n + 6, 'super13_player': n + 7, 'goku_ss2': n + 8, 'goku_ss2_b': n + 9, 'gohan_ss2': n + 10, 'gohan_green_ss2': n + 11, 'vegeta_ss2': n + 12, 'vegeta_ss2_b': n + 13, 'vegeta_armor_ss2': n + 14, 'gohan_armor_ss2': n + 15}
 
 
 QUEST_NPC = 'assets/scripts/gUnknown_08785580.evt'   # the West City resident outside the Z-Mart
@@ -478,6 +478,10 @@ def add_actors(rom, clean):
             a.setdefault('log2_overrides', {})['18'] = 18 if has else 5
     cfg['android13_player'] = {'template': 93, 'slots': ANDROID13_SLOTS, 'stretch': True, 'grow': lengths}    # the boss's small record can't carry a playable form
     cfg['super13_player'] = {'proto_actor': 230, 'fill': {8: 9, 10: 9, 11: 0, 12: 0, 13: 9, 14: 4, 15: 7, 16: 17}, 'grow': lengths}
+    bright = (one(np.array((96, 248, 248))), one(np.array((200, 248, 248))))     # cyan: Super Saiyan 2's lightning
+    for name, source in (('goku_ss2', 109), ('goku_ss2_b', 110), ('gohan_ss2', 104), ('gohan_green_ss2', 105), ('vegeta_ss2', 273), ('vegeta_ss2_b', 274), ('vegeta_armor_ss2', 'vegeta_armor_ss'), ('gohan_armor_ss2', 'gohan_armor_ss2_art')):
+        cfg[name] = {'bolts_of': source, 'bolt_colours': bright}
+    cfg['_powerup'] = [104, 105, 273, 274, 'vegeta_armor_ss', 'gohan_armor_ss']
     ids, end = sprites.build_actors(rom, cfg, clean_dir, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal), open(PROTO, 'rb').read())
     return ids, end
 
@@ -587,6 +591,11 @@ def add_outfits(rom, clean, at):
         sys.exit('skill row %d is in use' % SPIRIT_SKILL)
     struct.pack_into('<HHII', rom, row, SPIRIT_NAME, SPIRIT_NAME + 3, sym['spirit_usable'] | 1, sym['spirit_use'] | 1)
     rom[row + 12:row + 24] = rom[SKILLS + 24 * 15 + 12:SKILLS + 24 * 15 + 24]
+    row = SKILLS + 24 * 20                               # Super Saiyan's use goes up to Super Saiyan 2 where a form has one; Super Saiyan 3 waits for it
+    if struct.unpack_from('<I', rom, row + 8)[0] != 0x0801A513 or struct.unpack_from('<I', rom, SKILLS + 24 * 22 + 4)[0] != 0x0801A55F:
+        sys.exit('Super Saiyan skill rows changed')
+    struct.pack_into('<I', rom, row + 8, sym['ss_use'] | 1)
+    struct.pack_into('<I', rom, SKILLS + 24 * 22 + 4, sym['ss3_can'] | 1)
     end = add_eraser(rom, clean, sym, at + len(code))    # after the row edits above: it moves the skill table
     i = rom.find(bytes.fromhex('092c'), 0x4C70, 0x4C84)    # Select Game draws 8 characters, not the guest slot: Broly's size covered the text
     if i < 0:

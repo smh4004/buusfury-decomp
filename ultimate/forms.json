@@ -40,7 +40,8 @@
    "owner": 1,
    "name": 1186,
    "flags": 81,
-   "down": 13
+   "down": 13,
+   "up": "gohan_orange_ss2"
   },
   {
    "id": "saiyaman_from_green",
@@ -72,7 +73,8 @@
    "copy": 28,
    "actor": "vegeta_armor_ss",
    "owner": 4,
-   "down": "vegeta_armor"
+   "down": "vegeta_armor",
+   "up": "vegeta_armor_ss2"
   },
   {
    "id": "trunks_armor",
@@ -102,7 +104,8 @@
    "actor": "gohan_armor_ss",
    "owner": 1,
    "name": 1186,
-   "down": "gohan_armor"
+   "down": "gohan_armor",
+   "up": "gohan_armor_ss2"
   },
   {
    "id": "broly_fp",
@@ -170,11 +173,101 @@
    "actor": "piccolo",
    "owner": 8,
    "name": 169
+  },
+  {
+   "id": "goku_ss2",
+   "copy": 3,
+   "actor": "goku_ss2",
+   "owner": 0,
+   "up": 5,
+   "down": 0
+  },
+  {
+   "id": "goku_ss2_b",
+   "copy": 4,
+   "actor": "goku_ss2_b",
+   "owner": 0,
+   "up": 6,
+   "down": 2
+  },
+  {
+   "id": "gohan_ss2",
+   "copy": 16,
+   "actor": "gohan_ss2",
+   "owner": 1,
+   "up": 255,
+   "down": 10
+  },
+  {
+   "id": "gohan_green_ss2",
+   "copy": 18,
+   "actor": "gohan_green_ss2",
+   "owner": 1,
+   "up": 255,
+   "down": 15
+  },
+  {
+   "id": "gohan_orange_ss2",
+   "copy": 16,
+   "actor": "gohan_ss2",
+   "owner": 1,
+   "up": 255,
+   "down": 13
+  },
+  {
+   "id": "vegeta_ss2",
+   "copy": 28,
+   "actor": "vegeta_ss2",
+   "owner": 4,
+   "up": 255,
+   "down": 26
+  },
+  {
+   "id": "vegeta_ss2_b",
+   "copy": 29,
+   "actor": "vegeta_ss2_b",
+   "owner": 4,
+   "up": 255,
+   "down": 27
+  },
+  {
+   "id": "vegeta_armor_ss2",
+   "copy": 28,
+   "actor": "vegeta_armor_ss2",
+   "owner": 4,
+   "up": 255,
+   "down": "vegeta_armor"
+  },
+  {
+   "id": "gohan_armor_ss2",
+   "copy": 16,
+   "actor": "gohan_armor_ss2",
+   "owner": 1,
+   "up": 255,
+   "down": "gohan_armor"
   }
  ],
  "edit": {
   "13": {
    "up": "gohan_orange_ss"
+  },
+  "3": {
+   "up": "goku_ss2"
+  },
+  "4": {
+   "up": "goku_ss2_b"
+  },
+  "16": {
+   "up": "gohan_ss2"
+  },
+  "18": {
+   "up": "gohan_green_ss2"
+  },
+  "28": {
+   "up": "vegeta_ss2"
+  },
+  "29": {
+   "up": "vegeta_ss2_b"
   }
  }
 }

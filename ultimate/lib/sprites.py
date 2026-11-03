@@ -172,6 +172,10 @@ def build_actors(rom, cfg, clean_dir, at, l2=None, colour_ctx=None, proto=None):
     for name, a in cfg.items():
         if name.startswith('_'): continue
         target = a.get('replace')                          # modify an existing actor instead of adding one
+        if 'bolts_of' in a:                                # a copy of an actor with lightning on its frames: its source is built first
+            src = a['bolts_of']; src = table[src] if isinstance(src, int) else table[ids[src]]
+            rec = bolted_actor(ins, rom, src - BASE, a['bolt_colours']); ids[name] = len(table); table.append(ins.put(bytes(rec)))
+            continue
         if 'proto_actor' in a:                             # whole actor copied from the Prototype D cart
             if proto is None: continue
             rec = proto_actor(ins, proto, a['proto_actor']); n = rec[0]
@@ -248,6 +252,17 @@ def build_actors(rom, cfg, clean_dir, at, l2=None, colour_ctx=None, proto=None):
             table[target] = ins.put(bytes(rec)); ids[name] = target
         else:
             ids[name] = len(table); table.append(ins.put(bytes(rec)))
+    # Going from Super Saiyan to Super Saiyan 2 plays the power-up on the Super Saiyan actor, and most have no slot 10 (Goku's does): 11 frames of their own ki pose, as long as a retail power-up.
+    for key in cfg.get('_powerup', ()):
+        at_ = key if isinstance(key, int) else ids[key]
+        o = table[at_] - BASE; n = struct.unpack_from('<I', rom, o)[0] & 0xFF; rec = bytearray(rom[o:o + 0x54 + 4 * n])
+        for src in (21, 9):
+            ap = struct.unpack_from('<I', rec, 0x54 + 4 * src)[0] if src < n else 0
+            if ap: break
+        k = struct.unpack_from('<I', rom, ap - BASE)[0]; old = struct.unpack_from('<%dI' % (4 * k), rom, ap - BASE + 4)
+        grown = [old[(i * k // 11) * 4 + d] for i in range(11) for d in range(4)]
+        struct.pack_into('<I', rec, 0x54 + 40, ins.put(struct.pack('<I', 11) + struct.pack('<44I', *grown)))
+        table[at_] = ins.put(bytes(rec))
     rom[at:at + 4 * len(table)] = struct.pack('<%dI' % len(table), *table)
     for lit in ACTOR_LITERALS:
         struct.pack_into('<I', rom, lit, BASE + at + 4)
@@ -354,6 +369,59 @@ def _shrink_fit(img, x, y, s):
 
 # ---------- Prototype D actors ----------
 PROTO_ACTOR_LIST = 0x6A1BBC      # Prototype D (DBZ3_cart27): 280 actors, same record / animation / frame format as retail
+
+
+BOLTS = (('...X..', '..X...', '.XXX..', '...X..', '..X...', '.X....'),
+         ('..X...', '...X..', '..XXX.', '..X...', '...X..', '....X.'),
+         ('.X....', '..X...', '.XXX..', '...X..', '....X.', '......'))
+
+
+def bolted_actor(ins, rom, rec_at, colours):
+    """Super Saiyan 2's lightning: a copy of a Super Saiyan actor with small bolts drawn at both sides of the head, a different pair each frame. Whole frames are kept;
+    bolts only add pixels. colours = (bright index, edge index)."""
+    from wfz import decompress_stream
+    u = lambda o: struct.unpack_from('<I', rom, o)[0]
+    n = u(rec_at) & 0xFF; rec = bytearray(rom[rec_at:rec_at + 0x54 + 4 * n])
+    done = {}; phase = 0
+    def tile(tp, w, h):
+        nonlocal phase
+        if tp in done: return done[tp]
+        o = tp - BASE; t, size = u(o), u(o + 4)
+        raw = rom[o + 8:o + 8 + size] if t == 0 else bytes(decompress_stream(rom, o + 8, size)[0])
+        img = np.frombuffer(raw, np.uint8).copy()[:w * h].reshape(h // 8, w // 8, 8, 8).transpose(0, 2, 1, 3).reshape(h, w)
+        ys, xs = np.nonzero(img)
+        if len(ys):
+            top = ys.min(); head = img[top:top + 12]; hx = np.nonzero(head.any(0))[0]
+            for side, (x0, pattern) in enumerate(((hx.min() - 3, BOLTS[phase % 3]), (hx.max() - 2, BOLTS[(phase + 1) % 3]))):
+                y0 = top + 1 + (phase + side * 2) % 4
+                for j, line in enumerate(pattern):
+                    for i, c in enumerate(line):
+                        x, y = x0 + i, y0 + j
+                        if c == 'X' and 0 <= x < w and 0 <= y < h: img[y, x] = colours[0]
+                        elif c == 'X': pass
+        phase += 1
+        data = img.reshape(h // 8, 8, w // 8, 8).transpose(0, 2, 1, 3).reshape(-1).tobytes()
+        done[tp] = ins.put(struct.pack('<II', 0, len(data)) + data)
+        return done[tp]
+    frames = {}
+    def frame(fp):
+        if fp not in frames:
+            o = fp - BASE; k = u(o); body = bytearray(rom[o:o + 4 + 16 * k])
+            for j in range(k):
+                w, h = body[4 + 16 * j + 2], body[4 + 16 * j + 3]
+                struct.pack_into('<I', body, 4 + 16 * j + 12, tile(u(o + 4 + 16 * j + 12), w, h))
+            frames[fp] = ins.put(bytes(body))
+        return frames[fp]
+    anims = {}
+    for s in range(n):
+        ap = u(rec_at + 0x54 + 4 * s)
+        if not ap: continue
+        if ap not in anims:
+            o = ap - BASE; k = u(o)
+            ptrs = [frame(u(o + 4 + 4 * j)) if u(o + 4 + 4 * j) else 0 for j in range(4 * k)]
+            anims[ap] = ins.put(struct.pack('<I', k) + struct.pack('<%dI' % len(ptrs), *ptrs))
+        struct.pack_into('<I', rec, 0x54 + 4 * s, anims[ap])
+    return rec
 
 
 def proto_actor(ins, P, i):

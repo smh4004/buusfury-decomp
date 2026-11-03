@@ -482,3 +482,20 @@ void beam_use(u8 *record, void *sprite) {
     Sprite_SetFacing(sprite, 0x12);
     Sprite_SetBehaviour(sprite, b);
 }
+
+/* Super Saiyan 2 sits between Super Saiyan and the next form with no skill of its own (a character holds six at most): pressing Super Saiyan again goes up to it.
+   Forms chain through the table's up: a Super Saiyan form whose up is also Super Saiyan-class (flag bit 0) has SS2 above it. */
+#define SS_Use ((void (*)(u8 *, void *))0x0801A513)
+#define SS3_Use ((void (*)(u8 *, void *))0x0801A5BD)
+#define SS3_Can ((int (*)(u8 *))0x0801A55F)
+static int has_ss2_above(int form) {
+    const u8 *row = form_table + form * 24;
+    return (row[0] & 1) && row[0x16] != 255 && (form_table[row[0x16] * 24] & 1);
+}
+void ss_use(u8 *record, void *sprite) {
+    if (has_ss2_above(record[0x14])) SS3_Use(record, sprite);
+    else SS_Use(record, sprite);
+}
+int ss3_can(u8 *record) {       /* Super Saiyan 3 starts from Super Saiyan 2, not from Super Saiyan */
+    return has_ss2_above(record[0x14]) ? 0 : SS3_Can(record);
+}

@@ -105,6 +105,22 @@ at_ = list(h1[0x0D:0x0D + h1[0x0C]]).index(26) if 26 in h1[0x0D:0x0D + h1[0x0C]]
 check('debug: Gohan has Special Beam Cannon', 26 in h1[0x0D:0x0D + h1[0x0C]])
 o = run(rom, gh + ['poke8 %08X %02X' % (R1 + 0x15, at_), 'poke8 %08X FF' % (R1 + 0x1A), 'poke8 %08X 00' % (R1 + 0x1B), 'keys RIGHT', 'run 8', 'keys', 'run 3', 'keys B', 'run 60', 'shot gohan_beam', 'keys', 'run 200'], d)
 check('Gohan fires Special Beam Cannon in his armor', 'bad pc' not in o)
+# Super Saiyan 2: pressing Super Saiyan again goes up to it. Goku goes on to Super Saiyan 3 from there; back down from the top. VRAM stays intact (slot 10 on Super Saiyan actors).
+def chain(c, rights, form, skills, presses):
+    R_ = 0x03001560 + c * REC
+    L = ['guardon 0x09000000'] + route + (['poke8 %08X %02X' % (R_ + 0x14, form)] if form is not None else []) + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * rights + ['tap A 200', 'run 60', 'poke8 %08X %02X' % (R_ + 0x0C, len(skills))]
+    L += ['poke8 %08X %02X' % (R_ + 0x0D + i_, v_) for i_, v_ in enumerate(skills)]
+    for p_ in presses:
+        L += ['poke8 %08X %02X' % (R_ + 0x15, p_), 'poke8 %08X FF' % (R_ + 0x1A), 'poke8 %08X 00' % (R_ + 0x1B), 'run 1', 'tap B 240', 'mem %08X 1' % (R_ + 0x14)]
+    o_ = run(rom, L, d)
+    return 'bad pc' not in o_, [int(l.split(':')[1].split()[0], 16) & 255 for l in o_.splitlines() if l.startswith('mem %08x' % (R_ + 0x14))]
+ok_, got_ = chain(0, 0, None, [7, 20, 22], [1, 1, 2, 2])
+check('Goku: Super Saiyan, Super Saiyan 2, Super Saiyan 3', ok_ and got_[:3] == [4, forms['goku_ss2_b'], 6])
+ok_, got_ = chain(4, 3, None, [7, 20], [1, 1, 1])
+check('Vegeta: Super Saiyan, Super Saiyan 2', ok_ and got_[:2] == [28, forms['vegeta_ss2']])
+ok_, got_ = chain(1, 1, forms['gohan_armor'], [7, 20], [1, 1, 1])
+check('Gohan in armor: Super Saiyan, Super Saiyan 2', ok_ and got_[:2] == [forms['gohan_armor_ss'], forms['gohan_armor_ss2']])
+
 # DBS Gogeta transforms twice through the form table and back.
 R = 0x03001560 + 7 * REC
 dbs = post + ['tap DOWN 40', 'tap A 200', 'run 60'] + ['poke8 %08X 05' % (R + 0x0C), 'poke8 %08X 14' % (R + 0x10), 'poke8 %08X 15' % (R + 0x11), 'poke8 %08X 03' % (R + 0x15), 'run 3', 'tap B 220', 'mem %08X 1' % (R + 0x14), 'poke8 %08X 04' % (R + 0x15), 'run 3', 'tap B 220', 'mem %08X 1' % (R + 0x14), 'tap B 350', 'mem %08X 1' % (R + 0x14)]
@@ -127,7 +143,7 @@ skills = list(c[GOHAN + 0x0D:GOHAN + 0x0D + c[GOHAN + 0x0C]])
 sel = '%08x' % (0x03001560 + REC + 0x15)
 ss = ss_form = forms['gohan_orange_ss']
 o = run(rom, pick + ['tap A 150', 'run 100', 'dump e 03001068 8a8', 'poke8 %s %02x' % (sel, skills.index(20)), 'run 5', 'keys B', 'run 12', 'keys', 'run 300',
-                    'shot ss', 'dump f 03001068 8a8', 'tap A 10', 'run 40', 'keys B', 'run 12', 'keys', 'run 300', 'shot back', 'dump g 03001068 8a8'], d)
+                    'shot ss', 'dump f 03001068 8a8', 'tap A 10', 'run 40', 'keys B', 'run 12', 'keys', 'run 300', 'keys B', 'run 12', 'keys', 'run 500', 'shot back', 'dump g 03001068 8a8'], d)   # up to Super Saiyan 2, then back down
 check('outfit: no bad jumps through transforming', 'bad pc' not in o)
 check('outfit: A keeps orange gi as Gohan', open(d + '/e.bin', 'rb').read()[GOHAN + FORM] == 13)
 check('outfit: Super Saiyan uses the new row', open(d + '/f.bin', 'rb').read()[GOHAN + FORM] == ss)
@@ -155,7 +171,7 @@ for who, char, rights, key, base, ss in (('Gohan', 1, 1, 'UP', 'gohan_armor', 'g
     rec = 0x03001560 + REC * char
     pk = ['poke8 %08x %02x' % (rec + 0x0C, 3), 'poke8 %08x %02x' % (rec + 0x0D, 20), 'poke8 %08x %02x' % (rec + 0x0E, 15), 'poke8 %08x %02x' % (rec + 0x0F, 10)]
     def skill(n): return ['poke8 %08x %02x' % (rec + 0x15, n), 'run 5', 'keys B', 'run 12', 'keys', 'run 200']
-    lines = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * rights + ['tap %s 30' % key, 'tap A 150', 'run 100'] + pk + ['dump k 03001068 8a8', 'shot armor_' + who] + skill(0) + ['dump l 03001068 8a8', 'shot armorss_' + who, 'tap A 8', 'run 30'] + skill(1) + skill(2) + skill(0) + ['dump m 03001068 8a8', 'tap A 8', 'run 30', 'keys R', 'run 20', 'keys', 'run 20']
+    lines = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * rights + ['tap %s 30' % key, 'tap A 150', 'run 100'] + pk + ['dump k 03001068 8a8', 'shot armor_' + who] + skill(0) + ['dump l 03001068 8a8', 'shot armorss_' + who, 'tap A 8', 'run 30'] + skill(1) + skill(2) + (skill(0) + ['run 100'] if who != 'Trunks' else []) + skill(0) + ['run 300', 'dump m 03001068 8a8', 'tap A 8', 'run 30', 'keys R', 'run 20', 'keys', 'run 20']
     o = run(rom, lines, d)
     at = 0x4F8 + REC * char + FORM
     check('armor %s: no bad jumps' % who, 'bad pc' not in o)
