@@ -648,11 +648,25 @@ def add_eraser(rom, clean, sym, at):
             struct.pack_into('<I', out, k + 8, copies[tiles])
         return put(bytes(out))
     BEAM_PARAMS, BEAM_VT = 0x71DA68, 0x4D9F8
+    # The beam itself is LoG2's Special Beam Cannon: 7 rows a facing (muzzle 2, body 3, tip 2) laid into BF's 16-row facings (muzzle 0-1, body 3-5 and spare frame 6, tip 7-8 and 10-11).
+    # Rows 13-14, a small end piece LoG2 doesn't have, keep the recoloured Kamehameha's. Every level uses this one thin shape.
+    l2 = open(LOG2, 'rb').read(); L2_ART = 0x6E4560
+    l2pal = np.frombuffer(l2[0x3ECEA4:0x3ECEA4 + 768], np.uint8).reshape(256, 3).astype(int)    # sprite palette in the USA cart
+    l2map = bytes(0 if v == 0 else one(l2pal[v]) for v in range(256)); l2tiles = {}
+    record = bytearray(rom[frames(struct.unpack_from('<I', clean, BEAM_PARAMS + 12)[0] - ROM_BASE, 64) - ROM_BASE:][:768])
+    for facing in range(4):
+        for bf, row in ((0, 0), (1, 1), (3, 2), (4, 3), (5, 4), (7, 5), (8, 6), (10, 5), (11, 6)):
+            hdr, attr, tiles = struct.unpack_from('<III', l2, L2_ART + 12 * (facing * 7 + row))
+            if tiles not in l2tiles:                     # always the whole 256-byte block: a short row still has the engine copy all of it
+                t = tiles - ROM_BASE; l2tiles[tiles] = put(l2[t:t + 256].translate(l2map))
+            struct.pack_into('<III', record, 12 * (facing * 16 + bf), hdr, attr, l2tiles[tiles])
+        struct.pack_into('<I', record, 12 * (facing * 16 + 6) + 8, struct.unpack_from('<I', record, 12 * (facing * 16 + 5) + 8)[0])
+    beam_art = put(bytes(record))
     shape, table = {}, sym['beam_params'] - ROM_BASE
     for i in range(3):
         a, strength, body, head = struct.unpack_from('<4I', clean, BEAM_PARAMS + 16 * i)
         shape.setdefault(body, frames(body - ROM_BASE, 9))
-        struct.pack_into('<4I', rom, table + 16 * i, a, strength, shape[body], frames(head - ROM_BASE, 64))
+        struct.pack_into('<4I', rom, table + 16 * i, a, strength, shape[body], beam_art)
     vt = sym['beam_vt'] - ROM_BASE
     for k in range(9):
         fn = ROM_BASE + BEAM_VT + struct.unpack_from('<i', clean, BEAM_VT + 4 * k)[0]
@@ -662,7 +676,7 @@ def add_eraser(rom, clean, sym, at):
     struct.pack_into('<HH', row, 12, ERASER_UI + len(strings), ERASER_UI + len(strings) + 1)
     struct.pack_into('<I', row, 20, sym['beam_use'] | 1)
     rows.append(bytes(row))
-    strings += [put(t.encode('utf-16-le') + b'\0\0') for t in ('Special Beam Cannon', 'Press the B Button and hold it to charge, then release to fire a thin, piercing beam of energy from your fingertips.')]
+    strings += [put(t.encode('utf-16-le') + b'\0\0') for t in ('Special Beam Cannon', 'Press the B Button and hold it to charge, then release to fire a thin beam of energy from your fingertips.')]
     if struct.unpack_from('<I', rom, 0x13618)[0] != ROM_BASE + SKILL_ROWS:
         sys.exit('skill table reference moved')
     struct.pack_into('<I', rom, 0x13618, put(bytes(rom[SKILL_ROWS:SKILL_ROWS + 24 * ERASER_SKILL]) + b''.join(rows)))
