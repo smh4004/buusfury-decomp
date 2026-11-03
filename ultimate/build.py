@@ -302,6 +302,7 @@ step auto code
 
 def tournament_npc(src):
     """After Super 13 this West City resident enters you in the World Tournament, and says so when you win."""
+    import zone26
     head, old = src.split('step 1 say', 1)
     return head + '''step 1 code
     pushn 643
@@ -324,13 +325,19 @@ step 2 say''' + old.rstrip() + '''
 step auto code
     push 8
     end
-step auto say 0x85 "The World Tournament is on! Three rounds, 100,000 Zenie to the winner. You're up!"
+step auto say 0x85 "The World Tournament is on! Three rounds, drawn at random. 100,000 Zenie to the winner. You're up!"
 step auto code
+    pushn %d
+    call flag
+    jz L1
     call 0x78(30)
-    pushn 26, 28, 1, 360, 420
+    pushn 26, %d, 1, 360, 420
     call 0x77
     call 0x79(30)
     push 8
+    end
+L1:
+%s    push 8
     end
 step auto say 0x85 "You won the World Tournament! That's 100,000 Zenie. Come back any time."
 step auto code
@@ -340,7 +347,7 @@ step auto code
     end
 step auto code
     end
-'''
+''' % (zone26.TOUR_ORDERED, zone26.tour_first(), zone26.tour_draw(0))
 
 
 def debug_edits(first_form):

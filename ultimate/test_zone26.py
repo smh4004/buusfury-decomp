@@ -147,16 +147,25 @@ again = talk(done) + ['shot rushagain', 'tap A 60', 'tap A 200', 'run 120', 'mem
 out = run(again); check('after the reward he offers the Boss Rush again', at(out) == (zone26.RUSH_FIRST << 8 | 26))
 print('rush screens in', d)
 
-# World Tournament: the resident's second choice. Three rounds in the stadium, then the prize and his congratulations.
+# World Tournament: first walk every opponent in turn (flag TOUR_ORDERED), then check that a real entry draws at random.
 tour = list(start); go(tour, [x for x in D[1] if 'world' in x][0], PL, 'thome')
 strong = ['poke8 03001588 96', 'poke8 03001589 96', 'poke8 0300158A 96', 'poke8 0300158B 96', 'poke8 03001576 FF', 'poke8 03001577 7F']
-tour = talk_at(tour + [flag_on(622)] + strong, 96, 328) + ['shot tourboard', 'tap A 60', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'mem 0300155C 1', 'shot tour0']
-out = run(tour); first = zone26.RUSH_FIRST + len(zone26.RUSH)
+home = list(tour); first = zone26.tour_first(); pool1 = len(zone26.TOUR_POOLS[0])
+drawn = set()
+for wait in (1, 37, 91, 143, 211, 277):
+    o_ = talk_at(home + ['run %d' % wait, flag_on(622)] + strong, 96, 328) + ['tap A 60', 'tap A 200', 'run 120', 'mem %s 1' % AT]
+    drawn.add(at(run(o_)))
+print('   first-round rooms drawn', sorted(hex(v) for v in drawn))
+check('entering draws a first-round opponent at random', len(drawn) >= 2 and all(first <= v >> 8 < first + pool1 and v & 255 == 26 for v in drawn))
+tour = talk_at(home + [flag_on(622), 'poke8 %08X %02X' % (0x03001068 + 0x55 + zone26.TOUR_ORDERED // 8, 1 << zone26.TOUR_ORDERED % 8)] + strong, 96, 328) + ['shot tourboard', 'tap A 60', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'mem 0300155C 1', 'shot tour0']
+out = run(tour)
 check('the resident sends you to the World Tournament', at(out) == (first << 8 | 26))
 before = int([l for l in out.splitlines() if l.startswith('mem 0300155c')][-1].split()[-1], 16)
-for k, (_, _, hp, _) in enumerate(zone26.TOUR):
+everyone = zone26.tour_list()
+for k, (rnd, place, row, _) in enumerate(everyone):
+    hp = zone26.TOUR_HP[rnd] + 10 * place
     here = at(run(tour + ['mem %s 1' % AT])); found = rush_boss(tour, hp)
-    check('tournament round %d has its opponent with %d HP' % (k + 1, hp), found[0] is not None)
+    check('tournament opponent %d (enemy row %d) is there with %d HP' % (k + 1, row, hp), found[0] is not None)
     if found[0] is None: break
     for attempt in range(12):
         found = rush_boss(tour, hp)
@@ -171,8 +180,9 @@ for k, (_, _, hp, _) in enumerate(zone26.TOUR):
         tour = tour + heal + ['poke %08X %08X' % (a_, 2 << 10)] + near + ['keys UP', 'run 3', 'keys', 'tap A 14'] + heal + ['tap A 30'] * 6 + heal + ['run 150', 'mem %s 1' % AT]
         out = run(tour)
         if 'bad pc' in out or at(out) != here: break
+    print('   opponent %d took %d tries' % (k + 1, attempt + 1))
     run(tour + ['shot tour%d' % (k + 1)])
-    if k < len(zone26.TOUR) - 1: check('winning moves on to the next round', 'bad pc' not in out and at(out) == ((first + k + 1) << 8 | 26))
+    if k < len(everyone) - 1: check('beating them moves on', 'bad pc' not in out and at(out) == ((first + k + 1) << 8 | 26))
 check('winning the final brings you home to West City', at(out) == 0x0104)
 said = talk_at(tour + ['mem 0300155C 1'], 96, 328) + ['shot tourwon', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'dump g 03001068 8a8']
 out = run(said); g = open(d + '/g.bin', 'rb').read()

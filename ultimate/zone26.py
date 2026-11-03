@@ -154,7 +154,13 @@ STATS_COUNT, STATS_REFS = 150, (0xFCE4, 0xFD70, 0x1BA90, 0x24F28, 0x279DC, 0x2CD
 RUSH = ((18, 73), (28, 43), (122, 154), (10, 38), (115, 49), (118, 51), (120, 52), (61, 47), (BOSS_ROW, 'super13'))
 # Dabura, Majin Buu, Super Janemba, Broly, Super Buu, Super Buu with Gotenks, Kid Buu, Super 13: enemy row and character from spawns.csv.
 # Super Buu with Gohan is row 120: row 119, the other one in his story room, lies still and can't be hit outside his scene.
-TOUR = ((147, 303, 15000, (145, 60, 40, 60)), (111, 252, 20000, (145, 70, 50, 65)), (91, 224, 30000, (150, 75, 85, 70)))   # World Tournament rounds: Yamu, Spopovich, Pikkon. Enemy row, character, HP, (level + 50, Strength, Power, Endurance)
+# World Tournament: each round draws one opponent at random from its own pool, so nobody can come up twice. Enemy row, character. Stats and HP are set per round.
+TOUR_POOLS = (((147, 303), (111, 252), (49, 143), (85, 206), (80, 201), (63, 164)),                  # Yamu, Spopovich, Idasa, Olibu, Ninja Boss, Knight Destroyer
+              ((91, 224), (39, 123), (130, 269), (18, 73), (129, 221), (0, 31)),                    # Pikkon, Goten, Trunks, Dabura, Pharoah, Airship Warlord
+              ((122, 154), (10, 38), (28, 43), (115, 49), (61, 47), (BOSS_ROW, 'super13')))          # Super Janemba, Broly, Majin Buu, Super Buu, Kid Buu, Super 13
+TOUR_HP = (15000, 20000, 30000)                     # each opponent adds 10 per place in its pool, so a test can tell them apart
+TOUR_STATS = ((145, 60, 40, 60), (145, 70, 50, 65), (150, 75, 85, 70))     # level + 50, Strength, Power, Endurance
+TOUR_ORDERED = 650                                 # a test sets this to walk every opponent in turn instead of drawing
 TOUR_ROOM, TOUR_PRIZE, TOUR_WON, ADD_ZENIE = (7, 6), 100000, 643, 0xE0
 RUSH_FIRST, RUSH_WON = 19, 642   # room of the first fight, flag for a win not yet rewarded
 RUSH_HP = (10000, 40000, 25840, 20240, 30000, 32000, 34000, 36000, 55000)    # shorter than the story's, since all nine share one health bar
@@ -177,6 +183,28 @@ def boss_stats(W, rom, stats):
     row(BOSS_ROW, 96175, 75000, (160, 70, 115, 105), 96, 625, 18)
 
 
+def tour_first():
+    return RUSH_FIRST + len(RUSH)
+
+
+def tour_list():
+    return [(rnd, place, row, char) for rnd, pool in enumerate(TOUR_POOLS) for place, (row, char) in enumerate(pool)]
+
+
+def tour_draw(rnd):
+    """Script: go to a random opponent of this round."""
+    base = tour_first() + sum(len(p) for p in TOUR_POOLS[:rnd])
+    return '    call 0x78(30)\n    push 26\n    call 0x19(%d)\n    push %d\n    add\n    pushn 1, 360, 420\n    call 0x77\n    call 0x79(30)\n' % (len(TOUR_POOLS[rnd]), base)
+
+
+def tour_next(k, rnd):
+    """Script run when opponent k falls."""
+    prize = '    pushn %d\n    call set_flag\n    pushn %d\n    call 0x%X\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 4, 1, 1, 96, 350\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % (TOUR_WON, TOUR_PRIZE, ADD_ZENIE)
+    last = len(tour_list()) - 1
+    ordered = ('    pushn %d\n    call flag\n    jz L1\n' % TOUR_ORDERED + ('    call 0x78(30)\n    pushn 26, %d, 1, 360, 420\n    call 0x77\n    call 0x79(30)\n    end\n' % (tour_first() + k + 1) if k < last else prize) + 'L1:\n')
+    return ordered + (prize if rnd == len(TOUR_POOLS) - 1 else tour_draw(rnd + 1) + '    end\n')
+
+
 def rush_rows(W, rom, harmless=False):
     """The Boss Rush's copies of the bosses, on new rows of a moved stats table: each death sends you to the next room."""
     import bfscript
@@ -192,16 +220,12 @@ def rush_rows(W, rom, harmless=False):
             text = '    call 0x78(30)\n    pushn 26, %d, 1, %d, %d\n    call 0x77\n    call 0x79(30)\n    end\n' % (RUSH_FIRST + k + 1, 120, 276)
         struct.pack_into('<II', r, 0x14, 0x08708920, W.put(bytes(bfscript.asm(text))))
         rows += r
-    for k, (row, _, hp, stat) in enumerate(TOUR):
+    for k, (rnd, place, row, _) in enumerate(tour_list()):
         r = bytearray(rom[STATS + 28 * row:STATS + 28 * (row + 1)])
-        struct.pack_into('<I', r, 4, hp)
-        r[0xC:0x10] = bytes(stat)
+        struct.pack_into('<I', r, 4, TOUR_HP[rnd] + 10 * place)
+        r[0xC:0x10] = bytes(TOUR_STATS[rnd])
         if harmless: r[0xD] = r[0xE] = 0
-        if k == len(TOUR) - 1:     # the prize, then home
-            text = '    pushn %d\n    call set_flag\n    pushn %d\n    call 0x%X\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 4, 1, 1, 320, 392\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % (TOUR_WON, TOUR_PRIZE, ADD_ZENIE)
-        else:
-            text = '    call 0x78(30)\n    pushn 26, %d, 1, 360, 420\n    call 0x77\n    call 0x79(30)\n    end\n' % (RUSH_FIRST + len(RUSH) + k + 1)
-        struct.pack_into('<II', r, 0x14, 0x08708920, W.put(bytes(bfscript.asm(text))))
+        struct.pack_into('<II', r, 0x14, 0x08708920, W.put(bytes(bfscript.asm(tour_next(k, rnd)))))
         rows += r
     at = W.put(bytes(rows))
     for o in STATS_REFS:
@@ -286,9 +310,9 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
                 st[3] = len(exits); struct.pack_into('<I', st, 0x10, W.put(b''.join(struct.pack('<II', *x) for x in exits)) if exits else 0)
                 rows.append(bytes(st))
     stadium = next(rom[AREAS + 56 * q:AREAS + 56 * q + 56] for q in range(COUNT) if (rom[AREAS + 56 * q], rom[AREAS + 56 * q + 1]) == TOUR_ROOM)
-    for k, (_, char, _, _) in enumerate(TOUR):        # World Tournament: the stadium's own room, empty but for the opponent
-        st = bytearray(stadium); st[0] = 26; st[1] = RUSH_FIRST + len(RUSH) + k; st[3] = 0
-        e = W.put(struct.pack('<8I', 0x0800FD55, 0, STATS_COUNT + len(RUSH) + k, 366 << 16 | 360, char, 0x080555A0, 1, 0x080716EC))
+    for k, (_, _, _, char) in enumerate(tour_list()):        # World Tournament: the stadium's own room, empty but for the opponent
+        st = bytearray(stadium); st[0] = 26; st[1] = tour_first() + k; st[3] = 0
+        e = W.put(struct.pack('<8I', 0x0800FD55, 0, STATS_COUNT + len(RUSH) + k, 366 << 16 | 360, actor_ids[char] + 9 if isinstance(char, str) else char, 0x080555A0, 1, 0x080716EC))
         struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e))); struct.pack_into('<I', st, 0x10, 0)
         rows.append(bytes(st))
     if debug_door:          # debug: on Snake Way, x>=96 walk down reaches 26:1; x 48-96 walk up reaches Broly; x<48 starts the ending
