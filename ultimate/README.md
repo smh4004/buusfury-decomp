@@ -1,11 +1,17 @@
 # Buu's Fury Ultimate Edition
 
+A log2-decomp checkout must sit beside this repo. No ROMs or built games are stored here: you supply your own carts, and the build reads what it needs from them.
+
 ```sh
 cp /path/to/clean/buusfury.gba baserom.gba   # USA, SHA-1 f1c4b075...
 make extract && make harness
 export BFU_COMBO=/path/to/log1-2-combo.gba   # USA, SHA-1 f02d179a...
-python3 ultimate/build.py && python3 ultimate/build.py --debug
+export BFU_LOG2=/path/to/log2.gba             # Legacy of Goku II (USA): Zone 26's snow tiles, Special Beam Cannon
+export BFU_PROTO=/path/to/DBZ3_cart27.GBA     # Prototype D: Super 13 and Zone 26's layouts
+python3 ultimate/build.py && python3 ultimate/build.py --debug && python3 ultimate/build.py --debug --enemy
 python3 ultimate/test_build.py
+python3 ultimate/build.py --debug --zone
+python3 ultimate/test_zone26.py && python3 ultimate/test_story.py
 ```
 Output goes to `ultimate/out/` (git-ignored). Share only `.bps` patches. New forms are defined in `ultimate/forms.json`.
 The debug build starts with Vegito and guest Broly, and opens Switch Character then saves when the intro ends.

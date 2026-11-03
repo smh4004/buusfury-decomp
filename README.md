@@ -1,5 +1,7 @@
 # Dragon Ball Z: Buu's Fury (USA): disassembly and decompilation
 
+**The Ultimate Edition romhack built on this source is in [`ultimate/`](ultimate/README.md).**
+
 A pret-style source tree for **Dragon Ball Z: Buu's Fury (USA)** (GBA, `BG3E`, Webfoot 2004). It provides:
 
 * **A matching disassembly.** `make` rebuilds the original 8 MB ROM byte for byte from labelled assembly and data.
