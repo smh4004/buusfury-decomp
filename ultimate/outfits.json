@@ -99,6 +99,21 @@
     "form": "videl",
     "flag": 617,
     "name": "Videl"
+   },
+   {
+    "form": "majin_buu",
+    "flag": 641,
+    "name": "Majin Buu"
+   },
+   {
+    "form": "super_janemba",
+    "flag": 641,
+    "name": "Super Janemba"
+   },
+   {
+    "form": "kid_buu",
+    "flag": 641,
+    "name": "Kid Buu"
    }
   ],
   "7": [

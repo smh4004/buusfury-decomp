@@ -34,7 +34,7 @@ extern const u8 form_table[];
 /* The guest slot has one skill list but different fighters, so the list follows the outfit. A story form (Hercule, say) leaves it alone. */
 static void guest_sync(void) {
     static const u8 broly[] = {3, 7, 8, ERASER_SKILL}, thirteen[] = {3, 7, 8, BOMBER_SKILL}, piccolo[] = {3, 7, 17, BEAM_SKILL},
-        a17[] = {3, 7, 8, BLITZ_SKILL}, a18[] = {3, 7, BLITZ_SKILL, DISC_SKILL}, krillin[] = {3, 7, 15, DISC_SKILL}, videl[] = {1, 7},
+        fighter[] = {2, 7, 8}, a17[] = {3, 7, 8, BLITZ_SKILL}, a18[] = {3, 7, BLITZ_SKILL, DISC_SKILL}, krillin[] = {3, 7, 15, DISC_SKILL}, videl[] = {1, 7},
         trunks[] = {4, 7, 20, 4, 11};            /* Future Trunks: the same moves as Trunks */
     u8 *r = RECORDS + 8 * RECORD_SIZE;
     int form = FORM_OF(8), i;
@@ -47,6 +47,7 @@ static void guest_sync(void) {
     else if (form == FORM_KRILLIN) list = krillin;
     else if (form == FORM_VIDEL) list = videl;
     else if (form == FORM_FUTURE_TRUNKS) list = trunks;
+    else if (form == FORM_KID_BUU || form == FORM_MAJIN_BUU || form == FORM_JANEMBA) list = fighter;
     else return;
     r[0x0C] = list[0];
     for (i = 0; i < list[0]; i++) r[0x0D + i] = list[i + 1];

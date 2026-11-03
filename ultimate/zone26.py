@@ -150,6 +150,10 @@ def links(cfg, masks):
 
 STATS = 0x711274
 PHASE1_ROW, BOSS_ROW = 113, 114      # placed nowhere else in the game
+STATS_COUNT, STATS_REFS = 150, (0xFCE4, 0xFD70, 0x1BA90, 0x24F28, 0x279DC, 0x2CD18, 0x2F5E4, 0x32D3C, 0x335B8, 0x39BD4, 0x39D90, 0x3A384, 0x3A698)
+RUSH = ((18, 73, 0x080555A0), (28, 43, 0x080555A0), (122, 154, 0x080555A0), (10, 38, 0x080555A0), (BOSS_ROW, 'super13', 0x080555A0))    # Dabura, Majin Buu, Super Janemba, Broly, Super 13: enemy row, character, behaviour from spawns.csv. Left out: Super Buu and Kid Buu, whose fights lean on their story scenes. Broly uses the plain behaviour: his own one holds the player still after he falls
+RUSH_FIRST, RUSH_WON = 19, 642   # room of the first fight, flag for a win not yet rewarded
+RUSH_HP = (10000, 40000, 25840, 20240, 55000)    # shorter than the story's, since all five share one health bar
 
 
 def boss_stats(W, rom, stats):
@@ -167,6 +171,28 @@ def boss_stats(W, rom, stats):
         struct.pack_into('<II', rom, r + 0x14, 0x08708920, death(flag, area))     # this handler is the one that runs death scripts
     row(PHASE1_ROW, 40000, 30000, (150, 60, 90, 90), 128, 620, 16)
     row(BOSS_ROW, 96175, 75000, (160, 70, 115, 105), 96, 625, 18)
+
+
+def rush_rows(W, rom, harmless=False):
+    """The Boss Rush's copies of the bosses, on new rows of a moved stats table: each death sends you to the next room."""
+    import bfscript
+    rows = bytearray(rom[STATS:STATS + 28 * STATS_COUNT])
+    for k, (row, _, _) in enumerate(RUSH):
+        r = bytearray(rom[STATS + 28 * row:STATS + 28 * (row + 1)])
+        struct.pack_into('<I', r, 4, RUSH_HP[k])
+        if harmless: r[0xC] = r[0xD] = 0      # debug zone build only: bosses that can't end the test before it reaches the next room
+        last = k == len(RUSH) - 1
+        if last:     # home to West City, where the resident pays out: a scene can't start in a room that held a boss
+            text = '    pushn %d\n    call set_flag\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 4, 1, 1, 320, 392\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % RUSH_WON
+        else:
+            text = '    call 0x78(30)\n    pushn 26, %d, 1, 120, 276\n    call 0x77\n    call 0x79(30)\n    end\n' % (RUSH_FIRST + k + 1)
+        struct.pack_into('<II', r, 0x14, 0x08708920, W.put(bytes(bfscript.asm(text))))
+        rows += r
+    at = W.put(bytes(rows))
+    for o in STATS_REFS:
+        if struct.unpack_from('<I', rom, o)[0] != BASE + STATS:
+            sys.exit('stats table reference moved: %X' % o)
+        struct.pack_into('<I', rom, o, at)
 
 
 def condition(W, text):
@@ -188,6 +214,7 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
         m[:min(bh, m.shape[0]), :min(bw, 256)] |= bare[:min(bh, m.shape[0]), :min(bw, 256)]
         masks[a] = follow_outline(m, ~c, doors.get(a, []))
     boss_stats(W, rom, STATS)
+    rush_rows(W, rom, debug_door)
     temp = bytes(rom[AREAS + 56 * [k for k in range(COUNT) if rom[AREAS + 56 * k] == 4 and rom[AREAS + 56 * k + 1] == 1][0]:][:56])
     for a, img in res.items():
         mask = masks[a]; audit(a, mask, doors.get(a, []))
@@ -236,6 +263,12 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
                     struct.pack_into('<I', st, 4, 0); struct.pack_into('<I', st, 0x14, 0)
                 st[3] = len(ex)
                 struct.pack_into('<I', st, 0x10, W.put(b''.join(struct.pack('<II', *x) for x in ex)) if ex else 0)
+                rows.append(bytes(st))
+            for k, (_, char, behaviour) in enumerate(RUSH):    # Boss Rush: one room per boss
+                st = bytearray(base_ent); st[1] = RUSH_FIRST + k
+                e = W.put(struct.pack('<8I', 0x0800FD55, 0, STATS_COUNT + k, 214 << 16 | 120, actor_ids[char] + 9 if isinstance(char, str) else char, behaviour, 1, 0x080716EC))
+                struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e)))
+                st[3] = len(exits); struct.pack_into('<I', st, 0x10, W.put(b''.join(struct.pack('<II', *x) for x in exits)) if exits else 0)
                 rows.append(bytes(st))
     if debug_door:          # debug: on Snake Way, x>=96 walk down reaches 26:1; x 48-96 walk up reaches Broly; x<48 starts the ending
         e = next(AREAS + 56 * k for k in range(COUNT) if rom[AREAS + 56 * k] == 1 and rom[AREAS + 56 * k + 1] == 1)

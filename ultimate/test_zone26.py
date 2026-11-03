@@ -92,6 +92,28 @@ intro = talk(intro) + ['shot ask', 'tap A 60', 'shot ask2', 'tap A 60', 'shot as
 out = run(intro); ats = [l for l in out.splitlines() if l.startswith('mem 0300197c')]
 check('the resident sends you to Zone 26 once the game is beaten', int(ats[-1].split(':')[1].split()[0], 16) & 0xFFFF == 0x011A)
 
+# Boss Rush: once Super 13 is beaten the resident offers it. Five bosses in a row, then the reward back in West City.
+flag_on = lambda n: 'poke8 %08X %02X' % (0x03001068 + 0x55 + n // 8, 1 << n % 8)
+rush = list(start); go(rush, [x for x in D[1] if 'world' in x][0], PL, 'rhome')
+rush = talk(rush + [flag_on(622)]) + ['shot board', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'shot rush0']
+out = run(rush); check('the resident offers the Boss Rush and sends you to its first room', at(out) == (zone26.RUSH_FIRST << 8 | 26))
+for k, (row, _, _) in enumerate(zone26.RUSH):
+    hp = zone26.RUSH_HP[k]
+    a_ = boss(rush, hp)[0]
+    check('Boss Rush fight %d is there with %d HP' % (k + 1, hp), a_ is not None)
+    if a_ is None: break
+    pl_, x_, y_ = ptr(rush), *boss(rush, hp)[1:]
+    tough = 'poke %08X %08X' % (pl_ + 0x28C, 30000 << 10)       # the player object's own HP: a low-level debug Goku wouldn't last
+    near = ['poke %08X %08X' % (pl_ + 0x1A0, x_), 'poke %08X %08X' % (pl_ + 0x1A4, y_ + (20 << 8))]
+    rush = rush + ['poke %08X %08X' % (a_, 2 << 10), tough] + near + ['keys UP', 'run 4', 'keys', 'tap A 12'] + [tough, 'keys UP', 'run 2', 'keys', 'tap A 18'] * 6 + ['tap A 30'] * 14 + [tough, 'run 300', 'shot rush%d' % (k + 1), 'mem %s 1' % AT]
+    out = run(rush)
+    if k < len(zone26.RUSH) - 1: check('beating it moves on to the next room', 'bad pc' not in out and at(out) == ((zone26.RUSH_FIRST + k + 1) << 8 | 26))
+check('beating the last one brings you home to West City', at(out) == 0x0104)
+done = talk(rush + ['poke8 %08X 04' % (0x03001068 + 0x55 + 641 // 8)]) + ['shot rushtalk', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot rushdone', 'dump g 03001068 8a8']
+out = run(done); g = open(d + '/g.bin', 'rb').read()
+check('the resident pays the reward once', flag(641) == 1 and flag(zone26.RUSH_WON) == 0 and 'bad pc' not in out)
+print('rush screens in', d)
+
 # Spirit Bomb: Goku has it in this build (skill 19). Select it, use it next to Super 13, and it should hurt him and spend energy.
 a13, x, y = boss(route + ['run 30'], 30000); hpa = a13
 sb = route + ['run 30', 'poke %08X %08X' % (BOSS_PL + 0x1A0, x), 'poke %08X %08X' % (BOSS_PL + 0x1A4, y + (64 << 8)), 'keys UP', 'run 4', 'keys', 'run 4',

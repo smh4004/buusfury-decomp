@@ -12,26 +12,26 @@
   {
    "id": "super_janemba",
    "copy": 47,
-   "character": 154,
    "owner": 8,
    "name": 1044,
-   "portrait": 81
+   "portrait": 81,
+   "actor": "super_janemba_player"
   },
   {
    "id": "kid_buu",
    "copy": 47,
-   "character": 47,
    "owner": 8,
    "name": 1036,
-   "portrait": 85
+   "portrait": 85,
+   "actor": "kid_buu_player"
   },
   {
    "id": "majin_buu",
    "copy": 47,
-   "character": 43,
    "owner": 8,
    "name": 1028,
-   "portrait": 91
+   "portrait": 91,
+   "actor": "majin_buu_player"
   },
   {
    "id": "gohan_orange_ss",
@@ -276,7 +276,8 @@
    "copy": 46,
    "actor": "android17",
    "owner": 8,
-   "name": 1544
+   "name": 1544,
+   "portrait": 163
   },
   {
    "id": "android18",
@@ -303,7 +304,8 @@
    "owner": 8,
    "name": 1545,
    "status_name": 1545,
-   "up": "future_trunks_ss"
+   "up": "future_trunks_ss",
+   "portrait": 164
   },
   {
    "id": "future_trunks_ss",
@@ -313,7 +315,8 @@
    "name": 1545,
    "status_name": 1545,
    "up": 255,
-   "down": "future_trunks"
+   "down": "future_trunks",
+   "portrait": 165
   }
  ],
  "edit": {

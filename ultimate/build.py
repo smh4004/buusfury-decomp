@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.join('tools'))
 sys.path.insert(0, 'ultimate/lib')
 import bps
 import numpy as np
-import sprites, artclean
+import sprites, artclean, wfz
 sys.path.insert(0, 'ultimate')
 import gogeta
 
@@ -33,6 +33,7 @@ JOIN_OLD = 0x08003891
 ERASER_SKILL = 24                # a new row past the retail table: Big Bang's code with green frames
 ERASER_UI = 1534                 # strings past the retail table: name, description of each new move
 BOMBER_SKILL = 25
+PORTRAITS = (20, 90, 94)         # LoG2 portrait table: Android 17, Future Trunks, Super Saiyan Future Trunks = speaker ids 163, 164, 165
 SS2_FLAG = 630                   # + the owner's party slot: set where the story reaches Super Saiyan 2
 BLITZ_SKILL = 27                 # Android 17 and 18
 DISC_SKILL = 28                  # Krillin and Android 18: LoG2's spinning gold disc on Big Bang's code
@@ -98,6 +99,12 @@ def quest_npc(src):
     head, old = src.split('step 1 say', 1)
     ids = new_actor_ids(); super13 = ids['super13'] + 9
     return head + '''step 1 code
+    pushn 642
+    call flag
+    jz L8
+    push 25
+    end
+L8:
     pushn 620
     call flag
     pushn 623
@@ -119,7 +126,7 @@ L5:
     pushn 622
     call flag
     jz L1
-    push 12
+    push 22
     end
 L1:
     pushn 621
@@ -131,7 +138,7 @@ L2:
     pushn 623
     call flag
     jz L7
-    push 21
+    push 30
     end
 L7:
     call flag(149)
@@ -141,7 +148,7 @@ L3:
     end
 step 2 say''' + old.rstrip() + '''
 step auto code
-    push 21
+    push 30
     end
 step auto say 0x85 "Something's wrong past the Z-Mart. Dr. Gero's old computer has woken up!"
 step auto say 0x85 "It built one last Android, up in the snow. Hurry!"
@@ -152,7 +159,7 @@ step auto code
     call 0x79(30)
     end
 step auto code
-    push 21
+    push 30
     end
 step auto say 0x85 "The signal stopped! You beat Super 13!"
 step auto say 0x85 "Saiyan armor from Capsule Corp, and new allies! See the Switch Character menu."
@@ -184,11 +191,11 @@ step auto code
     call 0x%X
     pushn 7, %d
     call 0x%X
-    push 21
+    push 30
     end
 step auto say 0x85 "West City's quiet again. Thanks to you."
 step auto code
-    push 21
+    push 30
     end
 step auto say 0x00 "Android 13 pulls in the broken parts of 14 and 15!"
 step auto code
@@ -207,7 +214,7 @@ step auto code
     pushn %d, 20, 0
     call 0x51
     call wait(40)
-    push 21
+    push 30
     end
 step auto say 0x02 "He's still standing! I need everyone's energy!"
 step auto code
@@ -270,6 +277,46 @@ L2:
     call 0x79(30)
     call 0x2F
     call 0x33(0)
+    end
+step auto code
+    push 30
+    end
+step auto text "Need a real fight? I can send you to a Boss Rush: five bosses, one health bar.\\n\\n-Boss Rush\\n-Not now"
+step auto code
+    call 0x18
+    push 0
+    eq
+    jz L1
+    call 0x78(30)
+    pushn 26, 19, 1, 120, 276
+    call 0x77
+    call 0x79(30)
+    end
+L1:
+    push 12
+    end
+step auto code
+    push 30
+    end
+step auto code
+    pushn 642
+    call clear_flag
+    pushn 641
+    call flag
+    jz L1
+    push 28
+    end
+L1:
+    end
+step auto say 0x85 "You beat all five! Majin Buu, Super Janemba and Kid Buu will fight for you now. See the Switch Character menu."
+step auto code
+    pushn 641
+    call set_flag
+    push 30
+    end
+step auto say 0x85 "All five again! Nobody can stop you."
+step auto code
+    push 30
     end
 step auto code
     end
@@ -411,6 +458,7 @@ def indexer(usable, pal):
     u = np.array(usable); p = pal[u].astype(int); cache = {}
     def ch(v): return np.stack([v[..., 0] - v[..., 1], v[..., 1] - v[..., 2]], -1)
     def one(q):
+        q = np.asarray(q, dtype=int)         # a uint8 colour would wrap in the differences below
         k = tuple(int(v) for v in q)
         if k not in cache:
             d = ((p - q) ** 2).sum(1) + 6 * ((ch(p) - ch(q)) ** 2).sum(1)
@@ -480,7 +528,7 @@ def add_actors(rom, clean):
     for actor, form in (('gogeta_dbs', 'base'), ('gogeta_dbs_ss', 'ssj'), ('gogeta_ssb', 'ssb')):
         gogeta.write_frames(clean_dir, form, one)
         cfg[actor] = {'template': 93, 'slots': gogeta.slots(form), 'stretch': True, 'grow': lengths}
-    for name in ('piccolo', 'android17', 'android18', 'krillin', 'future_trunks', 'future_trunks_ss', 'videl_player'):
+    for name in ('piccolo', 'android17', 'android18', 'krillin', 'future_trunks', 'future_trunks_ss', 'videl_player', 'kid_buu_player', 'majin_buu_player', 'super_janemba_player'):
         cfg[name]['grow'] = lengths
     for a in cfg.values():      # slot 18 is the pose held while firing a skill: LoG2's own firing pose when it has one, else its ki pose
         if isinstance(a, dict) and 'log2_record' in a and 'replace' not in a:
@@ -557,7 +605,7 @@ def add_outfits(rom, clean, at):
     pairs = ['{%d,%d}' % (base, 14 if row == 14 else fm[row]) for base, row in SAIYAMAN]
     c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\nconst u8 ss2_rows[] = {%s,255};\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs), ','.join(str(v) for k, v in fm.items() if k.endswith(('_ss2', '_ss2_b'))))
     open(d + '/o.c', 'w').write(c)
-    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
+    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DFORM_KID_BUU=%d' % fm['kid_buu'], '-DFORM_MAJIN_BUU=%d' % fm['majin_buu'], '-DFORM_JANEMBA=%d' % fm['super_janemba'], '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
     syms = ['-Wl,--defsym=form_table=0x%X' % (ROM_BASE + SPACE), '-Wl,-Ttext=0x%X' % (ROM_BASE + at), '-Wl,-e,picker_update', '-Wl,--no-warn-rwx-segments']
     lib = subprocess.run(['arm-none-eabi-gcc', '-mthumb', '-mcpu=arm7tdmi', '-print-libgcc-file-name'], capture_output=True, text=True, check=True).stdout.strip()
     subprocess.run(['arm-none-eabi-gcc'] + flags + syms + [d + '/o.c', lib, '-o', d + '/o.elf'], check=True)
@@ -735,6 +783,33 @@ def add_eraser(rom, clean, sym, at):
     return at
 
 
+def add_portraits(rom, clean, at):
+    """Android 17 and Future Trunks: LoG2's portraits (the import Gero's Legacy uses) in Buu's Fury's gold frame, on speaker ids past the 163 retail ones."""
+    LIT, TABLE, COUNT, TEMPLATE = 0x12194, 0x6F393C, 163, 9        # the frame comes from Android 18's portrait
+    if struct.unpack_from('<I', rom, LIT)[0] != ROM_BASE + TABLE:
+        sys.exit('portrait table reference moved')
+    combo = open(COMBO, 'rb').read()[0x800000:]
+    l2pal = np.frombuffer(combo[0x3ECD1C + 768:0x3ECD1C + 1536], np.uint8).reshape(256, 3)
+    pal = np.frombuffer(clean[0x701B0 + 768:0x701B0 + 1536], np.uint8).reshape(256, 3)
+    one = indexer([i for i in range(1, 256) if i not in artclean.MENU_SLOTS], pal)
+    remap = np.array([one(l2pal[v]) for v in range(256)], np.uint8)
+    def art(data, o):
+        kind, size = struct.unpack_from('<II', data, o)
+        raw = data[o + 8:o + 8 + 4096] if kind == 0 else bytes(wfz.decompress_stream(data, o + 8, 4096)[0])
+        return np.frombuffer(raw, np.uint8).reshape(64, 64)
+    frame = art(clean, struct.unpack_from('<I', clean, TABLE + 4 * TEMPLATE)[0] - ROM_BASE)
+    table = list(struct.unpack_from('<%dI' % COUNT, clean, TABLE))
+    table_at = (at + 3) & ~3; cur = table_at + 4 * 256
+    for k in PORTRAITS:
+        img = frame.copy()
+        img[4:60, 4:60] = remap[art(combo, struct.unpack_from('<I', combo, 0x3ECB6C + 4 * k)[0] - 0x08800000)[4:60, 4:60]]
+        rom[cur:cur + 4104] = struct.pack('<II', 0, 4096) + img.tobytes()
+        table.append(ROM_BASE + cur); cur += 4104
+    rom[table_at:table_at + 4 * 256] = struct.pack('<%dI' % len(table), *table) + bytes(4 * (256 - len(table)))
+    struct.pack_into('<I', rom, LIT, ROM_BASE + table_at)
+    return cur
+
+
 def thumb_bl(at, to):
     d = (to - (at + 4)) >> 1
     return struct.pack('<HH', 0xF000 | (d >> 11 & 0x7FF), 0xF800 | (d & 0x7FF))
@@ -794,6 +869,7 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     json.dump(index, open(OUT + '/_forms.json', 'w'))
     free = add_outfits(rom, clean, (free + 3) & ~3)
+    free = add_portraits(rom, clean, free)
     sys.path.insert(0, 'ultimate')
     import zone26
     zone_end, zone_info = zone26.apply(rom, clean, PROTO, LOG2, actors_end, actors, debug and '--zone' in sys.argv, symbol('gUnknown_08785580'), symbol('gUnknown_08796114'))
