@@ -97,6 +97,14 @@ flag_on = lambda n: 'poke8 %08X %02X' % (0x03001068 + 0x55 + n // 8, 1 << n % 8)
 rush = list(start); go(rush, [x for x in D[1] if 'world' in x][0], PL, 'rhome')
 rush = talk(rush + [flag_on(622)]) + ['shot board', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'shot rush0']
 out = run(rush); check('the resident offers the Boss Rush and sends you to its first room', at(out) == (zone26.RUSH_FIRST << 8 | 26))
+def boss_any(base):
+    """The living boss after the test has already cut its HP."""
+    run(base + ['dump w 02000000 40000']); w = open(d + '/w.bin', 'rb').read(); best = (None, 0, 0)
+    for i in range(0x28C, len(w) - 4, 4):
+        v = struct.unpack_from('<i', w, i)[0]
+        if 0 < v <= 64 << 10 and struct.unpack_from('<I', w, i - 0x28C)[0] == 0x0804C484:
+            best = (0x02000000 + i, ) + struct.unpack_from('<II', w, i - 0xEC)
+    return best
 def rush_boss(base, hp):
     """The boss by its class and HP, allowing for a few stray punches from the test on the way in."""
     run(base + ['dump w 02000000 40000']); w = open(d + '/w.bin', 'rb').read(); best = (None, 0, 0)
@@ -107,16 +115,22 @@ def rush_boss(base, hp):
     return best
 for k, _ in enumerate(zone26.RUSH):
     hp = zone26.RUSH_HP[k]
-    found = rush_boss(rush, hp); a_ = found[0]
-    check('Boss Rush fight %d is there with %d HP' % (k + 1, hp), a_ is not None)
-    if a_ is None: break
-    pl_, x_, y_ = ptr(rush), *found[1:]
-    tough = 'poke %08X %08X' % (pl_ + 0x28C, 30000 << 10)       # the player object's own HP: a low-level debug Goku wouldn't last
-    near = ['poke %08X %08X' % (pl_ + 0x1A0, x_), 'poke %08X %08X' % (pl_ + 0x1A4, y_ + (20 << 8))]
-    pin = ['poke %08X %08X' % (a_ - 0xEC, x_), 'poke %08X %08X' % (a_ - 0xE8, y_)]    # Super Buu with Gohan teleports out of reach. Only him: these pokes would land on the next boss, who takes over the same memory
-    heal = ['poke8 03001577 7F', tough]        # both copies of his HP: the record, and the object in the room. Going down here ends at the title screen, whose A presses then start a new game
-    rush = rush + ['poke %08X %08X' % (a_, 2 << 10)] + heal + near + ['keys UP', 'run 4', 'keys', 'tap A 12'] + (heal + (pin + near if k == 6 else []) + ['keys UP', 'run 2', 'keys', 'tap A 8']) * 3 + (heal + ['keys UP', 'run 2', 'keys', 'tap A 18']) * 3 + (heal + ['tap A 30']) * 14 + heal + ['run 100'] + heal + ['run 100'] + heal + ['run 100', 'shot rush%d' % (k + 1), 'mem %s 1' % AT]
-    out = run(rush)
+    here = at(run(rush + ['mem %s 1' % AT]))
+    found = rush_boss(rush, hp)
+    check('Boss Rush fight %d is there with %d HP' % (k + 1, hp), found[0] is not None)
+    if found[0] is None: break
+    # The bosses move and teleport, so look again and try again until the room changes. Going down here would end at the title screen, whose A presses start a new game, so his HP is kept up in both places it lives.
+    for attempt in range(12):
+        found = rush_boss(rush, hp)
+        if found[0] is None: found = boss_any(rush)
+        a_, x_, y_ = found; pl_ = ptr(rush)
+        heal = ['poke8 03001577 7F', 'poke %08X %08X' % (pl_ + 0x28C, 30000 << 10)]
+        near = ['poke %08X %08X' % (pl_ + 0x1A0, x_), 'poke %08X %08X' % (pl_ + 0x1A4, y_ + (20 << 8))]
+        rush = rush + heal + ['poke %08X %08X' % (a_, 2 << 10)] + near + ['keys UP', 'run 3', 'keys', 'tap A 14'] + heal + ['tap A 30'] * 6 + heal + ['run 150', 'mem %s 1' % AT]
+        out = run(rush)
+        if 'bad pc' in out or at(out) != here: break
+    print('   fight %d took %d tries' % (k + 1, attempt + 1))
+    run(rush + ['shot rush%d' % (k + 1)])
     if k < len(zone26.RUSH) - 1: check('beating it moves on to the next room', 'bad pc' not in out and at(out) == ((zone26.RUSH_FIRST + k + 1) << 8 | 26))
 check('beating the last one brings you home to West City', at(out) == 0x0104)
 done = talk(rush + ['poke8 %08X 04' % (0x03001068 + 0x55 + 641 // 8)]) + ['shot rushtalk', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot rushdone', 'dump g 03001068 8a8']
