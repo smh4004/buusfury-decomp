@@ -284,7 +284,7 @@ L2:
 step auto code
     push 30
     end
-step auto text "Need a real fight? I can send you to a Boss Rush: nine bosses, one health bar.\\n\\n-Boss Rush\\n-Not now"
+step auto text "Need a real fight? I can send you to a Boss Rush: eight bosses, one health bar.\\n\\n-Boss Rush\\n-Not now"
 step auto code
     call 0x18
     push 0
@@ -303,7 +303,7 @@ step auto code
     end
 step auto code
     end
-step auto say 0x85 "You beat all nine! Majin Buu, Super Janemba and Kid Buu will fight for you now. See the Switch Character menu."
+step auto say 0x85 "You beat all eight! Majin Buu, Super Janemba and Kid Buu will fight for you now. See the Switch Character menu."
 step auto code
     pushn 641
     call set_flag

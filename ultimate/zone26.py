@@ -151,11 +151,12 @@ def links(cfg, masks):
 STATS = 0x711274
 PHASE1_ROW, BOSS_ROW = 113, 114      # placed nowhere else in the game
 STATS_COUNT, STATS_REFS = 150, (0xFCE4, 0xFD70, 0x1BA90, 0x24F28, 0x279DC, 0x2CD18, 0x2F5E4, 0x32D3C, 0x335B8, 0x39BD4, 0x39D90, 0x3A384, 0x3A698)
-RUSH = ((18, 73), (28, 43), (122, 154), (10, 38), (115, 49), (118, 51), (119, 52), (61, 47), (BOSS_ROW, 'super13'))
-# Dabura, Majin Buu, Super Janemba, Broly, Super Buu, Super Buu with Gotenks, Super Buu with Gohan, Kid Buu, Super 13: enemy row and character from spawns.csv.
+RUSH = ((18, 73), (28, 43), (122, 154), (10, 38), (115, 49), (118, 51), (61, 47), (BOSS_ROW, 'super13'))
+# Dabura, Majin Buu, Super Janemba, Broly, Super Buu, Super Buu with Gotenks, Kid Buu, Super 13: enemy row and character from spawns.csv.
+# Left out: Super Buu with Gohan (row 119, character 52). In this arena he jumps to x=344 at once, and twelve tries in the test never hit him there.
 # Every story boss has the same AI (record +0x1C). The spawn's +0x14 only says what runs when it dies, and 0x080555A0 runs nothing: Broly's own runs his closing scene, which would hold the player still in the next room.
 RUSH_FIRST, RUSH_WON = 19, 642   # room of the first fight, flag for a win not yet rewarded
-RUSH_HP = (10000, 40000, 25840, 20240, 30000, 32000, 34000, 36000, 55000)    # shorter than the story's, since all nine share one health bar
+RUSH_HP = (10000, 40000, 25840, 20240, 30000, 32000, 36000, 55000)    # shorter than the story's, since all eight share one health bar
 
 
 def boss_stats(W, rom, stats):
