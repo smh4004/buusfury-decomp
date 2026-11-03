@@ -626,7 +626,7 @@ def add_eraser(rom, clean, sym, at):
         sys.exit('skill table reference moved')
     moved = bytes(rom[SKILL_ROWS:SKILL_ROWS + 24 * ERASER_SKILL]) + bytes(row)
     struct.pack_into('<I', rom, 0x13618, put(moved))
-    strings = [put(bytes(s.encode('utf-16-le')) + b'\0\0') for s in ('Eraser Cannon', 'Press the B Button to throw a huge ball of green energy.')]
+    strings = [put(bytes(s.encode('utf-16-le')) + b'\0\0') for s in ('Eraser Cannon', 'Press the B Button and release to emit a large ball of green energy that explodes on contact.  Hold the B Button longer to make the attack stronger.')]
     ptrs = find_once(rom, clean[UI_TABLE:UI_TABLE + 64], 'UI string table')
     new = put(bytes(rom[ptrs:ptrs + 4 * ERASER_UI]) + struct.pack('<2I', *strings))
     n = 0
