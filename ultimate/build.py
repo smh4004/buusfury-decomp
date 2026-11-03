@@ -40,7 +40,7 @@ DISC_SKILL = 28                  # Krillin and Android 18: LoG2's spinning gold 
 BEAM_SKILL = 26                  # Special Beam Cannon: the Kamehameha's code with gold and purple frames
 # Strength against Big Bang per skill level: 2.5x and 2x in total damage. Each hit rounds down, which costs low levels more, so they get a bigger multiplier (measured on Android 13 at Power 80).
 NEW_MOVES = (('eraser', ERASER_SKILL, (2.95, 2.85, 2.45), 'Eraser Cannon', 'Press the B Button and release to emit a large ball of green energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (0.2, 0.6, 1, 0, 0.15, 0.6)),
-             ('bomber', BOMBER_SKILL, (2.4, 2.2, 2), 'SS Deadly Bomber', 'Press the B Button and release to emit a large ball of pink energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (1, 0, 0.15, 0.65, 0.35, 0.5)),
+             ('bomber', BOMBER_SKILL, (2.4, 2.2, 2), 'SS Deadly Bomber', 'Press the B Button and release to emit a large ball of reddish pink energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (1, 0, 0.03, 0.55, 0.12, 0.45)),
              ('blitz', BLITZ_SKILL, (1, 1, 1), 'Power Blitz', 'Press the B Button and release to emit a large ball of golden energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (1, 0, 0.75, 0.1, 0.05, 0.3)),
              ('disc', DISC_SKILL, (2.4, 2.2, 2), 'Destructo Disc', 'Press the B Button and release to throw a spinning disc of energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (1, 0, 0.85, 0.15, 0.1, 0.8)))
 SUPER_BLUE_SKILL = 21            # a skill row with stubs only: becomes Super Saiyan Blue
@@ -241,7 +241,8 @@ L1:
     call 0x04
     call 0x05
     call 0x06
-    call 0xF4(80)
+    call 0xF4(255)
+    call 0xE5(1)
     inc 0x06
     call wait(2)
     loop L1
@@ -259,11 +260,19 @@ L1:
     call 0x04
     call 0x05
     call 0x06
-    call 0xF4(80)
+    call 0xF4(255)
+    call 0xE5(1)
     dec 0x05
     call wait(1)
     loop L1
     call play_sfx(24)
+    call 0xE5(2)
+    call wait(3)
+    call 0xE5(5)
+    call wait(3)
+    call 0xE5(8)
+    call wait(3)
+    call 0xE5(11)
     push 5
     loop_begin
 L2:
@@ -271,6 +280,7 @@ L2:
     call 0x4C
     call wait(15)
     loop L2
+    call 0xE5(0)
     pushn 621
     call set_flag
     call max_hp
@@ -654,7 +664,9 @@ def broly_frames(out, usable, pal):
         n = 0
         for row, spans in enumerate(rows):
             for x0, x1 in spans:
-                Image.fromarray(cell(row, x0, x1)).save('%s/bfp_%s_%02d.png' % (out, name, n)); n += 1
+                c = cell(row, x0, x1)
+                if row == 2: c = c[:, ::-1]        # the sheet's side views face the way this game's don't
+                Image.fromarray(c).save('%s/bfp_%s_%02d.png' % (out, name, n)); n += 1
 
 
 def player_anim_lengths(clean):
@@ -807,6 +819,7 @@ def add_outfits(rom, clean, at):
         sys.exit('native 0x%X changed' % JOIN_NATIVE)
     struct.pack_into('<I', rom, tab + 4 * JOIN_NATIVE, sym['party_join'] | 1)
     struct.pack_into('<I', rom, tab + 4 * 0xE0, sym['add_zenie'] | 1)
+    struct.pack_into('<I', rom, tab + 4 * 0xE5, sym['bomb_fx'] | 1)
     import zone26
     struct.pack_into('<I', rom, tab + 4 * zone26.TOUR_PICK, sym['tour_pick'] | 1)
     struct.pack_into('<I', rom, tab + 4 * zone26.TOUR_GET, sym['tour_get'] | 1)

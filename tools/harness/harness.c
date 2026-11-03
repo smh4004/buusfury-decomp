@@ -178,6 +178,7 @@ static void shot(const char* path) {
 
 int main(int argc, char** argv) {
     if (argc < 4) { fprintf(stderr, "usage: %s rom script outdir\n", argv[0]); return 1; }
+    setvbuf(stdout, NULL, _IOLBF, 0);   /* a script on a pipe can read each answer before sending the next line */
     mLogSetDefaultLogger(&logger);
     struct mCore* core = mCoreFind(argv[1]);
     if (!core || !core->init(core)) { fprintf(stderr, "core init failed\n"); return 1; }

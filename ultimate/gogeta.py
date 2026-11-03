@@ -145,6 +145,7 @@ def write_frames(out, form, one):
             for f in VIEWS.get((name, row), seq):
                 if isinstance(f, tuple): c, m = cut(a, bands, cells, b + 3, f[1])
                 else: c, m = cut(a, bands, cells, b + row, f)
+                if row == 1: c, m = c[:, ::-1], m[:, ::-1]       # the sheet's side views face right; the game's face left and it mirrors them
                 frames.append((c, m))
         for i, (c, m) in enumerate(frames):
             h, w = m.shape

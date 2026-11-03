@@ -304,12 +304,12 @@ void *slot_area(u8 *buffer)
 #define SetEffect ((void (*)(void *, int, void *))0x0800927F)
 #define EFFECTS (*(u32 **)(*(u32 *)0x08003C44 + 0x10))
 #define ALPHA_MIRROR (*(u8 **)0x08009900)
-struct spirit { u16 frame; u16 phase; int x, y, r; void *old, *old3; u32 ticker[2]; u8 eva, evb; };
+struct spirit { u16 frame; u16 phase; int x, y, r; void *old, *old3; u32 ticker[2]; u8 eva, evb; u16 backdrop; };
 extern const int spirit_vt[6];
 #define SB (*(struct spirit *)0x0203FF40)
 #define GROW_FRAMES 90
 #define FLY_FRAMES 36
-#define BURST_FRAMES 16
+#define BURST_FRAMES 24
 #define SPIRIT_POWER 0x8000
 static const int BURST_RECT[4] = {-100, -80, 200, 160};   /* x, y, width, height */
 
@@ -321,14 +321,49 @@ int spirit_usable(u8 *rec)
     return Enough(rec, spirit_cost(rec));
 }
 
+/* The disc is filled with one palette colour, the game's 80 by default, which is pale. Its own entry (BOMB_INDEX) pulses deep blue to pale for the
+   bomb's life, and goes back afterwards. */
+#define BLDCNT (*(volatile u16 *)0x04000050)
+#define BLDY (*(volatile u16 *)0x04000054)
+#define BOMB_PAL ((volatile u16 *)0x05000000)[BOMB_INDEX]
+#define BOMB_INDEX 255
+static u16 *const BOMB_OLD = (u16 *)0x0203FF78;
+static void bomb_glow(int frame)
+{
+    static const u16 pulse[8] = {0x7E08, 0x7E48, 0x7EA8, 0x7F0A, 0x7F4A, 0x7F0A, 0x7EA8, 0x7E48};
+    BOMB_PAL = pulse[frame >> 1 & 7];
+}
+
 static void spirit_draw(void)
 {
-    int st[5] = {4, SB.x, SB.y, SB.r, 80};
+    int st[5] = {4, SB.x, SB.y, SB.r, BOMB_INDEX};
     NativeDisc(st);
+    bomb_glow(SB.frame);
+}
+
+/* Impact frames: the whole screen white, black, then white, a few frames each. Keep BLDCNT's other bits for afterwards. */
+static void impact(int step)
+{
+    if (step == 0) { *BOMB_OLD = BLDCNT; }
+    if (step < 3 || (step >= 6 && step < 9)) { BLDCNT = 0x00BF; BLDY = 16; }
+    else if (step < 6) { BLDCNT = 0x00FF; BLDY = 16; }
+    else { BLDCNT = *BOMB_OLD; BLDY = 0; }
+}
+
+/* Script native bomb_fx(n) for the story's Spirit Bomb: 1 glow on, 0 glow off, 2 one frame of the impact sequence starting over */
+void bomb_fx(int *sp)
+{
+    int n = *sp, v = sp[n];
+    static u16 saved;
+    if (v == 1) { if (!SB.phase) { saved = BOMB_PAL; SB.phase = 9; } SB.frame++; bomb_glow(SB.frame); }
+    else if (v == 0) { BOMB_PAL = saved; SB.phase = 0; BLDY = 0; }
+    else { impact(v - 2); }
+    *sp = n - 1;
 }
 
 static void spirit_end(void)
 {
+    BOMB_PAL = SB.backdrop;
     SetEffect(EFFECTS, 0, SB.old);
     ALPHA_MIRROR[2] = SB.eva; ALPHA_MIRROR[3] = SB.evb;
     SB.phase = 0;
@@ -344,7 +379,7 @@ void spirit_use(u8 *rec, void *player)
     Spend(rec, spirit_cost(rec));
     SB.old = (void *)EFFECTS[0];
     EFFECTS[0] = 0;
-    SB.eva = ALPHA_MIRROR[2]; SB.evb = ALPHA_MIRROR[3];
+    SB.eva = ALPHA_MIRROR[2]; SB.evb = ALPHA_MIRROR[3]; SB.backdrop = BOMB_PAL;
     NativeAlpha(st);
     SB.x = p[0x68] >> 8; SB.y = (p[0x69] >> 8) - 58; SB.r = 4;
     SB.frame = 0; SB.phase = 1;
@@ -392,6 +427,7 @@ void spirit_update(void)
     } else if (SB.phase == 3) {
         if (SB.r < 96) SB.r += 4;                         /* much larger than this hangs the disc code */
         spirit_draw();
+        if (SB.frame <= 10) impact(SB.frame - 1);
         if (SB.frame % 6 == 0) spirit_burst(player);      /* it keeps hitting as it bursts */
         if (SB.frame >= BURST_FRAMES) spirit_end();
     }
