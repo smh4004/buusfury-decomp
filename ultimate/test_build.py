@@ -223,20 +223,25 @@ check('charged: stronger than the normal hit before it', hp[1] - hp[2] > hp[0] -
 # Super Saiyan 2 hits 1.5x as hard as Super Saiyan, punches and ki. The Bomber waits out of reach during the transformations (it blows itself up near the player). The first press after the walk-in does nothing in this scene.
 def dmg(presses, blast, wait):
     R_ = 0x03001560; away = ['poke %s %x' % (ENEMY_X, x + (120 << 8)), 'poke %s %x' % (ENEMY_Y, y)]
-    L = base + ['poke8 %08X 02' % (R_ + 0x0C), 'poke8 %08X 07' % (R_ + 0x0D), 'poke8 %08X 14' % (R_ + 0x0E), 'run %d' % wait]
+    L = base + ['poke8 %08X 03' % (R_ + 0x0C), 'poke8 %08X 07' % (R_ + 0x0D), 'poke8 %08X 14' % (R_ + 0x0E), 'poke8 %08X 16' % (R_ + 0x0F), 'run %d' % wait]
     for p_ in presses:
         L += ['poke8 %08X %02X' % (R_ + 0x15, p_), 'poke8 %08X FF' % (R_ + 0x1A), 'poke8 %08X 03' % (R_ + 0x1B), 'keys B', 'run 2', 'keys'] + [v for _ in range(8) for v in away + ['run 30']]
     o_ = run(erom, L + ['mem %s 2' % PX], d); m_ = re.findall(r'mem %s: ([0-9a-f]+) ([0-9a-f]+)' % PX, o_)[-1]
     px, py = int(m_[0], 16), int(m_[1], 16); near = ['poke %s %x' % (ENEMY_X, px - ((40 if blast else 18) << 8)), 'poke %s %x' % (ENEMY_Y, py)]
-    L += near + ['run 1', 'poke %s %x' % (ENEMY_HP, 9000 << 10), 'keys LEFT', 'run 2', 'keys', 'run 2'] + near
-    L += (['poke8 %08X 00' % (R_ + 0x15), 'poke8 %08X FF' % (R_ + 0x1A), 'keys B', 'run 2', 'keys'] + [v for _ in range(6) for v in near + ['run 6']] if blast else ['tap A 10'] + near + ['run 12'])
+    L += away + ['run 1', 'poke %s %x' % (ENEMY_HP, 9000 << 10), 'keys LEFT', 'run 2', 'keys', 'run 2']     # the Bomber punches back if it arrives early
+    m_ = re.findall(r'mem %s: ([0-9a-f]+) ([0-9a-f]+)' % PX, run(erom, L + ['mem %s 2' % PX], d))[-1]     # the step left covers more ground in the faster forms
+    near = ['poke %s %x' % (ENEMY_X, int(m_[0], 16) - ((40 if blast else 18) << 8)), 'poke %s %x' % (ENEMY_Y, int(m_[1], 16))]; L += near
+    L += (['poke8 %08X 00' % (R_ + 0x15), 'poke8 %08X FF' % (R_ + 0x1A), 'keys B', 'run 2', 'keys'] + [v for _ in range(6) for v in near + ['run 6']] if blast else ['keys A'] + [v for _ in range(5) for v in near + ['run 2']] + ['keys'] + near + ['run 12'])
     o_ = run(erom, L + ['mem %s 1' % ENEMY_HP, 'mem %08X 1' % (R_ + 0x14)], d)
     return 9000 - int(re.findall(r'mem %s: ([0-9a-f]+)' % ENEMY_HP, o_)[-1], 16) / 1024, int(re.findall(r'mem %08x: ([0-9a-f]+)' % (R_ + 0x14), o_)[-1], 16) & 255
 for kind, blast_ in (('punch', 0), ('ki blast', 1)):
     a_ = [dmg([1, 1], blast_, w_) for w_ in (1, 4, 7)]; b_ = [dmg([1, 1, 1], blast_, w_) for w_ in (1, 4, 7)]
     print(kind, 'Super Saiyan', a_, 'Super Saiyan 2', b_)
-    lo, hi = min(v for v, _ in a_), min(v for v, _ in b_)
+    c_ = [dmg([1, 1, 1, 2], blast_, w_) for w_ in (1, 4, 7)]
+    print(kind, 'Super Saiyan 3', c_)
+    lo, hi, top = min(v for v, _ in a_), min(v for v, _ in b_), min(v for v, _ in c_)
     check('Super Saiyan 2 %s is about 1.5x Super Saiyan' % kind, all(f_ == 4 for _, f_ in a_) and all(f_ == forms['goku_ss2_b'] for _, f_ in b_) and lo > 0 and 1.3 < hi / lo < 1.7)
+    check('Super Saiyan 3 %s is about 1.75x Super Saiyan' % kind, all(f_ == 6 for _, f_ in c_) and lo > 0 and (1.55 < top / lo < 1.95 or 1.55 < top / lo / 1.5 < 1.95))   # a critical hit is 1.5x again
 for name, rights in (('Goku', 0), ('Gohan', 1), ('Trunks', 2), ('Vegeta', 3), ('Vegito', 4), ('Broly', 5)):
     o = run(rom, ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * rights + ['tap A 150', 'run 100', 'keys A', 'run 80', 'shot hold_' + name, 'keys', 'run 3', 'shot hit_' + name, 'run 40', 'tap A 20', 'dump n 03001068 8a8'], d)
     check('charged %s: no bad jumps' % name, 'bad pc' not in o)

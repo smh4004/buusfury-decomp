@@ -512,13 +512,21 @@ void ss_use(u8 *record, void *sprite) {
 int ss3_can(u8 *record) {       /* Super Saiyan 3 starts from Super Saiyan 2, not from Super Saiyan */
     return has_ss2_above(record) ? 0 : SS3_Can(record);
 }
-/* Super Saiyan 2 hits 1.5x as hard as Super Saiyan. hit[1] is the attack's damage scale (1024 = normal); team 2 is the player's side.
-   Damage grows with the cube of the Strength stat, so scaling the stat itself would give about three times the damage. */
+/* Against Super Saiyan's damage, Super Saiyan 2 hits 1.5x as hard and Super Saiyan 3 1.75x. hit[1] is the attack's damage scale (1024 = normal); team 2 is the player's side.
+   Damage grows with the cube of the Strength stat, so scaling the stat itself would give about three times the damage.
+   Super Saiyan 3 adds 15 to the stats where Super Saiyan adds 5: its attacks count from the Super Saiyan figure, and it keeps the extra Endurance and Speed. */
 void combat_orig(void *defender, int *hit);
 __asm__(".syntax unified\n.thumb\n.thumb_func\ncombat_orig:\npush {r4, r5, r6, r7, lr}\nadds r6, r0, #0\nadds r4, r1, #0\nadds r1, #8\nldr r3, =0x0800E9E1\nbx r3\n.ltorg\n");
 void combat_hook(void *defender, int *hit) {
-    int scale = hit[1];
-    if ((hit[0] & 255) == 2 && is_ss2(FORM_OF(*(u8 *)0x03001068))) hit[1] = scale + (scale >> 1);
+    int scale = hit[1], form = FORM_OF(*(u8 *)0x03001068);
+    u16 *stats = (u16 *)((u8 *)hit[3] + 0x1B0), strength = stats[0], power = stats[1];
+    if ((hit[0] & 255) == 2) {
+        if (is_ss2(form)) hit[1] = scale + (scale >> 1);
+        else if ((form_table[form * 24] & 2) && strength > 10 && power > 10) {
+            hit[1] = scale + (scale >> 1) + (scale >> 2);
+            stats[0] = strength - 10; stats[1] = power - 10;
+        }
+    }
     combat_orig(defender, hit);
-    hit[1] = scale;
+    hit[1] = scale; stats[0] = strength; stats[1] = power;
 }
