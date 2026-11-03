@@ -36,13 +36,42 @@ FIELD = 'assets/scripts/gUnknown_08780550.evt'
 
 SKILLS, SPIRIT_SKILL, SPIRIT_NAME = 0x71DB04, 19, 1050      # UI 1050 and 1053 are unused text
 UI = 'assets/text/ui_strings.txt'
+ACTOR_BASE = 298
+
+
+def new_actor_ids():
+    """Ids add_actors will give: actors.json's new actors in order, then Super 13 and Android 13. Checked after the build."""
+    cfg = json.load(open('ultimate/actors.json'))
+    n = ACTOR_BASE + sum(1 for k, a in cfg.items() if not k.startswith('_') and 'replace' not in a)
+    return {'super13': n, 'android13': n + 1}
+
+
 QUEST_NPC = 'assets/scripts/gUnknown_08785580.evt'   # the West City resident outside the Z-Mart
 
 
 def quest_npc(src):
     """Post-game, this resident sends you to Zone 26, and rewards you once Super 13 is beaten (his death script runs this list)."""
     head, old = src.split('step 1 say', 1)
+    ids = new_actor_ids(); super13 = ids['super13'] + 9
     return head + '''step 1 code
+    pushn 620
+    call flag
+    pushn 623
+    call not_flag
+    and
+    jz L4
+    push 14
+    end
+L4:
+    pushn 625
+    call flag
+    pushn 621
+    call not_flag
+    and
+    jz L5
+    push 16
+    end
+L5:
     pushn 622
     call flag
     jz L1
@@ -55,6 +84,12 @@ L1:
     push 8
     end
 L2:
+    pushn 623
+    call flag
+    jz L7
+    push 21
+    end
+L7:
     call flag(149)
     jz L3
     push 4
@@ -62,7 +97,7 @@ L3:
     end
 step 2 say''' + old.rstrip() + '''
 step auto code
-    push 99
+    push 21
     end
 step auto say 0x85 "Something's wrong past the Z-Mart. Dr. Gero's old computer has woken up!"
 step auto say 0x85 "It built one last Android, up in the snow. Hurry!"
@@ -73,7 +108,7 @@ step auto code
     call 0x79(30)
     end
 step auto code
-    push 99
+    push 21
     end
 step auto say 0x85 "The signal stopped! You beat Super 13!"
 step auto say 0x85 "Capsule Corporation left Saiyan armor for you. Change into it from the Switch Character menu."
@@ -89,10 +124,96 @@ step auto code
     call set_flag
     pushn 612
     call set_flag
-    push 99
+    push 21
     end
 step auto say 0x85 "West City's quiet again. Thanks to you."
-'''
+step auto code
+    push 21
+    end
+step auto say 0x00 "Android 13 pulls in the broken parts of 14 and 15!"
+step auto code
+    pushn 623
+    call set_flag
+    call play_sfx(24)
+    pushn 5, 200, 200, 255, 10
+    call 0x4C
+    pushn %d, 144, 182
+    call 0x35
+    pushn %d, 17, 0
+    call 0x51
+    call wait(90)
+    pushn 5, 200, 200, 255, 10
+    call 0x4C
+    pushn %d, 20, 0
+    call 0x51
+    call wait(40)
+    push 21
+    end
+step auto say 0x02 "He's still standing! I need everyone's energy!"
+step auto code
+    call 0x95(0)
+    pushn %d, 144, 182
+    call 0x35
+    pushn 100, 15
+    call 0x2A
+    push 144
+    set 0x04
+    push 204
+    set 0x05
+    push 6
+    set 0x06
+    push 42
+    loop_begin
+L1:
+    call 0x04
+    call 0x05
+    call 0x06
+    call 0xF4(80)
+    inc 0x06
+    call wait(2)
+    loop L1
+    end
+step auto say 0x00 "Push the Spirit Bomb! Press the A Button fast!"
+step auto code
+    call 0xC6
+    end
+step auto code
+    pushn 5, 200, 200, 255, 10
+    call 0x4C
+    push 40
+    loop_begin
+L1:
+    call 0x04
+    call 0x05
+    call 0x06
+    call 0xF4(80)
+    dec 0x05
+    call wait(1)
+    loop L1
+    call play_sfx(24)
+    push 5
+    loop_begin
+L2:
+    pushn 5, 200, 200, 255, 10
+    call 0x4C
+    call wait(15)
+    loop L2
+    pushn 621
+    call set_flag
+    call max_hp
+    set hp
+    call max_ki
+    set ki
+    call 0x78(60)
+    pushn 4, 1, 1, 320, 392
+    call 0x77
+    call 0x79(30)
+    call 0x2F
+    call 0x33(0)
+    end
+step auto code
+    end
+''' % (super13, super13, super13, super13)
 
 
 def debug_edits(first_form):
@@ -170,6 +291,41 @@ def find_once(rom, needle, what):
     return i
 
 
+ANDROID13_SLOTS = {str(s): 'a13_idle' for s in range(22)}
+ANDROID13_SLOTS.update({'1': 'a13_walk', '2': 'a13_walk', '4': 'a13_lunge', '5': 'a13_lunge', '6': 'a13_lunge', '20': 'a13_lunge'})
+
+
+def android13_frames(out, usable, pal):
+    """Cut the walk sheet into 32x32 indexed cells (cap version), dropping the shadow drawn into each frame: the game adds its own."""
+    from PIL import Image
+    sheet = np.array(Image.open('ultimate/art/android13_sheet.png').convert('RGB')).astype(int)
+    bg = sheet[0, 0]
+    cols, rows = ((75, 93), (99, 117), (123, 141)), ((1, 32), (33, 64), (66, 96), (97, 128))
+    u = np.array(usable); p = pal[u].astype(int)
+    def cell(r, c):
+        (y0, y1), (x0, x1) = rows[r], cols[c]
+        a = sheet[y0:y1, x0 - 1:x1 + 1]; m = (a != bg).any(2)
+        black = (a.sum(2) == 0)
+        foot = m.shape[0] - 5                               # the shadow: pure black in the bottom rows
+        m[foot:][black[foot:]] = False
+        ys = np.nonzero(m.any(1))[0]; h = ys[-1] + 1
+        img = np.zeros((32, 32), np.uint8); w = a.shape[1]; ox = (32 - w) // 2; oy = 32 - h
+        for y in range(h):
+            for x in range(w):
+                if m[y, x]:
+                    q = a[y, x]; ch = lambda v: np.stack([v[..., 0] - v[..., 1], v[..., 1] - v[..., 2]], -1)
+                    d = ((p - q) ** 2).sum(1) + 6 * ((ch(p) - ch(q)) ** 2).sum(1)
+                    img[y + oy, x + ox] = u[d.argmin()]
+        return img
+    DOWN, UP, RIGHT = 2, 0, 1
+    def save(name, frames):
+        for i, f in enumerate(frames):
+            Image.fromarray(f).save('%s/%s_%02d.png' % (out, name, i))
+    save('a13_idle', [cell(d, 1) for d in (DOWN, UP, RIGHT)])
+    save('a13_walk', [cell(d, c) for d in (DOWN, UP, RIGHT) for c in (1, 0, 1, 2)])
+    save('a13_lunge', [cell(d, c) for d in (DOWN, UP, RIGHT) for c in (0, 2)])
+
+
 def add_actors(rom, clean):
     combo = open(COMBO, 'rb').read()
     if hashlib.sha1(combo).hexdigest() != COMBO_SHA1:
@@ -181,7 +337,10 @@ def add_actors(rom, clean):
     pal = np.frombuffer(clean[0x701B0 + 768:0x701B0 + 1536], np.uint8).reshape(256, 3)
     usable = [i for i in range(1, 256) if i not in artclean.MENU_SLOTS]
     cfg['super13'] = {'proto_actor': 230}
-    ids, end = sprites.build_actors(rom, cfg, None, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal), open(PROTO, 'rb').read())
+    clean_dir = tempfile.mkdtemp()
+    android13_frames(clean_dir, usable, pal)
+    cfg['android13'] = {'template': 157, 'slots': ANDROID13_SLOTS}
+    ids, end = sprites.build_actors(rom, cfg, clean_dir, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal), open(PROTO, 'rb').read())
     return ids, end
 
 
@@ -342,9 +501,11 @@ def main():
     free = add_outfits(rom, clean, (free + 3) & ~3)
     sys.path.insert(0, 'ultimate')
     import zone26
-    zone_end, zone_info = zone26.apply(rom, clean, PROTO, LOG2, actors_end, actors, debug and '--zone' in sys.argv)
+    zone_end, zone_info = zone26.apply(rom, clean, PROTO, LOG2, actors_end, actors, debug and '--zone' in sys.argv, symbol('gUnknown_08785580'))
     print('zone 26 tiles:', zone_info)
     actors_end = zone_end
+    if {k: actors[k] for k in new_actor_ids()} != new_actor_ids():
+        sys.exit('actor ids differ from the ones the quest script used')
     npc = symbol('gUnknown_080783A0') - ROM_BASE      # the quest giver stands still: his wander box shrinks to his own spot
     struct.pack_into('<4H', rom, npc - 8, 320, 360, 320, 360)
     if debug:

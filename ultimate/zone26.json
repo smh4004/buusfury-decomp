@@ -231,11 +231,11 @@
   "15": {
    "enemies": [
     {
-     "row": 114,
+     "row": 113,
      "x": 144,
-     "y": 170,
-     "actor": "super13",
-     "condition": 131694
+     "y": 182,
+     "actor": "android13",
+     "condition": 131692
     }
    ]
   }

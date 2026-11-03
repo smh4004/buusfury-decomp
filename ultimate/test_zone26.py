@@ -19,7 +19,7 @@ def run(lines):
     return subprocess.run([H, ROM, p, d], capture_output=True, text=True, timeout=500).stdout
 start = open('tools/harness/long.txt').read().split('\n')[1:93] + ['tap A 60'] * 4 + ['run 60', 'keys DOWN', 'run 30', 'keys', 'run 200']
 AT = '0300197C'; KEYS = 'DOWN UP LEFT RIGHT'.split()
-PL, BOSS_PL = 0x0202F8E4, 0x0202E638   # the player object: where it lives in a plain room and with a boss loaded
+PL, BOSS_PL = 0x0202F8E4, 0x0202F238   # the player object: where it lives in a plain room and with Android 13 loaded
 def go(lines, door, pl, tag, settle=110):
     x0, y0, x1, y1 = door['rect']
     lines += ['poke %08X %08X' % (pl + 0x1A0, (x0 + x1) // 2 << 8), 'poke %08X %08X' % (pl + 0x1A4, ((y0 + y1) // 2) << 8),
@@ -48,22 +48,35 @@ def talk_to(base):
 route = list(start)
 for a in (1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14):
     nxt = {8: 10}.get(a, a + 1); go(route, [x for x in D[a] if x['to'] == nxt and 'world' not in x][0], PL, 'r%02d' % a)
-out = run(route + ['run 30', 'dump w 02000000 40000', 'shot arena'])
-w = open(d + '/w.bin', 'rb').read(); hp = struct.pack('<I', 150000 << 10)
-i = w.find(hp); check('Super 13 is in the arena with 150000 HP', i >= 0)
-hpa = 0x02000000 + i
-x, y = struct.unpack_from('<II', w, i - 0xEC)
-fight = route + ['run 30', 'mem %08X 1' % hpa, 'poke %08X %08X' % (hpa, 2 << 10), 'poke %08X %08X' % (BOSS_PL + 0x1A0, x), 'poke %08X %08X' % (BOSS_PL + 0x1A4, y + (20 << 8))]
-for _ in range(14): fight += ['poke8 03001577 7F', 'keys UP', 'run 6', 'keys', 'tap A 14', 'tap B 14']   # Goku is level 1 here: keep him alive
-fight += ['shot hit', 'mem %08X 1' % hpa, 'run 90', 'tap A 40', 'tap A 40', 'tap A 40', 'mem %s 1' % AT, 'shot westcity']
-talk = lambda base: talk_to(base)
-fight = talk(fight) + ['shot said', 'tap A 60', 'shot said2', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot after', 'dump g 03001068 8a8']
-out = run(fight)
-g = open(d + '/g.bin', 'rb').read(); g_flag_off = g[0x55 + 149 // 8] & ~(1 << 149 % 8); flag = lambda n: g[0x55 + n // 8] >> (n % 8) & 1
-ats = [l for l in out.splitlines() if l.startswith('mem 0300197c')]
-check('no bad jumps in the fight', 'bad pc' not in out)
-check('beating Super 13 sets flag 621', flag(621) == 1)
-check('the win returns you to West City', ats and int(ats[-1].split(':')[1].split()[0], 16) & 0xFFFF == 0x0104)
+def ptr(base):
+    return int([l for l in run(base + ['mem 03001C34 1']).splitlines() if l.startswith('mem 03001c34')][-1].split()[2], 16)
+def boss(base, hp):
+    run(base + ['dump w 02000000 40000']); w = open(d + '/w.bin', 'rb').read(); i = w.find(struct.pack('<I', hp << 10))
+    return (0x02000000 + i, ) + struct.unpack_from('<II', w, i - 0xEC) if i >= 0 else (None, 0, 0)
+def kill(base, hp):
+    """Leave the boss 2 HP, stand below it and punch."""
+    pl = ptr(base); a, x, y = boss(base, hp)
+    return base + ['poke %08X %08X' % (a, 2 << 10), 'poke8 03001577 7F', 'poke %08X %08X' % (pl + 0x1A0, x), 'poke %08X %08X' % (pl + 0x1A4, y + (20 << 8)),
+                   'keys UP', 'run 6', 'keys', 'tap A 14', 'tap A 14', 'tap A 14']
+def at(out):
+    return int([l for l in out.splitlines() if l.startswith('mem 0300197c')][-1].split(':')[1].split()[0], 16) & 0xFFFF
+base = route + ['run 30', 'shot arena']
+hp1 = boss(base, 60000)[0]; check('Android 13 is in the arena with 60000 HP', hp1 is not None)
+phase = kill(base, 60000) + ['poke8 03001577 7F'] + ['tap A 25'] * 11 + ['run 170', 'shot change', 'mem 0300197C 1']
+out = run(phase); check('beating Android 13 starts his change', at(out) == (16 << 8 | 26))
+two = phase + ['keys UP', 'run 240', 'keys', 'run 120', 'shot phase2', 'mem 0300197C 1']
+out = run(two); check('walking up to him starts phase two', at(out) == (17 << 8 | 26))
+hp2 = boss(two, 150000)[0]; check('Super 13 has 150000 HP', hp2 is not None)
+end = kill(two, 150000) + ['poke8 03001577 7F'] + ['tap A 30'] * 16 + ['shot struggle'] + ['keys A', 'run 1', 'keys', 'run 1'] * 120
+end += ['shot bomb', 'run 500', 'shot home_after', 'mem 0300197C 1', 'tap A 40', 'keys LEFT', 'run 10', 'keys', 'dump g 03001068 8a8']
+out = run(end); g = open(d + '/g.bin', 'rb').read(); flag = lambda n: g[0x55 + n // 8] >> (n % 8) & 1; g_flag_off = g[0x55 + 149 // 8] & ~(1 << 149 % 8)
+check('no bad jumps through the whole fight', 'bad pc' not in out)
+check('beating Super 13 plays the finish and sets flag 621', flag(621) == 1 and flag(625) == 1)
+check('the finish returns you to West City', at(out) == 0x0104)
+talk = lambda b: talk_to(b)
+home = end[:end.index('tap A 40')]
+reward = talk(home) + ['shot said', 'tap A 60', 'shot said2', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot after', 'dump g 03001068 8a8']
+out = run(reward); g = open(d + '/g.bin', 'rb').read()
 check('the resident gives the reward: Saiyan armor', all(flag(n) for n in (610, 611, 612, 622)))
 
 # Start of the quest: from 26:1's road back to West City, walk up to the same resident, get sent in.
@@ -73,6 +86,7 @@ out = run(intro); ats = [l for l in out.splitlines() if l.startswith('mem 030019
 check('the resident sends you to Zone 26 once the game is beaten', int(ats[-1].split(':')[1].split()[0], 16) & 0xFFFF == 0x011A)
 
 # Spirit Bomb: Goku has it in this build (skill 19). Select it, use it next to Super 13, and it should hurt him and spend energy.
+a13, x, y = boss(route + ['run 30'], 60000); hpa = a13
 sb = route + ['run 30', 'poke %08X %08X' % (BOSS_PL + 0x1A0, x), 'poke %08X %08X' % (BOSS_PL + 0x1A4, y + (64 << 8)), 'keys UP', 'run 4', 'keys', 'run 4',
               'poke8 03001575 4', 'poke8 0300157B 00', 'poke8 0300157A 64', 'poke8 03001577 7F', 'mem 03001578 2', 'tap B 10', 'mem %08X 1' % hpa]
 for i, n in enumerate((40, 40, 40, 30, 30, 20, 20, 30)):
@@ -82,7 +96,7 @@ out = run(sb); mems = [l for l in out.splitlines() if l.startswith('mem')]
 left = lambda l: int(l.split(':')[1].split()[0], 16)
 check('no bad jumps with the Spirit Bomb', 'bad pc' not in out)
 hps = [m for m in mems if m.startswith('mem %08x' % hpa)]
-check('the Spirit Bomb hits Super 13 hard', len(hps) >= 2 and left(hps[-1]) < left(hps[0]) - (800 << 10))
+check('the Spirit Bomb hits hard', len(hps) >= 2 and left(hps[-1]) < left(hps[0]) - (800 << 10))
 print('bomb memory', mems[-1], hps)
 check('the Spirit Bomb finishes', left(mems[-1]) >> 16 == 0)
 

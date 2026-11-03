@@ -147,23 +147,34 @@ def links(cfg, masks):
     return out
 
 
-BOSS_ROW, STATS = 114, 0x711274      # 114 is placed nowhere in the game
+STATS = 0x711274
+PHASE1_ROW, BOSS_ROW = 113, 114      # placed nowhere else in the game
+TRIGGER = (0x0800742D, 0x080077DF)   # an exit that runs a step list when you're inside its rectangle
 
 
 def boss_stats(W, rom, stats):
-    """Super 13: above Kid Buu (level 100, 125000 HP). Death script: flag 621, heal, back to the West City resident, who gives the reward."""
+    """Android 13 first, then Super 13 above Kid Buu (level 100, 125000 HP). Reloading a room in place loses the player, so each stage
+    of the fight is its own copy of the arena: 15 Android 13, 16 his change, 17 Super 13, 18 the Spirit Bomb finish."""
     import bfscript
-    code = bfscript.asm('    pushn 621\n    call set_flag\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(30)\n    pushn 4, 1, 1, 320, 392\n    call 0x77\n    call 0x79(30)\n    end\n')
-    code = code if isinstance(code, (bytes, bytearray)) else bytes(code[0])
-    row = stats + 28 * BOSS_ROW; dabura = stats + 28 * 18
-    rom[row:row + 28] = rom[dabura:dabura + 28]
-    struct.pack_into('<II', rom, row, 96175, 150000)
-    rom[row + 0xC:row + 0x10] = bytes((160, 70, 115, 105))
-    rom[row + 0x10] = 96
-    struct.pack_into('<II', rom, row + 0x14, 0x08708920, W.put(bytes(code)))   # this handler is the one that runs death scripts
+    def death(flag, area):
+        return W.put(bytes(bfscript.asm('    pushn %d\n    call set_flag\n    call 0x78(30)\n    pushn 26, %d, 1, 144, 250\n    call 0x77\n    call 0x79(30)\n    end\n' % (flag, area))))
+    def row(n, exp, hp, stat, phys, flag, area):
+        r = stats + 28 * n; dabura = stats + 28 * 18
+        rom[r:r + 28] = rom[dabura:dabura + 28]
+        struct.pack_into('<II', rom, r, exp, hp)
+        rom[r + 0xC:r + 0x10] = bytes(stat)
+        rom[r + 0x10] = phys
+        struct.pack_into('<II', rom, r + 0x14, 0x08708920, death(flag, area))     # this handler is the one that runs death scripts
+    row(PHASE1_ROW, 40000, 60000, (150, 60, 90, 90), 128, 620, 16)
+    row(BOSS_ROW, 96175, 150000, (160, 70, 115, 105), 96, 625, 18)
 
 
-def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=False):
+def condition(W, text):
+    import bfscript
+    return W.put(bytes(bfscript.asm(text)))
+
+
+def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=False, quest_list=0):
     P = open(proto_path, 'rb').read()
     cfg = json.load(open('ultimate/zone26.json')); W = Writer(rom, at); rows = []; info = {}
     masks = {a: floor_mask(P, proto_path, a) for a in range(1, 16)}
@@ -187,10 +198,16 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
             x0, y0, x1, y1 = d['rect']; ax, ay = d['arrive']
             dest = d['key'] | d.get('world', 26) << 8 | d['to'] << 16 | 1 << 24
             o = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], x0, y0, x1, y1, dest, ay << 16 | ax))
-            exits.append((0, o))
+            param = 0
+            if a == 14 and d['to'] == 15:                 # coming back mid-fight: straight to Super 13
+                param = condition(W, '    pushn 623\n    call not_flag\n    pushn 625\n    call flag\n    or\n    end\n')
+            exits.append((param, o))
+            if a == 14 and d['to'] == 15:
+                o2 = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], x0, y0, x1, y1, d['key'] | 26 << 8 | 17 << 16 | 1 << 24, ay << 16 | ax))
+                exits.append((condition(W, '    pushn 623\n    call flag\n    pushn 625\n    call not_flag\n    and\n    end\n'), o2))
         objs = []
         for e in ac.get('enemies', []):
-            objs.append(W.put(struct.pack('<8I', 0x0800FD55, e.get('condition', 0), e['row'], e['y'] << 16 | e['x'],
+            objs.append(W.put(struct.pack('<8I', 0x0800FD55, (condition(W, e['script']) if 'script' in e else e.get('condition', 0)), e['row'], e['y'] << 16 | e['x'],
                                           actor_ids[e['actor']] + 9, 0x080555A0, 1, 0x080716EC)))
         struct.pack_into('<I', ent, 0, 26 | a << 8 | 1 << 16 | len(exits) << 24)
         struct.pack_into('<I', ent, 4, len(objs))
@@ -201,6 +218,25 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
         struct.pack_into('<I', ent, 0x2C, W.put(struct.pack('<I', M + 4)))
         struct.pack_into('<I', ent, 0x30, 0)
         rows.append(bytes(ent))
+        if a == 15:                                       # stages of the arena: same map and way out
+            base_ent = bytes(ent)
+            import bfscript
+            for stage, spec in ((16, 'change'), (17, 'boss'), (18, 'scene')):
+                st = bytearray(base_ent); struct.pack_into('<B', st, 1, stage)
+                ring = W.put(struct.pack('<2I4HI', TRIGGER[0], TRIGGER[1], 0, 0, 1024, 1024, quest_list))
+                if spec == 'boss':                        # no scene here: a dialogue box with this boss loaded resets the game
+                    ex = exits
+                    e = W.put(struct.pack('<8I', 0x0800FD55, 0, BOSS_ROW, 182 << 16 | 144, actor_ids['super13'] + 9, 0x080555A0, 1, 0x080716EC))
+                    struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e)))
+                else:
+                    ex = [(0, ring)]
+                    if spec == 'change':                  # walk up to Super 13 to start the fight
+                        go = W.put(bytes(bfscript.asm('    call 0x78(20)\n    pushn 26, 17, 1, 144, 250\n    call 0x77\n    call 0x79(20)\n    end\n')))
+                        ex.append((0, W.put(struct.pack('<2I4HI', 0x08007387, TRIGGER[1], 96, 192, 192, 236, go))))
+                    struct.pack_into('<I', st, 4, 0); struct.pack_into('<I', st, 0x14, 0)
+                st[3] = len(ex)
+                struct.pack_into('<I', st, 0x10, W.put(b''.join(struct.pack('<II', *x) for x in ex)) if ex else 0)
+                rows.append(bytes(st))
     if debug_door:          # debug: walk down anywhere on Snake Way to reach 26:1
         e = next(AREAS + 56 * k for k in range(COUNT) if rom[AREAS + 56 * k] == 1 and rom[AREAS + 56 * k + 1] == 1)
         o = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], 0, 0, 1024, 1024, 0 | 26 << 8 | 1 << 16 | 1 << 24, 200 << 16 | 120))
