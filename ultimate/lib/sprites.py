@@ -59,7 +59,7 @@ class Inserter:
         pieces = cover(x1 - x0, y1 - y0)
         # the engine draws ONE piece per character frame and reserves 1 KB of VRAM (32x32 8bpp) for it: anything
         # bigger is cut off or overwrites the next actor's tiles, so refuse it here instead of shipping a clipped sprite
-        assert pieces and len(pieces) == 1 and pieces[0][2] * pieces[0][3] <= 1024 and \
+        assert pieces and len(pieces) == 1 and pieces[0][2] * pieces[0][3] <= getattr(self, 'frame_limit', 1024) and \
             pieces[0][2] >= x1 - x0 and pieces[0][3] >= y1 - y0, \
             'sprite frame %dx%d does not fit one 32x32 piece (art must be shrunk to fit, see artclean.place_in_cell)' \
             % (x1 - x0, y1 - y0)
@@ -222,6 +222,7 @@ def build_actors(rom, cfg, clean_dir, at, l2=None, colour_ctx=None, proto=None):
             ins.oy = 0
         for d, box in a.get('boxes', {}).items():          # per-direction (x, y, w, h) box override
             struct.pack_into('<4i', rec, 0x14 + 16 * int(d), *box)
+        ins.frame_limit = 4096 if a.get('big') else 1024   # boss-class actors may use one 64x64 piece
         for slot, spec in a.get('slots', {}).items():
             if int(slot) >= n: continue                    # the template has fewer slots
             old = struct.unpack_from('<I', rec, 0x54 + 4 * int(slot))[0]

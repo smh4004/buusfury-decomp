@@ -47,6 +47,18 @@
     "name": "Saiyan armor",
     "flag": 612
    }
+  ],
+  "8": [
+   {
+    "form": "broly",
+    "flag": 0,
+    "name": "Broly"
+   },
+   {
+    "form": "broly_fp",
+    "flag": 613,
+    "name": "Full Power"
+   }
   ]
  },
  "unlocks": [

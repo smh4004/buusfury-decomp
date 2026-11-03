@@ -43,7 +43,7 @@ def new_actor_ids():
     """Ids add_actors will give: actors.json's new actors in order, then Super 13 and Android 13. Checked after the build."""
     cfg = json.load(open('ultimate/actors.json'))
     n = ACTOR_BASE + sum(1 for k, a in cfg.items() if not k.startswith('_') and 'replace' not in a)
-    return {'super13': n, 'android13': n + 1}
+    return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2}
 
 
 QUEST_NPC = 'assets/scripts/gUnknown_08785580.evt'   # the West City resident outside the Z-Mart
@@ -123,6 +123,8 @@ step auto code
     pushn 611
     call set_flag
     pushn 612
+    call set_flag
+    pushn 613
     call set_flag
     push 21
     end
@@ -326,6 +328,56 @@ def android13_frames(out, usable, pal):
     save('a13_lunge', [cell(d, c) for d in (DOWN, UP, RIGHT) for c in (0, 2)])
 
 
+# Broly Full Power: made by Azure-Oni, ripped by DBZdogs. Frames as (x0, x1) on the down, up and side rows.
+BROLY_FRAMES = {
+    'idle': (((0, 46),), ((0, 46),), ((0, 27),)),
+    'walk': (((94, 140), (158, 199), (225, 266), (287, 333)), ((93, 133), (153, 199), (218, 264), (289, 329)), ((98, 123), (142, 168), (172, 200), (205, 231))),
+    'combo': (((347, 390), (406, 455), (478, 514)), ((349, 396), (410, 460), (462, 506)), ((327, 366), (372, 422), (444, 494))),
+    'slam': (((600, 662), (665, 721)), ((585, 647), (658, 721)), ((599, 632), (647, 702))),
+    'strike': (((756, 804), (817, 858)), ((754, 801), (816, 857)), ((750, 788), (822, 871))),
+}
+BROLY_SLOTS = {str(s): 'bfp_idle' for s in range(22)}
+BROLY_SLOTS.update({'1': 'bfp_walk', '2': 'bfp_walk', '4': 'bfp_combo', '5': 'bfp_strike', '6': 'bfp_slam', '8': 'bfp_slam', '9': 'bfp_strike', '10': 'bfp_slam', '13': 'bfp_slam', '14': 'bfp_strike', '20': 'bfp_strike', '21': 'bfp_slam'})
+
+
+def indexer(usable, pal):
+    """RGB to the game's OBJ palette, with colour shifts weighted so neutrals don't land on tints."""
+    u = np.array(usable); p = pal[u].astype(int); cache = {}
+    def ch(v): return np.stack([v[..., 0] - v[..., 1], v[..., 1] - v[..., 2]], -1)
+    def one(q):
+        k = tuple(int(v) for v in q)
+        if k not in cache:
+            d = ((p - q) ** 2).sum(1) + 6 * ((ch(p) - ch(q)) ** 2).sum(1)
+            cache[k] = int(u[d.argmin()])
+        return cache[k]
+    return one
+
+
+def broly_frames(out, usable, pal):
+    from PIL import Image
+    sheet = np.array(Image.open('ultimate/art/broly_full_power_sheet.png').convert('RGB')).astype(int)
+    bg = sheet[0, 0]; one = indexer(usable, pal)
+    fg = (sheet[:232] != bg).any(2)
+    def cell(row, x0, x1):
+        # this frame's rows: the row-th block of ink in its own columns (the sheet's rows aren't level)
+        ink = fg[:, x0:x1 + 1].any(1); ys = np.nonzero(ink)[0]
+        blocks = np.split(ys, np.nonzero(np.diff(ys) > 2)[0] + 1)
+        blocks = [k for k in blocks if len(k) > 20]
+        y0, y1 = blocks[row][0], blocks[row][-1] + 1
+        a = sheet[y0:y1, x0:x1 + 1]; m = fg[y0:y1, x0:x1 + 1]
+        h, w = m.shape
+        if h > 64 or w > 64: sys.exit('Broly frame %dx%d is over the 64x64 sprite limit' % (w, h))
+        img = np.zeros((64, 64), np.uint8)
+        for y, x in zip(*np.nonzero(m)):
+            img[64 - h + y, (64 - w) // 2 + x] = one(a[y, x])
+        return img
+    for name, rows in BROLY_FRAMES.items():
+        n = 0
+        for row, spans in enumerate(rows):
+            for x0, x1 in spans:
+                Image.fromarray(cell(row, x0, x1)).save('%s/bfp_%s_%02d.png' % (out, name, n)); n += 1
+
+
 def add_actors(rom, clean):
     combo = open(COMBO, 'rb').read()
     if hashlib.sha1(combo).hexdigest() != COMBO_SHA1:
@@ -340,6 +392,8 @@ def add_actors(rom, clean):
     clean_dir = tempfile.mkdtemp()
     android13_frames(clean_dir, usable, pal)
     cfg['android13'] = {'template': 157, 'slots': ANDROID13_SLOTS}
+    broly_frames(clean_dir, usable, pal)
+    cfg['broly_fp'] = {'template': 29, 'slots': BROLY_SLOTS, 'big': True, 'stretch': True}
     ids, end = sprites.build_actors(rom, cfg, clean_dir, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal), open(PROTO, 'rb').read())
     return ids, end
 

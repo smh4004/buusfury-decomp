@@ -103,6 +103,14 @@
    "owner": 1,
    "name": 1186,
    "down": "gohan_armor"
+  },
+  {
+   "id": "broly_fp",
+   "copy": 47,
+   "actor": "broly_fp",
+   "owner": 8,
+   "name": 1034,
+   "portrait": 16
   }
  ],
  "edit": {
