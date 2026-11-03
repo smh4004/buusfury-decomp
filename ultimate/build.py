@@ -310,19 +310,19 @@ def tournament_npc(src):
     call not_flag
     and
     jz L1
-    push 5
+    push 6
     end
 L1:
     pushn 622
     call flag
     jz L2
-    push 3
+    push 4
     end
 L2:
     end
 step 2 say''' + old.rstrip() + '''
 step auto code
-    push 7
+    push 8
     end
 step auto say 0x85 "The World Tournament is on! Three rounds, 100,000 Zenie to the winner. You're up!"
 step auto code
@@ -330,12 +330,13 @@ step auto code
     pushn 26, 28, 1, 360, 420
     call 0x77
     call 0x79(30)
-    push 7
+    push 8
     end
 step auto say 0x85 "You won the World Tournament! That's 100,000 Zenie. Come back any time."
 step auto code
     pushn 644
     call set_flag
+    push 8
     end
 step auto code
     end
