@@ -303,18 +303,19 @@ def tournament_npc(src):
     head, old = src.split('step 1 say', 1)
     warp = '    call 0xE4\n    call 0x95\n    call 0xE3\n' if '--trailer' in sys.argv else '    pushn 3, 1, 1, 208, 134\n'     # a trailer build takes the room from RAM a filming script pokes
     hook = '    pushn 660\n    call flag\n    jz L0\n    call 0x78(30)\n' + warp + '    call 0x77\n    call 0x79(30)\n    push 4\n    end\nL0:\n' if '--zone' in sys.argv else ''
-    credits = '''step 2 say 0x00 "An unofficial fan project. Dragon Ball Z and Buu's Fury belong to their owners."
+    credits = '''step 2 say 0x00 "Buu's Fury: Ultimate Edition\\nComing Soon"
+step auto say 0x00 "An unofficial fan project. Dragon Ball Z and Buu's Fury belong to their owners."
 step auto say 0x00 "Broly Full Power sprites by Azure-Oni, ripped by DBZdogs."
 step auto say 0x00 "Gogeta sprites ripped by Mister Man, edited by Azure-Oni."
 step auto code
-    push 6
+    push 7
     end
 ''' if '--trailer' in sys.argv else None
     if credits:
-        return head + 'step 1 code\n' + hook.replace('push 4', 'push 6') + """    pushn 622
+        return head + 'step 1 code\n' + hook.replace('push 4', 'push 7') + """    pushn 622
     call flag
     jz L2
-    push 4
+    push 5
     end
 L2:
     end
