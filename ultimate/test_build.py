@@ -76,9 +76,17 @@ check('post-game: SSB Gogeta and Super 13 can be chosen together', 'bad pc' not 
 o = run(rom, ['guardon 0x09000000', 'run 600', 'tap START 60', 'tap START 60', 'tap A 90', 'tap A 90', 'tap A 200', 'run 300', 'dump b 03001068 8a8'], d, sav3)
 b = open(d + '/b.bin', 'rb').read()
 check('post-game: both survive saving and loading', 'bad pc' not in o and b[0] == 7 and b[0x4F8 + 7 * REC + FORM] == forms['gogeta_ssb_skin'] and b[0x4F8 + 8 * REC + FORM] == forms['super13'])
+# Skills pick frames by number: Super 13's short animations once sent the Ghost Attack, used facing sideways, into garbage. This sequence crashed there.
+R = 0x03001560 + 8 * REC
+seq = ['guardon 0x09000000'] + route + ['poke8 %08X %02X' % (R + 0x14, forms['super13']), 'tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['tap A 200', 'run 60']
+for s_ in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13):
+    seq += ['poke8 %08X 02' % (R + 0xC), 'poke8 %08X 07' % (R + 0xD), 'poke8 %08X %02X' % (R + 0xE, s_), 'poke8 %08X 01' % (R + 0x15), 'poke8 %08X FF' % (R + 0x1A), 'poke8 %08X 00' % (R + 0x1B), 'run 2', 'keys B', 'run 6', 'keys', 'run 150', 'tap B 80', 'run 200', 'keys LEFT', 'run 12', 'keys', 'run 4', 'keys RIGHT', 'run 12', 'keys', 'run 30']
+seq += ['mem 03004A8C 1']
+o = run(rom, seq, d)
+check('Super 13 can use every attack skill in a row', 'bad pc' not in o)
 # DBS Gogeta transforms twice through the form table and back.
 R = 0x03001560 + 7 * REC
-dbs = post + ['tap DOWN 40', 'tap A 200', 'run 60'] + ['poke8 %08X 05' % (R + 0x0C), 'poke8 %08X 14' % (R + 0x10), 'poke8 %08X 15' % (R + 0x11), 'poke8 %08X 03' % (R + 0x15), 'run 3', 'tap B 120', 'mem %08X 1' % (R + 0x14), 'poke8 %08X 04' % (R + 0x15), 'run 3', 'tap B 120', 'mem %08X 1' % (R + 0x14), 'tap B 120', 'mem %08X 1' % (R + 0x14)]
+dbs = post + ['tap DOWN 40', 'tap A 200', 'run 60'] + ['poke8 %08X 05' % (R + 0x0C), 'poke8 %08X 14' % (R + 0x10), 'poke8 %08X 15' % (R + 0x11), 'poke8 %08X 03' % (R + 0x15), 'run 3', 'tap B 220', 'mem %08X 1' % (R + 0x14), 'poke8 %08X 04' % (R + 0x15), 'run 3', 'tap B 220', 'mem %08X 1' % (R + 0x14), 'tap B 220', 'mem %08X 1' % (R + 0x14)]
 o = run(rom, dbs, d); got = [int(l.split(':')[1].split()[0], 16) & 255 for l in o.splitlines() if l.startswith('mem %08x' % (R + 0x14))]
 check('DBS Gogeta: Super Saiyan, then Super Saiyan Blue, then back to base', 'bad pc' not in o and got == [forms['gogeta_dbs_ss'], forms['gogeta_ssb'], forms['gogeta_dbs']])
 # The story borrows the guest slot for Hercule: the screen puts a joined guest back on an outfit he owns.

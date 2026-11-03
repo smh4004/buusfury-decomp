@@ -50,7 +50,7 @@ def new_actor_ids():
     """Ids add_actors will give: actors.json's new actors in order, then Super 13 and Android 13. Checked after the build."""
     cfg = json.load(open('ultimate/actors.json'))
     n = ACTOR_BASE + sum(1 for k, a in cfg.items() if not k.startswith('_') and 'replace' not in a)
-    return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2, 'gogeta_dbs': n + 3, 'gogeta_dbs_ss': n + 4, 'gogeta_ssb': n + 5, 'android13_player': n + 6}
+    return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2, 'gogeta_dbs': n + 3, 'gogeta_dbs_ss': n + 4, 'gogeta_ssb': n + 5, 'android13_player': n + 6, 'super13_player': n + 7}
 
 
 QUEST_NPC = 'assets/scripts/gUnknown_08785580.evt'   # the West City resident outside the Z-Mart
@@ -422,6 +422,21 @@ def broly_frames(out, usable, pal):
                 Image.fromarray(cell(row, x0, x1)).save('%s/bfp_%s_%02d.png' % (out, name, n)); n += 1
 
 
+def player_anim_lengths(clean):
+    """Longest animation per slot across the retail player forms. Skills pick a frame by number, assuming a player's animation is as long as these, and
+    past the end of a shorter one they read garbage as a frame (that is how Super 13's three-frame slot 19 crashed the Ghost Attack)."""
+    u = lambda o: struct.unpack_from('<I', clean, o)[0]
+    table = sprites.ACTOR_LIST; out = {}
+    for f in range(FORM_COUNT):
+        char = struct.unpack_from('<H', clean, FORMS + FORM_SIZE * f + 0x0E)[0]
+        if char < 9: continue
+        rec = u(table + 4 * (char - 9)) - ROM_BASE
+        for s in range(u(rec) & 0xFF):
+            a = u(rec + 0x54 + 4 * s)
+            if a: out[s] = max(out.get(s, 0), u(a - ROM_BASE))
+    return out
+
+
 def add_actors(rom, clean):
     combo = open(COMBO, 'rb').read()
     if hashlib.sha1(combo).hexdigest() != COMBO_SHA1:
@@ -432,17 +447,19 @@ def add_actors(rom, clean):
         if not k.startswith('_') and 'replace' not in a: a['log2_slots'] = slots
     pal = np.frombuffer(clean[0x701B0 + 768:0x701B0 + 1536], np.uint8).reshape(256, 3)
     usable = [i for i in range(1, 256) if i not in artclean.MENU_SLOTS]
-    cfg['super13'] = {'proto_actor': 230, 'fill': {8: 9, 10: 9, 11: 0, 12: 0, 13: 9, 14: 4, 15: 7, 16: 17}}
+    cfg['super13'] = {'proto_actor': 230}
     clean_dir = tempfile.mkdtemp()
     android13_frames(clean_dir, usable, pal)
     cfg['android13'] = {'template': 157, 'slots': ANDROID13_SLOTS}
     broly_frames(clean_dir, usable, pal)
     cfg['broly_fp'] = {'template': 29, 'slots': BROLY_SLOTS, 'big': True, 'stretch': True}
-    one = indexer(usable, pal)
+    one = indexer(usable, pal); lengths = player_anim_lengths(clean)
+    cfg['broly_fp']['grow'] = lengths
     for actor, form in (('gogeta_dbs', 'base'), ('gogeta_dbs_ss', 'ssj'), ('gogeta_ssb', 'ssb')):
         gogeta.write_frames(clean_dir, form, one)
-        cfg[actor] = {'template': 93, 'slots': gogeta.slots(form), 'stretch': True}
-    cfg['android13_player'] = {'template': 93, 'slots': ANDROID13_SLOTS, 'stretch': True}    # the boss's small record can't carry a playable form
+        cfg[actor] = {'template': 93, 'slots': gogeta.slots(form), 'stretch': True, 'grow': lengths}
+    cfg['android13_player'] = {'template': 93, 'slots': ANDROID13_SLOTS, 'stretch': True, 'grow': lengths}    # the boss's small record can't carry a playable form
+    cfg['super13_player'] = {'proto_actor': 230, 'fill': {8: 9, 10: 9, 11: 0, 12: 0, 13: 9, 14: 4, 15: 7, 16: 17}, 'grow': lengths}
     ids, end = sprites.build_actors(rom, cfg, clean_dir, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal), open(PROTO, 'rb').read())
     return ids, end
 

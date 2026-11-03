@@ -47,7 +47,7 @@ out = run(kill); flag, rec = state(); r = rec(8)
 check('no bad jumps through the end of the Broly fight', 'bad pc' not in out)
 check('beating Broly sets flag 111 and adds him to the party', flag(111) == 1 and r[0] & 1 == 1)
 check('he joins on the Broly outfit', r[0x14] == forms['broly'])
-check('he joins level with the player, with his own skills', struct.unpack_from('<I', r, 0x24)[0] >= GOKU_EXP and r[0x0C] == 2 and r[0x28] > 27)
+check('he joins level with the player, with his own skills', struct.unpack_from('<I', r, 0x24)[0] >= GOKU_EXP and r[0x0C] == 3 and r[0x28] > 27)
 check('he shares the stat points the player has not spent yet', r[0x2C] == rec(0)[0x2C])
 print('   Broly joined with HP %d EP %d STR %d POW %d END %d' % (struct.unpack_from('<H', r, 0x18)[0], struct.unpack_from('<H', r, 0x1C)[0], r[0x28], r[0x29], r[0x2A]))
 

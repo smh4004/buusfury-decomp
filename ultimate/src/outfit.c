@@ -386,7 +386,7 @@ static int spirit_tick(void *player)
 #define REC(c) (RECORDS + (c) * RECORD_SIZE)
 #define R16(r, o) (*(u16 *)((r) + (o)))
 #define EXP(r) (*(u32 *)((r) + 0x24))
-static const u8 guest_skills[] = {2, 7, 2};                 /* count, Energy Blast, Big Bang: Energy Punch hangs on Super 13's animations */
+static const u8 guest_skills[] = {3, 7, 8, 2};              /* count, Energy Blast, Energy Punch, Big Bang */
 static const u8 gogeta_skills[] = {5, 7, 3, 5, 20, 21};     /* count, his own three, Super Saiyan, Super Saiyan Blue */
 static int scale(int v, int pct) { v = v * pct / 100; return v > 255 ? 255 : v; }
 void party_join(int *sp) {

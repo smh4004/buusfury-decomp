@@ -235,6 +235,15 @@ def build_actors(rom, cfg, clean_dir, at, l2=None, colour_ctx=None, proto=None):
                 dirs = slot_frames(clean_dir, spec)
                 anims[key] = ins.anim(stretch(dirs, want)) if dirs else None
             if anims[key]: struct.pack_into('<I', rec, 0x54 + 4 * int(slot), anims[key])
+        for slot, want in a.get('grow', {}).items():       # a playable form's animations must be at least as long as a retail player's
+            if int(slot) >= n: continue
+            ap = struct.unpack_from('<I', rec, 0x54 + 4 * int(slot))[0]
+            if not ap: continue
+            k = struct.unpack_from('<I', rom, ap - BASE)[0]
+            if k >= want: continue
+            old = struct.unpack_from('<%dI' % (4 * k), rom, ap - BASE + 4)
+            grown = [old[(i * k // want) * 4 + d] for i in range(want) for d in range(4)]
+            struct.pack_into('<I', rec, 0x54 + 4 * int(slot), ins.put(struct.pack('<I', want) + struct.pack('<%dI' % len(grown), *grown)))
         if target is not None:
             table[target] = ins.put(bytes(rec)); ids[name] = target
         else:
