@@ -77,7 +77,7 @@ talk = lambda b: talk_to(b)
 home = end[:end.index('tap A 40')]
 reward = talk(home) + ['shot said', 'tap A 60', 'shot said2', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot after', 'dump g 03001068 8a8']
 out = run(reward); g = open(d + '/g.bin', 'rb').read()
-check('the resident gives the reward: Saiyan armor', all(flag(n) for n in (610, 611, 612, 622)))
+check('the resident gives the rewards: Saiyan armor and Broly Full Power', all(flag(n) for n in (610, 611, 612, 613, 622)))
 
 # Start of the quest: from 26:1's road back to West City, walk up to the same resident, get sent in.
 intro = list(start); go(intro, [x for x in D[1] if 'world' in x][0], PL, 'home')

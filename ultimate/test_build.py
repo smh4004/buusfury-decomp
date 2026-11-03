@@ -60,6 +60,12 @@ o = run(foreign, sel, d, sav2)
 check('foreign save: Select Game survives and New Game starts', 'bad pc' not in o and open(d + '/f.bin', 'rb').read()[1] & 1 == 0)
 check('foreign save: the save file itself is untouched', open(sav2, 'rb').read() == before)
 
+# Broly's second skin: Switch Character, last character, Down, A.
+bfp = forms['broly_fp']
+o = run(rom, ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['tap DOWN 40', 'tap A 180', 'run 60', 'keys RIGHT', 'run 30', 'keys', 'tap A 12', 'run 20', 'dump p 03001068 8a8'], d)
+p = open(d + '/p.bin', 'rb').read()
+check('Broly Full Power can be chosen, walks and attacks', 'bad pc' not in o and p[0] == 8 and p[0x4F8 + 8 * REC + FORM] == bfp)
+
 # Outfit menu: Gohan is the second character. Down twice = orange gi; B cancels; A keeps it.
 pick = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30', 'tap RIGHT 40', 'tap DOWN 30', 'tap DOWN 30', 'shot outfit']
 o = run(rom, pick + ['tap B 150', 'run 100', 'dump c 03001068 8a8'], d)
