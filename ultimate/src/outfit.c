@@ -440,6 +440,12 @@ void trailer_warp(int *sp) {
     *sp = n + 5;
 }
 
+void trailer_slot(int *sp) {
+    int n = *sp;
+    sp[n + 1] = ((volatile int *)0x0203FF60)[5];
+    *sp = n + 1;
+}
+
 /* Script native party_join(character, form). The first time a post-game character joins, they start level with whoever is playing, leaning towards
    how they fight, with their own skills. Later calls change nothing, so an outfit chosen earlier stays on. */
 #define REC(c) (RECORDS + (c) * RECORD_SIZE)
