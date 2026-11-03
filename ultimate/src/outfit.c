@@ -406,6 +406,13 @@ static int spirit_tick(void *player)
     return 0;
 }
 
+/* Script native add_zenie(amount): the World Tournament's prize. */
+void add_zenie(int *sp) {
+    int n = *sp;
+    *(u32 *)0x0300155C += sp[n];
+    *sp = n - 1;
+}
+
 /* Script native party_join(character, form). The first time a post-game character joins, they start level with whoever is playing, leaning towards
    how they fight, with their own skills. Later calls change nothing, so an outfit chosen earlier stays on. */
 #define REC(c) (RECORDS + (c) * RECORD_SIZE)

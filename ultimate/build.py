@@ -108,6 +108,15 @@ def quest_npc(src):
     push 26
     end
 L8:
+    pushn 643
+    call flag
+    pushn 644
+    call not_flag
+    and
+    jz L9
+    push 28
+    end
+L9:
     pushn 620
     call flag
     pushn 623
@@ -284,7 +293,7 @@ L2:
 step auto code
     push 30
     end
-step auto text "Need a real fight? I can send you to a Boss Rush: nine bosses, one health bar.\\n\\n-Boss Rush\\n-Not now"
+step auto text "Need a real fight? I can send you to a Boss Rush: nine bosses, one health bar. Or the World Tournament: three rounds for 100,000 Zenie.\\n\\n-Boss Rush\\n-World Tournament\\n-Not now"
 step auto code
     call 0x18
     push 0
@@ -296,6 +305,16 @@ step auto code
     call 0x79(30)
     end
 L1:
+    call 0x18
+    push 1
+    eq
+    jz L2
+    call 0x78(30)
+    pushn 26, 28, 1, 360, 420
+    call 0x77
+    call 0x79(30)
+    end
+L2:
     push 12
     end
 step auto code
@@ -309,9 +328,11 @@ step auto code
     call set_flag
     push 30
     end
+step auto say 0x85 "You won the World Tournament! The prize is 100,000 Zenie. Come back any time."
 step auto code
-    end
-step auto code
+    pushn 644
+    call set_flag
+    push 30
     end
 step auto code
     end
@@ -635,6 +656,7 @@ def add_outfits(rom, clean, at):
     if struct.unpack_from('<I', rom, tab + 4 * JOIN_NATIVE)[0] != JOIN_OLD:
         sys.exit('native 0x%X changed' % JOIN_NATIVE)
     struct.pack_into('<I', rom, tab + 4 * JOIN_NATIVE, sym['party_join'] | 1)
+    struct.pack_into('<I', rom, tab + 4 * 0xE0, sym['add_zenie'] | 1)
     row = SKILLS + 24 * SUPER_BLUE_SKILL                  # Super Saiyan 3's code runs on the form table's up and down, so only the words change
     if struct.unpack_from('<II', rom, row + 4) != (0x08019D25, 0x08019D29):
         sys.exit('skill row %d is in use' % SUPER_BLUE_SKILL)
