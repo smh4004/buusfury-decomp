@@ -97,12 +97,20 @@ flag_on = lambda n: 'poke8 %08X %02X' % (0x03001068 + 0x55 + n // 8, 1 << n % 8)
 rush = list(start); go(rush, [x for x in D[1] if 'world' in x][0], PL, 'rhome')
 rush = talk(rush + [flag_on(622)]) + ['shot board', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'shot rush0']
 out = run(rush); check('the resident offers the Boss Rush and sends you to its first room', at(out) == (zone26.RUSH_FIRST << 8 | 26))
+def rush_boss(base, hp):
+    """The boss by its class and HP, allowing for a few stray punches from the test on the way in."""
+    run(base + ['dump w 02000000 40000']); w = open(d + '/w.bin', 'rb').read(); best = (None, 0, 0)
+    for i in range(0x28C, len(w) - 4, 4):
+        v = struct.unpack_from('<i', w, i)[0]
+        if (hp - 5000) << 10 < v <= hp << 10 and struct.unpack_from('<I', w, i - 0x28C)[0] == 0x0804C484:
+            best = (0x02000000 + i, ) + struct.unpack_from('<II', w, i - 0xEC)
+    return best
 for k, _ in enumerate(zone26.RUSH):
     hp = zone26.RUSH_HP[k]
-    a_ = boss(rush, hp)[0]
+    found = rush_boss(rush, hp); a_ = found[0]
     check('Boss Rush fight %d is there with %d HP' % (k + 1, hp), a_ is not None)
     if a_ is None: break
-    pl_, x_, y_ = ptr(rush), *boss(rush, hp)[1:]
+    pl_, x_, y_ = ptr(rush), *found[1:]
     tough = 'poke %08X %08X' % (pl_ + 0x28C, 30000 << 10)       # the player object's own HP: a low-level debug Goku wouldn't last
     near = ['poke %08X %08X' % (pl_ + 0x1A0, x_), 'poke %08X %08X' % (pl_ + 0x1A4, y_ + (20 << 8))]
     pin = ['poke %08X %08X' % (a_ - 0xEC, x_), 'poke %08X %08X' % (a_ - 0xE8, y_)]    # Super Buu with Gohan teleports out of reach. Only him: these pokes would land on the next boss, who takes over the same memory
