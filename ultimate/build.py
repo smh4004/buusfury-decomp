@@ -30,6 +30,8 @@ LOG2 = os.environ.get('BFU_LOG2', 'log2.gba')      # Legacy of Goku II (USA): Zo
 COMBO = os.environ.get('BFU_COMBO', 'combo.gba')   # Legacy of Goku I & II cart; LoG2 = its second 8 MB
 JOIN_NATIVE = 0xE8               # party_join in outfit.c; no game script calls this native
 JOIN_OLD = 0x08003891
+ERASER_SKILL = 24                # a new row past the retail table: Big Bang's code with green frames
+ERASER_UI = 1534                 # two strings past the retail table: name, description
 SUPER_BLUE_SKILL = 21            # a skill row with stubs only: becomes Super Saiyan Blue
 BROLY_DEFEAT = 'assets/scripts/gUnknown_0879321C.evt'
 DEBUG_NATIVE = 0xF7              # debug builds only: "save to slot 1" (not used by any game script)
@@ -41,6 +43,7 @@ ENDING = 'assets/scripts/gUnknown_08796114.evt'
 FIELD = 'assets/scripts/gUnknown_08780550.evt'
 
 
+SKILL_ROWS, UI_TABLE = 0x71DAF8, 0x6BCE8
 SKILLS, SPIRIT_SKILL, SPIRIT_NAME = 0x71DB04, 19, 1050      # UI 1050 and 1053 are unused text
 UI = 'assets/text/ui_strings.txt'
 ACTOR_BASE = 298
@@ -262,7 +265,7 @@ def debug_edits(first_form):
     heal = ''.join('    push %d\n    set %s\n' % (v, n) for v, n in ((500, 'max_hp'), (500, 'hp'), (100, 'max_ki'), (100, 'ki')))
     flags = ''.join('    pushn %d\n    call set_flag\n' % f for f in sorted({o['flag'] for l in json.load(open('ultimate/outfits.json'))['characters'].values() for o in l if o['flag']}))
     if '--zone' in sys.argv: flags += '    pushn 149\n    call set_flag\n    pushn 0, 19\n    call 0xA4\n'
-    join = ('step auto code\n' + flags + '    call 0x97(1)\n    call 0x97(3)\n    call 0x97(4)\n    call 0x97(6)\n    call 0x97(8)\n    call 0x95(3)\n' + heal + '    call 0xD0(21)\n    call 0x95(4)\n' + heal + '    call 0xD0(26)\n    call 0x95(1)\n' + heal + '    call 0xD0(15)\n    pushn 1, 107\n    call 0x9D\n    call 0xA4(1, 20)\n    call 0xA4(1, 18)\n    call 0x95(6)\n' + heal + '    call 0x95(8)\n' + heal +
+    join = ('step auto code\n' + flags + '    call 0x97(1)\n    call 0x97(3)\n    call 0x97(4)\n    call 0x97(6)\n    call 0x97(8)\n    call 0x95(3)\n' + heal + '    call 0xD0(21)\n    call 0x95(4)\n' + heal + '    call 0xD0(26)\n    call 0x95(1)\n' + heal + '    call 0xD0(15)\n    pushn 1, 107\n    call 0x9D\n    call 0xA4(1, 20)\n    call 0xA4(1, 18)\n    call 0x95(6)\n' + heal + '    call 0x95(8)\n' + heal + '    pushn 8, 8\n    call 0xA4\n    pushn 8, %d\n    call 0xA4\n' % ERASER_SKILL +
             '    call 0xD0(%d)\n    call 0x95(0)\n    end\n' % first_form)
     s = open(INTRO).read()
     assert 'step 19 raw' in s
@@ -524,7 +527,7 @@ def add_outfits(rom, clean, at):
     pairs = ['{%d,%d}' % (base, 14 if row == 14 else fm[row]) for base, row in SAIYAMAN]
     c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs))
     open(d + '/o.c', 'w').write(c)
-    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
+    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DERASER_SKILL=%d' % ERASER_SKILL, '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
     syms = ['-Wl,--defsym=form_table=0x%X' % (ROM_BASE + SPACE), '-Wl,-Ttext=0x%X' % (ROM_BASE + at), '-Wl,-e,picker_update', '-Wl,--no-warn-rwx-segments']
     lib = subprocess.run(['arm-none-eabi-gcc', '-mthumb', '-mcpu=arm7tdmi', '-print-libgcc-file-name'], capture_output=True, text=True, check=True).stdout.strip()
     subprocess.run(['arm-none-eabi-gcc'] + flags + syms + [d + '/o.c', lib, '-o', d + '/o.elf'], check=True)
@@ -569,11 +572,70 @@ def add_outfits(rom, clean, at):
         sys.exit('skill row %d is in use' % SPIRIT_SKILL)
     struct.pack_into('<HHII', rom, row, SPIRIT_NAME, SPIRIT_NAME + 3, sym['spirit_usable'] | 1, sym['spirit_use'] | 1)
     rom[row + 12:row + 24] = rom[SKILLS + 24 * 15 + 12:SKILLS + 24 * 15 + 24]
+    end = add_eraser(rom, clean, sym, at + len(code))    # after the row edits above: it moves the skill table
     i = rom.find(bytes.fromhex('092c'), 0x4C70, 0x4C84)    # Select Game draws 8 characters, not the guest slot: Broly's size covered the text
     if i < 0:
         sys.exit('Select Game party loop changed')
     rom[i:i + 2] = bytes.fromhex('082c')
-    return at + len(code)
+    return end
+
+
+def add_eraser(rom, clean, sym, at):
+    """Eraser Cannon: green copies of Big Bang's two ball animations and icons, a parameter table and behaviour pointing at them, a new skill row, and two new UI strings."""
+    pal = np.frombuffer(clean[0x701B0 + 768:0x701B0 + 1536], np.uint8).reshape(256, 3)
+    one = indexer([i for i in range(1, 256) if i not in artclean.MENU_SLOTS], pal)
+    def green(v):
+        if v == 0: return 0
+        r, g, b = (int(x) for x in pal[v]); top = max(r, g, b); pale = min(r, g, b) / 255
+        return one(np.array((top * (0.2 + 0.6 * pale), top, top * (0.15 + 0.6 * pale))).astype(int))
+    remap = bytes(green(v) for v in range(256))
+    def put(data):
+        nonlocal at
+        at = (at + 3) & ~3; o = at; rom[o:o + len(data)] = data; at += len(data)
+        return ROM_BASE + o
+    copies = {}
+    def ball(rec):
+        """One animation: four facings of 120 bytes, each up to ten {header, attributes, tile data} rows."""
+        out = bytearray(clean[rec:rec + 480])
+        for k in range(0, 480, 12):
+            head, _, tiles = struct.unpack_from('<III', out, k)
+            if tiles:
+                size = (head >> 16 & 255) * (head >> 24 & 255)
+                if tiles not in copies:
+                    o = tiles - ROM_BASE; copies[tiles] = put(bytes(clean[o:o + size]).translate(remap))
+                struct.pack_into('<I', out, k + 8, copies[tiles])
+        return put(bytes(out))
+    params = 0x76ACC0                                     # Big Bang's table: level 1 and 2 cyan ball, level 3 gold
+    balls = {}
+    table = sym['eraser_params'] - ROM_BASE
+    for i in range(3):
+        a, b, rec, d = struct.unpack_from('<4I', clean, params + 16 * i)
+        balls.setdefault(rec, ball(rec - ROM_BASE))
+        struct.pack_into('<4I', rom, table + 16 * i, a, b, balls[rec], d)
+    OLD_VT, vt = 0x4D05C, sym['eraser_vt'] - ROM_BASE      # the behaviour's other methods stay Big Bang's: all but the start are unchanged
+    for k in range(9):
+        fn = ROM_BASE + OLD_VT + struct.unpack_from('<i', clean, OLD_VT + 4 * k)[0]
+        struct.pack_into('<i', rom, vt + 4 * k, ((sym['eraser_start'] | 1) if k == 0 else fn) - (ROM_BASE + vt))
+    icons = [struct.unpack_from('<I', clean, SKILL_ROWS + 24 * 2 + 4 + 4 * j)[0] for j in (0, 1)]
+    icons = [put(bytes(clean[p - ROM_BASE:p - ROM_BASE + 0x200]).translate(remap)) for p in icons]
+    row = bytearray(clean[SKILL_ROWS + 24 * 2:SKILL_ROWS + 48 + 24])
+    struct.pack_into('<II', row, 4, *icons)
+    struct.pack_into('<HH', row, 12, ERASER_UI, ERASER_UI + 1)
+    struct.pack_into('<I', row, 20, sym['eraser_use'] | 1)
+    if struct.unpack_from('<I', rom, 0x13618)[0] != ROM_BASE + SKILL_ROWS:
+        sys.exit('skill table reference moved')
+    moved = bytes(rom[SKILL_ROWS:SKILL_ROWS + 24 * ERASER_SKILL]) + bytes(row)
+    struct.pack_into('<I', rom, 0x13618, put(moved))
+    strings = [put(bytes(s.encode('utf-16-le')) + b'\0\0') for s in ('Eraser Cannon', 'Press the B Button to throw a huge ball of green energy.')]
+    ptrs = find_once(rom, clean[UI_TABLE:UI_TABLE + 64], 'UI string table')
+    new = put(bytes(rom[ptrs:ptrs + 4 * ERASER_UI]) + struct.pack('<2I', *strings))
+    n = 0
+    for o in range(0, CODE_END, 4):
+        if struct.unpack_from('<I', rom, o)[0] == ROM_BASE + ptrs:
+            struct.pack_into('<I', rom, o, new); n += 1
+    if n != 51:
+        sys.exit('UI table: expected 51 references, found %d' % n)
+    return at
 
 
 def thumb_bl(at, to):

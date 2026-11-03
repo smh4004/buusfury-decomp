@@ -79,7 +79,7 @@ check('post-game: both survive saving and loading', 'bad pc' not in o and b[0] =
 # Skills pick frames by number: Super 13's short animations once sent the Ghost Attack, used facing sideways, into garbage. This sequence crashed there.
 R = 0x03001560 + 8 * REC
 seq = ['guardon 0x09000000'] + route + ['poke8 %08X %02X' % (R + 0x14, forms['super13']), 'tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['tap A 200', 'run 60']
-for s_ in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13):
+for s_ in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 24):
     seq += ['poke8 %08X 02' % (R + 0xC), 'poke8 %08X 07' % (R + 0xD), 'poke8 %08X %02X' % (R + 0xE, s_), 'poke8 %08X 01' % (R + 0x15), 'poke8 %08X FF' % (R + 0x1A), 'poke8 %08X 00' % (R + 0x1B), 'run 2', 'keys B', 'run 6', 'keys', 'run 150', 'tap B 80', 'run 200', 'keys LEFT', 'run 12', 'keys', 'run 4', 'keys RIGHT', 'run 12', 'keys', 'run 30']
 seq += ['mem 03004A8C 1']
 o = run(rom, seq, d)

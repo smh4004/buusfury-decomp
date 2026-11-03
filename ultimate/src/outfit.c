@@ -386,7 +386,7 @@ static int spirit_tick(void *player)
 #define REC(c) (RECORDS + (c) * RECORD_SIZE)
 #define R16(r, o) (*(u16 *)((r) + (o)))
 #define EXP(r) (*(u32 *)((r) + 0x24))
-static const u8 guest_skills[] = {3, 7, 8, 2};              /* count, Energy Blast, Energy Punch, Big Bang */
+static const u8 guest_skills[] = {3, 7, 8, ERASER_SKILL};   /* count, Energy Blast, Energy Punch, Eraser Cannon */
 static const u8 gogeta_skills[] = {5, 7, 3, 5, 20, 21};     /* count, his own three, Super Saiyan, Super Saiyan Blue */
 static int scale(int v, int pct) { v = v * pct / 100; return v > 255 ? 255 : v; }
 void party_join(int *sp) {
@@ -411,4 +411,31 @@ void party_join(int *sp) {
     r[0x0C] = skills[0];
     for (i = 0; i < skills[0]; i++) r[0x0D + i] = skills[1 + i];
     r[0x15] = 0;
+}
+
+/* Eraser Cannon: Big Bang's code with its own green frames. Big Bang's start makes the ball from its parameter table, so this runs it, then points the ball at
+   the same entry of our table (same damage and speed, green frames). */
+#define BigBang_Start ((void (*)(u32 *, void *))0x0801A7C1)
+#define Alloc ((u32 *(*)(int))0x0803D5B9)
+const u32 eraser_params[12] = {1};                /* build.py fills these */
+const int eraser_vt[9] = {1};
+void eraser_start(u32 *self, void *player) {
+    u32 *ball;
+    BigBang_Start(self, player);
+    ball = (u32 *)self[1];
+    if (ball) {
+        const u32 *mine = &eraser_params[self[2] * 4];
+        u32 *old = (u32 *)ball[0x4C / 4];
+        int shift = (int)mine[2] - (int)old[2];
+        ball[0x4C / 4] = (u32)mine;
+        ball[0x50 / 4] += shift;
+        ball[0x18 / 4] += shift;
+    }
+}
+void eraser_use(u8 *record, void *sprite) {
+    int level = record[record[0x15] * 2 + 0x2E];
+    u32 *b = Alloc(0x14);
+    if (b) { b[0] = (u32)eraser_vt; b[2] = level; b[3] = 0; b[4] = 0; }
+    Sprite_SetFacing(sprite, 0x12);
+    Sprite_SetBehaviour(sprite, b);
 }
