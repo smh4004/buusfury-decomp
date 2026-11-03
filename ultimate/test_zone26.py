@@ -42,6 +42,10 @@ check('no bad jumps through the zone', 'bad pc' not in out)
 def talk_at(base, x, y):
     pl = int([l for l in run(base + ['mem 03001C34 1']).splitlines() if l.startswith('mem 03001c34')][-1].split()[2], 16)
     return base + ['poke %08X %08X' % (pl + 0x1A0, x << 8), 'poke %08X %08X' % (pl + 0x1A4, (y + 22) << 8), 'run 2', 'keys UP', 'run 6', 'keys', 'run 4', 'tap A 80']
+HUB = 0x0103
+def hub_talk(base):
+    """Debug: the West City tournament resident takes you to Hercule City (flag 660), then talk to the official on the Challenge Board."""
+    return talk_at(talk_at(base + ['poke8 %08X 10' % (0x03001068 + 0x55 + 660 // 8)], 96, 328) + ['run 200'], *zone26.HUB_AT)
 def talk_to(base):
     """He wanders later, so right after arriving he's still at his spawn: stand just below him and press A."""
     pl = int([l for l in run(base + ['mem 03001C34 1']).splitlines() if l.startswith('mem 03001c34')][-1].split()[2], 16)
@@ -98,7 +102,7 @@ check('the resident sends you to Zone 26 once the game is beaten', int(ats[-1].s
 # Boss Rush: once Super 13 is beaten the resident offers it. Nine bosses in a row, then the reward back in West City.
 flag_on = lambda n: 'poke8 %08X %02X' % (0x03001068 + 0x55 + n // 8, 1 << n % 8)
 rush = list(start); go(rush, [x for x in D[1] if 'world' in x][0], PL, 'rhome')
-rush = talk(rush + [flag_on(622)]) + ['tap A 60', 'poke8 03001588 96', 'poke8 03001589 96', 'poke8 0300158A 96', 'poke8 0300158B 96', 'poke8 03001576 FF', 'poke8 03001577 7F', 'shot board', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'shot rush0']
+rush = hub_talk(rush + [flag_on(622)]) + ['poke8 03001588 96', 'poke8 03001589 96', 'poke8 0300158A 96', 'poke8 0300158B 96', 'poke8 03001576 FF', 'poke8 03001577 7F', 'run 150', 'tap A 150', 'shot board', 'tap A 200', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'shot rush0']
 out = run(rush); check('the resident offers the Boss Rush and sends you to its first room', at(out) == (zone26.RUSH_FIRST << 8 | 26))
 def boss_any(base):
     """The living boss after the test has already cut its HP."""
@@ -139,12 +143,12 @@ for k, _ in enumerate(zone26.RUSH):
     print('   fight %d took %d tries' % (k + 1, attempt + 1))
     run(rush + ['shot rush%d' % (k + 1)])
     if k < len(zone26.RUSH) - 1: check('beating it moves on to the next room', 'bad pc' not in out and at(out) == ((zone26.RUSH_FIRST + k + 1) << 8 | 26))
-check('beating the last one brings you home to West City', at(out) == 0x0104)
-done = talk(rush + ['poke8 %08X 04' % (0x03001068 + 0x55 + 641 // 8)]) + ['shot rushtalk', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot rushdone', 'dump g 03001068 8a8']
+check('beating the last one brings you back to the board', at(out) == HUB)
+done = talk_at(rush + ['poke8 %08X 04' % (0x03001068 + 0x55 + 641 // 8)], *zone26.HUB_AT) + ['shot rushtalk', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot rushdone', 'dump g 03001068 8a8']
 out = run(done); g = open(d + '/g.bin', 'rb').read()
-check('the resident pays the reward', flag(641) == 1 and 'bad pc' not in out)
-again = talk(done) + ['shot rushagain', 'tap A 120', 'tap A 200', 'run 120', 'mem %s 1' % AT]
-out = run(again); check('after the reward he offers the Boss Rush again', at(out) == (zone26.RUSH_FIRST << 8 | 26))
+check('the board pays the reward', flag(641) == 1 and 'bad pc' not in out)
+again = talk_at(done, *zone26.HUB_AT) + ['shot rushagain', 'run 150', 'tap A 150', 'tap A 200', 'tap A 200', 'run 120', 'mem %s 1' % AT]
+out = run(again); check('after the reward the board still offers the Boss Rush', at(out) == (zone26.RUSH_FIRST << 8 | 26))
 print('rush screens in', d)
 
 # World Tournament: first walk every opponent in turn (flag TOUR_ORDERED), then check that a real entry draws at random.
@@ -152,22 +156,22 @@ tour = list(start); go(tour, [x for x in D[1] if 'world' in x][0], PL, 'thome')
 strong = ['poke8 03001588 96', 'poke8 03001589 96', 'poke8 0300158A 96', 'poke8 0300158B 96', 'poke8 03001576 FF', 'poke8 03001577 7F']
 home = list(tour); first = zone26.tour_first(); pool1 = len(zone26.TOUR_POOLS[0])
 drawn = set()
-TO_MENU = ['run 150', 'tap A 150']       # past the opening line, with the bracket menu fully on screen
+TO_MENU = ['run 150', 'tap A 150', 'tap DOWN 12', 'tap A 150']       # past the greeting, down to World Tournament: the bracket menu is on screen
 def pick_rival(place):
     """A menu shows three opponents and More: the second page has the other three and Back."""
     page = ['run 120', 'tap A 120']      # past the round's opening line
     if place >= 3: page += ['tap DOWN 12'] * 3 + ['tap A 120']
     return page + ['tap DOWN 12'] * (place % 3) + ['tap A 150']
-menu = talk_at(home + [flag_on(622)] + strong, 96, 328) + TO_MENU
-check('Not now stays home', at(run(menu + ['tap DOWN 12', 'tap DOWN 12', 'tap A 120', 'run 60', 'shot tournot', 'mem %s 1' % AT])) == 0x0104)
-check('B leaves the menu', at(run(menu + ['tap B 120', 'run 60', 'mem %s 1' % AT])) == 0x0104)
-check('Back returns to the first page', at(run(menu + ['tap DOWN 12', 'tap A 120', 'run 120', 'tap A 120'] + ['tap DOWN 12'] * 3 + ['tap A 120'] + ['tap DOWN 12'] * 3 + ['tap A 120', 'tap B 120', 'run 60', 'mem %s 1' % AT])) == 0x0104)
+menu = hub_talk(home + [flag_on(622)] + strong) + TO_MENU
+check('Not now stays by the board', at(run(menu + ['tap DOWN 12', 'tap DOWN 12', 'tap A 120', 'run 60', 'shot tournot', 'mem %s 1' % AT])) == HUB)
+check('B leaves the menu', at(run(menu + ['tap B 120', 'run 60', 'mem %s 1' % AT])) == HUB)
+check('Back returns to the first page', at(run(menu + ['tap DOWN 12', 'tap A 120', 'run 120', 'tap A 120'] + ['tap DOWN 12'] * 3 + ['tap A 120'] + ['tap DOWN 12'] * 3 + ['tap A 120', 'tap B 120', 'run 60', 'mem %s 1' % AT])) == HUB)
 for wait in (1, 37, 91, 143, 211, 277):
-    o_ = talk_at(home + ['run %d' % wait, flag_on(622)] + strong, 96, 328) + TO_MENU + ['tap A 200', 'run 120', 'mem %s 1' % AT]
+    o_ = hub_talk(home + ['run %d' % wait, flag_on(622)] + strong) + TO_MENU + ['tap A 200', 'run 120', 'mem %s 1' % AT]
     drawn.add(at(run(o_)))
 print('   first-round rooms drawn', sorted(hex(v) for v in drawn))
 check('entering draws a first-round opponent at random', len(drawn) >= 2 and all(first <= v >> 8 < first + pool1 and v & 255 == 26 for v in drawn))
-tour = talk_at(home + [flag_on(622), 'poke8 %08X %02X' % (0x03001068 + 0x55 + zone26.TOUR_ORDERED // 8, 1 << zone26.TOUR_ORDERED % 8)] + strong, 96, 328) + ['shot tourboard'] + TO_MENU + ['shot tourmenu', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'mem 0300155C 1', 'shot tour0']
+tour = hub_talk(home + [flag_on(622), 'poke8 %08X %02X' % (0x03001068 + 0x55 + zone26.TOUR_ORDERED // 8, 1 << zone26.TOUR_ORDERED % 8)] + strong) + ['shot tourboard'] + TO_MENU + ['shot tourmenu', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'mem 0300155C 1', 'shot tour0']
 out = run(tour)
 check('the resident sends you to the World Tournament', at(out) == (first << 8 | 26))
 before = int([l for l in out.splitlines() if l.startswith('mem 0300155c')][-1].split()[-1], 16)
@@ -193,17 +197,17 @@ for k, (rnd, place, row, _) in enumerate(everyone):
     print('   opponent %d took %d tries' % (k + 1, attempt + 1))
     run(tour + ['shot tour%d' % (k + 1)])
     if k < len(everyone) - 1: check('beating them moves on', 'bad pc' not in out and at(out) == ((first + k + 1) << 8 | 26))
-check('winning the final brings you home to West City', at(out) == 0x0104)
-said = talk_at(tour + ['mem 0300155C 1'], 96, 328) + ['shot tourwon', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'dump g 03001068 8a8']
+check('winning the final brings you back to the board', at(out) == HUB)
+said = talk_at(tour + ['mem 0300155C 1'], *zone26.HUB_AT) + ['shot tourwon', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'dump g 03001068 8a8']
 out = run(said); g = open(d + '/g.bin', 'rb').read()
 paid = int([l for l in out.splitlines() if l.startswith('mem 0300155c')][-1].split()[-1], 16)
 print('   zenie', before, paid)
 check('the tournament pays its prize', paid - before >= zone26.TOUR_PRIZE)
-check('the resident congratulates you once', flag(644) == 1 and 'bad pc' not in out)
+check('the board congratulates you once', flag(644) == 1 and 'bad pc' not in out)
 
 # A picked bracket: the second page of round one, the first of round two and the last place of the final (Super 13).
 wanted = (4, 2, 5)
-pick = talk_at(home + [flag_on(622)] + strong, 96, 328) + TO_MENU + ['tap DOWN 12', 'tap A 120']
+pick = hub_talk(home + [flag_on(622)] + strong) + TO_MENU + ['tap DOWN 12', 'tap A 120']
 for w in wanted: pick += pick_rival(w)
 pick += ['run 120', 'mem %s 1' % AT, 'shot pick0']
 out = run(pick)
@@ -225,7 +229,42 @@ for rnd, place in enumerate(wanted):
         out = run(pick)
         if 'bad pc' in out or at(out) != room << 8 | 26: break
     print('   picked opponent %d took %d tries' % (rnd + 1, attempt + 1))
-check('winning a picked bracket brings you home', at(out) == 0x0104)
+check('winning a picked bracket brings you back to the board', at(out) == HUB)
+
+# Trials: each is one fight as a set hero. Back at the board it pays, and all four earn the rare prize.
+trial = hub_talk(home + [flag_on(622)] + strong) + ['run 150', 'tap A 150', 'tap DOWN 12', 'tap DOWN 12', 'tap A 150', 'run 150', 'tap A 150', 'shot trials', 'tap B 120', 'run 60']
+tf = zone26.trial_first()
+for k, t in enumerate(zone26.TRIALS):
+    trial = talk_at(trial, *zone26.HUB_AT) + ['run 150', 'tap A 150', 'tap DOWN 12', 'tap DOWN 12', 'tap A 150', 'run 150', 'tap A 150'] + ['tap DOWN 12'] * k + ['tap A 200', 'run 120', 'mem %s 1' % AT, 'mem 03001068 1', 'shot trial%d' % k]
+    out = run(trial)
+    check('trial %d is the right room' % (k + 1), at(out) == ((tf + k) << 8 | 26))
+    who = [l for l in out.splitlines() if l.startswith('mem 03001068')][-1].split(':')[1].split()[0]
+    check('trial %d makes %s the player' % (k + 1, t[1]), int(who, 16) & 255 == t[0])
+    room = (tf + k) << 8 | 26
+    for attempt in range(12):
+        found = rush_boss(trial, zone26.TRIAL_HP)
+        if found[0] is None: found = boss_any(trial)
+        if found[0] is None:
+            trial = trial + ['tap A 30'] * 4 + ['run 200', 'mem %s 1' % AT]; out = run(trial)
+            if 'bad pc' in out or at(out) != room: break
+            continue
+        a_, x_, y_ = found; pl_ = ptr(trial)
+        rec_ = 0x03001560 + t[0] * 0x68 + 0x17
+        heal = ['poke8 %08X 7F' % rec_, 'poke %08X %08X' % (pl_ + 0x28C, 30000 << 10)]
+        near = ['poke %08X %08X' % (pl_ + 0x1A0, x_), 'poke %08X %08X' % (pl_ + 0x1A4, y_ + (20 << 8))]
+        trial = trial + heal + ['poke %08X %08X' % (a_, 2 << 10)] + near + ['keys UP', 'run 3', 'keys', 'tap A 14'] + heal + ['tap A 30'] * 6 + heal + ['run 150', 'mem %s 1' % AT]
+        out = run(trial)
+        if 'bad pc' in out or at(out) != room: break
+    print('   trial %d took %d tries' % (k + 1, attempt + 1))
+    check('winning trial %d brings you back to the board' % (k + 1), at(out) == HUB and 'bad pc' not in out)
+    trial = talk_at(trial + ['mem 0300155C 1'], *zone26.HUB_AT) + ['shot trialpay%d' % k, 'run 150', 'tap A 120', 'run 30', 'mem 0300155C 1', 'dump g 03001068 8a8']
+    out = run(trial); g = open(d + '/g.bin', 'rb').read()
+    z = [int(l.split()[-1], 16) for l in out.splitlines() if l.startswith('mem 0300155c')]
+    check('trial %d pays 30,000 Zenie at the board' % (k + 1), flag(zone26.TRIAL_PAID + k) == 1 and z[-1] - z[-2] == zone26.TRIAL_PRIZE)
+all4 = talk_at(trial, *zone26.HUB_AT) + ['shot trialall', 'run 150', 'tap A 120', 'run 30', 'dump g 03001068 8a8']
+out = run(all4); g = open(d + '/g.bin', 'rb').read()
+check('all four trials earn the ten Senzu Beans', flag(zone26.TRIAL_ALL) == 1 and g[2 + zone26.TRIAL_ITEM] >= zone26.TRIAL_ITEMS)
+
 
 # Spirit Bomb: Goku has it in this build (skill 19). Select it, use it next to Super 13, and it should hurt him and spend energy.
 a13, x, y = boss(route + ['run 30'], 30000); hpa = a13

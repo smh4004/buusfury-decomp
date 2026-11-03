@@ -163,6 +163,10 @@ TOUR_STATS = ((145, 60, 40, 60), (145, 70, 50, 65), (150, 75, 85, 70))     # lev
 TOUR_NAMES = (('Yamu', 'Spopovich', 'Idasa', 'Olibu', 'Ninja Boss', 'Knight Destroyer'), ('Pikkon', 'Goten', 'Trunks', 'Dabura', 'Pharoah', 'Airship Warlord'),
               ('Super Janemba', 'Broly', 'Majin Buu', 'Super Buu', 'Kid Buu', 'Super 13'))
 TOUR_PICKS, TOUR_PICK, TOUR_GET = 651, 0xE1, 0xE2     # flags 651-659 hold each round's opponent, 3 bits a round; natives tour_pick(round, place) and tour_get(round)
+TRIALS = ((0, 'Goku', 91, 224, 'Pikkon'), (1, 'Gohan', 18, 73, 'Dabura'), (3, 'Vegeta', 28, 43, 'Majin Buu'), (4, 'Trunks', 39, 123, 'Goten'))     # party slot, name, enemy row, character, opponent
+TRIAL_HP, TRIAL_STATS, TRIAL_PRIZE, TRIAL_ITEM, TRIAL_ITEMS = 40000, (148, 65, 60, 65), 30000, 11, 10    # all four: ten Senzu Beans (item 11)
+TRIAL_WON, TRIAL_PAID, TRIAL_ALL = 661, 665, 669
+HUB_AT = (208, 112)                                # where the tournament official stands in Hercule City; wins come home just below him
 TOUR_ORDERED = 650                                 # a test sets this to walk every opponent in turn instead of drawing
 TOUR_ROOM, TOUR_PRIZE, TOUR_WON, ADD_ZENIE = (7, 6), 100000, 643, 0xE0
 RUSH_FIRST, RUSH_WON = 19, 642   # room of the first fight, flag for a win not yet rewarded
@@ -190,6 +194,15 @@ def tour_first():
     return RUSH_FIRST + len(RUSH)
 
 
+def trial_first():
+    return tour_first() + len(tour_list())
+
+
+def trial_end(k):
+    """Script run when trial k's opponent falls: home to the Challenge Board, which pays."""
+    return '    pushn %d\n    call set_flag\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 3, 1, 1, 208, 134\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % (TRIAL_WON + k)
+
+
 def tour_list():
     return [(rnd, place, row, char) for rnd, pool in enumerate(TOUR_POOLS) for place, (row, char) in enumerate(pool)]
 
@@ -202,7 +215,7 @@ def tour_draw(rnd):
 
 def tour_next(k, rnd):
     """Script run when opponent k falls."""
-    prize = '    pushn %d\n    call set_flag\n    pushn %d\n    call 0x%X\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 4, 1, 1, 96, 350\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % (TOUR_WON, TOUR_PRIZE, ADD_ZENIE)
+    prize = '    pushn %d\n    call set_flag\n    pushn %d\n    call 0x%X\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 3, 1, 1, 208, 134\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % (TOUR_WON, TOUR_PRIZE, ADD_ZENIE)
     last = len(tour_list()) - 1
     ordered = ('    pushn %d\n    call flag\n    jz L1\n' % TOUR_ORDERED + ('    call 0x78(30)\n    pushn 26, %d, 1, 360, 420\n    call 0x77\n    call 0x79(30)\n    end\n' % (tour_first() + k + 1) if k < last else prize) + 'L1:\n')
     return ordered + (prize if rnd == len(TOUR_POOLS) - 1 else tour_draw(rnd + 1) + '    end\n')
@@ -218,7 +231,7 @@ def rush_rows(W, rom, harmless=False):
         if harmless: r[0xD] = r[0xE] = 0      # debug zone build only: bosses that can't end the test before it reaches the next room
         last = k == len(RUSH) - 1
         if last:     # home to West City, where the resident pays out: a scene can't start in a room that held a boss
-            text = '    pushn %d\n    call set_flag\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 4, 1, 1, 320, 392\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % RUSH_WON
+            text = '    pushn %d\n    call set_flag\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 3, 1, 1, 208, 134\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % RUSH_WON
         else:
             text = '    call 0x78(30)\n    pushn 26, %d, 1, %d, %d\n    call 0x77\n    call 0x79(30)\n    end\n' % (RUSH_FIRST + k + 1, 120, 276)
         struct.pack_into('<II', r, 0x14, 0x08708920, W.put(bytes(bfscript.asm(text))))
@@ -230,11 +243,36 @@ def rush_rows(W, rom, harmless=False):
         if harmless: r[0xD] = r[0xE] = 0
         struct.pack_into('<II', r, 0x14, 0x08708920, W.put(bytes(bfscript.asm(tour_next(k, rnd)))))
         rows += r
+    for k, (_, _, row, _, _) in enumerate(TRIALS):
+        r = bytearray(rom[STATS + 28 * row:STATS + 28 * (row + 1)])
+        struct.pack_into('<I', r, 4, TRIAL_HP)
+        r[0xC:0x10] = bytes(TRIAL_STATS)
+        if harmless: r[0xD] = r[0xE] = 0
+        struct.pack_into('<II', r, 0x14, 0x08708920, W.put(bytes(bfscript.asm(trial_end(k)))))
+        rows += r
     at = W.put(bytes(rows))
     for o in STATS_REFS:
         if struct.unpack_from('<I', rom, o)[0] != BASE + STATS:
             sys.exit('stats table reference moved: %X' % o)
         struct.pack_into('<I', rom, o, at)
+
+
+def hub_person(W, rom):
+    """Hercule City's first resident stands aside after Super 13, when the tournament official takes his spot with the same list."""
+    e = next(AREAS + 56 * k for k in range(COUNT) if rom[AREAS + 56 * k] == 3 and rom[AREAS + 56 * k + 1] == 1)
+    count = rom[e + 4]; lst = struct.unpack_from('<I', rom, e + 0x14)[0] - BASE
+    ptrs = list(struct.unpack_from('<%dI' % count, rom, lst))
+    old = next(p for p in ptrs if struct.unpack_from('<I', rom, p - BASE)[0] == 0x08017DA3 and struct.unpack_from('<I', rom, p - BASE + 0x10)[0] == 205)
+    rec = bytearray(rom[old - BASE:old - BASE + 32])
+    struct.pack_into('<I', rom, old - BASE + 4, condition(W, '    pushn 622\n    call not_flag\n    end\n'))
+    wander = bytearray(rom[struct.unpack_from('<I', rec, 0x18)[0] - BASE:struct.unpack_from('<I', rec, 0x18)[0] - BASE + 16])
+    struct.pack_into('<4H', wander, 8, HUB_AT[0], HUB_AT[1], HUB_AT[0], HUB_AT[1])
+    struct.pack_into('<I', rec, 4, condition(W, '    pushn 622\n    call flag\n    end\n'))
+    struct.pack_into('<I', rec, 8, HUB_AT[1] << 16 | HUB_AT[0])
+    struct.pack_into('<I', rec, 0x10, 192)
+    struct.pack_into('<I', rec, 0x18, W.put(bytes(wander)))
+    struct.pack_into('<I', rom, e + 0x14, W.put(struct.pack('<%dI' % (count + 1), *ptrs, W.put(bytes(rec)))))
+    rom[e + 4] = count + 1
 
 
 def condition(W, text):
@@ -318,6 +356,12 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
         e = W.put(struct.pack('<8I', 0x0800FD55, 0, STATS_COUNT + len(RUSH) + k, 366 << 16 | 360, actor_ids[char] + 9 if isinstance(char, str) else char, 0x080555A0, 1, 0x080716EC))
         struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e))); struct.pack_into('<I', st, 0x10, 0)
         rows.append(bytes(st))
+    for k, (_, _, _, char, _) in enumerate(TRIALS):          # Trials: the stadium's room again, empty but for the opponent
+        st = bytearray(stadium); st[0] = 26; st[1] = trial_first() + k; st[3] = 0
+        e = W.put(struct.pack('<8I', 0x0800FD55, 0, STATS_COUNT + len(RUSH) + len(tour_list()) + k, 366 << 16 | 360, char, 0x080555A0, 1, 0x080716EC))
+        struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e))); struct.pack_into('<I', st, 0x10, 0)
+        rows.append(bytes(st))
+    hub_person(W, rom)
     if debug_door:          # debug: on Snake Way, x>=96 walk down reaches 26:1; x 48-96 walk up reaches Broly; x<48 starts the ending
         e = next(AREAS + 56 * k for k in range(COUNT) if rom[AREAS + 56 * k] == 1 and rom[AREAS + 56 * k + 1] == 1)
         o = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], 96, 0, 1024, 1024, 0 | 26 << 8 | 1 << 16 | 1 << 24, 200 << 16 | 120))

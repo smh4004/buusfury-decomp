@@ -67,6 +67,7 @@ def new_actor_ids():
     return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2, 'gogeta_dbs': n + 3, 'gogeta_dbs_ss': n + 4, 'gogeta_ssb': n + 5, 'android13_player': n + 6, 'super13_player': n + 7, 'goku_ss2': n + 8, 'goku_ss2_b': n + 9, 'gohan_ss2': n + 10, 'gohan_green_ss2': n + 11, 'vegeta_ss2': n + 12, 'vegeta_ss2_b': n + 13, 'vegeta_armor_ss2': n + 14, 'gohan_armor_ss2': n + 15}
 
 
+HUB_NPC = 'assets/scripts/gUnknown_08783D30.evt'    # a Hercule City resident: post-game, the tournament official's Challenge Board
 TOUR_NPC = 'assets/scripts/gUnknown_08785590.evt'   # the West City resident to the west
 QUEST_NPC = 'assets/scripts/gUnknown_08785580.evt'   # the West City resident outside the Z-Mart
 
@@ -198,12 +199,8 @@ step auto code
     call 0x%X
     push 24
     end
-step auto say 0x85 "Want a real fight? Boss Rush: nine bosses, one health bar. The door inside brings you back."
+step auto say 0x85 "Want a real fight? Hercule City has a Challenge Board now. Ask the tournament official!"
 step auto code
-    call 0x78(30)
-    pushn 26, 19, 1, 120, 276
-    call 0x77
-    call 0x79(30)
     push 24
     end
 step auto say 0x00 "Android 13 pulls in the broken parts of 14 and 15!"
@@ -302,35 +299,108 @@ step auto code
 
 
 def tournament_npc(src):
-    """After Super 13 this West City resident runs the World Tournament: a menu to draw the bracket at random or pick each round's opponent."""
+    """The West City resident who ran the World Tournament now sends you to Hercule City. A debug zone build also uses him as a test's way into that city."""
+    head, old = src.split('step 1 say', 1)
+    hook = '    pushn 660\n    call flag\n    jz L0\n    call 0x78(30)\n    pushn 3, 1, 1, 208, 134\n    call 0x77\n    call 0x79(30)\n    push 4\n    end\nL0:\n' if '--zone' in sys.argv else ''
+    return head + 'step 1 code\n' + hook + """    pushn 622
+    call flag
+    jz L2
+    push 2
+    end
+L2:
+    end
+step 2 say""" + old.rstrip() + """
+step auto say 0x5E "The World Tournament has moved to Hercule City. Ask the tournament official!"
+step auto code
+    end
+"""
+
+
+def hub_npc(src):
+    """Hercule City's tournament official (character 192, speaker 0x62), once Super 13 is beaten: the Challenge Board. Before that his list is the resident's old line."""
     import zone26
     head, old = src.split('step 1 say', 1)
-    speaker = 0x5E
+    speaker = 0x62
     steps = []                                 # (name, text of the step); a {name} in the text becomes that step's number
     def say(name, text):
-        n = len(text.replace('\\n', ' ')); assert n < 100 and not 64 <= n <= 67, text      # lines near 64-67 look like ROM pointers to the shifter; long ones reset the game
+        n = len(text.replace('\\n', ' ')); assert n < 100 and not 64 <= n <= 67, text      # long lines reset the game; 64-67 look like ROM pointers to the shifter
         steps.append((name, 'say 0x%02X "%s"\n' % (speaker, text)))
     def code(name, text): steps.append((name, 'code\n' + text))
-    code('start', """    pushn 643
+    trials = zone26.TRIALS
+    won = lambda k: zone26.TRIAL_WON + k
+    paid = lambda k: zone26.TRIAL_PAID + k
+    start = """    pushn 622
+    call not_flag
+    jz L0
+    end
+L0:
+    pushn 643
     call flag
     pushn 644
     call not_flag
     and
     jz L1
-    push {won}
+    push {tour_won}
     end
 L1:
-    pushn 622
+    pushn 642
     call flag
+    pushn 641
+    call not_flag
+    and
     jz L2
-    push {board}
+    push {rush_won}
     end
 L2:
-    end
-""")
+"""
+    for k in range(len(trials)):
+        start += '    pushn %d\n    call flag\n    pushn %d\n    call not_flag\n    and\n    jz T%d\n    push {trial%d}\n    end\nT%d:\n' % (won(k), paid(k), k, k, k)
+    allpaid = ''.join('    pushn %d\n    call flag\n%s' % (paid(k), '    and\n' if k else '') for k in range(len(trials)))
+    start += allpaid + '    pushn %d\n    call not_flag\n    and\n    jz L3\n    push {all_won}\n    end\nL3:\n    push {board}\n    end\n' % zone26.TRIAL_ALL
+    code('start', start)
     steps.append(('old', 'say' + old.rstrip() + '\n'))
     code('after_old', '    push {END}\n    end\n')
-    say('board', "The World Tournament is on! Three rounds. 100,000 Zenie to the winner!")
+    say('board', "Welcome to the Challenge Board! Pick your challenge!")
+    say('menu', "- Boss Rush\\n- World Tournament\\n- Trials\\n- Rewards")
+    code('menu_go', """    call 0x18
+    push 0
+    eq
+    jz L1
+    push {rush}
+    end
+L1:
+    call 0x18
+    push 1
+    eq
+    jz L2
+    push {mode}
+    end
+L2:
+    call 0x18
+    push 2
+    eq
+    jz L3
+    push {trials}
+    end
+L3:
+    call 0x18
+    push 3
+    eq
+    jz L4
+    push {rewards}
+    end
+L4:
+    push {END}
+    end
+""")
+    say('rush', "Boss Rush! Nine bosses, one health bar. Good luck!")
+    code('rush_go', """    call 0x78(30)
+    pushn 26, %d, 1, 120, 276
+    call 0x77
+    call 0x79(30)
+    push {END}
+    end
+""" % zone26.RUSH_FIRST)
     say('mode', "How's your bracket?\\n- Random draw\\n- Pick my opponents\\n- Not now")
     draw = ''.join('    pushn %d\n    call 0x19(%d)\n    call 0x%X\n' % (r, len(p), zone26.TOUR_PICK) for r, p in enumerate(zone26.TOUR_POOLS))
     code('mode_go', """    call 0x18
@@ -371,11 +441,30 @@ L1:
 %s    push {END}
     end
 """ % (zone26.TOUR_ORDERED, zone26.tour_first(), zone26.tour_draw(0)))
-    say('won', "You won the World Tournament! That's 100,000 Zenie. Come back any time.")
-    code('won_go', '    pushn 644\n    call set_flag\n    push {END}\n    end\n')
+    say('trials', "Four trials, as the hero named. 30,000 Zenie each, and a prize for clearing all four!")
+    say('trial_menu', '\\n'.join('- %s vs %s' % (t[1], t[4]) for t in trials))
+    code('trial_go', ''.join('    call 0x18\n    push %d\n    eq\n    jz L%d\n    call 0x95(%d)\n    call 0x78(30)\n    pushn 26, %d, 1, 360, 420\n    call 0x77\n    call 0x79(30)\n    push {END}\n    end\nL%d:\n' % (k, k + 1, t[0], zone26.trial_first() + k, k + 1) for k, t in enumerate(trials)) + '    push {END}\n    end\n')
+    def status(name, flag, done, todo, nxt):
+        code(name, '    pushn %d\n    call flag\n    jz L1\n    push {%s_done}\n    end\nL1:\n    push {%s_todo}\n    end\n' % (flag, name, name))
+        say(name + '_done', done)
+        code(name + '_skip', '    push {%s}\n    end\n' % nxt)
+        say(name + '_todo', todo)
+        code(name + '_next', '    push {%s}\n    end\n' % nxt)
+    status('rewards', 641, "Boss Rush: cleared! Majin Buu, Super Janemba and Kid Buu are on your side.", "Boss Rush: win it and Majin Buu, Super Janemba and Kid Buu join you.", 'rew2')
+    status('rew2', 644, "World Tournament: cleared! Each win pays 100,000 Zenie.", "World Tournament: each win pays 100,000 Zenie.", 'rew3')
+    status('rew3', zone26.TRIAL_ALL, "Trials: all four cleared! You earned ten Senzu Beans.", "Trials: 30,000 Zenie each. Clear all four for ten Senzu Beans.", 'END')
+    say('tour_won', "You won the World Tournament! That's 100,000 Zenie. Come back any time.")
+    code('tour_won_go', '    pushn 644\n    call set_flag\n    push {END}\n    end\n')
+    say('rush_won', "You beat all nine! Majin Buu, Super Janemba and Kid Buu join you. See Switch Character.")
+    code('rush_won_go', '    pushn 641\n    call set_flag\n    push {END}\n    end\n')
+    for k, t in enumerate(trials):
+        say('trial%d' % k, "%s beat %s! Here's your 30,000 Zenie." % (t[1], t[4]))
+        code('trial%d_go' % k, '    pushn %d\n    call set_flag\n    pushn %d\n    call 0x%X\n    push {END}\n    end\n' % (paid(k), zone26.TRIAL_PRIZE, zone26.ADD_ZENIE))
+    say('all_won', "All four trials cleared! Take these ten Senzu Beans.")
+    code('all_won_go', '    pushn %d\n    call set_flag\n    pushn %d, %d\n    call 0x81\n    push {END}\n    end\n' % (zone26.TRIAL_ALL, zone26.TRIAL_ITEM, zone26.TRIAL_ITEMS))
     code('last', '    end\n')
     number = {n: k for k, (n, _) in enumerate(steps)}; number['END'] = len(steps)
-    return head + ''.join('step %s %s' % ('auto', re.sub(r'\{(\w+)\}', lambda m: str(number[m.group(1)]), t)) for _, t in steps)
+    return head + ''.join('step auto %s' % re.sub(r'\{(\w+)\}', lambda m: str(number[m.group(1)]), t) for _, t in steps)
 
 
 def debug_edits(first_form):
@@ -916,6 +1005,8 @@ def main():
         open(QUEST_NPC, 'w').write(npc)
         saved.setdefault(TOUR_NPC, open(TOUR_NPC).read())
         open(TOUR_NPC, 'w').write(tournament_npc(saved[TOUR_NPC]))
+        saved.setdefault(HUB_NPC, open(HUB_NPC).read())
+        open(HUB_NPC, 'w').write(hub_npc(saved[HUB_NPC]))
         if debug:
             debug_edits(FORM_COUNT)
         subprocess.run(['make', 'modern'], check=True, stdout=subprocess.DEVNULL)
