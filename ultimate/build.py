@@ -31,7 +31,11 @@ COMBO = os.environ.get('BFU_COMBO', 'combo.gba')   # Legacy of Goku I & II cart;
 JOIN_NATIVE = 0xE8               # party_join in outfit.c; no game script calls this native
 JOIN_OLD = 0x08003891
 ERASER_SKILL = 24                # a new row past the retail table: Big Bang's code with green frames
-ERASER_UI = 1534                 # two strings past the retail table: name, description
+ERASER_UI = 1534                 # strings past the retail table: name, description of each new move
+BOMBER_SKILL = 25
+# Strength against Big Bang per skill level: 2.5x and 2x in total damage. Each hit rounds down, which costs low levels more, so they get a bigger multiplier (measured on Android 13 at Power 80).
+NEW_MOVES = (('eraser', ERASER_SKILL, (2.95, 2.85, 2.45), 'Eraser Cannon', 'Press the B Button and release to emit a large ball of green energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (0.2, 0.6, 1, 0, 0.15, 0.6)),
+             ('bomber', BOMBER_SKILL, (2.4, 2.2, 2), 'SS Deadly Bomber', 'Press the B Button and release to emit a large ball of pink energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (1, 0, 0.15, 0.65, 0.35, 0.5)))
 SUPER_BLUE_SKILL = 21            # a skill row with stubs only: becomes Super Saiyan Blue
 BROLY_DEFEAT = 'assets/scripts/gUnknown_0879321C.evt'
 DEBUG_NATIVE = 0xF7              # debug builds only: "save to slot 1" (not used by any game script)
@@ -527,7 +531,7 @@ def add_outfits(rom, clean, at):
     pairs = ['{%d,%d}' % (base, 14 if row == 14 else fm[row]) for base, row in SAIYAMAN]
     c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs))
     open(d + '/o.c', 'w').write(c)
-    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DERASER_SKILL=%d' % ERASER_SKILL, '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
+    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
     syms = ['-Wl,--defsym=form_table=0x%X' % (ROM_BASE + SPACE), '-Wl,-Ttext=0x%X' % (ROM_BASE + at), '-Wl,-e,picker_update', '-Wl,--no-warn-rwx-segments']
     lib = subprocess.run(['arm-none-eabi-gcc', '-mthumb', '-mcpu=arm7tdmi', '-print-libgcc-file-name'], capture_output=True, text=True, check=True).stdout.strip()
     subprocess.run(['arm-none-eabi-gcc'] + flags + syms + [d + '/o.c', lib, '-o', d + '/o.elf'], check=True)
@@ -581,54 +585,53 @@ def add_outfits(rom, clean, at):
 
 
 def add_eraser(rom, clean, sym, at):
-    """Eraser Cannon: green copies of Big Bang's two ball animations and icons, a parameter table and behaviour pointing at them, a new skill row, and two new UI strings."""
+    """Eraser Cannon and SS Deadly Bomber: recoloured copies of Big Bang's two ball animations and icons, each move's parameter table (its last word scales the damage)
+    and behaviour, new skill rows, and new UI strings."""
     pal = np.frombuffer(clean[0x701B0 + 768:0x701B0 + 1536], np.uint8).reshape(256, 3)
     one = indexer([i for i in range(1, 256) if i not in artclean.MENU_SLOTS], pal)
-    def green(v):
-        if v == 0: return 0
-        r, g, b = (int(x) for x in pal[v]); top = max(r, g, b); pale = min(r, g, b) / 255
-        return one(np.array((top * (0.2 + 0.6 * pale), top, top * (0.15 + 0.6 * pale))).astype(int))
-    remap = bytes(green(v) for v in range(256))
     def put(data):
         nonlocal at
         at = (at + 3) & ~3; o = at; rom[o:o + len(data)] = data; at += len(data)
         return ROM_BASE + o
-    copies = {}
-    def ball(rec):
-        """One animation: four facings of 120 bytes, each up to ten {header, attributes, tile data} rows."""
-        out = bytearray(clean[rec:rec + 480])
-        for k in range(0, 480, 12):
-            head, _, tiles = struct.unpack_from('<III', out, k)
-            if tiles:
-                size = (head >> 16 & 255) * (head >> 24 & 255)
-                if tiles not in copies:
-                    o = tiles - ROM_BASE; copies[tiles] = put(bytes(clean[o:o + size]).translate(remap))
-                struct.pack_into('<I', out, k + 8, copies[tiles])
-        return put(bytes(out))
-    params = 0x76ACC0                                     # Big Bang's table: level 1 and 2 cyan ball, level 3 gold
-    balls = {}
-    table = sym['eraser_params'] - ROM_BASE
-    for i in range(3):
-        a, b, rec, d = struct.unpack_from('<4I', clean, params + 16 * i)
-        balls.setdefault(rec, ball(rec - ROM_BASE))
-        struct.pack_into('<4I', rom, table + 16 * i, a, b, balls[rec], d)
-    OLD_VT, vt = 0x4D05C, sym['eraser_vt'] - ROM_BASE      # the behaviour's other methods stay Big Bang's: all but the start are unchanged
-    for k in range(9):
-        fn = ROM_BASE + OLD_VT + struct.unpack_from('<i', clean, OLD_VT + 4 * k)[0]
-        struct.pack_into('<i', rom, vt + 4 * k, ((sym['eraser_start'] | 1) if k == 0 else fn) - (ROM_BASE + vt))
-    icons = [struct.unpack_from('<I', clean, SKILL_ROWS + 24 * 2 + 4 + 4 * j)[0] for j in (0, 1)]
-    icons = [put(bytes(clean[p - ROM_BASE:p - ROM_BASE + 0x200]).translate(remap)) for p in icons]
-    row = bytearray(clean[SKILL_ROWS + 24 * 2:SKILL_ROWS + 48 + 24])
-    struct.pack_into('<II', row, 4, *icons)
-    struct.pack_into('<HH', row, 12, ERASER_UI, ERASER_UI + 1)
-    struct.pack_into('<I', row, 20, sym['eraser_use'] | 1)
+    PARAMS, OLD_VT = 0x76ACC0, 0x4D05C                    # Big Bang's table: levels 1 and 2 cyan ball, level 3 gold
+    icons = struct.unpack_from('<II', clean, SKILL_ROWS + 24 * 2 + 4)
+    rows, strings = [], []
+    for name, skill, power, title, text, tint in NEW_MOVES:
+        def recolour(v):
+            if v == 0: return 0
+            r, g, b = (int(x) for x in pal[v]); top = max(r, g, b); pale = min(r, g, b) / 255
+            return one(np.array((top * (tint[0] + tint[1] * pale), top * (tint[2] + tint[3] * pale), top * (tint[4] + tint[5] * pale))).astype(int))
+        remap = bytes(recolour(v) for v in range(256)); copies = {}
+        def ball(rec):
+            """One animation: four facings of 120 bytes, each up to ten {header, attributes, tile data} rows."""
+            out = bytearray(clean[rec:rec + 480])
+            for k in range(0, 480, 12):
+                head, _, tiles = struct.unpack_from('<III', out, k)
+                if tiles:
+                    if tiles not in copies:
+                        o = tiles - ROM_BASE; copies[tiles] = put(bytes(clean[o:o + (head >> 16 & 255) * (head >> 24 & 255)]).translate(remap))
+                    struct.pack_into('<I', out, k + 8, copies[tiles])
+            return put(bytes(out))
+        balls = {}; table = sym[name + '_params'] - ROM_BASE
+        for i in range(3):
+            a, b, rec, strength = struct.unpack_from('<4I', clean, PARAMS + 16 * i)
+            balls.setdefault(rec, ball(rec - ROM_BASE))
+            struct.pack_into('<4I', rom, table + 16 * i, a, b, balls[rec], int(strength * power[i]))
+        vt = sym[name + '_vt'] - ROM_BASE                 # the behaviour's other methods stay Big Bang's: only the start differs
+        for k in range(9):
+            fn = ROM_BASE + OLD_VT + struct.unpack_from('<i', clean, OLD_VT + 4 * k)[0]
+            struct.pack_into('<i', rom, vt + 4 * k, ((sym[name + '_start'] | 1) if k == 0 else fn) - (ROM_BASE + vt))
+        row = bytearray(clean[SKILL_ROWS + 24 * 2:SKILL_ROWS + 24 * 3])
+        struct.pack_into('<II', row, 4, *[put(bytes(clean[p - ROM_BASE:p - ROM_BASE + 0x200]).translate(remap)) for p in icons])
+        struct.pack_into('<HH', row, 12, ERASER_UI + len(strings), ERASER_UI + len(strings) + 1)
+        struct.pack_into('<I', row, 20, sym[name + '_use'] | 1)
+        rows.append(bytes(row))
+        strings += [put(t.encode('utf-16-le') + b'\0\0') for t in (title, text)]
     if struct.unpack_from('<I', rom, 0x13618)[0] != ROM_BASE + SKILL_ROWS:
         sys.exit('skill table reference moved')
-    moved = bytes(rom[SKILL_ROWS:SKILL_ROWS + 24 * ERASER_SKILL]) + bytes(row)
-    struct.pack_into('<I', rom, 0x13618, put(moved))
-    strings = [put(bytes(s.encode('utf-16-le')) + b'\0\0') for s in ('Eraser Cannon', 'Press the B Button and release to emit a large ball of green energy that explodes on contact.  Hold the B Button longer to make the attack stronger.')]
+    struct.pack_into('<I', rom, 0x13618, put(bytes(rom[SKILL_ROWS:SKILL_ROWS + 24 * ERASER_SKILL]) + b''.join(rows)))
     ptrs = find_once(rom, clean[UI_TABLE:UI_TABLE + 64], 'UI string table')
-    new = put(bytes(rom[ptrs:ptrs + 4 * ERASER_UI]) + struct.pack('<2I', *strings))
+    new = put(bytes(rom[ptrs:ptrs + 4 * ERASER_UI]) + struct.pack('<%dI' % len(strings), *strings))
     n = 0
     for o in range(0, CODE_END, 4):
         if struct.unpack_from('<I', rom, o)[0] == ROM_BASE + ptrs:

@@ -31,6 +31,14 @@ extern const u16 outfit_index[9][2];           /* first entry, count, per charac
 extern const struct outfit outfit_table[];
 extern const u8 form_table[];
 
+/* The guest slot has one skill list but different fighters: Broly's forms use Eraser Cannon, Android 13's and Super 13's use SS Deadly Bomber. */
+static void guest_sync(void) {
+    u8 *r = RECORDS + 8 * RECORD_SIZE;
+    int want = (FORM_OF(8) == FORM_A13 || FORM_OF(8) == FORM_S13) ? BOMBER_SKILL : ERASER_SKILL, i;
+    for (i = 0; i < r[0x0C] && i < 7; i++)
+        if (r[0x0D + i] == ERASER_SKILL || r[0x0D + i] == BOMBER_SKILL) r[0x0D + i] = want;
+}
+
 static u32 *field(void *obj, int off) { return (u32 *)((u8 *)obj + off); }
 
 static void snapshot(void *obj) {
@@ -52,6 +60,7 @@ static void cycle(void *obj, int dir) {
         if (o->flag && !GetFlag((void *)0x03001068, o->flag)) continue;
         snapshot(obj);
         FORM_OF(c) = o->form;
+        guest_sync();
         Sprite_SetCharacter(sprite, Form_Sprite((void *)(form_table + o->form * 24)));
         Sprite_SetFacing(sprite, 1);
         Sprite_SetBehaviour(sprite, (void *)0x03001B58);
@@ -121,6 +130,7 @@ static void restore_borrowed(void *obj) {
             const struct outfit *o = &outfit_table[first + i];
             if (o->flag && !GetFlag((void *)0x03001068, o->flag)) continue;
             FORM_OF(c) = o->form;
+            guest_sync();
             Sprite_SetCharacter((void *)*field(obj, OBJ_LIST + 4 + s * 8), Form_Sprite((void *)(form_table + o->form * 24)));
             Sprite_SetFacing((void *)*field(obj, OBJ_LIST + 4 + s * 8), 1);
             Sprite_SetBehaviour((void *)*field(obj, OBJ_LIST + 4 + s * 8), (void *)0x03001B58);
@@ -143,7 +153,7 @@ int picker_update(void *obj) {
 int picker_input(void *obj, void *widget, int id, int extra) {
     if (id == 0 || id == 1) LABEL_OWNER = 0;
     if ((id == 0 || id == 1) && SNAP_OWNER == ((u32)obj ^ SNAP_MAGIC)) {
-        if (id == 1) { int i; for (i = 0; i < 9; i++) FORM_OF(i) = SNAP_FORMS[i]; }
+        if (id == 1) { int i; for (i = 0; i < 9; i++) FORM_OF(i) = SNAP_FORMS[i]; guest_sync(); }
         SNAP_OWNER = 0;
     }
     return orig_input(obj, widget, id, extra);
@@ -411,20 +421,21 @@ void party_join(int *sp) {
     r[0x0C] = skills[0];
     for (i = 0; i < skills[0]; i++) r[0x0D + i] = skills[1 + i];
     r[0x15] = 0;
+    guest_sync();
 }
 
-/* Eraser Cannon: Big Bang's code with its own green frames. Big Bang's start makes the ball from its parameter table, so this runs it, then points the ball at
-   the same entry of our table (same damage and speed, green frames). */
+/* Eraser Cannon and SS Deadly Bomber: Big Bang's code with their own frames and strength. Big Bang's start makes the ball from its parameter table, so this runs it,
+   then points the ball at the same entry of the move's table (the last word of an entry scales the damage). */
 #define BigBang_Start ((void (*)(u32 *, void *))0x0801A7C1)
 #define Alloc ((u32 *(*)(int))0x0803D5B9)
-const u32 eraser_params[12] = {1};                /* build.py fills these */
-const int eraser_vt[9] = {1};
-void eraser_start(u32 *self, void *player) {
+const u32 eraser_params[12] = {1}, bomber_params[12] = {1};   /* build.py fills these */
+const int eraser_vt[9] = {1}, bomber_vt[9] = {1};
+static void ball_start(u32 *self, void *player, const u32 *table) {
     u32 *ball;
     BigBang_Start(self, player);
     ball = (u32 *)self[1];
     if (ball) {
-        const u32 *mine = &eraser_params[self[2] * 4];
+        const u32 *mine = &table[self[2] * 4];
         u32 *old = (u32 *)ball[0x4C / 4];
         int shift = (int)mine[2] - (int)old[2];
         ball[0x4C / 4] = (u32)mine;
@@ -432,10 +443,14 @@ void eraser_start(u32 *self, void *player) {
         ball[0x18 / 4] += shift;
     }
 }
-void eraser_use(u8 *record, void *sprite) {
+static void ball_use(u8 *record, void *sprite, const int *vt) {
     int level = record[record[0x15] * 2 + 0x2E];
     u32 *b = Alloc(0x14);
-    if (b) { b[0] = (u32)eraser_vt; b[2] = level; b[3] = 0; b[4] = 0; }
+    if (b) { b[0] = (u32)vt; b[2] = level; b[3] = 0; b[4] = 0; }
     Sprite_SetFacing(sprite, 0x12);
     Sprite_SetBehaviour(sprite, b);
 }
+void eraser_start(u32 *self, void *player) { ball_start(self, player, eraser_params); }
+void bomber_start(u32 *self, void *player) { ball_start(self, player, bomber_params); }
+void eraser_use(u8 *record, void *sprite) { ball_use(record, sprite, eraser_vt); }
+void bomber_use(u8 *record, void *sprite) { ball_use(record, sprite, bomber_vt); }

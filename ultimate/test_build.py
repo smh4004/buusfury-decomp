@@ -79,11 +79,16 @@ check('post-game: both survive saving and loading', 'bad pc' not in o and b[0] =
 # Skills pick frames by number: Super 13's short animations once sent the Ghost Attack, used facing sideways, into garbage. This sequence crashed there.
 R = 0x03001560 + 8 * REC
 seq = ['guardon 0x09000000'] + route + ['poke8 %08X %02X' % (R + 0x14, forms['super13']), 'tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['tap A 200', 'run 60']
-for s_ in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 24):
+for s_ in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 24, 25):
     seq += ['poke8 %08X 02' % (R + 0xC), 'poke8 %08X 07' % (R + 0xD), 'poke8 %08X %02X' % (R + 0xE, s_), 'poke8 %08X 01' % (R + 0x15), 'poke8 %08X FF' % (R + 0x1A), 'poke8 %08X 00' % (R + 0x1B), 'run 2', 'keys B', 'run 6', 'keys', 'run 150', 'tap B 80', 'run 200', 'keys LEFT', 'run 12', 'keys', 'run 4', 'keys RIGHT', 'run 12', 'keys', 'run 30']
 seq += ['mem 03004A8C 1']
 o = run(rom, seq, d)
 check('Super 13 can use every attack skill in a row', 'bad pc' not in o)
+# The guest's third skill follows the fighter: Eraser Cannon on Broly's forms, SS Deadly Bomber on Android 13's and Super 13's, and Cancel puts it back.
+g3 = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['mem %08X 1' % (R + 0x0C), 'tap DOWN 40', 'tap DOWN 40', 'mem %08X 1' % (R + 0x0C), 'tap DOWN 40', 'mem %08X 1' % (R + 0x0C), 'tap B 60', 'mem %08X 1' % (R + 0x0C)]
+o = run(rom, g3, d); got = [int(l.split(':')[1].split()[0], 16) >> 24 & 255 for l in o.splitlines() if l.startswith('mem %08x' % (R + 0x0C))]
+check('guest skill follows the outfit', 'bad pc' not in o and len(got) == 4 and got[0] != got[1] and got[1] == got[2] and got[3] == got[0])
+print('   guest skill bytes', got)
 # DBS Gogeta transforms twice through the form table and back.
 R = 0x03001560 + 7 * REC
 dbs = post + ['tap DOWN 40', 'tap A 200', 'run 60'] + ['poke8 %08X 05' % (R + 0x0C), 'poke8 %08X 14' % (R + 0x10), 'poke8 %08X 15' % (R + 0x11), 'poke8 %08X 03' % (R + 0x15), 'run 3', 'tap B 220', 'mem %08X 1' % (R + 0x14), 'poke8 %08X 04' % (R + 0x15), 'run 3', 'tap B 220', 'mem %08X 1' % (R + 0x14), 'tap B 350', 'mem %08X 1' % (R + 0x14)]
