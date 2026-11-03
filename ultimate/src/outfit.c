@@ -33,13 +33,24 @@ extern const u8 form_table[];
 
 /* The guest slot has one skill list but different fighters, so the list follows the outfit. A story form (Hercule, say) leaves it alone. */
 static void guest_sync(void) {
+    static const u8 broly[] = {3, 7, 8, ERASER_SKILL}, thirteen[] = {3, 7, 8, BOMBER_SKILL}, piccolo[] = {3, 7, 17, BEAM_SKILL},
+        a17[] = {3, 7, 8, BLITZ_SKILL}, a18[] = {3, 7, BLITZ_SKILL, DISC_SKILL}, krillin[] = {3, 7, 15, DISC_SKILL}, videl[] = {1, 7},
+        trunks[] = {4, 7, 20, 4, 11};            /* Future Trunks: the same moves as Trunks */
     u8 *r = RECORDS + 8 * RECORD_SIZE;
-    int form = FORM_OF(8), second = 8, third;
-    if (form == FORM_BROLY || form == FORM_FP) third = ERASER_SKILL;
-    else if (form == FORM_A13 || form == FORM_S13) third = BOMBER_SKILL;
-    else if (form == FORM_PICCOLO) { second = 17; third = BEAM_SKILL; }
+    int form = FORM_OF(8), i;
+    const u8 *list;
+    if (form == FORM_BROLY || form == FORM_FP) list = broly;
+    else if (form == FORM_A13 || form == FORM_S13) list = thirteen;
+    else if (form == FORM_PICCOLO) list = piccolo;
+    else if (form == FORM_ANDROID17) list = a17;
+    else if (form == FORM_ANDROID18) list = a18;
+    else if (form == FORM_KRILLIN) list = krillin;
+    else if (form == FORM_VIDEL) list = videl;
+    else if (form == FORM_FUTURE_TRUNKS) list = trunks;
     else return;
-    r[0x0C] = 3; r[0x0D] = 7; r[0x0E] = second; r[0x0F] = third;
+    r[0x0C] = list[0];
+    for (i = 0; i < list[0]; i++) r[0x0D + i] = list[i + 1];
+    if (r[0x15] >= r[0x0C]) r[0x15] = 0;
 }
 
 static u32 *field(void *obj, int off) { return (u32 *)((u8 *)obj + off); }
@@ -432,8 +443,8 @@ void party_join(int *sp) {
    then points the ball at the same entry of the move's table (the last word of an entry scales the damage). */
 #define BigBang_Start ((void (*)(u32 *, void *))0x0801A7C1)
 #define Alloc ((u32 *(*)(int))0x0803D5B9)
-const u32 eraser_params[12] = {1}, bomber_params[12] = {1};   /* build.py fills these */
-const int eraser_vt[9] = {1}, bomber_vt[9] = {1};
+const u32 eraser_params[12] = {1}, bomber_params[12] = {1}, blitz_params[12] = {1}, disc_params[12] = {1};   /* build.py fills these */
+const int eraser_vt[9] = {1}, bomber_vt[9] = {1}, blitz_vt[9] = {1}, disc_vt[9] = {1};
 static void ball_start(u32 *self, void *player, const u32 *table) {
     u32 *ball;
     BigBang_Start(self, player);
@@ -454,8 +465,15 @@ static void ball_use(u8 *record, void *sprite, const int *vt) {
     Sprite_SetFacing(sprite, 0x12);
     Sprite_SetBehaviour(sprite, b);
 }
+void blitz_start(u32 *self, void *player) { ball_start(self, player, blitz_params); }
+void disc_start(u32 *self, void *player) {     /* a thrown disc flies six times as fast as Big Bang's slow ball */
+    ball_start(self, player, disc_params);
+    if (self[1]) { u32 *ball = (u32 *)self[1]; ball[0x44 / 4] *= 6; ball[0x48 / 4] *= 6; }
+}
 void eraser_start(u32 *self, void *player) { ball_start(self, player, eraser_params); }
 void bomber_start(u32 *self, void *player) { ball_start(self, player, bomber_params); }
+void blitz_use(u8 *record, void *sprite) { ball_use(record, sprite, blitz_vt); }
+void disc_use(u8 *record, void *sprite) { ball_use(record, sprite, disc_vt); }
 void eraser_use(u8 *record, void *sprite) { ball_use(record, sprite, eraser_vt); }
 void bomber_use(u8 *record, void *sprite) { ball_use(record, sprite, bomber_vt); }
 

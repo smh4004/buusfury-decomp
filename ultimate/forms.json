@@ -270,6 +270,50 @@
    "owner": 6,
    "up": 255,
    "down": 39
+  },
+  {
+   "id": "android17",
+   "copy": 46,
+   "actor": "android17",
+   "owner": 8,
+   "name": 1544
+  },
+  {
+   "id": "android18",
+   "copy": 46,
+   "actor": "android18",
+   "owner": 8
+  },
+  {
+   "id": "krillin",
+   "copy": 48,
+   "actor": "krillin",
+   "owner": 8
+  },
+  {
+   "id": "videl",
+   "copy": 52,
+   "actor": "videl_player",
+   "owner": 8
+  },
+  {
+   "id": "future_trunks",
+   "copy": 21,
+   "actor": "future_trunks",
+   "owner": 8,
+   "name": 1545,
+   "status_name": 1545,
+   "up": "future_trunks_ss"
+  },
+  {
+   "id": "future_trunks_ss",
+   "copy": 22,
+   "actor": "future_trunks_ss",
+   "owner": 8,
+   "name": 1545,
+   "status_name": 1545,
+   "up": 255,
+   "down": "future_trunks"
   }
  ],
  "edit": {

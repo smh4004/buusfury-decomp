@@ -23,7 +23,7 @@ FORMS, FORM_COUNT, FORM_SIZE = 0x6B82EC, 54, 24
 NATIVES = 0x55098
 CODE_END = 0x54FBC
 SPACE = 0x800000                 # new data starts at the old 8 MB end: forms, then code
-ACTORS_AT = 0x820000             # moved actor table and imported sprites
+ACTORS_AT = 0x840000             # moved actor table and imported sprites
 COMBO_SHA1 = 'f02d179accbeb9b68bcaef8720eb0ae426dde6ee'
 PROTO = os.environ.get('BFU_PROTO', 'protoD.gba')   # Prototype D cart: Super 13 and Zone 26
 LOG2 = os.environ.get('BFU_LOG2', 'log2.gba')      # Legacy of Goku II (USA): Zone 26's snow tiles
@@ -34,10 +34,14 @@ ERASER_SKILL = 24                # a new row past the retail table: Big Bang's c
 ERASER_UI = 1534                 # strings past the retail table: name, description of each new move
 BOMBER_SKILL = 25
 SS2_FLAG = 630                   # + the owner's party slot: set where the story reaches Super Saiyan 2
+BLITZ_SKILL = 27                 # Android 17 and 18
+DISC_SKILL = 28                  # Krillin and Android 18: LoG2's spinning gold disc on Big Bang's code
 BEAM_SKILL = 26                  # Special Beam Cannon: the Kamehameha's code with gold and purple frames
 # Strength against Big Bang per skill level: 2.5x and 2x in total damage. Each hit rounds down, which costs low levels more, so they get a bigger multiplier (measured on Android 13 at Power 80).
 NEW_MOVES = (('eraser', ERASER_SKILL, (2.95, 2.85, 2.45), 'Eraser Cannon', 'Press the B Button and release to emit a large ball of green energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (0.2, 0.6, 1, 0, 0.15, 0.6)),
-             ('bomber', BOMBER_SKILL, (2.4, 2.2, 2), 'SS Deadly Bomber', 'Press the B Button and release to emit a large ball of pink energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (1, 0, 0.15, 0.65, 0.35, 0.5)))
+             ('bomber', BOMBER_SKILL, (2.4, 2.2, 2), 'SS Deadly Bomber', 'Press the B Button and release to emit a large ball of pink energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (1, 0, 0.15, 0.65, 0.35, 0.5)),
+             ('blitz', BLITZ_SKILL, (1, 1, 1), 'Power Blitz', 'Press the B Button and release to emit a large ball of golden energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (1, 0, 0.75, 0.1, 0.05, 0.3)),
+             ('disc', DISC_SKILL, (2.4, 2.2, 2), 'Destructo Disc', 'Press the B Button and release to throw a spinning disc of energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (1, 0, 0.85, 0.15, 0.1, 0.8)))
 SUPER_BLUE_SKILL = 21            # a skill row with stubs only: becomes Super Saiyan Blue
 BROLY_DEFEAT = 'assets/scripts/gUnknown_0879321C.evt'
 DEBUG_NATIVE = 0xF7              # debug builds only: "save to slot 1" (not used by any game script)
@@ -173,6 +177,8 @@ step auto code
     pushn 615
     call set_flag
     pushn 616
+    call set_flag
+    pushn 617
     call set_flag
     pushn 8, %d
     call 0x%X
@@ -460,7 +466,7 @@ def add_actors(rom, clean):
     cfg = json.load(open('ultimate/actors.json'))
     slots = cfg.pop('_slots')
     for k, a in cfg.items():
-        if not k.startswith('_') and 'replace' not in a: a['log2_slots'] = slots
+        if not k.startswith('_') and 'replace' not in a and 'log2_record' in a: a['log2_slots'] = slots
     pal = np.frombuffer(clean[0x701B0 + 768:0x701B0 + 1536], np.uint8).reshape(256, 3)
     usable = [i for i in range(1, 256) if i not in artclean.MENU_SLOTS]
     cfg['super13'] = {'proto_actor': 230}
@@ -474,12 +480,13 @@ def add_actors(rom, clean):
     for actor, form in (('gogeta_dbs', 'base'), ('gogeta_dbs_ss', 'ssj'), ('gogeta_ssb', 'ssb')):
         gogeta.write_frames(clean_dir, form, one)
         cfg[actor] = {'template': 93, 'slots': gogeta.slots(form), 'stretch': True, 'grow': lengths}
-    cfg['piccolo']['grow'] = lengths
+    for name in ('piccolo', 'android17', 'android18', 'krillin', 'future_trunks', 'future_trunks_ss', 'videl_player'):
+        cfg[name]['grow'] = lengths
     for a in cfg.values():      # slot 18 is the pose held while firing a skill: LoG2's own firing pose when it has one, else its ki pose
         if isinstance(a, dict) and 'log2_record' in a and 'replace' not in a:
             rec = sprites.log2_rec(combo[0x800000:], a['log2_record'])
             has = struct.unpack_from('<I', combo, 0x800000 + rec + 0x4C + 16 * 18 + 8)[0]
-            a.setdefault('log2_overrides', {})['18'] = 18 if has else 5
+            a.setdefault('log2_overrides', {}).setdefault('18', 18 if 0x08800000 <= has < 0x09000000 else 5)
     cfg['android13_player'] = {'template': 93, 'slots': ANDROID13_SLOTS, 'stretch': True, 'grow': lengths}    # the boss's small record can't carry a playable form
     cfg['super13_player'] = {'proto_actor': 230, 'fill': {8: 9, 10: 9, 11: 0, 12: 0, 13: 9, 14: 4, 15: 7, 16: 17}, 'grow': lengths}
     bright = (one(np.array((96, 248, 248))), one(np.array((200, 248, 248))))     # cyan: Super Saiyan 2's lightning
@@ -550,7 +557,7 @@ def add_outfits(rom, clean, at):
     pairs = ['{%d,%d}' % (base, 14 if row == 14 else fm[row]) for base, row in SAIYAMAN]
     c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\nconst u8 ss2_rows[] = {%s,255};\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs), ','.join(str(v) for k, v in fm.items() if k.endswith(('_ss2', '_ss2_b'))))
     open(d + '/o.c', 'w').write(c)
-    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DSS2_FLAG=%d' % SS2_FLAG, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
+    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
     syms = ['-Wl,--defsym=form_table=0x%X' % (ROM_BASE + SPACE), '-Wl,-Ttext=0x%X' % (ROM_BASE + at), '-Wl,-e,picker_update', '-Wl,--no-warn-rwx-segments']
     lib = subprocess.run(['arm-none-eabi-gcc', '-mthumb', '-mcpu=arm7tdmi', '-print-libgcc-file-name'], capture_output=True, text=True, check=True).stdout.strip()
     subprocess.run(['arm-none-eabi-gcc'] + flags + syms + [d + '/o.c', lib, '-o', d + '/o.elf'], check=True)
@@ -623,7 +630,7 @@ def add_eraser(rom, clean, sym, at):
         return ROM_BASE + o
     PARAMS, OLD_VT = 0x76ACC0, 0x4D05C                    # Big Bang's table: levels 1 and 2 cyan ball, level 3 gold
     icons = struct.unpack_from('<II', clean, SKILL_ROWS + 24 * 2 + 4)
-    rows, strings = [], []
+    rows, strings = {}, []
     for name, skill, power, title, text, tint in NEW_MOVES:
         def recolour(v):
             if v == 0: return 0
@@ -640,6 +647,19 @@ def add_eraser(rom, clean, sym, at):
                         o = tiles - ROM_BASE; copies[tiles] = put(bytes(clean[o:o + (head >> 16 & 255) * (head >> 24 & 255)]).translate(remap))
                     struct.pack_into('<I', out, k + 8, copies[tiles])
             return put(bytes(out))
+        if name == 'disc':
+            l2u = open(LOG2, 'rb').read()      # USA cart: palette and tiles at the addresses its decomp gives
+            l2pal = np.frombuffer(l2u[0x3ECEA4:0x3ECEA4 + 768], np.uint8).reshape(256, 3)
+            l2map = bytes(0 if v == 0 else one(l2pal[v]) for v in range(256))
+            spin = [put(l2u[t:t + 512].translate(l2map)) for t in (0x6DDA34, 0x6DDC34)]
+            def ball(rec, place=((16, 4), (16, 12), (28, 8), (4, 8))):
+                """The same rows and timing as Big Bang's ball, showing the two 32x16 frames of the disc in turn."""
+                out = bytearray(clean[rec:rec + 480])
+                for k in range(0, 480, 12):
+                    if struct.unpack_from('<I', out, k + 8)[0]:
+                        x, y = place[k // 120]
+                        struct.pack_into('<4BII', out, k, x, y, 32, 16, 0x80006000, spin[(k // 12) & 1])
+                return put(bytes(out))
         balls = {}; table = sym[name + '_params'] - ROM_BASE
         for i in range(3):
             a, b, rec, strength = struct.unpack_from('<4I', clean, PARAMS + 16 * i)
@@ -653,7 +673,7 @@ def add_eraser(rom, clean, sym, at):
         struct.pack_into('<II', row, 4, *[put(bytes(clean[p - ROM_BASE:p - ROM_BASE + 0x200]).translate(remap)) for p in icons])
         struct.pack_into('<HH', row, 12, ERASER_UI + len(strings), ERASER_UI + len(strings) + 1)
         struct.pack_into('<I', row, 20, sym[name + '_use'] | 1)
-        rows.append(bytes(row))
+        rows[skill] = bytes(row)
         strings += [put(t.encode('utf-16-le') + b'\0\0') for t in (title, text)]
     # Special Beam Cannon: copies of the Kamehameha's frame records, each {header, attributes, tile data} rows. The core goes pale yellow, the middle gold, and the rim purple.
     BEAM_TINT = {2: (248, 248, 216), 30: (248, 248, 216), 29: (248, 248, 144), 76: (248, 248, 72), 28: (248, 248, 72), 5: (248, 248, 72), 195: (248, 208, 0), 27: (248, 208, 0), 110: (248, 208, 0),
@@ -699,11 +719,11 @@ def add_eraser(rom, clean, sym, at):
     struct.pack_into('<II', row, 4, *[put(bytes(clean[p - ROM_BASE:p - ROM_BASE + 0x200]).translate(remap)) for p in struct.unpack_from('<II', clean, SKILL_ROWS + 24 * 15 + 4)])
     struct.pack_into('<HH', row, 12, ERASER_UI + len(strings), ERASER_UI + len(strings) + 1)
     struct.pack_into('<I', row, 20, sym['beam_use'] | 1)
-    rows.append(bytes(row))
-    strings += [put(t.encode('utf-16-le') + b'\0\0') for t in ('Special Beam Cannon', 'Press the B Button and hold it to charge, then release to fire a thin beam of energy from your fingertips.')]
+    rows[BEAM_SKILL] = bytes(row)
+    strings += [put(t.encode('utf-16-le') + b'\0\0') for t in ('Special Beam Cannon', 'Press the B Button and hold it to charge, then release to fire a thin beam of energy from your fingertips.', 'Android 17', 'Future Trunks')]
     if struct.unpack_from('<I', rom, 0x13618)[0] != ROM_BASE + SKILL_ROWS:
         sys.exit('skill table reference moved')
-    struct.pack_into('<I', rom, 0x13618, put(bytes(rom[SKILL_ROWS:SKILL_ROWS + 24 * ERASER_SKILL]) + b''.join(rows)))
+    struct.pack_into('<I', rom, 0x13618, put(bytes(rom[SKILL_ROWS:SKILL_ROWS + 24 * ERASER_SKILL]) + b''.join(rows[k] for k in sorted(rows))))
     ptrs = find_once(rom, clean[UI_TABLE:UI_TABLE + 64], 'UI string table')
     new = put(bytes(rom[ptrs:ptrs + 4 * ERASER_UI]) + struct.pack('<%dI' % len(strings), *strings))
     n = 0
@@ -792,7 +812,7 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     name = ('BFU_debug_enemy' if '--enemy' in sys.argv else 'BFU_debug_zone' if '--zone' in sys.argv else 'BFU_debug') if debug else 'BFU'
     if free >= ACTORS_AT or actors_end > 0x1000000:
-        sys.exit('ROM layout overflow')
+        sys.exit('ROM layout overflow: code ends %X (limit %X), sprites end %X' % (free, ACTORS_AT, actors_end))
     size = (actors_end + 0xFFFFF) & ~0xFFFFF
     out = bytes(rom[:size])
     if bps.apply(clean, bps.make(clean, out)) != out:

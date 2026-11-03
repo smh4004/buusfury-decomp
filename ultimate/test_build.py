@@ -89,13 +89,23 @@ g3 = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap
 o = run(rom, g3, d); got = [int(l.split(':')[1].split()[0], 16) >> 24 & 255 for l in o.splitlines() if l.startswith('mem %08x' % (R + 0x0C))]
 check('guest skill follows the outfit', 'bad pc' not in o and len(got) == 4 and got[0] != got[1] and got[1] == got[2] and got[3] == got[0])
 print('   guest skill bytes', got)
-# Piccolo: the last guest outfit, with Masenko and Special Beam Cannon, and every attack working.
-pc = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['tap UP 40', 'tap A 200', 'run 60', 'dump p 03001068 8a8', 'keys RIGHT', 'run 20', 'keys', 'tap A 12', 'tap A 12', 'tap A 12', 'run 40']
+# Piccolo: fifth guest outfit, with Masenko and Special Beam Cannon, and every attack working.
+pc = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['tap DOWN 40'] * 4 + ['tap A 200', 'run 60', 'dump p 03001068 8a8', 'keys RIGHT', 'run 20', 'keys', 'tap A 12', 'tap A 12', 'tap A 12', 'run 40']
 for i_ in (0, 1, 2):
     pc += ['poke8 %08X %02X' % (R + 0x15, i_), 'poke8 %08X FF' % (R + 0x1A), 'poke8 %08X 00' % (R + 0x1B), 'run 2', 'keys B', 'run 90', 'keys', 'run 200', 'shot piccolo%d' % i_]
 o = run(rom, pc, d); p = open(d + '/p.bin', 'rb').read(); r8 = p[0x4F8 + 8 * REC:0x4F8 + 9 * REC]
 check('Piccolo can be chosen and has Energy Blast, Masenko and Special Beam Cannon', p[0] == 8 and r8[0x14] == forms['piccolo'] and list(r8[0x0C:0x10]) == [3, 7, 17, 26])
 check('Piccolo attacks and uses all three skills with no bad jumps', 'bad pc' not in o)
+# The Super 13 reward also brings Future Trunks, Android 17 and 18, Krillin and Videl to the guest slot, each with their own moves.
+for name_, downs_, want_ in (('Future Trunks', 5, [4, 7, 20, 4, 11]), ('Android 17', 6, [3, 7, 8, 27]), ('Android 18', 7, [3, 7, 27, 28]), ('Krillin', 8, [3, 7, 15, 28]), ('Videl', 9, [1, 7])):
+    gl = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['tap DOWN 40'] * downs_ + ['tap A 200', 'run 60', 'dump p 03001068 8a8', 'keys RIGHT', 'run 8', 'keys', 'tap A 12', 'tap A 12', 'tap A 12', 'keys A', 'run 60', 'keys', 'run 60']
+    for i_ in range(want_[0]):
+        gl += ['poke8 %08X %02X' % (R + 0x15, i_), 'poke8 %08X FF' % (R + 0x1A), 'poke8 %08X 03' % (R + 0x1B), 'run 2', 'keys B', 'run 60', 'keys', 'run 200', 'mem %08X 1' % (R + 0x14), 'shot %s%d' % (name_.replace(' ', ''), i_)]
+    o = run(rom, gl, d); p = open(d + '/p.bin', 'rb').read(); r8 = p[0x4F8 + 8 * REC:0x4F8 + 9 * REC]
+    check('%s can be chosen with the right moves' % name_, p[0] == 8 and list(r8[0x0C:0x0D + want_[0]]) == want_)
+    check('%s attacks and uses every move with no bad jumps' % name_, 'bad pc' not in o)
+    if name_ == 'Future Trunks':
+        check('Future Trunks goes Super Saiyan, and no further', [int(l.split(':')[1].split()[0], 16) & 255 for l in o.splitlines() if l.startswith('mem %08x' % (R + 0x14))][1] == forms['future_trunks_ss'])
 # Gohan fires Special Beam Cannon in his armor without a bad jump (the debug build gives it to him).
 R1 = 0x03001560 + REC
 gh = ['guardon 0x09000000'] + route + ['poke8 %08X %02X' % (R1 + 0x14, forms['gohan_armor']), 'tap A 60', 'tap A 60', 'run 30', 'tap RIGHT 40', 'tap A 200', 'run 60', 'dump h 03001068 8a8']

@@ -73,6 +73,32 @@
     "form": "piccolo",
     "flag": 616,
     "name": "Piccolo"
+   },
+   {
+    "form": "future_trunks",
+    "also": "future_trunks_ss",
+    "flag": 617,
+    "name": "Future Trunks"
+   },
+   {
+    "form": "android17",
+    "flag": 617,
+    "name": "Android 17"
+   },
+   {
+    "form": "android18",
+    "flag": 617,
+    "name": "Android 18"
+   },
+   {
+    "form": "krillin",
+    "flag": 617,
+    "name": "Krillin"
+   },
+   {
+    "form": "videl",
+    "flag": 617,
+    "name": "Videl"
    }
   ],
   "7": [

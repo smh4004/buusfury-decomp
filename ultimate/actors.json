@@ -144,5 +144,85 @@
    "22": "r56:13",
    "23": "r56:16"
   }
+ },
+ "android17": {
+  "template": 213,
+  "stretch": true,
+  "log2_record": "r6",
+  "log2_overrides": {
+   "3": "5@0:3",
+   "9": 5,
+   "10": 5,
+   "13": 5,
+   "21": 5
+  },
+  "extra_slots": {
+   "22": "r6:5",
+   "23": "r6:8"
+  }
+ },
+ "android18": {
+  "template": 213,
+  "stretch": true,
+  "log2_record": "r8",
+  "log2_overrides": {
+   "9": 5,
+   "21": 5
+  },
+  "extra_slots": {
+   "22": "r8:5",
+   "23": "r8:8"
+  }
+ },
+ "krillin": {
+  "template": 213,
+  "stretch": true,
+  "log2_record": "r73",
+  "log2_overrides": {
+   "4": 6,
+   "5": 6,
+   "6": 6,
+   "9": 5,
+   "14": 6,
+   "20": 6,
+   "21": 5
+  },
+  "extra_slots": {
+   "22": "r73:5",
+   "23": "r73:6"
+  }
+ },
+ "future_trunks": {
+  "template": 260,
+  "log2_record": "r125",
+  "stretch": true,
+  "extra_slots": {
+   "22": "r125:13",
+   "23": "r125:16"
+  }
+ },
+ "future_trunks_ss": {
+  "template": 261,
+  "log2_record": "r131",
+  "stretch": true,
+  "extra_slots": {
+   "22": "r131:13",
+   "23": "r131:16"
+  }
+ },
+ "videl_player": {
+  "template": 278,
+  "keep_slots": true,
+  "fill": {
+   "8": 9,
+   "10": 0,
+   "11": 0,
+   "14": 4,
+   "16": 15,
+   "18": 9,
+   "19": 0,
+   "20": 4,
+   "21": 9
+  }
  }
 }

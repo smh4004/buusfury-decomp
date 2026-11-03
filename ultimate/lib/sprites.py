@@ -239,6 +239,10 @@ def build_actors(rom, cfg, clean_dir, at, l2=None, colour_ctx=None, proto=None):
                 dirs = slot_frames(clean_dir, spec)
                 anims[key] = ins.anim(stretch(dirs, want)) if dirs else None
             if anims[key]: struct.pack_into('<I', rec, 0x54 + 4 * int(slot), anims[key])
+        if 'proto_actor' not in a:
+            for slot, src in a.get('fill', {}).items():    # a retail actor that never played these: its own frames stand in, as on the prototype's bosses
+                if int(slot) < rec[0] and not struct.unpack_from('<I', rec, 0x54 + 4 * int(slot))[0]:
+                    struct.pack_into('<I', rec, 0x54 + 4 * int(slot), struct.unpack_from('<I', rec, 0x54 + 4 * src)[0])
         for slot, want in a.get('grow', {}).items():       # a playable form's animations must be at least as long as a retail player's
             if int(slot) >= n: continue
             ap = struct.unpack_from('<I', rec, 0x54 + 4 * int(slot))[0]
