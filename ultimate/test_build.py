@@ -96,6 +96,15 @@ for i_ in (0, 1, 2):
 o = run(rom, pc, d); p = open(d + '/p.bin', 'rb').read(); r8 = p[0x4F8 + 8 * REC:0x4F8 + 9 * REC]
 check('Piccolo can be chosen and has Energy Blast, Masenko and Special Beam Cannon', p[0] == 8 and r8[0x14] == forms['piccolo'] and list(r8[0x0C:0x10]) == [3, 7, 17, 26])
 check('Piccolo attacks and uses all three skills with no bad jumps', 'bad pc' not in o)
+# Gohan fires Special Beam Cannon in his armor without a bad jump (the debug build gives it to him).
+R1 = 0x03001560 + REC
+gh = ['guardon 0x09000000'] + route + ['poke8 %08X %02X' % (R1 + 0x14, forms['gohan_armor']), 'tap A 60', 'tap A 60', 'run 30', 'tap RIGHT 40', 'tap A 200', 'run 60', 'dump h 03001068 8a8']
+h1 = None
+o = run(rom, gh, d); h1 = open(d + '/h.bin', 'rb').read()[0x4F8 + REC:0x4F8 + 2 * REC]
+at_ = list(h1[0x0D:0x0D + h1[0x0C]]).index(26) if 26 in h1[0x0D:0x0D + h1[0x0C]] else 0
+check('debug: Gohan has Special Beam Cannon', 26 in h1[0x0D:0x0D + h1[0x0C]])
+o = run(rom, gh + ['poke8 %08X %02X' % (R1 + 0x15, at_), 'poke8 %08X FF' % (R1 + 0x1A), 'poke8 %08X 00' % (R1 + 0x1B), 'keys RIGHT', 'run 8', 'keys', 'run 3', 'keys B', 'run 60', 'shot gohan_beam', 'keys', 'run 200'], d)
+check('Gohan fires Special Beam Cannon in his armor', 'bad pc' not in o)
 # DBS Gogeta transforms twice through the form table and back.
 R = 0x03001560 + 7 * REC
 dbs = post + ['tap DOWN 40', 'tap A 200', 'run 60'] + ['poke8 %08X 05' % (R + 0x0C), 'poke8 %08X 14' % (R + 0x10), 'poke8 %08X 15' % (R + 0x11), 'poke8 %08X 03' % (R + 0x15), 'run 3', 'tap B 220', 'mem %08X 1' % (R + 0x14), 'poke8 %08X 04' % (R + 0x15), 'run 3', 'tap B 220', 'mem %08X 1' % (R + 0x14), 'tap B 350', 'mem %08X 1' % (R + 0x14)]

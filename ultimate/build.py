@@ -157,6 +157,8 @@ step auto code
     call set_flag
     pushn 0, 19
     call 0xA4
+    pushn 1, 26
+    call 0xA4
     pushn 610
     call set_flag
     pushn 611
@@ -272,7 +274,7 @@ def debug_edits(first_form):
     heal = ''.join('    push %d\n    set %s\n' % (v, n) for v, n in ((500, 'max_hp'), (500, 'hp'), (100, 'max_ki'), (100, 'ki')))
     flags = ''.join('    pushn %d\n    call set_flag\n' % f for f in sorted({o['flag'] for l in json.load(open('ultimate/outfits.json'))['characters'].values() for o in l if o['flag']}))
     if '--zone' in sys.argv: flags += '    pushn 149\n    call set_flag\n    pushn 0, 19\n    call 0xA4\n'
-    join = ('step auto code\n' + flags + '    call 0x97(1)\n    call 0x97(3)\n    call 0x97(4)\n    call 0x97(6)\n    call 0x97(8)\n    call 0x95(3)\n' + heal + '    call 0xD0(21)\n    call 0x95(4)\n' + heal + '    call 0xD0(26)\n    call 0x95(1)\n' + heal + '    call 0xD0(15)\n    pushn 1, 107\n    call 0x9D\n    call 0xA4(1, 20)\n    call 0xA4(1, 18)\n    call 0x95(6)\n' + heal + '    call 0x95(8)\n' + heal + '    pushn 8, 8\n    call 0xA4\n    pushn 8, %d\n    call 0xA4\n' % ERASER_SKILL +
+    join = ('step auto code\n' + flags + '    call 0x97(1)\n    call 0x97(3)\n    call 0x97(4)\n    call 0x97(6)\n    call 0x97(8)\n    call 0x95(3)\n' + heal + '    call 0xD0(21)\n    call 0x95(4)\n' + heal + '    call 0xD0(26)\n    call 0x95(1)\n' + heal + '    call 0xD0(15)\n    pushn 1, 107\n    call 0x9D\n    call 0xA4(1, 18)\n    call 0xA4(1, %d)\n' % BEAM_SKILL + '    call 0x95(6)\n' + heal + '    call 0x95(8)\n' + heal + '    pushn 8, 8\n    call 0xA4\n    pushn 8, %d\n    call 0xA4\n' % ERASER_SKILL +
             '    call 0xD0(%d)\n    call 0x95(0)\n    end\n' % first_form)
     s = open(INTRO).read()
     assert 'step 19 raw' in s
@@ -469,6 +471,11 @@ def add_actors(rom, clean):
         gogeta.write_frames(clean_dir, form, one)
         cfg[actor] = {'template': 93, 'slots': gogeta.slots(form), 'stretch': True, 'grow': lengths}
     cfg['piccolo']['grow'] = lengths
+    for a in cfg.values():      # slot 18 is the pose held while firing a skill: LoG2's own firing pose when it has one, else its ki pose
+        if isinstance(a, dict) and 'log2_record' in a and 'replace' not in a:
+            rec = sprites.log2_rec(combo[0x800000:], a['log2_record'])
+            has = struct.unpack_from('<I', combo, 0x800000 + rec + 0x4C + 16 * 18 + 8)[0]
+            a.setdefault('log2_overrides', {})['18'] = 18 if has else 5
     cfg['android13_player'] = {'template': 93, 'slots': ANDROID13_SLOTS, 'stretch': True, 'grow': lengths}    # the boss's small record can't carry a playable form
     cfg['super13_player'] = {'proto_actor': 230, 'fill': {8: 9, 10: 9, 11: 0, 12: 0, 13: 9, 14: 4, 15: 7, 16: 17}, 'grow': lengths}
     ids, end = sprites.build_actors(rom, cfg, clean_dir, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal), open(PROTO, 'rb').read())

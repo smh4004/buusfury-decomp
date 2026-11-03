@@ -12,9 +12,9 @@ ANIMS = {
     'tumble': [('x', 5), ('x', 6), ('x', 7), ('x', 8)], 'down': [('x', 9), ('x', 10), ('x', 11), ('x', 12)], 'rise': [('x', 13), ('x', 14), ('x', 15)],
 }
 VIEWS = {('powerup', 2): [36, 37], ('combo1', 1): [11, 12, 13, 14], ('combo2', 1): [15, 16, 17, 18], ('blast', 1): [18, 19, 18]}
-# Animation slots, following the order in actors.json: 0 idle, 1 walk, 2 run, 3 and 10 and 13 charge, 4-6 melee, 7 and 15 hurt, 8 9 21 ki, 14 and 20 strikes, 16-18 knocked down.
+# Animation slots, following the order in actors.json: 0 idle, 1 walk, 2 run, 3 and 10 and 13 charge, 4-6 melee, 7 and 15 hurt, 8 9 21 ki, 14 and 20 strikes, 16-17 knocked down, 18 the pose held while firing a skill.
 SLOTS = {0: 'idle', 1: 'walk', 2: 'run', 3: 'powerup', 4: 'combo1', 5: 'combo2', 6: 'combo3', 7: 'hurt', 8: 'blast', 9: 'blast', 10: 'powerup', 11: 'idle',
-         12: 'idle', 13: 'powerup', 14: 'kick', 15: 'hurt', 16: 'tumble', 17: 'down', 18: 'rise', 19: 'idle', 20: 'kick', 21: 'blast'}
+         12: 'idle', 13: 'powerup', 14: 'kick', 15: 'hurt', 16: 'tumble', 17: 'down', 18: 'blast', 19: 'idle', 20: 'kick', 21: 'blast'}
 FORMS = {'ssb': 0, 'ssj': 4, 'base': 8}     # first band of each form
 
 
