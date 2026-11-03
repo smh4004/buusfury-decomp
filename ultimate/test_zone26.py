@@ -67,7 +67,7 @@ base = route + ['run 30', 'shot arena']
 hp1 = boss(base, 30000)[0]; check('Android 13 is in the arena with 30000 HP', hp1 is not None)
 phase = kill(base, 30000) + ['poke8 03001577 7F'] + ['tap A 25'] * 11 + ['run 170', 'shot change', 'mem 0300197C 1']
 out = run(phase); check('beating Android 13 starts his change', at(out) == (16 << 8 | 26))
-two = phase + ['keys UP', 'run 60', 'keys', 'run 120', 'shot phase2', 'mem 0300197C 1']
+two = phase + ['shot change_say', 'tap A 60', 'tap A 60', 'tap A 60', 'run 300', 'keys UP', 'run 60', 'keys', 'run 120', 'shot phase2', 'mem 0300197C 1']
 out = run(two); check('walking up to him starts phase two', at(out) == (17 << 8 | 26))
 hp2 = boss(two, 75000)[0]; check('Super 13 has 75000 HP', hp2 is not None)
 end = kill(two, 75000) + ['poke8 03001577 7F'] + ['tap A 30'] * 16 + ['shot struggle'] + ['keys A', 'run 1', 'keys', 'run 1'] * 120
@@ -79,7 +79,7 @@ check('the finish returns you to West City', at(out) == 0x0104)
 talk = lambda b: talk_to(b)
 home = end[:end.index('tap A 40')]
 # Join state as in a real game: neither Gogeta nor the guest yet (debug joins the guest at the start).
-reward = talk(home + ['poke8 %08X 02' % (0x03001560 + 8 * 0x68), 'poke8 %08X 02' % (0x03001560 + 7 * 0x68)]) + ['shot said', 'tap A 60', 'shot said2', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot after', 'dump g 03001068 8a8']
+reward = talk(home + ['poke8 %08X 02' % (0x03001560 + 8 * 0x68), 'poke8 %08X 02' % (0x03001560 + 7 * 0x68)]) + ['shot said', 'tap A 60', 'shot said2'] + ['tap A 60'] * 7 + ['run 60', 'shot after', 'dump g 03001068 8a8']
 out = run(reward); g = open(d + '/g.bin', 'rb').read()
 check('the resident gives the rewards: Saiyan armor and Broly Full Power', all(flag(n) for n in (610, 611, 612, 613, 614, 615, 616, 622)))
 forms = json.load(open('ultimate/out/BFU_debug_zone.map.json'))['forms']; rec = lambda c: g[0x4F8 + c * 0x68:0x4F8 + (c + 1) * 0x68]
@@ -91,7 +91,7 @@ print('   Gogeta joined at', list(rec(7)[0x28:0x2B]), 'guest at', list(rec(8)[0x
 
 # Start of the quest: from 26:1's road back to West City, walk up to the same resident, get sent in.
 intro = list(start); go(intro, [x for x in D[1] if 'world' in x][0], PL, 'home')
-intro = talk(intro) + ['shot ask', 'tap A 60', 'shot ask2', 'tap A 60', 'shot ask3', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'shot zone']
+intro = talk(intro) + ['shot ask', 'tap A 60', 'shot ask2', 'tap A 60', 'shot ask3', 'tap A 60', 'tap A 60', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'shot zone']
 out = run(intro); ats = [l for l in out.splitlines() if l.startswith('mem 0300197c')]
 check('the resident sends you to Zone 26 once the game is beaten', int(ats[-1].split(':')[1].split()[0], 16) & 0xFFFF == 0x011A)
 
@@ -143,7 +143,7 @@ check('beating the last one brings you home to West City', at(out) == 0x0104)
 done = talk(rush + ['poke8 %08X 04' % (0x03001068 + 0x55 + 641 // 8)]) + ['shot rushtalk', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot rushdone', 'dump g 03001068 8a8']
 out = run(done); g = open(d + '/g.bin', 'rb').read()
 check('the resident pays the reward', flag(641) == 1 and 'bad pc' not in out)
-again = talk(done) + ['shot rushagain', 'tap A 60', 'tap A 200', 'run 120', 'mem %s 1' % AT]
+again = talk(done) + ['shot rushagain', 'tap A 120', 'tap A 200', 'run 120', 'mem %s 1' % AT]
 out = run(again); check('after the reward he offers the Boss Rush again', at(out) == (zone26.RUSH_FIRST << 8 | 26))
 print('rush screens in', d)
 
@@ -152,12 +152,22 @@ tour = list(start); go(tour, [x for x in D[1] if 'world' in x][0], PL, 'thome')
 strong = ['poke8 03001588 96', 'poke8 03001589 96', 'poke8 0300158A 96', 'poke8 0300158B 96', 'poke8 03001576 FF', 'poke8 03001577 7F']
 home = list(tour); first = zone26.tour_first(); pool1 = len(zone26.TOUR_POOLS[0])
 drawn = set()
+TO_MENU = ['run 150', 'tap A 150']       # past the opening line, with the bracket menu fully on screen
+def pick_rival(place):
+    """A menu shows three opponents and More: the second page has the other three and Back."""
+    page = ['run 120', 'tap A 120']      # past the round's opening line
+    if place >= 3: page += ['tap DOWN 12'] * 3 + ['tap A 120']
+    return page + ['tap DOWN 12'] * (place % 3) + ['tap A 150']
+menu = talk_at(home + [flag_on(622)] + strong, 96, 328) + TO_MENU
+check('Not now stays home', at(run(menu + ['tap DOWN 12', 'tap DOWN 12', 'tap A 120', 'run 60', 'shot tournot', 'mem %s 1' % AT])) == 0x0104)
+check('B leaves the menu', at(run(menu + ['tap B 120', 'run 60', 'mem %s 1' % AT])) == 0x0104)
+check('Back returns to the first page', at(run(menu + ['tap DOWN 12', 'tap A 120', 'run 120', 'tap A 120'] + ['tap DOWN 12'] * 3 + ['tap A 120'] + ['tap DOWN 12'] * 3 + ['tap A 120', 'tap B 120', 'run 60', 'mem %s 1' % AT])) == 0x0104)
 for wait in (1, 37, 91, 143, 211, 277):
-    o_ = talk_at(home + ['run %d' % wait, flag_on(622)] + strong, 96, 328) + ['tap A 60', 'tap A 200', 'run 120', 'mem %s 1' % AT]
+    o_ = talk_at(home + ['run %d' % wait, flag_on(622)] + strong, 96, 328) + TO_MENU + ['tap A 200', 'run 120', 'mem %s 1' % AT]
     drawn.add(at(run(o_)))
 print('   first-round rooms drawn', sorted(hex(v) for v in drawn))
 check('entering draws a first-round opponent at random', len(drawn) >= 2 and all(first <= v >> 8 < first + pool1 and v & 255 == 26 for v in drawn))
-tour = talk_at(home + [flag_on(622), 'poke8 %08X %02X' % (0x03001068 + 0x55 + zone26.TOUR_ORDERED // 8, 1 << zone26.TOUR_ORDERED % 8)] + strong, 96, 328) + ['shot tourboard', 'tap A 60', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'mem 0300155C 1', 'shot tour0']
+tour = talk_at(home + [flag_on(622), 'poke8 %08X %02X' % (0x03001068 + 0x55 + zone26.TOUR_ORDERED // 8, 1 << zone26.TOUR_ORDERED % 8)] + strong, 96, 328) + ['shot tourboard'] + TO_MENU + ['shot tourmenu', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'mem 0300155C 1', 'shot tour0']
 out = run(tour)
 check('the resident sends you to the World Tournament', at(out) == (first << 8 | 26))
 before = int([l for l in out.splitlines() if l.startswith('mem 0300155c')][-1].split()[-1], 16)
@@ -190,6 +200,32 @@ paid = int([l for l in out.splitlines() if l.startswith('mem 0300155c')][-1].spl
 print('   zenie', before, paid)
 check('the tournament pays its prize', paid - before >= zone26.TOUR_PRIZE)
 check('the resident congratulates you once', flag(644) == 1 and 'bad pc' not in out)
+
+# A picked bracket: the second page of round one, the first of round two and the last place of the final (Super 13).
+wanted = (4, 2, 5)
+pick = talk_at(home + [flag_on(622)] + strong, 96, 328) + TO_MENU + ['tap DOWN 12', 'tap A 120']
+for w in wanted: pick += pick_rival(w)
+pick += ['run 120', 'mem %s 1' % AT, 'shot pick0']
+out = run(pick)
+for rnd, place in enumerate(wanted):
+    room = first + sum(len(p) for p in zone26.TOUR_POOLS[:rnd]) + place
+    check('round %d is the picked opponent' % (rnd + 1), at(out) == (room << 8 | 26))
+    hp = zone26.TOUR_HP[rnd] + 10 * place
+    for attempt in range(12):
+        found = rush_boss(pick, hp)
+        if found[0] is None: found = boss_any(pick)
+        if found[0] is None:
+            pick = pick + ['tap A 30'] * 4 + ['run 200', 'mem %s 1' % AT]; out = run(pick)
+            if 'bad pc' in out or at(out) != room << 8 | 26: break
+            continue
+        a_, x_, y_ = found; pl_ = ptr(pick)
+        heal = ['poke8 03001577 7F', 'poke %08X %08X' % (pl_ + 0x28C, 30000 << 10)]
+        near = ['poke %08X %08X' % (pl_ + 0x1A0, x_), 'poke %08X %08X' % (pl_ + 0x1A4, y_ + (20 << 8))]
+        pick = pick + heal + ['poke %08X %08X' % (a_, 2 << 10)] + near + ['keys UP', 'run 3', 'keys', 'tap A 14'] + heal + ['tap A 30'] * 6 + heal + ['run 150', 'mem %s 1' % AT]
+        out = run(pick)
+        if 'bad pc' in out or at(out) != room << 8 | 26: break
+    print('   picked opponent %d took %d tries' % (rnd + 1, attempt + 1))
+check('winning a picked bracket brings you home', at(out) == 0x0104)
 
 # Spirit Bomb: Goku has it in this build (skill 19). Select it, use it next to Super 13, and it should hurt him and spend energy.
 a13, x, y = boss(route + ['run 30'], 30000); hpa = a13

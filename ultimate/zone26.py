@@ -160,6 +160,9 @@ TOUR_POOLS = (((147, 303), (111, 252), (49, 143), (85, 206), (80, 201), (63, 164
               ((122, 154), (10, 38), (28, 43), (115, 49), (61, 47), (BOSS_ROW, 'super13')))          # Super Janemba, Broly, Majin Buu, Super Buu, Kid Buu, Super 13
 TOUR_HP = (15000, 20000, 30000)                     # each opponent adds 10 per place in its pool, so a test can tell them apart
 TOUR_STATS = ((145, 60, 40, 60), (145, 70, 50, 65), (150, 75, 85, 70))     # level + 50, Strength, Power, Endurance
+TOUR_NAMES = (('Yamu', 'Spopovich', 'Idasa', 'Olibu', 'Ninja Boss', 'Knight Destroyer'), ('Pikkon', 'Goten', 'Trunks', 'Dabura', 'Pharoah', 'Airship Warlord'),
+              ('Super Janemba', 'Broly', 'Majin Buu', 'Super Buu', 'Kid Buu', 'Super 13'))
+TOUR_PICKS, TOUR_PICK, TOUR_GET = 651, 0xE1, 0xE2     # flags 651-659 hold each round's opponent, 3 bits a round; natives tour_pick(round, place) and tour_get(round)
 TOUR_ORDERED = 650                                 # a test sets this to walk every opponent in turn instead of drawing
 TOUR_ROOM, TOUR_PRIZE, TOUR_WON, ADD_ZENIE = (7, 6), 100000, 643, 0xE0
 RUSH_FIRST, RUSH_WON = 19, 642   # room of the first fight, flag for a win not yet rewarded
@@ -192,9 +195,9 @@ def tour_list():
 
 
 def tour_draw(rnd):
-    """Script: go to a random opponent of this round."""
+    """Script: go to this round's opponent, drawn or picked at the resident's menu."""
     base = tour_first() + sum(len(p) for p in TOUR_POOLS[:rnd])
-    return '    call 0x78(30)\n    push 26\n    call 0x19(%d)\n    push %d\n    add\n    pushn 1, 360, 420\n    call 0x77\n    call 0x79(30)\n' % (len(TOUR_POOLS[rnd]), base)
+    return '    call 0x78(30)\n    push 26\n    call 0x%X(%d)\n    push %d\n    add\n    pushn 1, 360, 420\n    call 0x77\n    call 0x79(30)\n' % (TOUR_GET, rnd, base)
 
 
 def tour_next(k, rnd):

@@ -96,7 +96,8 @@ step 3 code
 
 
 def quest_npc(src):
-    """Post-game, this resident sends you to Zone 26, and rewards you once Super 13 is beaten (his death script runs this list)."""
+    """Post-game, this resident sends you to Zone 26, and rewards you once Super 13 is beaten (his death script runs this list).
+    A step's `push N` jumps to the Nth step counting from 0, the same number the following step's position gets; past the last step ends the list."""
     head, old = src.split('step 1 say', 1)
     ids = new_actor_ids(); super13 = ids['super13'] + 9
     return head + '''step 1 code
@@ -106,7 +107,7 @@ def quest_npc(src):
     call not_flag
     and
     jz L8
-    push 22
+    push 21
     end
 L8:
     pushn 620
@@ -115,7 +116,7 @@ L8:
     call not_flag
     and
     jz L4
-    push 14
+    push 13
     end
 L4:
     pushn 625
@@ -124,19 +125,19 @@ L4:
     call not_flag
     and
     jz L5
-    push 16
+    push 15
     end
 L5:
     pushn 622
     call flag
     jz L1
-    push 12
+    push 11
     end
 L1:
     pushn 621
     call flag
     jz L2
-    push 8
+    push 7
     end
 L2:
     pushn 623
@@ -147,7 +148,7 @@ L2:
 L7:
     call flag(149)
     jz L3
-    push 4
+    push 3
 L3:
     end
 step 2 say''' + old.rstrip() + '''
@@ -197,7 +198,7 @@ step auto code
     call 0x%X
     push 24
     end
-step auto say 0x85 "West City's quiet again. Want a real fight? Here's a Boss Rush: nine bosses, one health bar. Good luck! The door there brings you back."
+step auto say 0x85 "Want a real fight? Boss Rush: nine bosses, one health bar. The door inside brings you back."
 step auto code
     call 0x78(30)
     pushn 26, 19, 1, 120, 276
@@ -289,7 +290,7 @@ L2:
 step auto code
     push 24
     end
-step auto say 0x85 "You beat all nine! Majin Buu, Super Janemba and Kid Buu will fight for you now. See the Switch Character menu."
+step auto say 0x85 "You beat all nine! Majin Buu, Super Janemba and Kid Buu join you. See Switch Character."
 step auto code
     pushn 641
     call set_flag
@@ -301,53 +302,80 @@ step auto code
 
 
 def tournament_npc(src):
-    """After Super 13 this West City resident enters you in the World Tournament, and says so when you win."""
+    """After Super 13 this West City resident runs the World Tournament: a menu to draw the bracket at random or pick each round's opponent."""
     import zone26
     head, old = src.split('step 1 say', 1)
-    return head + '''step 1 code
-    pushn 643
+    speaker = 0x5E
+    steps = []                                 # (name, text of the step); a {name} in the text becomes that step's number
+    def say(name, text):
+        n = len(text.replace('\\n', ' ')); assert n < 100 and not 64 <= n <= 67, text      # lines near 64-67 look like ROM pointers to the shifter; long ones reset the game
+        steps.append((name, 'say 0x%02X "%s"\n' % (speaker, text)))
+    def code(name, text): steps.append((name, 'code\n' + text))
+    code('start', """    pushn 643
     call flag
     pushn 644
     call not_flag
     and
     jz L1
-    push 6
+    push {won}
     end
 L1:
     pushn 622
     call flag
     jz L2
-    push 4
+    push {board}
     end
 L2:
     end
-step 2 say''' + old.rstrip() + '''
-step auto code
-    push 8
+""")
+    steps.append(('old', 'say' + old.rstrip() + '\n'))
+    code('after_old', '    push {END}\n    end\n')
+    say('board', "The World Tournament is on! Three rounds. 100,000 Zenie to the winner!")
+    say('mode', "How's your bracket?\\n- Random draw\\n- Pick my opponents\\n- Not now")
+    draw = ''.join('    pushn %d\n    call 0x19(%d)\n    call 0x%X\n' % (r, len(p), zone26.TOUR_PICK) for r, p in enumerate(zone26.TOUR_POOLS))
+    code('mode_go', """    call 0x18
+    push 0
+    eq
+    jz L1
+""" + draw + """    push {enter}
     end
-step auto say 0x85 "The World Tournament is on! Three rounds, drawn at random. 100,000 Zenie to the winner. You're up!"
-step auto code
-    pushn %d
+L1:
+    call 0x18
+    push 1
+    eq
+    jz L2
+    push {pick0}
+    end
+L2:
+    push {END}
+    end
+""")
+    for r, title in enumerate(("First round. Pick your opponent!", "Second round. Who's next?", "The final! Who do you want?")):
+        names = zone26.TOUR_NAMES[r]; nxt = 'pick%d' % (r + 1) if r < 2 else 'enter'
+        def picks(base): return ''.join('    call 0x18\n    push %d\n    eq\n    jz L%d\n    pushn %d, %d\n    call 0x%X\n    push {%s}\n    end\nL%d:\n' % (v, v + 1, r, base + v, zone26.TOUR_PICK, nxt, v + 1) for v in range(3))
+        say('pick%d' % r, title)
+        say('a%d' % r, '\\n'.join('- ' + n for n in names[:3] + ('More',)))
+        code('a%d_go' % r, picks(0) + '    call 0x18\n    push 3\n    eq\n    jz L9\n    push {b%d}\n    end\nL9:\n    push {END}\n    end\n' % r)
+        say('b%d' % r, '\\n'.join('- ' + n for n in names[3:] + ('Back',)))
+        code('b%d_go' % r, picks(3) + '    push {a%d}\n    end\n' % r)
+    code('enter', """    pushn %d
     call flag
     jz L1
     call 0x78(30)
     pushn 26, %d, 1, 360, 420
     call 0x77
     call 0x79(30)
-    push 8
+    push {END}
     end
 L1:
-%s    push 8
+%s    push {END}
     end
-step auto say 0x85 "You won the World Tournament! That's 100,000 Zenie. Come back any time."
-step auto code
-    pushn 644
-    call set_flag
-    push 8
-    end
-step auto code
-    end
-''' % (zone26.TOUR_ORDERED, zone26.tour_first(), zone26.tour_draw(0))
+""" % (zone26.TOUR_ORDERED, zone26.tour_first(), zone26.tour_draw(0)))
+    say('won', "You won the World Tournament! That's 100,000 Zenie. Come back any time.")
+    code('won_go', '    pushn 644\n    call set_flag\n    push {END}\n    end\n')
+    code('last', '    end\n')
+    number = {n: k for k, (n, _) in enumerate(steps)}; number['END'] = len(steps)
+    return head + ''.join('step %s %s' % ('auto', re.sub(r'\{(\w+)\}', lambda m: str(number[m.group(1)]), t)) for _, t in steps)
 
 
 def debug_edits(first_form):
@@ -632,7 +660,8 @@ def add_outfits(rom, clean, at):
     pairs = ['{%d,%d}' % (base, 14 if row == 14 else fm[row]) for base, row in SAIYAMAN]
     c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\nconst u8 ss2_rows[] = {%s,255};\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs), ','.join(str(v) for k, v in fm.items() if k.endswith(('_ss2', '_ss2_b'))))
     open(d + '/o.c', 'w').write(c)
-    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DFORM_KID_BUU=%d' % fm['kid_buu'], '-DFORM_MAJIN_BUU=%d' % fm['majin_buu'], '-DFORM_JANEMBA=%d' % fm['super_janemba'], '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
+    import zone26
+    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DFORM_KID_BUU=%d' % fm['kid_buu'], '-DFORM_MAJIN_BUU=%d' % fm['majin_buu'], '-DFORM_JANEMBA=%d' % fm['super_janemba'], '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DTOUR_PICK_FLAG=%d' % zone26.TOUR_PICKS, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
     syms = ['-Wl,--defsym=form_table=0x%X' % (ROM_BASE + SPACE), '-Wl,-Ttext=0x%X' % (ROM_BASE + at), '-Wl,-e,picker_update', '-Wl,--no-warn-rwx-segments']
     lib = subprocess.run(['arm-none-eabi-gcc', '-mthumb', '-mcpu=arm7tdmi', '-print-libgcc-file-name'], capture_output=True, text=True, check=True).stdout.strip()
     subprocess.run(['arm-none-eabi-gcc'] + flags + syms + [d + '/o.c', lib, '-o', d + '/o.elf'], check=True)
@@ -668,6 +697,9 @@ def add_outfits(rom, clean, at):
         sys.exit('native 0x%X changed' % JOIN_NATIVE)
     struct.pack_into('<I', rom, tab + 4 * JOIN_NATIVE, sym['party_join'] | 1)
     struct.pack_into('<I', rom, tab + 4 * 0xE0, sym['add_zenie'] | 1)
+    import zone26
+    struct.pack_into('<I', rom, tab + 4 * zone26.TOUR_PICK, sym['tour_pick'] | 1)
+    struct.pack_into('<I', rom, tab + 4 * zone26.TOUR_GET, sym['tour_get'] | 1)
     row = SKILLS + 24 * SUPER_BLUE_SKILL                  # Super Saiyan 3's code runs on the form table's up and down, so only the words change
     if struct.unpack_from('<II', rom, row + 4) != (0x08019D25, 0x08019D29):
         sys.exit('skill row %d is in use' % SUPER_BLUE_SKILL)

@@ -62,7 +62,7 @@ out = run(land); flag, rec = state()
 check('landing on West City after the ending reaches the resident\'s map', at(out) == (1 << 8 | 4))
 check('the ending itself sets flag 149', flag(149) == 1)
 p4 = ptr(land)
-ask = land + move(p4, 320, 382) + ['run 2', 'keys UP', 'run 6', 'keys', 'run 4', 'tap A 80', 'shot ask', 'tap A 60', 'tap A 60', 'tap A 200', 'run 120', 'mem 0300197C 1', 'shot zone']
+ask = land + move(p4, 320, 382) + ['run 2', 'keys UP', 'run 6', 'keys', 'run 4', 'tap A 80', 'shot ask', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 200', 'run 120', 'mem 0300197C 1', 'shot zone']
 out = run(ask); check('after the real ending the resident sends you to Zone 26', at(out) == (1 << 8 | 26) and 'bad pc' not in out)
 if fails: print('FAILED:', fails); sys.exit(1)
 print('screens in', d)

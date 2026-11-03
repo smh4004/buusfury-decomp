@@ -413,6 +413,26 @@ void add_zenie(int *sp) {
     *sp = n - 1;
 }
 
+/* World Tournament bracket: each round's opponent lives in three story flags, kept with the save. */
+#define FLAG_BYTE(f) (*(volatile u8 *)(0x03001068 + 0x55 + (f) / 8))
+void tour_pick(int *sp) {
+    int n = *sp, round = sp[n - 1], place = sp[n], i;
+    for (i = 0; i < 3; i++) {
+        int f = TOUR_PICK_FLAG + 3 * round + i;
+        if (place >> i & 1) FLAG_BYTE(f) |= 1 << (f % 8);
+        else FLAG_BYTE(f) &= ~(1 << (f % 8));
+    }
+    *sp = n - 2;
+}
+void tour_get(int *sp) {
+    int n = *sp, round = sp[n], place = 0, i;
+    for (i = 0; i < 3; i++) {
+        int f = TOUR_PICK_FLAG + 3 * round + i;
+        place |= (FLAG_BYTE(f) >> (f % 8) & 1) << i;
+    }
+    sp[n] = place;
+}
+
 /* Script native party_join(character, form). The first time a post-game character joins, they start level with whoever is playing, leaning towards
    how they fight, with their own skills. Later calls change nothing, so an outfit chosen earlier stays on. */
 #define REC(c) (RECORDS + (c) * RECORD_SIZE)
