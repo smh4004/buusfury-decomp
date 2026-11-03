@@ -111,7 +111,9 @@ for k, (row, _, _) in enumerate(zone26.RUSH):
 check('beating the last one brings you home to West City', at(out) == 0x0104)
 done = talk(rush + ['poke8 %08X 04' % (0x03001068 + 0x55 + 641 // 8)]) + ['shot rushtalk', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot rushdone', 'dump g 03001068 8a8']
 out = run(done); g = open(d + '/g.bin', 'rb').read()
-check('the resident pays the reward once', flag(641) == 1 and flag(zone26.RUSH_WON) == 0 and 'bad pc' not in out)
+check('the resident pays the reward', flag(641) == 1 and 'bad pc' not in out)
+again = talk(done) + ['shot rushagain', 'tap A 200', 'run 120', 'mem %s 1' % AT]
+out = run(again); check('after the reward he offers the Boss Rush again', at(out) == (zone26.RUSH_FIRST << 8 | 26))
 print('rush screens in', d)
 
 # Spirit Bomb: Goku has it in this build (skill 19). Select it, use it next to Super 13, and it should hurt him and spend energy.

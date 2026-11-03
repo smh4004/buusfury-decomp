@@ -101,8 +101,11 @@ def quest_npc(src):
     return head + '''step 1 code
     pushn 642
     call flag
+    pushn 641
+    call not_flag
+    and
     jz L8
-    push 25
+    push 26
     end
 L8:
     pushn 620
@@ -299,14 +302,6 @@ step auto code
     push 30
     end
 step auto code
-    pushn 642
-    call clear_flag
-    pushn 641
-    call flag
-    jz L1
-    push 28
-    end
-L1:
     end
 step auto say 0x85 "You beat all five! Majin Buu, Super Janemba and Kid Buu will fight for you now. See the Switch Character menu."
 step auto code
@@ -314,9 +309,9 @@ step auto code
     call set_flag
     push 30
     end
-step auto say 0x85 "All five again! Nobody can stop you."
 step auto code
-    push 30
+    end
+step auto code
     end
 step auto code
     end
