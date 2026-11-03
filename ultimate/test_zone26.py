@@ -92,12 +92,12 @@ intro = talk(intro) + ['shot ask', 'tap A 60', 'shot ask2', 'tap A 60', 'shot as
 out = run(intro); ats = [l for l in out.splitlines() if l.startswith('mem 0300197c')]
 check('the resident sends you to Zone 26 once the game is beaten', int(ats[-1].split(':')[1].split()[0], 16) & 0xFFFF == 0x011A)
 
-# Boss Rush: once Super 13 is beaten the resident offers it. Five bosses in a row, then the reward back in West City.
+# Boss Rush: once Super 13 is beaten the resident offers it. Nine bosses in a row, then the reward back in West City.
 flag_on = lambda n: 'poke8 %08X %02X' % (0x03001068 + 0x55 + n // 8, 1 << n % 8)
 rush = list(start); go(rush, [x for x in D[1] if 'world' in x][0], PL, 'rhome')
 rush = talk(rush + [flag_on(622)]) + ['shot board', 'tap A 200', 'run 120', 'mem %s 1' % AT, 'shot rush0']
 out = run(rush); check('the resident offers the Boss Rush and sends you to its first room', at(out) == (zone26.RUSH_FIRST << 8 | 26))
-for k, (row, _, _) in enumerate(zone26.RUSH):
+for k, _ in enumerate(zone26.RUSH):
     hp = zone26.RUSH_HP[k]
     a_ = boss(rush, hp)[0]
     check('Boss Rush fight %d is there with %d HP' % (k + 1, hp), a_ is not None)
