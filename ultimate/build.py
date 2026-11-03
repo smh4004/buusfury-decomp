@@ -137,7 +137,7 @@ step auto code
     call play_sfx(24)
     pushn 5, 200, 200, 255, 10
     call 0x4C
-    pushn %d, 144, 182
+    pushn %d, 120, 214
     call 0x35
     pushn %d, 17, 0
     call 0x51
@@ -152,13 +152,13 @@ step auto code
 step auto say 0x02 "He's still standing! I need everyone's energy!"
 step auto code
     call 0x95(0)
-    pushn %d, 144, 182
+    pushn %d, 120, 214
     call 0x35
     pushn 100, 15
     call 0x2A
-    push 144
+    push 120
     set 0x04
-    push 204
+    push 236
     set 0x05
     push 6
     set 0x06

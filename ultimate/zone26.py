@@ -157,7 +157,7 @@ def boss_stats(W, rom, stats):
     of the fight is its own copy of the arena: 15 Android 13, 16 his change, 17 Super 13, 18 the Spirit Bomb finish."""
     import bfscript
     def death(flag, area):
-        return W.put(bytes(bfscript.asm('    pushn %d\n    call set_flag\n    call 0x78(30)\n    pushn 26, %d, 1, 144, 250\n    call 0x77\n    call 0x79(30)\n    end\n' % (flag, area))))
+        return W.put(bytes(bfscript.asm('    pushn %d\n    call set_flag\n    call 0x78(30)\n    pushn 26, %d, 1, 120, 276\n    call 0x77\n    call 0x79(30)\n    end\n' % (flag, area))))
     def row(n, exp, hp, stat, phys, flag, area):
         r = stats + 28 * n; dabura = stats + 28 * 18
         rom[r:r + 28] = rom[dabura:dabura + 28]
@@ -226,13 +226,13 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
                 ring = W.put(struct.pack('<2I4HI', TRIGGER[0], TRIGGER[1], 0, 0, 1024, 1024, quest_list))
                 if spec == 'boss':                        # no scene here: a dialogue box with this boss loaded resets the game
                     ex = exits
-                    e = W.put(struct.pack('<8I', 0x0800FD55, 0, BOSS_ROW, 182 << 16 | 144, actor_ids['super13'] + 9, 0x080555A0, 1, 0x080716EC))
+                    e = W.put(struct.pack('<8I', 0x0800FD55, 0, BOSS_ROW, 214 << 16 | 120, actor_ids['super13'] + 9, 0x080555A0, 1, 0x080716EC))
                     struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e)))
                 else:
                     ex = [(0, ring)]
                     if spec == 'change':                  # walk up to Super 13 to start the fight
-                        go = W.put(bytes(bfscript.asm('    call 0x78(20)\n    pushn 26, 17, 1, 144, 250\n    call 0x77\n    call 0x79(20)\n    end\n')))
-                        ex.append((0, W.put(struct.pack('<2I4HI', 0x08007387, TRIGGER[1], 96, 192, 192, 236, go))))
+                        go = W.put(bytes(bfscript.asm('    call 0x78(20)\n    pushn 26, 17, 1, 120, 276\n    call 0x77\n    call 0x79(20)\n    end\n')))
+                        ex.append((0, W.put(struct.pack('<2I4HI', 0x08007387, TRIGGER[1], 72, 226, 168, 258, go))))
                     struct.pack_into('<I', st, 4, 0); struct.pack_into('<I', st, 0x14, 0)
                 st[3] = len(ex)
                 struct.pack_into('<I', st, 0x10, W.put(b''.join(struct.pack('<II', *x) for x in ex)) if ex else 0)

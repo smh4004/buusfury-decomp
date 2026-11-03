@@ -64,7 +64,7 @@ base = route + ['run 30', 'shot arena']
 hp1 = boss(base, 60000)[0]; check('Android 13 is in the arena with 60000 HP', hp1 is not None)
 phase = kill(base, 60000) + ['poke8 03001577 7F'] + ['tap A 25'] * 11 + ['run 170', 'shot change', 'mem 0300197C 1']
 out = run(phase); check('beating Android 13 starts his change', at(out) == (16 << 8 | 26))
-two = phase + ['keys UP', 'run 240', 'keys', 'run 120', 'shot phase2', 'mem 0300197C 1']
+two = phase + ['keys UP', 'run 60', 'keys', 'run 120', 'shot phase2', 'mem 0300197C 1']
 out = run(two); check('walking up to him starts phase two', at(out) == (17 << 8 | 26))
 hp2 = boss(two, 150000)[0]; check('Super 13 has 150000 HP', hp2 is not None)
 end = kill(two, 150000) + ['poke8 03001577 7F'] + ['tap A 30'] * 16 + ['shot struggle'] + ['keys A', 'run 1', 'keys', 'run 1'] * 120
