@@ -1,0 +1,97 @@
+#!/usr/bin/env python3
+"""Hyperbolic Time Chamber. Needs a zone debug build whose official warps to Mr. Popo:
+  BFU_HUB_WARP="6, 1, 1, 288, 500" BFU_OUT=<dir> python3 ultimate/build.py --debug --zone
+  python3 ultimate/test_chamber.py <dir> [work dir]
+Talks to Mr. Popo after the ending, spars with every partner on the list in turn, and checks the fight, the reduced EXP, the way back and Broly's lock."""
+import json, os, struct, subprocess, sys, tempfile
+sys.path[:0] = ['ultimate', 'ultimate/lib', 'tools/scripts']
+import zone26
+from PIL import Image
+OUT = sys.argv[1]; D = sys.argv[2] if len(sys.argv) > 2 else tempfile.mkdtemp(prefix='chamber'); os.makedirs(D, exist_ok=True)
+ROM = OUT + '/BFU_debug_zone_PERSONAL_USE_ONLY.gba'
+G = 0x03001068; PLAYER = 0x03001C34; ENEMIES = 0x03001BB4; AT = 0x0300197C; REC0 = 0x03001560
+start = open('tools/harness/long.txt').read().split('\n')[1:93] + ['tap A 60'] * 4 + ['run 60', 'keys DOWN', 'run 30', 'keys', 'run 200']
+fails = []
+def check(name, ok):
+    print('PASS' if ok else 'FAIL', name, flush=True)
+    if not ok: fails.append(name)
+env = dict(os.environ); env.pop('HARNESS_SAV', None)
+p = subprocess.Popen(['tools/harness/harness', ROM, '/dev/stdin', D], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, bufsize=1, env=env)
+bad = [False]
+def send(*ls):
+    for l in ls: p.stdin.write(l + '\n')
+    p.stdin.flush()
+def mem(a, n=1):
+    send('mem %08X %d' % (a, n))
+    while True:
+        l = p.stdout.readline()
+        if not l: raise SystemExit('harness ended')
+        if 'bad pc' in l: bad[0] = True
+        if l.startswith('mem %08x' % a): return [int(x, 16) for x in l.split(':')[1].split()]
+flag_on = lambda n: 'poke8 %08X %02X' % (G + 0x55 + n // 8, (mem(G + 0x55 + n // 8)[0] & 255) | 1 << n % 8)
+def talk(x, y):
+    pl = mem(PLAYER)[0]
+    send('poke %08X %08X' % (pl + 0x1A0, x << 8), 'poke %08X %08X' % (pl + 0x1A4, (y + 22) << 8), 'run 2', 'keys UP', 'run 6', 'keys', 'run 4', 'tap A 80')
+at = lambda: mem(AT)[0] & 0xFFFF
+send('guardon 0x09000000', *start); mem(G)
+send(flag_on(149)); send(flag_on(862)); send(flag_on(883)); mem(G)
+door = [x for x in zone26.links(json.load(open('ultimate/zone26.json')), {a: zone26.floor_mask(open(os.environ['BFU_PROTO'], 'rb').read(), os.environ['BFU_PROTO'], a) for a in range(1, 16)})[1] if 'world' in x][0]
+pl = mem(PLAYER)[0]; x0, y0, x1, y1 = door['rect']
+send('poke %08X %08X' % (pl + 0x1A0, (x0 + x1) // 2 << 8), 'poke %08X %08X' % (pl + 0x1A4, (y0 + y1) // 2 << 8), 'keys ' + 'DOWN UP LEFT RIGHT'.split()[door['key']], 'run 12', 'keys', 'run 110'); mem(G)
+talk(96, 328); send('run 200'); mem(G)
+send(flag_on(883)); talk(*zone26.HUB_AT); send('run 200', 'shot lookout'); mem(G)
+check('the rig lands on the Lookout', at() == (1 << 8 | 6))
+send(*['poke8 %08X 96' % (REC0 + o) for o in (0x28, 0x29, 0x2A, 0x2B)], 'poke8 %08X FF' % (REC0 + 0x16), 'poke8 %08X 7F' % (REC0 + 0x17))
+names = []; rooms = []
+room = zone26.spar_first()
+W = Image.new('RGB', (8 * 240, 8 * 160)); cell = 0
+def sheet(tag):
+    global cell
+    send('shot ' + tag); mem(G)
+    if cell < 64 and not tag.startswith('s2_'): W.paste(Image.open('%s/%s.png' % (D, tag)).convert('RGB'), (cell % 8 * 240, cell // 8 * 160)); cell += 1
+exp = []
+for c, (cat, people) in enumerate(zone26.SPAR):
+    if os.environ.get('ONLY') and str(c) not in os.environ['ONLY']: room += len(people); continue
+    for k, (name, row, char) in enumerate(people):
+        if name == 'Broly':
+            pass
+        def pick():
+            talk(288, 472); send('run 220')
+            if c == 0 and k == 0: sheet('popo_hello')
+            send('tap A 20', 'run 100')                           # past his greeting: the categories
+            if c == 0 and k == 0: sheet('popo_menu')
+            if c >= 3:
+                send(*['tap DOWN 12'] * 3, 'tap A 20', 'run 100')
+                if c == 3 and k == 0: sheet('popo_more')
+                send(*['tap DOWN 12'] * (c - 3), 'tap A 20', 'run 100')
+            else: send(*['tap DOWN 12'] * c, 'tap A 20', 'run 100')
+            if k == 0: sheet('popo_cat%d' % c)
+            send(*['tap DOWN 12'] * k, 'tap A 20', 'run 160')
+        pick()
+        if name == 'Broly' and not mem(G + 0x55 + 111 // 8)[0] >> (111 % 8) & 1:
+            sheet('locked'); check('Broly stays locked until his story fight', at() == (1 << 8 | 6)); send('tap A 20', 'run 60'); send(flag_on(111)); pick()
+        check('%s: into the Chamber' % name, at() == (room << 8 | 26))
+        sheet('s_' + name.replace(' ', ''))
+        e0 = mem(REC0 + 0x24)[0]
+        send('run 60')
+        sheet('s2_' + name.replace(' ', ''))
+        for attempt in range(14):
+            if at() != (room << 8 | 26) or not mem(0x03001BB0)[0]: break
+            foe = mem(ENEMIES)[0]; x, y = mem(foe + 0x1A0, 2); pl = mem(PLAYER)[0]
+            send('poke %08X %08X' % (foe + 0x28C, 2 << 10), 'poke8 %08X FF' % (REC0 + 0x16), 'poke8 %08X 7F' % (REC0 + 0x17))
+            send('poke %08X %08X' % (pl + 0x1A0, x), 'poke %08X %08X' % (pl + 0x1A4, y + (20 << 8)), 'poke8 %08X 01' % (pl + 0x10), 'run 2', 'tap A 14', 'tap A 14', 'tap A 14', 'run 40')
+        print('   ', name, 'room', hex(at()), 'foes', mem(0x03001BB0)[0], flush=True)
+        send('shot end_' + name.replace(' ', '')); mem(G)
+        for _ in range(14):
+            send('run 180', 'tap A 20')                       # a level-up message waits for A
+            if at() == (1 << 8 | 6): break
+        send('run 60')
+        exp.append((name, mem(REC0 + 0x24)[0] - e0))
+        check('%s: the win comes back to the Lookout, rested' % name, at() == (1 << 8 | 6))
+        room += 1
+print(exp)
+check('partners pay EXP', any(v > 0 for _, v in exp))
+check('no bad jumps', not bad[0])
+W.save(D + '/chamber.png'); p.stdin.close()
+if fails: print('FAILED:', fails); sys.exit(1)
+print('screens in', D)

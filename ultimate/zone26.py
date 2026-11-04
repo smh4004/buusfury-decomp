@@ -174,6 +174,15 @@ TRIAL_GEAR = 160                                   # all four: Geromantium Banda
 if os.environ.get('BFU_CLASH_TEST'): TRIALS = ((int(os.environ.get('BFU_CLASH_SLOT', 0)), 'Goku', 61, 47, 'Kid Buu', 39, 'Titanium Breastplate'),) + TRIALS[1:]     # test_clash.py fights the game's beam user
 TRIAL_HP, TRIAL_STATS, TRIAL_PRIZE, TRIAL_ITEM, TRIAL_ITEMS = 40000, (148, 65, 60, 65), 30000, 11, 10    # all four: ten Senzu Beans (item 11)
 TRIAL_WON, TRIAL_PAID, TRIAL_ALL = 891, 1128, 895
+# Hyperbolic Time Chamber: Mr. Popo on the Lookout spars you against anyone from the story, after the ending, in the Chamber's white room. Stats as in the story, EXP cut to SPAR_EXP tenths.
+# Category, then (name, enemy row, character). Broly needs flag 111, his story fight. Buu with Gohan (row 119) isn't listed: his health can't be taken down outside his story fight. Rows are the story's own, with at least SPAR_MIN_HP: a few story rows have next to none.
+SPAR = (('Tournament', (('Spopovich', 112, 252), ('Yamu', 148, 303), ('Pui Pui', 96, 234), ('Yakon', 145, 300))),
+        ('Majin', (('Dabura', 18, 73), ('Majin Vegeta', 70, 282), ('Majin Buu', 28, 43), ('Super Buu', 115, 49))),
+        ('Final Buu', (('Buu with Gotenks', 118, 51), ('Buu at full power', 121, 49), ('Kid Buu', 60, 47), ('Evil Piccolo', 90, 222))),
+        ('Other World', (('Pikkon', 91, 224), ('Olibu', 85, 206), ('Super Janemba', 122, 154), ('Broly', 10, 38))),
+        ('Minibosses', (('Airship Warlord', 0, 31), ('Ninja Boss', 80, 201), ('Knight Destroyer', 63, 164), ('War Machine', 140, 291))),
+        ('Friends', (('Goten', 39, 123), ('Trunks', 130, 269), ('Gohan', 35, 110), ('Gotenks', 40, 126))))
+SPAR_EXP, SPAR_MIN_HP, SPAR_ROOM, SPAR_HOME = 4, 2000, (6, 9), (288, 500)
 HUB_AT = (208, 112)                                # where the tournament official stands in Hercule City; wins come home just below him
 TOUR_ORDERED = 1141                                 # a test sets this to walk every opponent in turn instead of drawing
 TOUR_ROOM, TOUR_PRIZE, TOUR_WON, ADD_ZENIE = (7, 6), 100000, 889, 0xE0
@@ -209,6 +218,19 @@ def trial_first():
 def trial_end(k):
     """Script run when trial k's opponent falls: home to the Challenge Board, which pays."""
     return '    pushn %d\n    call set_flag\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 3, 1, 1, 208, 134\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % (TRIAL_WON + k)
+
+
+def spar_first():
+    return trial_first() + len(TRIALS)
+
+
+def spar_end():
+    """Script run when a sparring partner falls: rested, back on the Lookout beside Mr. Popo."""
+    return '    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 6, 1, 1, %d, %d\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % SPAR_HOME
+
+
+def spar_list():
+    return [who for _, people in SPAR for who in people]
 
 
 def tour_list():
@@ -257,6 +279,14 @@ def rush_rows(W, rom, harmless=False):
         r[0xC:0x10] = bytes(TRIAL_STATS)
         if harmless: r[0xD] = r[0xE] = 0
         struct.pack_into('<II', r, 0x14, 0x08708920, W.put(bytes(bfscript.asm(trial_end(k)))))
+        rows += r
+    end = W.put(bytes(bfscript.asm(spar_end())))
+    for _, row, _ in spar_list():
+        r = bytearray(rom[STATS + 28 * row:STATS + 28 * (row + 1)])
+        struct.pack_into('<I', r, 0, struct.unpack_from('<I', r, 0)[0] * SPAR_EXP // 10)
+        struct.pack_into('<I', r, 4, max(struct.unpack_from('<I', r, 4)[0], SPAR_MIN_HP))
+        if harmless: r[0xD] = r[0xE] = 0
+        struct.pack_into('<II', r, 0x14, 0x08708920, end)
         rows += r
     at = W.put(bytes(rows))
     for o in STATS_REFS:
@@ -367,6 +397,12 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
     for k, (_, _, _, char, *_rest) in enumerate(TRIALS):          # Trials: the stadium's room again, empty but for the opponent
         st = bytearray(stadium); st[0] = 26; st[1] = trial_first() + k; st[3] = 0
         e = W.put(struct.pack('<8I', 0x0800FD55, 0, STATS_COUNT + len(RUSH) + len(tour_list()) + k, 366 << 16 | 360, char, 0x080555A0, 1, 0x080716EC))
+        struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e))); struct.pack_into('<I', st, 0x10, 0)
+        rows.append(bytes(st))
+    white = next(rom[AREAS + 56 * q:AREAS + 56 * q + 56] for q in range(COUNT) if (rom[AREAS + 56 * q], rom[AREAS + 56 * q + 1]) == SPAR_ROOM)
+    for k, (_, _, char) in enumerate(spar_list()):            # Time Chamber: its white room, empty but for the partner. Its story scene stays behind.
+        st = bytearray(white); st[0] = 26; st[1] = spar_first() + k; st[3] = 0
+        e = W.put(struct.pack('<8I', 0x0800FD55, 0, STATS_COUNT + len(RUSH) + len(tour_list()) + len(TRIALS) + k, 80 << 16 | 120, char, 0x080555A0, 1, 0x080716EC))
         struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e))); struct.pack_into('<I', st, 0x10, 0)
         rows.append(bytes(st))
     hub_person(W, rom)

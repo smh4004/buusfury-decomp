@@ -71,6 +71,7 @@ def new_actor_ids():
     return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2, 'gogeta_dbs': n + 3, 'gogeta_dbs_ss': n + 4, 'gogeta_ssb': n + 5, 'android13_player': n + 6, 'super13_player': n + 7, 'goku_ss2': n + 8, 'goku_ss2_b': n + 9, 'gohan_ss2': n + 10, 'gohan_green_ss2': n + 11, 'vegeta_ss2': n + 12, 'vegeta_ss2_b': n + 13, 'vegeta_armor_ss2': n + 14, 'gohan_armor_ss2': n + 15, 'trunks_ss2': n + 16, 'trunks_armor_ss2': n + 17, 'vegito_ss2': n + 18, 'super17': n + 19, 'android13_absorb': n + 20}
 
 
+POPO_NPC = 'assets/scripts/gUnknown_08786E68.evt'   # Mr. Popo on the Lookout: after the ending, the Hyperbolic Time Chamber
 HUB_NPC = 'assets/scripts/gUnknown_08783D30.evt'    # a Hercule City resident: post-game, the tournament official's Challenge Board
 TOUR_NPC = 'assets/scripts/gUnknown_08785590.evt'   # the West City resident to the west
 QUEST_NPC = 'assets/scripts/gUnknown_08785580.evt'   # the West City resident outside the Z-Mart
@@ -382,6 +383,49 @@ step auto code
 """
 
 
+def popo_npc(src):
+    """After the ending Mr. Popo opens the Hyperbolic Time Chamber: a category, then a partner, up to four to a page. Before it he says what he always said."""
+    import zone26
+    speaker = 0x63
+    steps = []
+    def say(name, text):
+        n = len(text.replace('\\n', ' ')); assert n < 100 and not 64 <= n <= 67, text      # long lines reset the game; 64-67 look like ROM pointers to the shifter
+        steps.append((name, 'say 0x%02X "%s"\n' % (speaker, text)))
+    def code(name, text): steps.append((name, 'code\n' + text))
+    def choose(name, targets):
+        code(name, ''.join('    call 0x18\n    push %d\n    eq\n    jz L%d\n    push {%s}\n    end\nL%d:\n' % (k, k + 1, t, k + 1) for k, t in enumerate(targets)) + '    push {END}\n    end\n')
+    say('hello', "The Hyperbolic Time Chamber is open. A day inside is a year outside. Train against who?")
+    pages = zone26.SPAR
+    say('menu1', '\\n'.join('- %s' % c for c, _ in pages[:3]) + '\\n- More')
+    choose('menu1_go', ['cat0', 'cat1', 'cat2', 'menu2'])
+    say('menu2', '\\n'.join('- %s' % c for c, _ in pages[3:]) + '\\n- Back')
+    choose('menu2_go', ['cat3', 'cat4', 'cat5', 'menu1'])
+    room = zone26.spar_first()
+    for c, (_, people) in enumerate(pages):
+        say('cat%d' % c, '\\n'.join('- %s' % p[0] for p in people))
+        choose('cat%d_go' % c, ['p%d' % (room + k) for k in range(len(people))])
+        room += len(people)
+    say('locked', "You have not met that one yet.")
+    code('locked_end', '    push {END}\n    end\n')
+    room = zone26.spar_first()
+    for _, people in pages:
+        for name, row, _ in people:
+            gate = '    call flag(111)\n    jz L1\n' if name == 'Broly' else ''
+            tail = 'L1:\n    push {locked}\n    end\n' if name == 'Broly' else ''
+            code('p%d' % room, gate + '    call 0x78(30)\n    pushn 26, %d, 1, 120, 150\n    call 0x77\n    call 0x79(30)\n    push {END}\n    end\n' % room + tail)
+            room += 1
+    code('last', '    end\n')
+    number = {n: k + 2 for k, (n, _) in enumerate(steps)}; number['END'] = len(steps) + 2      # counted from 0; the first two are his old line
+    head, old = src.split('step 1 code', 1)
+    if '    push 5\n' not in old or not old.rstrip().endswith('call 0x16\n    end'):
+        sys.exit("Mr. Popo's script changed")
+    old = old.replace('    push 5\n', '    push %d\n' % number['END']).rstrip()
+    old = old[:-len('end')] + 'push %d\n    end\n' % number['END']
+    first = '\n    call flag(149)\n    jz L9\n    push %d\n    end\nL9:' % number['hello']
+    line, rest = old.split('\n', 1)
+    return head + 'step 1 code' + line + first + '\n' + rest + ''.join('step auto %s' % re.sub(r'\{(\w+)\}', lambda m: str(number[m.group(1)]), t) for _, t in steps)
+
+
 def hub_npc(src):
     """Hercule City's tournament official (character 192, speaker 0x62), once Super 13 is beaten: the Challenge Board. Before that his list is the resident's old line."""
     import zone26
@@ -396,6 +440,7 @@ def hub_npc(src):
     won = lambda k: zone26.TRIAL_WON + k
     paid = lambda k: zone26.TRIAL_PAID + k
     picker_first = '    call 0x8D\n    call 0x%X\n    push {END}\n    end\n' % DEBUG_NATIVE if os.environ.get('BFU_SLOT_TEST') else ''   # test_slots.py: open Switch Character and save here
+    if os.environ.get('BFU_HUB_WARP'): picker_first = '    pushn %s\n    call 0x77\n    push {END}\n    end\n' % os.environ['BFU_HUB_WARP']     # a test goes straight to a room by talking to the official
     start = picker_first + """    pushn 883
     call not_flag
     jz L0
@@ -519,7 +564,9 @@ L1:
         code(name + '_next', '    push {%s}\n    end\n' % nxt)
     status('rewards', 887, "Boss Rush: cleared! Majin Buu, Super Janemba and Kid Buu are on your side.", "Boss Rush: win it and Majin Buu, Super Janemba and Kid Buu join you.", 'rew2')
     status('rew2', 890, "World Tournament: cleared! Each win pays 100,000 Zenie.", "World Tournament: each win pays 100,000 Zenie.", 'rew3')
-    status('rew3', zone26.TRIAL_ALL, "Trials: all four cleared! You earned the Geromantium Bandana.", "Trials: Zenie and gear each. All four: Geromantium Bandana and ten Senzu Beans.", 'END')
+    status('rew3', zone26.TRIAL_ALL, "Trials: all four cleared! You earned the Geromantium Bandana.", "Trials: Zenie and gear each. All four: Geromantium Bandana and ten Senzu Beans.", 'rew4')
+    say('rew4', "Time Chamber: Mr. Popo on Kami's Lookout lets you spar with old foes, for less EXP.")
+    code('rew4_go', '    push {END}\n    end\n')
     say('tour_won', "You won the World Tournament! That's 100,000 Zenie. Come back any time.")
     code('tour_won_go', '    pushn 890\n    call set_flag\n    push {END}\n    end\n')
     say('rush_won', "You beat all nine! Majin Buu, Super Janemba and Kid Buu join you. See Switch Character.")
@@ -1212,6 +1259,8 @@ def main():
         open(TOUR_NPC, 'w').write(tournament_npc(saved[TOUR_NPC]))
         saved.setdefault(HUB_NPC, open(HUB_NPC).read())
         open(HUB_NPC, 'w').write(hub_npc(saved[HUB_NPC]))
+        saved.setdefault(POPO_NPC, open(POPO_NPC).read())
+        open(POPO_NPC, 'w').write(popo_npc(saved[POPO_NPC]))
         if debug:
             debug_edits(FORM_COUNT)
         subprocess.run(['make', 'modern'], check=True, stdout=subprocess.DEVNULL)
@@ -1238,6 +1287,7 @@ def main():
     npc = symbol('gUnknown_080783A0') - ROM_BASE      # the quest giver stands still: his wander box shrinks to his own spot
     struct.pack_into('<4H', rom, npc - 8, 320, 360, 320, 360)
     struct.pack_into('<4H', rom, symbol('gUnknown_080783CC') - ROM_BASE - 8, 96, 328, 96, 328)      # and so does the tournament's
+    struct.pack_into('<4H', rom, symbol('gUnknown_08078EA0') - ROM_BASE + 8, 288, 472, 288, 472)   # and Mr. Popo: he opens the Time Chamber
     if debug:
         at = (free + 3) & ~3
         code = save_stub(at)
