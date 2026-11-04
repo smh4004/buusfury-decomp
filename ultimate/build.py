@@ -882,6 +882,10 @@ def add_outfits(rom, clean, at):
     if rom[WRITE:WRITE + 14] != bytes.fromhex('f8b50068171c0e1c1d1c002825d0'):
         sys.exit('EEPROM write changed: %s' % rom[WRITE:WRITE + 14].hex())
     rom[WRITE:WRITE + 14] = bytes.fromhex('10b4014ca44610bc6047') + struct.pack('<I', sym['save_write'] | 1)
+    for vt, slot, want, name in ((0x4AEF8, 0x28, 0x0802084D, 'beam_update'), (0x4C9F0, 0x84, 0x0804F8C9, 'player_input')):     # every beam's update, and the player's keys
+        if ROM_BASE + vt + struct.unpack_from('<i', rom, vt + slot)[0] != want:
+            sys.exit('vtable changed at 0x%X' % (vt + slot))
+        struct.pack_into('<i', rom, vt + slot, (sym[name] | 1) - (ROM_BASE + vt))
     DAMAGE = 0xE9D8                  # Combat_Damage's first 8 bytes: combat_orig runs them, then comes back
     if rom[DAMAGE:DAMAGE + 8] != bytes.fromhex('f0b5061c0c1c0831'):
         sys.exit('Combat_Damage changed: %s' % rom[DAMAGE:DAMAGE + 8].hex())

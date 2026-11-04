@@ -195,6 +195,9 @@ void save_write(int *save, int offset, const u8 *src, int len) {
     eeprom_write(BENCH_OFFSET + slot * sizeof(struct bench), &BENCH, sizeof(struct bench));
 }
 
+struct clash { u8 *p, *e; u32 p_at, e_at, cool, surge; int active, push, start, near_p, near_e, tick; u16 energy[3]; u16 shadow[6]; };
+#define CL (*(struct clash *)0x0203F200)
+
 /* The heap's first block, as the game sets it up, a little shorter: the top of work RAM is kept for this code's variables. Only those are cleared, since boot timing is tight. */
 void heap_init(void) {
     u16 *block = (u16 *)0x02000800;
@@ -202,10 +205,145 @@ void heap_init(void) {
     int i;
     for (i = 0; i < 24; i++) vars[i] = 0;
     BENCH.magic = 0;
+    CL.active = 0; CL.cool = 0; CL.surge = 0; CL.p_at = 0; CL.e_at = 0;
     *(u32 *)0x03003488 = (u32)block;
     block[0] = 0; block[1] = HEAP_WORDS; block[2] = 0;
     *((u8 *)block + 6) = 0;
     block[4] = 0; block[5] = 0;
+}
+
+/* Beam clashes. When the player's beam and an enemy's meet head on, both stop at the point where they meet and it becomes a shoving match: A or B pushes,
+   the enemy pushes back all the time, and whoever reaches the other's hands wins. The player's beam stays on without holding B and costs no energy meanwhile.
+   All beams share one update, so the watch lives there; a beam that stops updating simply stops counting. */
+#define Beam_Update ((void (*)(u8 *, int))0x0802084D)
+#define PLAYER_OBJ (*(u8 **)0x03001C34)
+#define ENEMY_VT 0x0804C484
+#define NewSpark ((void *(*)(int, int *, const void *, int, int, int, int))0x0802A81D)
+#define ListAdd ((void (*)(void *, void *))0x0801191B)
+#define ACTORS ((void *)0x03001C4C)
+#define Rand ((int (*)(int))0x0803FACD)
+#define KEY_A_B 3
+#define CLASH_TAP 16
+#define CLASH_PULL 1
+#define CLASH_WIN 256
+#define CLASH_HANDS 20                       /* pixels short of the loser's hands where it ends */
+#define CLASH_COOLDOWN 150
+#define CLASH_SURGE 60                       /* frames the winning beam keeps going by itself, to reach him */
+#define CLASH_ANSWER 48                      /* how close the enemy's tip gets before a charging player's beam fires to meet it */
+#define BEAM_STATE(b) ((b)[0x10])
+#define BEAM_AXIS(b) (*(int *)((b) + 0x3C) < 2 ? 1 : 0)   /* 0 x, 1 y */
+#define BEAM_ORIGIN(b) (*(int *)((b) + 0x20 + 4 * BEAM_AXIS(b)))
+#define BEAM_CROSS(b) (*(int *)((b) + 0x20 + 4 * !BEAM_AXIS(b)))
+#define BEAM_SIGN(b) (*(int *)((b) + 0x30 + 4 * BEAM_AXIS(b)))
+#define BEAM_LEN(b) (*(int *)((b) + 0x38))
+#define BEAM_TIP(b) (BEAM_ORIGIN(b) + BEAM_LEN(b) * BEAM_SIGN(b))
+
+static int abs_int(int v) { return v < 0 ? -v : v; }
+static u16 *clash_energy(void) { return (u16 *)(RECORDS + *(u8 *)0x03001068 * RECORD_SIZE); }
+
+static void clash_begin(void) {
+    u8 *p = CL.p, *e = CL.e, *rec = (u8 *)clash_energy();
+    int sign = BEAM_SIGN(p), op = BEAM_ORIGIN(p), oe = BEAM_ORIGIN(e), tp = BEAM_TIP(p), te = BEAM_TIP(e);
+    if (BEAM_STATE(p) != 1 || BEAM_STATE(e) != 1 || FRAMES < CL.cool) return;
+    if ((*(int *)(p + 0x3C) ^ 1) != *(int *)(e + 0x3C)) return;   /* facing each other: down and up, or left and right */
+    if (abs_int(BEAM_CROSS(p) - BEAM_CROSS(e)) > 16) return;
+    if ((oe - op) * sign < 2 * CLASH_HANDS + 8) return;           /* point blank: no room for it */
+    if ((te - tp) * sign > 24) return;                            /* the tips haven't met. The game's own hit test stops them about this far apart */
+    CL.active = 1;
+    CL.push = 0;
+    CL.tick = 0;
+    CL.start = (tp + te) / 2;
+    CL.near_p = op + sign * CLASH_HANDS;
+    CL.near_e = oe - sign * CLASH_HANDS;
+    if ((CL.start - CL.near_p) * sign < 0) CL.start = CL.near_p;
+    if ((CL.near_e - CL.start) * sign < 0) CL.start = CL.near_e;
+    {   /* a beam may start a little to one side of the other's: line them up so they meet head on */
+        int a = BEAM_AXIS(p), line = (BEAM_CROSS(p) + BEAM_CROSS(e)) / 2;
+        *(int *)(p + 0x20 + 4 * !a) = line; *(int *)(e + 0x20 + 4 * !a) = line;
+    }
+    CL.energy[0] = *(u16 *)(rec + 0x1A); CL.energy[1] = *(u16 *)(rec + 0x1E); CL.energy[2] = *(u16 *)(rec + 0x20);
+}
+
+static void clash_end(int won) {
+    u8 *foe = *(u8 **)(CL.e + 0x50), *me = PLAYER_OBJ;
+    CL.active = 0;
+    CL.cool = FRAMES + CLASH_COOLDOWN;
+    if (won) {
+        /* The enemy's attack runs out as it normally does, which ends its beam safely, and the player's carries on into him. */
+        u8 *stats = *(u8 **)(foe + 0x224);
+        int hurt = (*(int *)(stats + 4) << 10) / 8, hp = *(int *)(foe + 0x28C);
+        *(u16 *)(foe + 0x12) = 0x5B;
+        hp -= hurt;
+        *(int *)(foe + 0x28C) = hp < (1 << 10) ? (1 << 10) : hp;
+        CL.surge = FRAMES + CLASH_SURGE;
+    } else {
+        /* The player stops firing, as if B had been let go, and the enemy's beam comes through. */
+        int vt = *(int *)me;
+        ((void (*)(u8 *, int))(*(int *)(vt + 0x28) + vt))(me, 0);
+    }
+}
+
+static void clash_shove(void) {
+    u8 *rec = (u8 *)clash_energy(), *foe = *(u8 **)(CL.e + 0x50);
+    if (CL.e_at + 1 < FRAMES || BEAM_STATE(CL.e) != 1) { CL.active = 0; CL.cool = FRAMES + CLASH_COOLDOWN; return; }
+    if (KEYS_NEW & KEY_A_B) CL.push += CLASH_TAP;
+    CL.push -= CLASH_PULL;
+    *(u16 *)(rec + 0x1A) = CL.energy[0]; *(u16 *)(rec + 0x1E) = CL.energy[1]; *(u16 *)(rec + 0x20) = CL.energy[2];
+    *(u16 *)(foe + 0x12) = 0x20;           /* his attack's clock waits */
+    CL.tick++;
+    if (CL.tick % 6 == 0) {
+        int a = BEAM_AXIS(CL.p), pos[2], mid = CL.start;
+        pos[a] = 0; pos[!a] = BEAM_CROSS(CL.p);
+        mid += (CL.push >= 0 ? (CL.near_e - CL.start) * CL.push : (CL.start - CL.near_p) * CL.push) / CLASH_WIN;
+        pos[a] = mid + Rand(13) - 6;
+        pos[!a] += Rand(13) - 6;
+        { void *spark = NewSpark(0, pos, (const void *)0x08712FDC, 4, Rand(0x4000) + 0x1000, 0x400, 0x38); if (spark) ListAdd(ACTORS, spark); }
+        PlaySound((void *)0x03003E5C, (void *)(0x083192A8 + (Rand(2) + 0x30) * 12), 0x40, 0);
+    }
+    if (CL.push >= CLASH_WIN) clash_end(1);
+    else if (CL.push <= -CLASH_WIN) clash_end(0);
+}
+
+/* A charging player whose beam isn't ready when the enemy's arrives would just be knocked down, since his takes a third of the time. So if the player is facing it,
+   in line with it, and it is nearly there, the charge finishes now and the two meet. */
+static void clash_answer(u8 *e) {
+    u8 *me = PLAYER_OBJ;
+    int a = BEAM_AXIS(e), along, across;
+    if (CL.p_at + 1 < FRAMES || BEAM_STATE(CL.p) != 0 || FRAMES < CL.cool || !me) return;
+    if ((me[0x10] ^ 1) != *(int *)(e + 0x3C)) return;
+    along = ((*(int *)(me + 0x1A0 + 4 * a) >> 8) - BEAM_TIP(e)) * BEAM_SIGN(e);
+    across = (*(int *)(me + 0x1A0 + 4 * !a) >> 8) - BEAM_CROSS(e);
+    if (along < 0 || along > CLASH_ANSWER || abs_int(across) > 16) return;
+    if (*(u16 *)(me + 0x12) < 0x17) *(u16 *)(me + 0x12) = 0x17;
+}
+
+void beam_update(u8 *b, int arg) {
+    int state = BEAM_STATE(b);
+    u8 *owner = *(u8 **)(b + 0x50);
+    Beam_Update(b, arg);                   /* a beam that finished has freed itself here, so only live ones are touched after */
+    if (state == 0 && owner == PLAYER_OBJ) { CL.p = b; CL.p_at = FRAMES; return; }
+    if (state != 1) return;
+    if (owner == PLAYER_OBJ) { CL.p = b; CL.p_at = FRAMES; }
+    else if (owner && *(u32 *)owner == ENEMY_VT) { CL.e = b; CL.e_at = FRAMES; clash_answer(b); }
+    else return;
+    if (!CL.active) {
+        if (CL.p_at + 1 >= FRAMES && CL.e_at + 1 >= FRAMES) clash_begin();
+        if (!CL.active) return;
+    }
+    if (b == CL.p) clash_shove();
+    if (CL.active && (b == CL.p || b == CL.e)) {
+        int mid = CL.start + (CL.push >= 0 ? (CL.near_e - CL.start) * CL.push : (CL.start - CL.near_p) * CL.push) / CLASH_WIN;
+        BEAM_LEN(b) = abs_int(mid - BEAM_ORIGIN(b));
+    }
+}
+
+/* The player's keys: during a clash, and as the winning beam surges on, the fire button counts as held, so mashing it doesn't let the beam go. */
+void *player_input(void) {
+    u16 *keys = (u16 *)0x03003300;
+    if (CL.active && CL.p_at + 2 < FRAMES) CL.active = 0;
+    if (!CL.active && FRAMES >= CL.surge) return keys;
+    CL.shadow[0] = keys[0]; CL.shadow[1] = keys[1] | 2; CL.shadow[2] = 0; CL.shadow[3] = keys[3]; CL.shadow[4] = keys[4]; CL.shadow[5] = keys[5];
+    return CL.shadow;
 }
 
 static u32 *field(void *obj, int off) { return (u32 *)((u8 *)obj + off); }
