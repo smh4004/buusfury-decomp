@@ -100,25 +100,36 @@ def follow_outline(mask, outline, doors):
     return out
 
 
+def walkable(mask, x, y):
+    """Can a fighter's body stand with its corner at x, y?"""
+    if x < 0 or y < 0: return False
+    x1, y1 = x + BODY[0] - 1, y + BODY[1] - 1
+    if y1 // 8 >= mask.shape[0] or x1 // 8 >= 256: return False
+    return bool(mask[y // 8:y1 // 8 + 1, x // 8:x1 // 8 + 1].all())
+
+
 def audit(a, mask, doors):
-    """Every door must be walkable to every other door in this room."""
-    def cells(d):
+    """A fighter's body must be able to walk from each arrival to every door's strip, and stand in it. The game tests the door against
+    the fighter's x, y only, so a strip it can't get that point into can't be used, however open the cells look."""
+    def spots(d):
         x0, y0, x1, y1 = d['rect']
-        return [(y, x) for y in range(y0 // 8, (y1 + 7) // 8) for x in range(x0 // 8, (x1 + 7) // 8) if y < mask.shape[0] and x < 256 and mask[y, x]]
+        return [(x, y) for y in range(y0 & ~3, y1, 4) for x in range(x0 & ~3, x1, 4) if x0 <= x < x1 and y0 <= y < y1 and walkable(mask, x, y)]
     if not doors: return
-    start = cells(doors[0])
-    if not start: sys.exit('Zone 26: room %d door %s is on solid ground' % (a, doors[0]['rect']))
+    start = spots(doors[0])
+    if not start: sys.exit('Zone 26: room %d door %s has nowhere to stand' % (a, doors[0]['rect']))
     seen = set(start); q = list(start)
     while q:
-        y, x = q.pop()
-        for n in ((y + 1, x), (y - 1, x), (y, x + 1), (y, x - 1)):
-            if 0 <= n[0] < mask.shape[0] and 0 <= n[1] < 256 and n not in seen and mask[n]: seen.add(n); q.append(n)
+        x, y = q.pop()
+        for n in ((x + 4, y), (x - 4, y), (x, y + 4), (x, y - 4)):
+            if n not in seen and walkable(mask, *n): seen.add(n); q.append(n)
     for d in doors:
-        if not seen.intersection(cells(d)):
+        if not seen.intersection(spots(d)):
             sys.exit('Zone 26: room %d door %s cut off from door %s' % (a, d['rect'], doors[0]['rect']))
 
 
 KEY = {'down': 0, 'up': 1, 'left': 2, 'right': 3}
+DEBUG_SPOT = (128, 144, 168, 164)                     # debug zone build: where you start on Snake Way
+BODY = (16, 8)                                       # a fighter blocks this many pixels right of and below its x, y (measured in the game)
 
 
 def door(cfg, a, side, s, e, masks):
@@ -130,7 +141,7 @@ def door(cfg, a, side, s, e, masks):
     if side == 'top': t = open_y[0] * 8; return (s, t, e, t + 9), 'up', (c, t + 16)
     if side == 'bottom': t = (open_y[-1] + 1) * 8; return (s, t - 9, e, t), 'down', (c, t - 20)
     if side == 'left': t = open_x[0] * 8; return (t, s, t + 9, e), 'left', (t + 14, c)
-    t = (open_x[-1] + 1) * 8; return (t - 9, s, t, e), 'right', (t - 14, c)
+    t = (open_x[-1] + 1) * 8; return (t - BODY[0] - 9, s, t, e), 'right', (t - BODY[0] - 18, c)   # a fighter's x is its body's left edge, so it stops BODY[0] short of a right-hand wall
 
 
 def links(cfg, masks):
@@ -382,9 +393,8 @@ def add_balls(W, rom, actor_ids, popo_list):
         rom[e + 4] = count + 1
 
 
-def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=False, quest_list=0, ending_list=0, popo_list=0):
-    P = open(proto_path, 'rb').read()
-    cfg = json.load(open('ultimate/zone26.json')); W = Writer(rom, at); rows = []; info = {}
+def final_masks(P, proto_path, log2_path, cfg):
+    """The collision as built: (masks, doors, reskinned rooms)."""
     masks = {a: floor_mask(P, proto_path, a) for a in range(1, 16)}
     doors = links(cfg, masks)
     res, _ = reskin.build_all(proto_path, log2_path, 'baserom.gba', masks=masks, doors=doors)
@@ -395,6 +405,13 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
         bare = b[:bh * 8, :bw * 8].reshape(bh, 8, bw, 8).mean((1, 3)) > 0.5
         m[:min(bh, m.shape[0]), :min(bw, 256)] |= bare[:min(bh, m.shape[0]), :min(bw, 256)]
         masks[a] = follow_outline(m, ~c, doors.get(a, []))
+    return masks, doors, res
+
+
+def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=False, quest_list=0, ending_list=0, popo_list=0):
+    P = open(proto_path, 'rb').read()
+    cfg = json.load(open('ultimate/zone26.json')); W = Writer(rom, at); rows = []; info = {}
+    masks, doors, res = final_masks(P, proto_path, log2_path, cfg)
     boss_stats(W, rom, STATS)
     rush_rows(W, rom, debug_door)
     temp = bytes(rom[AREAS + 56 * [k for k in range(COUNT) if rom[AREAS + 56 * k] == 4 and rom[AREAS + 56 * k + 1] == 1][0]:][:56])
@@ -485,9 +502,9 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
         rows.append(bytes(st))
     hub_person(W, rom)
     add_balls(W, rom, actor_ids, popo_list)
-    if debug_door:          # debug: on Snake Way, x>=96 walk down reaches 26:1; x 48-96 walk up reaches Broly; x<48 starts the ending
+    if debug_door:          # debug: on Snake Way, Down on the very spot you start reaches 26:1 and the rest of the road stays walkable; x 48-96 walk up reaches Broly; x<48 starts the ending
         e = next(AREAS + 56 * k for k in range(COUNT) if rom[AREAS + 56 * k] == 1 and rom[AREAS + 56 * k + 1] == 1)
-        o = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], 96, 0, 1024, 1024, 0 | 26 << 8 | 1 << 16 | 1 << 24, 200 << 16 | 120))
+        o = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], *DEBUG_SPOT, 0 | 26 << 8 | 1 << 16 | 1 << 24, 200 << 16 | 120))
         old = rom[e + 3]; ptr = struct.unpack_from('<I', rom, e + 0x10)[0]
         list_ = bytes(rom[ptr - BASE:ptr - BASE + 8 * old]) if old else b''
         o2 = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], 48, 0, 96, 1024, 1 | 15 << 8 | 32 << 16 | 1 << 24, 290 << 16 | 224))   # x 48-96, walk up: story Broly
