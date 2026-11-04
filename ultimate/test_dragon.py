@@ -29,16 +29,19 @@ pokes = ['poke8 %08X 01' % (ITEMS + k) for k in range(7)]
 look = fly(648, 1076) + pokes + ['mem 0300197C 1']
 out = run(look); check('at the Lookout', at(out) == (1 << 8 | 6))
 pl = ptr(look)
-start_ = look + move(pl, 288, 494) + ['run 2', 'keys UP', 'run 6', 'keys', 'run 4', 'tap A 80', 'run 180', 'shot sum1', 'tap A 20', 'run 500', 'shot sum2', 'tap A 20', 'run 180', 'shot sum3', 'tap A 20', 'run 120', 'shot wish']
+start_ = look + move(pl, 288, 494) + ['run 2', 'keys UP', 'run 6', 'keys', 'run 4', 'tap A 80', 'run 180', 'shot sum1', 'tap A 20', 'run 500', 'shot sum2', 'tap A 20', 'run 180', 'shot wish']
+before = run(start_ + ['dump g 03001068 8a8']); g0 = open(d + '/g.bin', 'rb').read()
 for wish, name in enumerate(('power', 'rich', 'fighters', 'ss2')):
     t = start_ + ['tap DOWN 12'] * wish + ['tap A 20', 'run 180', 'shot done_' + name, 'tap A 20', 'run 400', 'mem 0300197C 1', 'mem %08X 2' % (ITEMS & ~3), 'mem 0300155C 1', 'shot after_' + name, 'dump g 03001068 8a8']
     out = run(t); g = open(d + '/g.bin', 'rb').read()
     check('wish %s: back at the Lookout' % name, at(out) == (1 << 8 | 6) and 'bad pc' not in out)
     check('wish %s: the balls are gone' % name, all(g[2 + zone26.BALL_ITEM + k] == 0 for k in range(7)))
+    if name == 'power': check('greater power: everyone who has joined gains 5 in each stat', g[0x4F8 + 0x28] == g0[0x4F8 + 0x28] + 5)
+    if name == 'rich': check('riches: a million Zenie', struct.unpack_from('<I', g, 0x4F4)[0] - struct.unpack_from('<I', g0, 0x4F4)[0] == zone26.BALL_ZENIE)
     if name == 'fighters': check('new fighters join', g[0x55 + 887 // 8] >> (887 % 8) & 1)
     if name == 'ss2': check('Super Saiyan 2 opens', g[0x55 + 864 // 8] & 255 == 255 and g[0x55 + 872 // 8] & 1)
 W2 = Image.new('RGB', (5 * 240, 2 * 160))
-for i, n in enumerate(('sum1', 'sum2', 'sum3', 'wish', 'done_power', 'after_power', 'after_rich')):
+for i, n in enumerate(('sum1', 'sum2', 'wish', 'done_power', 'after_power', 'after_rich')):
     W2.paste(Image.open('%s/%s.png' % (d, n)).convert('RGB'), (i % 5 * 240, i // 5 * 160))
 W2.save(d + '/summon.png')
 if fails: print('FAILED:', fails); sys.exit(1)

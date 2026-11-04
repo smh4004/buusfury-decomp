@@ -80,7 +80,6 @@ for c, (cat, people) in enumerate(zone26.SPAR):
             foe = mem(ENEMIES)[0]; x, y = mem(foe + 0x1A0, 2); pl = mem(PLAYER)[0]
             send('poke %08X %08X' % (foe + 0x28C, 2 << 10), 'poke8 %08X FF' % (REC0 + 0x16), 'poke8 %08X 7F' % (REC0 + 0x17))
             send('poke %08X %08X' % (pl + 0x1A0, x), 'poke %08X %08X' % (pl + 0x1A4, y + (20 << 8)), 'poke8 %08X 01' % (pl + 0x10), 'run 2', 'tap A 14', 'tap A 14', 'tap A 14', 'run 40')
-        print('   ', name, 'room', hex(at()), 'foes', mem(0x03001BB0)[0], flush=True)
         send('shot end_' + name.replace(' ', '')); mem(G)
         for _ in range(14):
             send('run 180', 'tap A 20')                       # a level-up message waits for A
@@ -99,11 +98,13 @@ def lose(tag):
         if at() != (room << 8 | 26) or (k and mem(REC0 + 0x16)[0] & 0xFFFF == 0): break
         foe = mem(ENEMIES)[0]; x, y = mem(foe + 0x1A0, 2); pl = mem(PLAYER)[0]
         send('poke8 %08X 01' % (REC0 + 0x16), 'poke8 %08X 00' % (REC0 + 0x17), 'poke %08X %08X' % (pl + 0x1A0, x), 'poke %08X %08X' % (pl + 0x1A4, y + (24 << 8)), 'run 200')
-        print('   hp', hex(mem(REC0 + 0x16)[0]), hex(at()), flush=True)
-    send('run 800'); sheet('lost_' + tag)
+    for w in range(30):
+        send('run 100')
+        if at() == (1 << 8 | 6): break
+    send('run 100'); sheet('lost_' + tag)
     check('%s: a lost fight comes back to the Lookout, not a game over' % tag, at() == (1 << 8 | 6))
     hp = mem(REC0 + 0x16)[0]
-    print('   hp now', hex(hp)); check('%s: rested' % tag, hp & 0xFFFF > 1)
+    check('%s: rested' % tag, hp & 0xFFFF > 1)
 lose('first'); lose('again')
 check('partners pay EXP', any(v > 0 for _, v in exp))
 check('no bad jumps', not bad[0])
