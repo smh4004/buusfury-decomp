@@ -1,5 +1,5 @@
 {
- "_note": "LoG2 Saiyan armor actors. Slots: BF animation slot -> LoG2 animation (0 idle, 1 walk, 2 run, 3 hurt and fall, 4 charge, 5 ki, 6-8 melee). Moves LoG2 lacks reuse the nearest animation until art exists. extra_slots: 22 = charge pose (LoG2 animation 13), 23 = charged hit (LoG2 animation 16). Without them a character uses slot 13 and a normal melee animation.",
+ "_note": "LoG2 Saiyan armor actors. Slots: BF animation slot -> LoG2 animation (0 idle, 1 walk, 2 run, 3 hurt and fall, 4 charge, 5 ki, 6-8 melee). Beams and energy moves (18, 19) use the ki pose: LoG2's only arm-out frames, and the only ones that face the way the move goes. Moves LoG2 lacks reuse the nearest animation until art exists. extra_slots: 22 = charge pose (LoG2 animation 13), 23 = charged hit (LoG2 animation 16). Without them a character uses slot 13 and a normal melee animation.",
  "_slots": {
   "0": 0,
   "1": 1,
@@ -18,8 +18,8 @@
   "15": "3@0:1",
   "16": 3,
   "17": 3,
-  "18": "3@3:0:-1",
-  "19": 0,
+  "18": "5@0,1,2,1,2,1,2",
+  "19": "5@0,1,2,2,2,2,2,2,2,2",
   "20": 6,
   "21": 5
  },
@@ -167,7 +167,9 @@
   "log2_record": "r8",
   "log2_overrides": {
    "9": 5,
-   "21": 5
+   "21": 5,
+   "10": "5@0,0",
+   "13": "5@0,0"
   },
   "extra_slots": {
    "22": "r8:5",

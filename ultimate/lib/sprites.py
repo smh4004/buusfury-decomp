@@ -218,7 +218,7 @@ def build_actors(rom, cfg, clean_dir, at, l2=None, colour_ctx=None, proto=None):
                 src = a['log2_record']
                 if str(k).startswith('r'): src, k = str(k).split(':', 1)    # "r51:3@0:2" = LoG2 actor 51, anim 3
                 k, sl = (str(k).split('@') + [None])[:2]
-                sl = slice(*map(int, sl.split(':'))) if sl else None
+                sl = ([int(v) for v in sl.split(',')] if ',' in sl else slice(*map(int, sl.split(':')))) if sl else None   # a..b or an exact list of frames
                 ptr = log2_anim(ins, l2, log2_rec(l2, src), int(k), cmap, cache, want, sl, edit, a.get('log2_scale', {}).get(str(src)))
                 if ptr: struct.pack_into('<I', rec, 0x54 + 4 * int(slot), ptr)
         if 'raw_frames' in a:                              # frames given as arrays of BF OBJ indices (tools/doors.py:
@@ -256,6 +256,7 @@ def build_actors(rom, cfg, clean_dir, at, l2=None, colour_ctx=None, proto=None):
             table[target] = ins.put(bytes(rec)); ids[name] = target
         else:
             ids[name] = len(table); table.append(ins.put(bytes(rec)))
+    # Transforming plays slot 10, and an empty one draws junk from address 0 over other sprites' tiles. Gohan's orange gi (actor 101) never transformed in the original; here it does.
     # Going from Super Saiyan to Super Saiyan 2 plays the power-up on the Super Saiyan actor, and most have no slot 10 (Goku's does): 11 frames of their own ki pose, as long as a retail power-up.
     for key in cfg.get('_powerup', ()):
         at_ = key if isinstance(key, int) else ids[key]
@@ -314,7 +315,7 @@ def log2_anim(ins, l2, rec, k, cmap, cache, want=0, sl=None, edit=None, scale=No
             tp = u(r + 8)
             if not (w and h and w * h <= 4096 and L2_BASE <= tp < L2_BASE + len(l2)): break
             n += 1
-    idx = list(range(n))[sl] if sl else list(range(n))
+    idx = sl if isinstance(sl, list) else list(range(n))[sl] if sl else list(range(n))
     if want and len(idx) < want: idx = [idx[i * len(idx) // want] for i in range(want)]
     ptrs = []
     for f in idx:

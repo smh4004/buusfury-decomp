@@ -609,7 +609,7 @@ def find_once(rom, needle, what):
 
 
 ANDROID13_SLOTS = {str(s): 'a13_idle' for s in range(22)}
-ANDROID13_SLOTS.update({'1': 'a13_walk', '2': 'a13_walk', '4': 'a13_lunge', '5': 'a13_lunge', '6': 'a13_lunge', '20': 'a13_lunge'})
+ANDROID13_SLOTS.update({'1': 'a13_walk', '2': 'a13_walk', '4': 'a13_lunge', '5': 'a13_lunge', '6': 'a13_lunge', '9': 'a13_lunge', '18': 'a13_lunge', '19': 'a13_lunge', '20': 'a13_lunge', '21': 'a13_lunge'})
 
 
 def android13_frames(out, usable, pal):
@@ -634,7 +634,7 @@ def android13_frames(out, usable, pal):
                     d = ((p - q) ** 2).sum(1) + 6 * ((ch(p) - ch(q)) ** 2).sum(1)
                     img[y + oy, x + ox] = u[d.argmin()]
         return img
-    DOWN, UP, RIGHT = 2, 0, 1
+    DOWN, UP, RIGHT = 2, 0, 3                               # the engine's side frames face left, so that's the row it wants
     def save(name, frames):
         for i, f in enumerate(frames):
             Image.fromarray(f).save('%s/%s_%02d.png' % (out, name, i))
@@ -744,7 +744,7 @@ def add_actors(rom, clean):
     bright = (one(np.array((96, 248, 248))), one(np.array((200, 248, 248))))     # cyan: Super Saiyan 2's lightning
     for name, source in (('goku_ss2', 109), ('goku_ss2_b', 110), ('gohan_ss2', 104), ('gohan_green_ss2', 105), ('vegeta_ss2', 273), ('vegeta_ss2_b', 274), ('vegeta_armor_ss2', 'vegeta_armor_ss'), ('gohan_armor_ss2', 'gohan_armor_ss2_art'), ('trunks_ss2', 261), ('trunks_armor_ss2', 'trunks_armor_ss'), ('vegito_ss2', 276)):
         cfg[name] = {'bolts_of': source, 'bolt_colours': bright}
-    cfg['_powerup'] = [104, 105, 273, 274, 261, 276, 'vegeta_armor_ss', 'gohan_armor_ss', 'trunks_armor_ss']
+    cfg['_powerup'] = [101, 104, 105, 273, 274, 261, 276, 'vegeta_armor_ss', 'gohan_armor_ss', 'trunks_armor_ss']
     ids, end = sprites.build_actors(rom, cfg, clean_dir, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal), open(PROTO, 'rb').read())
     return ids, end
 
@@ -773,6 +773,12 @@ def patch_forms(rom, clean, cfg, actors):
         o = FORM_SIZE * int(k)
         if 'up' in e: rows[o + 0x16] = index[e['up']]
         if 'down' in e: rows[o + 0x17] = index[e['down']]
+    for f in range(len(rows) // FORM_SIZE):                 # a form that can transform needs slot 10 (see sprites.py)
+        up, char = rows[FORM_SIZE * f + 0x16], struct.unpack_from('<H', rows, FORM_SIZE * f + 0x0E)[0]
+        if up != 255 and char >= 9:
+            rec = struct.unpack_from('<I', rom, ACTORS_AT + 4 * (char - 9))[0] - ROM_BASE
+            if struct.unpack_from('<I', rom, rec)[0] & 0xFF <= 10 or not struct.unpack_from('<I', rom, rec + 0x54 + 40)[0]:
+                sys.exit('form %d can transform but its actor has no slot 10' % f)
     if len(rows) // FORM_SIZE > 255:
         sys.exit('too many forms: 255 is the "none" marker')
     rom[SPACE:SPACE + len(rows)] = rows
