@@ -104,7 +104,7 @@ check('picking without changing outfit swaps nothing', a['gen'] == 0 and a['out'
 check('and the save stays clean', set(open(sav, 'rb').read()[0x1A20:]) == {255})
 base_stats = a
 
-s1 = hub + poke_rec(exp=111111, stat=11, gear=ROW, hp=77) + TO_GUEST + DOWN(4) + CONFIRM + state('b')
+s1 = hub + poke_rec(exp=111111, stat=11, gear=ROW, hp=77) + TO_GUEST + DOWN(3) + CONFIRM + state('b')
 out = fresh(s1); b = read('b')
 check('first swap: Piccolo on', 'bad pc' not in out and b['form'] == forms['piccolo'])
 check('first swap: level and stats start from the guest who was out', b['exp'] == 111111 and b['stat'] == 11)
@@ -120,23 +120,23 @@ head = struct.unpack_from('<III', raw, BENCH_OFFSET)
 check('the bench reached the save', head[0] == 0x31484342 and head[1] == b['gen'])
 check('other games\' benches and the end of the save are untouched', set(raw[BENCH_OFFSET + BENCH_SIZE:]) == {255})
 
-s2 = talk_at(s1, *zone26.HUB_AT) + poke_rec(exp=222222, stat=22, hp=88) + TO_GUEST + UP(4) + CONFIRM + state('c')
+s2 = talk_at(s1, *zone26.HUB_AT) + poke_rec(exp=222222, stat=22, hp=88) + TO_GUEST + UP(3) + CONFIRM + state('c')
 out = fresh(s2); c = read('c')
 check('back to Broly: his own progress returns', 'bad pc' not in out and c['form'] == forms['broly'] and c['exp'] == 111111 and c['stat'] == 11 and c['hp'] == 77 and c['gear'][SLOT] == ROW and c['bag'] == (ROW | 9 << 28,))
 s3 = talk_at(s2, *zone26.HUB_AT) + TO_GUEST + DOWN(1) + CONFIRM + state('e')
 out = fresh(s3); e = read('e')
 check('Full Power is still Broly', 'bad pc' not in out and e['form'] == forms['broly_fp'] and e['exp'] == 111111 and e['gen'] == c['gen'] and e['gear'][SLOT] == ROW)
-s4 = talk_at(s3, *zone26.HUB_AT) + TO_GUEST + DOWN(3) + CANCEL + state('f')
+s4 = talk_at(s3, *zone26.HUB_AT) + TO_GUEST + DOWN(2) + CANCEL + state('f')
 out = fresh(s4); f = read('f')
 check('B leaves everything alone', 'bad pc' not in out and f['form'] == forms['broly_fp'] and f['exp'] == 111111 and f['gen'] == c['gen'])
-s5 = talk_at(s4, *zone26.HUB_AT) + TO_GUEST + DOWN(3) + CONFIRM + state('h')
+s5 = talk_at(s4, *zone26.HUB_AT) + TO_GUEST + DOWN(2) + CONFIRM + state('h')
 out = fresh(s5); h = read('h')
 check('Piccolo\'s progress is his', 'bad pc' not in out and h['form'] == forms['piccolo'] and h['exp'] == 222222 and h['stat'] == 22 and h['hp'] == 88 and h['gear'] == EMPTY and h['bag'] == (ROW,))
 # Only the guest who is out wears anything, so one piece worn by two fighters goes on whichever of them comes out, and is never in two places.
-g1 = talk_at(s5, *zone26.HUB_AT) + wear(ROW) + TO_GUEST + UP(4) + CONFIRM + state('j')
+g1 = talk_at(s5, *zone26.HUB_AT) + wear(ROW) + TO_GUEST + UP(3) + CONFIRM + state('j')
 out = fresh(g1); j = read('j')
 check('shared gear goes on the fighter who comes out', 'bad pc' not in out and j['form'] == forms['broly'] and j['gear'][SLOT] == ROW and j['bag'] == (ROW | 9 << 28,))
-g2 = talk_at(g1, *zone26.HUB_AT) + TO_GUEST + DOWN(4) + CONFIRM + state('k')
+g2 = talk_at(g1, *zone26.HUB_AT) + TO_GUEST + DOWN(3) + CONFIRM + state('k')
 out = fresh(g2); k = read('k')
 check('and moves with the next swap', 'bad pc' not in out and k['form'] == forms['piccolo'] and k['gear'][SLOT] == ROW and k['bag'] == (ROW | 9 << 28,))
 walk = s5 + ['keys RIGHT', 'run 30', 'keys', 'tap A 8', 'run 30', 'shot piccolo_walks'] + state('w')
@@ -151,7 +151,7 @@ def from_save(lines, src=None):
 BOOT = ['run 600', 'tap START 60', 'tap START 60', 'tap A 90', 'tap A 120', 'tap A 200', 'tap A 200', 'run 300']
 out = from_save(BOOT + state('r')); r = read('r')
 check('reload: Piccolo as saved', 'bad pc' not in out and r['form'] == forms['piccolo'] and r['exp'] == h['exp'] and r['gen'] == h['gen'])
-shutil.copy(sav, after); back = talk_at(BOOT, *zone26.HUB_AT, sav=after) + TO_GUEST + UP(4) + CONFIRM + state('i')
+shutil.copy(sav, after); back = talk_at(BOOT, *zone26.HUB_AT, sav=after) + TO_GUEST + UP(3) + CONFIRM + state('i')
 out = from_save(back); i = read('i')
 check('reload: Broly comes back from the save', 'bad pc' not in out and i['form'] == forms['broly'] and i['exp'] == 111111 and i['stat'] == 11 and i['gear'][SLOT] == ROW and i['bag'] == (ROW | 9 << 28,))
 
@@ -159,13 +159,13 @@ check('reload: Broly comes back from the save', 'bad pc' not in out and i['form'
 # newer and full of nonsense: the next swap must read the save's bench, not this.
 bad = []
 for k in range(4): bad.append('poke %08X %08X' % (BENCH + 4 + k * 4, 0x00123456 + k))
-shutil.copy(sav, after); s6 = talk_at(BOOT, *zone26.HUB_AT, sav=after) + bad + TO_GUEST + UP(4) + CONFIRM + state('n')
+shutil.copy(sav, after); s6 = talk_at(BOOT, *zone26.HUB_AT, sav=after) + bad + TO_GUEST + UP(3) + CONFIRM + state('n')
 out = from_save(s6); n = read('n')
 check('a stale bench in memory is ignored', 'bad pc' not in out and n['exp'] == 111111 and n['gear'][SLOT] == ROW)
 
 # 6. Damage: a corrupt bench is an empty bench, not a crash, and nothing else in the save changes.
 broken = d + '/broken.sav'; raw = bytearray(open(sav, 'rb').read()); raw[BENCH_OFFSET + 40] ^= 0x55; open(broken, 'wb').write(raw)      # any byte of the block will do
-shutil.copy(broken, after); s7 = talk_at(BOOT, *zone26.HUB_AT, sav=after) + TO_GUEST + UP(4) + CONFIRM + state('q')
+shutil.copy(broken, after); s7 = talk_at(BOOT, *zone26.HUB_AT, sav=after) + TO_GUEST + UP(3) + CONFIRM + state('q')
 out = from_save(s7, broken); q = read('q')
 check('a damaged bench starts empty', 'bad pc' not in out and q['form'] == forms['broly'] and q['exp'] == h['exp'] and q['gear'] == EMPTY)
 
