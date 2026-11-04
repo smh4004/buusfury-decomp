@@ -68,7 +68,7 @@ def new_actor_ids():
     """Ids add_actors will give: actors.json's new actors in order, then Super 13 and Android 13. Checked after the build."""
     cfg = json.load(open('ultimate/actors.json'))
     n = ACTOR_BASE + sum(1 for k, a in cfg.items() if not k.startswith('_') and 'replace' not in a)
-    return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2, 'gogeta_dbs': n + 3, 'gogeta_dbs_ss': n + 4, 'gogeta_ssb': n + 5, 'android13_player': n + 6, 'super13_player': n + 7, 'goku_ss2': n + 8, 'goku_ss2_b': n + 9, 'gohan_ss2': n + 10, 'gohan_green_ss2': n + 11, 'vegeta_ss2': n + 12, 'vegeta_ss2_b': n + 13, 'vegeta_armor_ss2': n + 14, 'gohan_armor_ss2': n + 15, 'trunks_ss2': n + 16, 'trunks_armor_ss2': n + 17, 'vegito_ss2': n + 18, 'super17': n + 19, 'android13_absorb': n + 20}
+    return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2, 'gogeta_dbs': n + 3, 'gogeta_dbs_ss': n + 4, 'gogeta_ssb': n + 5, 'android13_player': n + 6, 'super13_player': n + 7, 'goku_ss2': n + 8, 'goku_ss2_b': n + 9, 'gohan_ss2': n + 10, 'gohan_green_ss2': n + 11, 'vegeta_ss2': n + 12, 'vegeta_ss2_b': n + 13, 'vegeta_armor_ss2': n + 14, 'gohan_armor_ss2': n + 15, 'trunks_ss2': n + 16, 'trunks_armor_ss2': n + 17, 'vegito_ss2': n + 18, 'super17': n + 19, 'android13_absorb': n + 20, 'cell_imperfect': n + 21, 'cell_semi': n + 22, 'cell_perfect': n + 23, 'cell_junior': n + 24}
 
 
 POPO_NPC = 'assets/scripts/gUnknown_08786E68.evt'   # Mr. Popo on the Lookout: after the ending, the Hyperbolic Time Chamber
@@ -464,7 +464,16 @@ L1:
     push {rush_won}
     end
 L2:
-"""
+    pushn %d
+    call flag
+    pushn %d
+    call not_flag
+    and
+    jz C1
+    push {cell_won}
+    end
+C1:
+""" % (zone26.CELL_WON, zone26.CELL_PAID)
     for k in range(len(trials)):
         start += '    pushn %d\n    call flag\n    pushn %d\n    call not_flag\n    and\n    jz T%d\n    push {trial%d}\n    end\nT%d:\n' % (won(k), paid(k), k, k, k)
     allpaid = ''.join('    pushn %d\n    call flag\n%s' % (paid(k), '    and\n' if k else '') for k in range(len(trials)))
@@ -473,7 +482,7 @@ L2:
     steps.append(('old', 'say' + old.rstrip() + '\n'))
     code('after_old', '    push {END}\n    end\n')
     say('board', "Welcome to the Challenge Board! Pick your challenge!")
-    say('menu', "- Boss Rush\\n- World Tournament\\n- Trials\\n- Rewards")
+    say('menu', "- Boss Rush\\n- World Tournament\\n- Trials\\n- More")
     code('menu_go', """    call 0x18
     push 0
     eq
@@ -499,7 +508,7 @@ L3:
     push 3
     eq
     jz L4
-    push {rewards}
+    push {more}
     end
 L4:
     push {END}
@@ -564,9 +573,16 @@ L1:
         code(name + '_next', '    push {%s}\n    end\n' % nxt)
     status('rewards', 887, "Boss Rush: cleared! Majin Buu, Super Janemba and Kid Buu are on your side.", "Boss Rush: win it and Majin Buu, Super Janemba and Kid Buu join you.", 'rew2')
     status('rew2', 890, "World Tournament: cleared! Each win pays 100,000 Zenie.", "World Tournament: each win pays 100,000 Zenie.", 'rew3')
-    status('rew3', zone26.TRIAL_ALL, "Trials: all four cleared! You earned the Geromantium Bandana.", "Trials: Zenie and gear each. All four: Geromantium Bandana and ten Senzu Beans.", 'rew4')
+    status('rew3', zone26.TRIAL_ALL, "Trials: all four cleared! You earned the Geromantium Bandana.", "Trials: Zenie and gear each. All four: Geromantium Bandana and ten Senzu Beans.", 'rew5')
+    status('rew5', zone26.CELL_PAID, "Cell Games: cleared! You earned 200,000 Zenie.", "Cell Games: beat all four fights to win 200,000 Zenie.", 'rew4')
     say('rew4', "Time Chamber: Mr. Popo on Kami's Lookout lets you spar with old foes, for less EXP.")
     code('rew4_go', '    push {END}\n    end\n')
+    say('more', "- Cell Games\\n- Rewards\\n- Back")
+    code('more_go', '    call 0x18\n    push 0\n    eq\n    jz L1\n    push {cell}\n    end\nL1:\n    call 0x18\n    push 1\n    eq\n    jz L2\n    push {rewards}\n    end\nL2:\n    push {menu}\n    end\n')
+    say('cell', "The Cell Games! Four fights in a row at the old arena. Your health carries over. Good luck!")
+    code('cell_go', '    pushn %d\n    call clear_flag\n    pushn %d\n    call clear_flag\n    call 0x78(30)\n    pushn 26, %d, 1, %d, %d\n    call 0x77\n    call 0x79(30)\n    push {END}\n    end\n' % (*zone26.CELL_COUNT, zone26.cell_first(), *zone26.CELL_START))
+    say('cell_won', "You beat Perfect Cell! Here's 200,000 Zenie, champion!")
+    code('cell_won_go', '    pushn %d\n    call set_flag\n    pushn %d\n    call 0x%X\n    push {END}\n    end\n' % (zone26.CELL_PAID, zone26.CELL_PRIZE, zone26.ADD_ZENIE))
     say('tour_won', "You won the World Tournament! That's 100,000 Zenie. Come back any time.")
     code('tour_won_go', '    pushn 890\n    call set_flag\n    push {END}\n    end\n')
     say('rush_won', "You beat all nine! Majin Buu, Super Janemba and Kid Buu join you. See Switch Character.")
@@ -807,6 +823,9 @@ def add_actors(rom, clean):
     cfg['android17']['reserve'] = 2048                  # the same as Super 17's: a change of size on transforming re-allocates OBJ memory and scrambled other sprites
     cfg['super17'] = {**cfg['android17'], 'size_scale': [1.12, 1.1], 'reserve': 2048}     # slightly taller and bulkier, as in Gero's Legacy
     cfg['android13_absorb'] = {'template': 152, 'slots': {'0': 'a13_absorb!front', '1': 'a13_absorb!front'}}     # a cutscene figure: only an idle animation plays by itself, as in Gero's Legacy
+    for name, rec in (('cell_imperfect', 'r25'), ('cell_semi', 'r26'), ('cell_perfect', 'r27'), ('cell_junior', 'r28')):      # LoG2's own sprites, whole: 64x64 like the prototype's Super 13 (the Juniors are smaller)
+        cfg[name] = {'template': 38, 'stretch': True, 'reserve': 1024 if name == 'cell_junior' else 4096, 'log2_record': rec,
+                     'log2_slots': {**{str(k): 0 for k in range(22)}, '1': 1, '2': 1, '4': 6, '5': 7, '6': 7, '7': '3@0:1' if name != 'cell_junior' else '2@0:1', '8': 5, '9': 5, '10': 5, '13': 5, '14': 6, '15': 2, '16': 3 if name != 'cell_junior' else 2, '17': 3 if name != 'cell_junior' else 2, '18': 5, '19': 5, '20': 6, '21': 5}}
     cfg['_powerup'] = [101, 104, 105, 273, 274, 261, 276, 'vegeta_armor_ss', 'gohan_armor_ss', 'trunks_armor_ss']
     ids, end = sprites.build_actors(rom, cfg, clean_dir, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal), open(PROTO, 'rb').read())
     return ids, end
@@ -1128,6 +1147,10 @@ def add_eraser(rom, clean, sym, at):
         struct.pack_into('<II', row, 16, sym['super_can'] | 1, sym['super_use'] | 1)
         rows[skill] = bytes(row)
         strings += [put(t.encode('utf-16-le') + b'\0\0') for t in (name, text)]
+    import zone26 as z26
+    if ERASER_UI + len(strings) > z26.CELL_NAME_UI: sys.exit('move CELL_NAME_UI up')
+    while ERASER_UI + len(strings) < z26.CELL_NAME_UI: strings.append(put(b'\0\0'))
+    strings.append(put('The Cell Games Arena'.encode('utf-16-le') + b'\0\0'))
     BLAST_TILES, BLAST_TABLE, BLAST_SITE = (0x71300C, 0x71370C), 0x71370C, 0x197F2
     if rom[BLAST_SITE:BLAST_SITE + 14] != bytes.fromhex('207cbc4a41000918090189182165'):
         sys.exit('player blast code changed')

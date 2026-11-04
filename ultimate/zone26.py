@@ -183,6 +183,13 @@ SPAR = (('Tournament', (('Spopovich', 112, 252), ('Yamu', 148, 303), ('Pui Pui',
         ('Minibosses', (('Airship Warlord', 0, 31), ('Ninja Boss', 80, 201), ('Knight Destroyer', 63, 164), ('War Machine', 140, 291))),
         ('Friends', (('Goten', 39, 123), ('Trunks', 130, 269), ('Gohan', 35, 110), ('Gotenks', 40, 126))))
 SPAR_EXP, SPAR_MIN_HP, SPAR_ROOM, SPAR_HOME = 4, 2000, (6, 9), (288, 500)
+# Cell Games, from the Challenge Board: LoG2's arena, four fights in a row. Name, row whose behaviour it uses, HP, (level + 50, Strength, Power, Endurance), actor, how many.
+# Perfect Cell takes Kid Buu's row: he fires beams, so he can clash with you. All health carries over, as in the Boss Rush.
+CELL = (('Imperfect Cell', 115, 30000, (145, 65, 60, 55), 'cell_imperfect', 1),
+        ('Semi-Perfect Cell', 118, 40000, (148, 70, 70, 60), 'cell_semi', 1),
+        ('Cell Juniors', 21, 9000, (145, 60, 55, 45), 'cell_junior', 3),
+        ('Perfect Cell', 61, 70000, (150, 80, 85, 75), 'cell_perfect', 1))
+CELL_MAP, CELL_FOE, CELL_START, CELL_WON, CELL_PAID, CELL_COUNT, CELL_PRIZE, CELL_NAME_UI = 0x4E7668, (444, 432), (444, 520), 1142, 1143, (861, 863), 200000, 1534 + 40
 HUB_AT = (208, 112)                                # where the tournament official stands in Hercule City; wins come home just below him
 TOUR_ORDERED = 1141                                 # a test sets this to walk every opponent in turn instead of drawing
 TOUR_ROOM, TOUR_PRIZE, TOUR_WON, ADD_ZENIE = (7, 6), 100000, 889, 0xE0
@@ -231,6 +238,31 @@ def spar_end():
 
 def spar_list():
     return [who for _, people in SPAR for who in people]
+
+
+def cell_first():
+    return spar_first() + len(spar_list())
+
+
+def cell_rows():
+    """(room, stats base row, HP, stats, actor, x, y) for each fighter: one room each, but the Cell Juniors share theirs."""
+    out = []; room = cell_first()
+    for name, base, hp, stats, actor, count in CELL:
+        for k in range(count): out.append((room, base, hp, stats, actor, CELL_FOE[0] + (k - count // 2) * 56 if count > 1 else CELL_FOE[0], CELL_FOE[1], count > 1))
+        room += 1
+    return out
+
+
+def cell_next(room, last):
+    """Script run when a Cell Games fighter falls. The Juniors fall in any order: two flags count them, so the third moves on."""
+    if last:
+        return '    pushn %d\n    call set_flag\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 3, 1, 1, 208, 134\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % CELL_WON
+    return '    call 0x78(30)\n    pushn 26, %d, 1, %d, %d\n    call 0x77\n    call 0x79(30)\n    end\n' % (room + 1, CELL_START[0], CELL_START[1])
+
+
+def cell_counted(room):
+    return ('    pushn %d\n    call flag\n    jz L1\n    pushn %d\n    call flag\n    jz L2\n    pushn %d\n    call clear_flag\n    pushn %d\n    call clear_flag\n' % (CELL_COUNT[0], CELL_COUNT[1], CELL_COUNT[0], CELL_COUNT[1]) + cell_next(room, False)
+            + 'L2:\n    pushn %d\n    call set_flag\n    end\nL1:\n    pushn %d\n    call set_flag\n    end\n' % (CELL_COUNT[1], CELL_COUNT[0]))
 
 
 def tour_list():
@@ -287,6 +319,14 @@ def rush_rows(W, rom, harmless=False):
         struct.pack_into('<I', r, 4, max(struct.unpack_from('<I', r, 4)[0], SPAR_MIN_HP))
         if harmless: r[0xD] = r[0xE] = 0
         struct.pack_into('<II', r, 0x14, 0x08708920, end)
+        rows += r
+    done = []
+    for k, (room, base, hp, stats, _, _, _, shared) in enumerate(cell_rows()):
+        r = bytearray(rom[STATS + 28 * base:STATS + 28 * (base + 1)])
+        struct.pack_into('<I', r, 4, hp); r[0xC:0x10] = bytes(stats)
+        if harmless: r[0xD] = r[0xE] = 0
+        last = room == cell_rows()[-1][0]
+        struct.pack_into('<II', r, 0x14, 0x08708920, W.put(bytes(bfscript.asm(cell_counted(room) if shared else cell_next(room, last)))))
         rows += r
     at = W.put(bytes(rows))
     for o in STATS_REFS:
@@ -404,6 +444,19 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
         st = bytearray(white); st[0] = 26; st[1] = spar_first() + k; st[3] = 0
         e = W.put(struct.pack('<8I', 0x0800FD55, 0, STATS_COUNT + len(RUSH) + len(tour_list()) + len(TRIALS) + k, 80 << 16 | 120, char, 0x080555A0, 1, 0x080716EC))
         struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e))); struct.pack_into('<I', st, 0x10, 0)
+        rows.append(bytes(st))
+    import mapimport
+    l2 = open(os.environ['BFU_COMBO'], 'rb').read()[0x800000:]
+    new_map, W.cur = mapimport.import_map(rom, l2, CELL_MAP, W.cur)       # LoG2 14:2, by where it sits in the combo cart. 14:4 has the final beam struggle painted on its ground, and 14:3 a layer class import_map can't convert
+    struct.pack_into('<I', rom, new_map - BASE + 0x28, 0)      # no map sprites: with a 4 KB Cell in OBJ memory they turned to noise
+    scene = W.put(struct.pack('<I', new_map + 4))
+    base_row = STATS_COUNT + len(RUSH) + len(tour_list()) + len(TRIALS) + len(spar_list())
+    fighters = cell_rows()
+    for room in sorted({c[0] for c in fighters}):               # Cell Games: the LoG2 arena, empty but for the fighters
+        st = bytearray(stadium); st[0] = 26; st[1] = room; st[3] = 0
+        here = [W.put(struct.pack('<8I', 0x0800FD55, 0, base_row + k, c[6] << 16 | c[5], actor_ids[c[4]] + 9, 0x080555A0, 1, 0x080716EC)) for k, c in enumerate(fighters) if c[0] == room]
+        st[4] = len(here); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<%dI' % len(here), *here))); struct.pack_into('<I', st, 0x10, 0)
+        struct.pack_into('<I', st, 0x2C, scene); struct.pack_into('<I', st, 0x30, 0); struct.pack_into('<I', st, 0xC, CELL_NAME_UI)
         rows.append(bytes(st))
     hub_person(W, rom)
     if debug_door:          # debug: on Snake Way, x>=96 walk down reaches 26:1; x 48-96 walk up reaches Broly; x<48 starts the ending

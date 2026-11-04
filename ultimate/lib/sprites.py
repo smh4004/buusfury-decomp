@@ -346,7 +346,7 @@ def log2_anim(ins, l2, rec, k, cmap, cache, want=0, sl=None, edit=None, scale=No
             r = (dirs[d] or dirs[2] or us[0]) - L2_BASE + 12 * f
             x, y, w, h = struct.unpack_from('<bbBB', l2, r)
             attr, tp = struct.unpack_from('<II', l2, r + 4)
-            assert scale or w * h <= 1024, 'LoG2 frame %dx%d at %x is over the 1 KB one-piece budget' % (w, h, r)
+            assert scale or w * h <= limit, 'LoG2 frame %dx%d at %x is over the 1 KB one-piece budget' % (w, h, r)
             ek = edit(rec, k, d, None)[0] if edit else None
             key = (tp, ek, scale, grow and tuple(grow))
             if key not in cache:
