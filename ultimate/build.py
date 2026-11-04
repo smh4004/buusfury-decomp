@@ -68,7 +68,7 @@ def new_actor_ids():
     """Ids add_actors will give: actors.json's new actors in order, then Super 13 and Android 13. Checked after the build."""
     cfg = json.load(open('ultimate/actors.json'))
     n = ACTOR_BASE + sum(1 for k, a in cfg.items() if not k.startswith('_') and 'replace' not in a)
-    return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2, 'gogeta_dbs': n + 3, 'gogeta_dbs_ss': n + 4, 'gogeta_ssb': n + 5, 'android13_player': n + 6, 'super13_player': n + 7, 'goku_ss2': n + 8, 'goku_ss2_b': n + 9, 'gohan_ss2': n + 10, 'gohan_green_ss2': n + 11, 'vegeta_ss2': n + 12, 'vegeta_ss2_b': n + 13, 'vegeta_armor_ss2': n + 14, 'gohan_armor_ss2': n + 15}
+    return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2, 'gogeta_dbs': n + 3, 'gogeta_dbs_ss': n + 4, 'gogeta_ssb': n + 5, 'android13_player': n + 6, 'super13_player': n + 7, 'goku_ss2': n + 8, 'goku_ss2_b': n + 9, 'gohan_ss2': n + 10, 'gohan_green_ss2': n + 11, 'vegeta_ss2': n + 12, 'vegeta_ss2_b': n + 13, 'vegeta_armor_ss2': n + 14, 'gohan_armor_ss2': n + 15, 'trunks_ss2': n + 16, 'trunks_armor_ss2': n + 17, 'vegito_ss2': n + 18, 'super17': n + 19, 'android13_absorb': n + 20}
 
 
 HUB_NPC = 'assets/scripts/gUnknown_08783D30.evt'    # a Hercule City resident: post-game, the tournament official's Challenge Board
@@ -104,7 +104,7 @@ def quest_npc(src):
     """Post-game, this resident sends you to Zone 26, and rewards you once Super 13 is beaten (his death script runs this list).
     A step's `push N` jumps to the Nth step counting from 0, the same number the following step's position gets; past the last step ends the list."""
     head, old = src.split('step 1 say', 1)
-    ids = new_actor_ids(); super13 = ids['super13'] + 9; a13 = ids['android13'] + 9
+    ids = new_actor_ids(); super13 = ids['super13'] + 9; absorb = ids['android13_absorb'] + 9
     return head + '''step 1 code
     pushn 888
     call flag
@@ -112,7 +112,7 @@ def quest_npc(src):
     call not_flag
     and
     jz L8
-    push 21
+    push 22
     end
 L8:
     pushn 881
@@ -130,7 +130,7 @@ L4:
     call not_flag
     and
     jz L5
-    push 15
+    push 16
     end
 L5:
     pushn 883
@@ -148,7 +148,7 @@ L2:
     pushn 884
     call flag
     jz L7
-    push 24
+    push 25
     end
 L7:
     call flag(149)
@@ -158,7 +158,7 @@ L3:
     end
 step 2 say''' + old.rstrip() + '''
 step auto code
-    push 24
+    push 25
     end
 step auto say 0x85 "Something's wrong past the Z-Mart. Dr. Gero's old computer has woken up!"
 step auto say 0x85 "It built one last Android, up in the snow. Hurry!"
@@ -169,7 +169,7 @@ step auto code
     call 0x79(30)
     end
 step auto code
-    push 24
+    push 25
     end
 step auto say 0x85 "The signal stopped! You beat Super 13!"
 step auto say 0x85 "Saiyan armor from Capsule Corp, and new allies! See the Switch Character menu."
@@ -201,24 +201,22 @@ step auto code
     call 0x%X
     pushn 7, %d
     call 0x%X
-    push 24
+    push 25
     end
 step auto say 0x85 "Want a real fight? Hercule City has a Challenge Board now. Ask the tournament official!"
 step auto code
-    push 24
+    push 25
+    end
+step auto code
+    pushn %d, 120, 214
+    call 0x35
     end
 step auto say 0x00 "Android 13 pulls in the broken parts of 14 and 15!"
 step auto code
     pushn 884
     call set_flag
     call play_sfx(24)
-    pushn 5, 200, 200, 255, 10
-    call 0x4C
-    pushn %d, 120, 214
-    call 0x35
-    pushn %d, 10, 0
-    call 0x51
-    call wait(70)
+    call wait(120)
     call 0x7A(6)
     call 0x7B(6)
     call 0x7A(6)
@@ -235,7 +233,7 @@ step auto code
     pushn %d, 20, 0
     call 0x51
     call wait(40)
-    push 24
+    push 25
     end
 step auto say 0x02 "He's still standing! I need everyone's energy!"
 step auto code
@@ -332,17 +330,17 @@ L2:
     call 0x33(0)
     end
 step auto code
-    push 24
+    push 25
     end
 step auto say 0x85 "You beat all nine! Majin Buu, Super Janemba and Kid Buu join you. See Switch Character."
 step auto code
     pushn 887
     call set_flag
-    push 24
+    push 25
     end
 step auto code
     end
-''' % (form_row('android13'), JOIN_NATIVE, form_row('gogeta_dbs'), JOIN_NATIVE, a13, a13, super13, super13, super13, super13, super13, super13)
+''' % (form_row('android13'), JOIN_NATIVE, form_row('gogeta_dbs'), JOIN_NATIVE, absorb, super13, super13, super13, super13, super13, super13)
 
 
 def tournament_npc(src):
@@ -761,6 +759,7 @@ def add_actors(rom, clean):
         cfg[name] = {'bolts_of': source, 'bolt_colours': bright}
     cfg['android17']['reserve'] = 2048                  # the same as Super 17's: a change of size on transforming re-allocates OBJ memory and scrambled other sprites
     cfg['super17'] = {**cfg['android17'], 'size_scale': [1.12, 1.1], 'reserve': 2048}     # slightly taller and bulkier, as in Gero's Legacy
+    cfg['android13_absorb'] = {'template': 152, 'slots': {'0': 'a13_absorb!front', '1': 'a13_absorb!front'}}     # a cutscene figure: only an idle animation plays by itself, as in Gero's Legacy
     cfg['_powerup'] = [101, 104, 105, 273, 274, 261, 276, 'vegeta_armor_ss', 'gohan_armor_ss', 'trunks_armor_ss']
     ids, end = sprites.build_actors(rom, cfg, clean_dir, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal), open(PROTO, 'rb').read())
     return ids, end
