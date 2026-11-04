@@ -353,7 +353,7 @@ static void impact(int step)
 }
 
 #define SLOT_ARMS_UP 12
-#define SLOT_THROW 8
+#define SLOT_THROW 18      /* the pose held while firing a skill: slot 8 only has a front view */
 static void slot_pose(void *player, int slot) {
     u8 *actor = (u8 *)*(u32 *)((u8 *)player + 0x58);
     if (!has_slot(player, slot)) return;
@@ -462,6 +462,7 @@ static int spirit_tick(void *player)
     if (SB.phase == 2) {
         if (SB.frame <= WINDUP_FRAMES) { slot_pose(player, SLOT_ARMS_UP); return 1; }
         if (SB.frame <= WINDUP_FRAMES + THROW_HOLD) { slot_pose(player, SLOT_THROW); return 1; }
+        if (SB.frame == WINDUP_FRAMES + THROW_HOLD + 1) slot_pose(player, 0);      /* back to standing, still facing the same way */
     }
     return 0;
 }
