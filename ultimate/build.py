@@ -8,7 +8,7 @@ Steps: apply edits to assets (debug only for now), `make modern`, move the form 
 append ultimate/forms.json rows, then write ultimate/out/BFU[_debug].bps and a personal-use .gba.
 Asset edits are always undone afterwards, so assets/ stays a clean extract.
 """
-import hashlib, json, os, re, shutil, struct, subprocess, sys, tempfile
+import colorsys, hashlib, json, os, re, shutil, struct, subprocess, sys, tempfile
 sys.path.insert(0, os.path.join('tools'))
 sys.path.insert(0, 'ultimate/lib')
 import bps
@@ -38,6 +38,7 @@ PORTRAITS = (20, 90, 94)         # LoG2 portrait table: Android 17, Future Trunk
 SS2_FLAG = 864                   # + the owner's party slot: set where the story reaches Super Saiyan 2
 BLITZ_SKILL = 27                 # Android 17 and 18
 DISC_SKILL = 28                  # Krillin and Android 18: LoG2's spinning gold disc on Big Bang's code
+WAVE_SKILL = 29                  # Full Power Energy Wave, from Gero's Legacy: the Electric Kamehameha's code with green frames
 BEAM_SKILL = 26                  # Special Beam Cannon: the Kamehameha's code with gold and purple frames
 # Strength against Big Bang per skill level: 2.5x and 2x in total damage. Each hit rounds down, which costs low levels more, so they get a bigger multiplier (measured on Android 13 at Power 80).
 NEW_MOVES = (('eraser', ERASER_SKILL, (2.95, 2.85, 2.45), 'Eraser Cannon', 'Press the B Button and release to emit a large ball of green energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (0.2, 0.6, 1, 0, 0.15, 0.6)),
@@ -809,7 +810,7 @@ def add_outfits(rom, clean, at):
     c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\nconst u8 ss2_rows[] = {%s,255};\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs), ','.join(str(v) for k, v in fm.items() if k.endswith(('_ss2', '_ss2_b'))))
     open(d + '/o.c', 'w').write(c)
     import zone26
-    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DHEAP_WORDS=0x%X' % HEAP_WORDS, '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DFORM_KID_BUU=%d' % fm['kid_buu'], '-DFORM_MAJIN_BUU=%d' % fm['majin_buu'], '-DFORM_JANEMBA=%d' % fm['super_janemba'], '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DTOUR_PICK_FLAG=%d' % zone26.TOUR_PICKS, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
+    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DHEAP_WORDS=0x%X' % HEAP_WORDS, '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DWAVE_SKILL=%d' % WAVE_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DFORM_KID_BUU=%d' % fm['kid_buu'], '-DFORM_MAJIN_BUU=%d' % fm['majin_buu'], '-DFORM_JANEMBA=%d' % fm['super_janemba'], '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DTOUR_PICK_FLAG=%d' % zone26.TOUR_PICKS, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
     syms = ['-Wl,--defsym=form_table=0x%X' % (ROM_BASE + SPACE), '-Wl,-Ttext=0x%X' % (ROM_BASE + at), '-Wl,-e,picker_update', '-Wl,--no-warn-rwx-segments']
     lib = subprocess.run(['arm-none-eabi-gcc', '-mthumb', '-mcpu=arm7tdmi', '-print-libgcc-file-name'], capture_output=True, text=True, check=True).stdout.strip()
     subprocess.run(['arm-none-eabi-gcc'] + flags + syms + [d + '/o.c', lib, '-o', d + '/o.elf'], check=True)
@@ -1000,6 +1001,58 @@ def add_eraser(rom, clean, sym, at):
     struct.pack_into('<I', row, 20, sym['beam_use'] | 1)
     rows[BEAM_SKILL] = bytes(row)
     strings += [put(t.encode('utf-16-le') + b'\0\0') for t in ('Special Beam Cannon', 'Press the B Button and hold it to charge, then release to fire a thin beam of energy from your fingertips.', 'Android 17', 'Future Trunks')]
+    # Full Power Energy Wave and the androids' blue blasts. The hues and the method are Gero's Legacy's (tools/kifx.py); here they're copies, since Gohan and everyone else keep the originals.
+    def shifted(hue):
+        def colour(v):
+            if v == 0: return 0
+            h, s, b = colorsys.rgb_to_hsv(*(pal[v] / 255.0))
+            if s < 0.12: return v                     # whites and greys stay: the hot core
+            return one((np.array(colorsys.hsv_to_rgb(hue, s, b)) * 255).astype(int))
+        return bytes(colour(v) for v in range(256))
+    green, blue = shifted(125 / 360), shifted(215 / 360)
+    WAVE_PARAMS, WAVE_VT, BALL_TILES, BALL_RECS, WAVE_TILES = 0x725018, 0x4E2D8, (0x720864, 0x721164), (0x721164, 0x721218), (0x721218, 0x724718)
+    if struct.unpack_from('<I', clean, 0x1AE1C)[0] != ROM_BASE + WAVE_PARAMS:
+        sys.exit('wave table moved')
+    moved = []                                        # every tile pointer falls in one of these blocks. A frame can have the engine copy more than its width and height say, so whole blocks are copied
+    for lo, hi in (BALL_TILES, WAVE_TILES):
+        moved.append((lo, hi, put(clean[lo:hi].translate(green))))
+    def rebase(p):
+        for lo, hi, new in moved:
+            if lo <= p - ROM_BASE < hi: return new + p - ROM_BASE - lo
+        sys.exit('wave frame outside its tiles: 0x%X' % p)
+    def wave_records(lo, hi):
+        out = bytearray(clean[lo:hi])
+        for k in range(0, hi - lo, 12):
+            p = struct.unpack_from('<I', out, k + 8)[0]
+            if p: struct.pack_into('<I', out, k + 8, rebase(p))
+        return out
+    ball_new = put(bytes(wave_records(*BALL_RECS)))
+    table = sym['wave_params'] - ROM_BASE
+    for i in range(3):
+        a, strength, ball_rec, head = struct.unpack_from('<4I', clean, WAVE_PARAMS + 16 * i)
+        struct.pack_into('<4I', rom, table + 16 * i, a, strength, ball_new + ball_rec - ROM_BASE - BALL_RECS[0], put(bytes(wave_records(head - ROM_BASE, head - ROM_BASE + 768))))
+    vt = sym['wave_vt'] - ROM_BASE
+    for k in range(9):
+        fn = ROM_BASE + WAVE_VT + struct.unpack_from('<i', clean, WAVE_VT + 4 * k)[0]
+        struct.pack_into('<i', rom, vt + 4 * k, ((sym['wave_start'] | 1) if k == 0 else fn) - (ROM_BASE + vt))
+    row = bytearray(clean[SKILL_ROWS + 24 * 6:SKILL_ROWS + 24 * 7])
+    struct.pack_into('<II', row, 4, *[put(bytes(clean[p - ROM_BASE:p - ROM_BASE + 0x200]).translate(green)) for p in struct.unpack_from('<II', clean, SKILL_ROWS + 24 * 6 + 4)])
+    struct.pack_into('<HH', row, 12, ERASER_UI + len(strings), ERASER_UI + len(strings) + 1)
+    struct.pack_into('<I', row, 20, sym['wave_use'] | 1)
+    rows[WAVE_SKILL] = bytes(row)
+    strings += [put(t.encode('utf-16-le') + b'\0\0') for t in ('Full Power Energy Wave', 'Press the B Button and hold it to charge, then release to fire a wave of green energy.  Hold the B Button to keep firing.')]
+    BLAST_TILES, BLAST_TABLE, BLAST_SITE = (0x71300C, 0x71370C), 0x71370C, 0x197F2
+    if rom[BLAST_SITE:BLAST_SITE + 14] != bytes.fromhex('207cbc4a41000918090189182165'):
+        sys.exit('player blast code changed')
+    blue_new = put(clean[BLAST_TILES[0]:BLAST_TILES[1]].translate(blue))
+    frames_new = bytearray(clean[BLAST_TABLE:BLAST_TABLE + 192])
+    for k in range(0, 192, 12):
+        p = struct.unpack_from('<I', frames_new, k + 8)[0]
+        if not BLAST_TILES[0] <= p - ROM_BASE < BLAST_TILES[1]:
+            sys.exit('blast frame outside its tiles: 0x%X' % p)
+        struct.pack_into('<I', frames_new, k + 8, blue_new + p - ROM_BASE - BLAST_TILES[0])
+    rom[sym['blue_blast'] - ROM_BASE:sym['blue_blast'] - ROM_BASE + 192] = frames_new
+    rom[BLAST_SITE:BLAST_SITE + 14] = bytes.fromhex('01490847c046') + struct.pack('<I', sym['blast_hook'] | 1) + bytes.fromhex('c046c046')
     if struct.unpack_from('<I', rom, 0x13618)[0] != ROM_BASE + SKILL_ROWS:
         sys.exit('skill table reference moved')
     struct.pack_into('<I', rom, 0x13618, put(bytes(rom[SKILL_ROWS:SKILL_ROWS + 24 * ERASER_SKILL]) + b''.join(rows[k] for k in sorted(rows))))

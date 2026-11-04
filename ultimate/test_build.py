@@ -89,6 +89,14 @@ g3 = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap
 o = run(rom, g3, d); got = [int(l.split(':')[1].split()[0], 16) >> 24 & 255 for l in o.splitlines() if l.startswith('mem %08x' % (R + 0x0C))]
 check('guest skill follows the outfit', 'bad pc' not in o and len(got) == 4 and got[0] != got[1] and got[1] == got[2] and got[3] == got[0])
 print('   guest skill bytes', got)
+# The androids: Full Power Energy Wave, and blue blasts for them alone (Broly above, and everyone else, keep the game's).
+for who_, downs_, form_ in (('Android 13', 2, 'android13'), ('Super 13', 3, 'super13'), ('Android 17', 6, 'android17'), ('Android 18', 7, 'android18')):
+    an = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['tap DOWN 40'] * downs_ + ['tap A 200', 'run 60', 'dump p 03001068 8a8']
+    an += ['poke8 %08X 00' % (R + 0x15), 'run 2', 'keys B', 'run 8', 'keys', 'run 14', 'shot blast_' + form_, 'mem %08X 1' % (R + 0x0C), 'run 100']
+    an += ['poke8 %08X FF' % (R + 0x1A), 'poke8 %08X 00' % (R + 0x1B), 'keys LEFT', 'run 6', 'keys', 'run 10', 'poke8 %08X %02X' % (R + 0x15, 3 if form_ != 'android18' else 3), 'run 2', 'keys B', 'run 16', 'shot charge_' + form_, 'run 40', 'shot wave_' + form_, 'run 60', 'keys', 'run 200']
+    o = run(rom, an, d); p = open(d + '/p.bin', 'rb').read(); r8 = p[0x4F8 + 8 * REC:0x4F8 + 9 * REC]
+    check('%s has the Full Power Energy Wave' % who_, p[0] == 8 and r8[0x14] == forms[form_] and r8[0x0C] == 4 and r8[0x10] == 29)
+    check('%s fires blasts and the wave with no bad jumps' % who_, 'bad pc' not in o)
 # Piccolo: fifth guest outfit, with Masenko and Special Beam Cannon, and every attack working.
 pc = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['tap DOWN 40'] * 4 + ['tap A 200', 'run 60', 'dump p 03001068 8a8', 'keys RIGHT', 'run 20', 'keys', 'tap A 12', 'tap A 12', 'tap A 12', 'run 40']
 for i_ in (0, 1, 2):

@@ -33,8 +33,8 @@ extern const u8 form_table[];
 
 /* The guest slot has one skill list but different fighters, so the list follows the outfit. A story form (Hercule, say) leaves it alone. */
 static void guest_sync(void) {
-    static const u8 broly[] = {3, 7, 8, ERASER_SKILL}, thirteen[] = {3, 7, 8, BOMBER_SKILL}, piccolo[] = {3, 7, 17, BEAM_SKILL},
-        fighter[] = {2, 7, 8}, a17[] = {3, 7, 8, BLITZ_SKILL}, a18[] = {3, 7, BLITZ_SKILL, DISC_SKILL}, krillin[] = {3, 7, 15, DISC_SKILL}, videl[] = {1, 7},
+    static const u8 broly[] = {3, 7, 8, ERASER_SKILL}, thirteen[] = {4, 7, 8, BOMBER_SKILL, WAVE_SKILL}, piccolo[] = {3, 7, 17, BEAM_SKILL},
+        fighter[] = {2, 7, 8}, a17[] = {4, 7, 8, BLITZ_SKILL, WAVE_SKILL}, a18[] = {4, 7, BLITZ_SKILL, DISC_SKILL, WAVE_SKILL}, krillin[] = {3, 7, 15, DISC_SKILL}, videl[] = {1, 7},
         trunks[] = {4, 7, 20, 4, 11};            /* Future Trunks: the same moves as Trunks */
     u8 *r = RECORDS + 8 * RECORD_SIZE;
     int form = FORM_OF(8), i;
@@ -896,6 +896,44 @@ void beam_use(u8 *record, void *sprite) {
     Sprite_SetFacing(sprite, 0x12);
     Sprite_SetBehaviour(sprite, b);
 }
+
+/* Full Power Energy Wave, for the androids: the Electric Kamehameha's code with green frames, as in Gero's Legacy. Gohan keeps the original. */
+#define Wave_Start ((void (*)(u32 *, void *))0x0801ADA9)
+const u32 wave_params[12] = {1};
+const int wave_vt[9] = {1};
+void wave_start(u32 *self, void *player) {
+    u32 *beam;
+    Wave_Start(self, player);
+    beam = (u32 *)self[2];
+    if (beam) {
+        const u32 *mine = &wave_params[self[3] * 4];
+        beam[0x40 / 4] = (u32)mine;
+        beam[0x44 / 4] = beam[0x48 / 4] = beam[0x4C / 4] = mine[2];
+        MemCopy((u8 *)0x06010000 + *(u16 *)(beam + 3) * 0x20, (void *)((u32 *)mine[2])[2], 0x40);
+    }
+}
+void wave_use(u8 *record, void *sprite) {
+    int level = record[record[0x15] * 2 + 0x2E];
+    u32 *b = Alloc(0x10);
+    if (b) { b[0] = (u32)wave_vt; b[1] = 0; b[3] = level; }
+    Sprite_SetFacing(sprite, 0x12);
+    Sprite_SetBehaviour(sprite, b);
+}
+
+/* The androids' ki blasts are blue, also as in Gero's Legacy. Enemies and everyone else keep the game's. The impact burst stays as it is. */
+const u8 blue_blast[192] = {1};            /* build.py fills this: the blast's frame table, pointing at blue tiles */
+const u8 *blast_frames(int facing) {
+    const u8 *frames = (const u8 *)0x0871370C;
+    if (*(u8 *)0x03001068 == 8) {
+        int form = FORM_OF(8);
+        if (form == FORM_A13 || form == FORM_S13 || form == FORM_ANDROID17 || form == FORM_ANDROID18) frames = blue_blast;
+    }
+    return frames + facing * 48;
+}
+__asm__(
+".syntax unified\n.thumb\n.global blast_hook\n.thumb_func\nblast_hook:\n"
+"ldrb r0, [r4, #0x10]\npush {r0}\nbl blast_frames\nadds r1, r0, #0\npop {r0}\nstr r1, [r4, #0x50]\n"         /* the code after this still uses r0 facing, r1 frames and r2 the table */
+"lsls r2, r0, #1\nadds r2, r2, r0\nlsls r2, r2, #4\nsubs r2, r1, r2\nldr r3, =0x08019801\nbx r3\n.ltorg\n");
 
 /* Super Saiyan 2 sits between Super Saiyan and the next form with no skill of its own (a character holds six at most): pressing Super Saiyan again goes up to it.
    Forms chain through the table's up: a Super Saiyan form whose up is also Super Saiyan-class (flag bit 0) has SS2 above it. */
