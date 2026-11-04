@@ -138,11 +138,11 @@ check('Trunks in armor: Super Saiyan, Super Saiyan 2', ok_ and got_[:2] == [form
 ok_, got_ = chain(6, 4, 39, [7, 20], [1, 1, 1])
 check('Vegito: Super Saiyan, Super Saiyan 2', ok_ and got_[:2] == [40, forms['vegito_ss2']])
 # Before the story reaches it, pressing Super Saiyan again turns back as in the retail game.
-ok_, got_ = chain(4, 3, None, [7, 20], [1, 1, 1], lock=634)
+ok_, got_ = chain(4, 3, None, [7, 20], [1, 1, 1], lock=868)
 check('locked: Vegeta goes Super Saiyan, then back', ok_ and got_[:2] == [28, 26])
-ok_, got_ = chain(0, 0, None, [7, 20], [1, 1, 1], lock=630)
+ok_, got_ = chain(0, 0, None, [7, 20], [1, 1, 1], lock=864)
 check('locked: Goku goes Super Saiyan, then back', ok_ and got_[:2] == [4, 2])
-ok_, got_ = chain(0, 0, None, [7, 20, 22], [1, 1], lock=630)
+ok_, got_ = chain(0, 0, None, [7, 20, 22], [1, 1], lock=864)
 check('a save with Super Saiyan 3 already has Super Saiyan 2', ok_ and got_[:2] == [4, forms['goku_ss2_b']])
 # The story turns each one on at its own scene: read the scripts back out of the release ROM.
 sys.path[:0] = ['tools/scripts']
@@ -196,7 +196,7 @@ check('saiyaman: costume off returns to the orange gi', i == 13)
 flag_byte = lambda f: '%08x' % (0x03001068 + 0x55 + f // 8)
 lock = [x for x in pick if x not in ('tap DOWN 30', 'shot outfit')]
 at = lock.index('tap RIGHT 40')
-lock[at:at] = ['poke8 %s 00' % flag_byte(600), 'poke8 %s 00' % flag_byte(610)]
+lock[at:at] = ['poke8 %s 00' % flag_byte(858), 'poke8 %s 00' % flag_byte(873)]
 o = run(rom, lock + ['tap DOWN 30', 'tap DOWN 30', 'tap A 150', 'run 100', 'dump j 03001068 8a8'], d)
 print('flag byte value test')
 j = open(d + '/j.bin', 'rb').read()
@@ -217,7 +217,7 @@ for who, char, rights, key, base, ss in (('Gohan', 1, 1, 'UP', 'gohan_armor', 'g
 
 # Charged melee: hold A, release. Measured against a Bomber placed beside the player; every character must survive it.
 base = [l for l in open('tools/harness/enemy_test.txt').read().split('\n') if l and not l.startswith('#') and not l.startswith('mem ') and not l.startswith('shot ') and l not in ('tap B 20', 'run 200')]
-ENEMY_HP, ENEMY_X, ENEMY_Y, PX = '0202e558', '0202e46c', '0202e470', '0202de1c'
+ENEMY_HP, ENEMY_X, ENEMY_Y, PX = '0202d558', '0202d46c', '0202d470', '0202ce1c'
 erom = OUT + '/BFU_debug_enemy_PERSONAL_USE_ONLY.gba'
 run_txt = run(erom, base + ['mem %s 2' % PX], d)
 m = re.search(r'mem %s: ([0-9a-f]+) ([0-9a-f]+)' % PX, run_txt)

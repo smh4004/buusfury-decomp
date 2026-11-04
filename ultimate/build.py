@@ -22,6 +22,7 @@ ROM_BASE = 0x08000000
 FORMS, FORM_COUNT, FORM_SIZE = 0x6B82EC, 54, 24
 NATIVES = 0x55098
 CODE_END = 0x54FBC
+HEAP_WORDS = 0xFDFE - 0x400      # the top 4 KB of work RAM belongs to outfit.c
 SPACE = 0x800000                 # new data starts at the old 8 MB end: forms, then code
 ACTORS_AT = 0x840000             # moved actor table and imported sprites
 COMBO_SHA1 = 'f02d179accbeb9b68bcaef8720eb0ae426dde6ee'
@@ -34,7 +35,7 @@ ERASER_SKILL = 24                # a new row past the retail table: Big Bang's c
 ERASER_UI = 1534                 # strings past the retail table: name, description of each new move
 BOMBER_SKILL = 25
 PORTRAITS = (20, 90, 94)         # LoG2 portrait table: Android 17, Future Trunks, Super Saiyan Future Trunks = speaker ids 163, 164, 165
-SS2_FLAG = 630                   # + the owner's party slot: set where the story reaches Super Saiyan 2
+SS2_FLAG = 864                   # + the owner's party slot: set where the story reaches Super Saiyan 2
 BLITZ_SKILL = 27                 # Android 17 and 18
 DISC_SKILL = 28                  # Krillin and Android 18: LoG2's spinning gold disc on Big Bang's code
 BEAM_SKILL = 26                  # Special Beam Cannon: the Kamehameha's code with gold and purple frames
@@ -46,7 +47,7 @@ NEW_MOVES = (('eraser', ERASER_SKILL, (2.95, 2.85, 2.45), 'Eraser Cannon', 'Pres
 SUPER_BLUE_SKILL = 21            # a skill row with stubs only: becomes Super Saiyan Blue
 BROLY_DEFEAT = 'assets/scripts/gUnknown_0879321C.evt'
 DEBUG_NATIVE = 0xF7              # debug builds only: "save to slot 1" (not used by any game script)
-OUT = 'ultimate/out'
+OUT = os.environ.get('BFU_OUT', 'ultimate/out')
 SAIYAMAN = [(10, 14), (15, 'saiyaman_from_green'), (13, 'saiyaman_from_orange')]
 ACTORS_FILE = 'assets/areas/a033_w01_01_Snakeway.actors'
 INTRO = 'assets/scripts/gUnknown_0877CBF0.evt'
@@ -102,46 +103,46 @@ def quest_npc(src):
     head, old = src.split('step 1 say', 1)
     ids = new_actor_ids(); super13 = ids['super13'] + 9
     return head + '''step 1 code
-    pushn 642
+    pushn 888
     call flag
-    pushn 641
+    pushn 887
     call not_flag
     and
     jz L8
     push 21
     end
 L8:
-    pushn 620
+    pushn 881
     call flag
-    pushn 623
+    pushn 884
     call not_flag
     and
     jz L4
     push 13
     end
 L4:
-    pushn 625
+    pushn 886
     call flag
-    pushn 621
+    pushn 882
     call not_flag
     and
     jz L5
     push 15
     end
 L5:
-    pushn 622
+    pushn 883
     call flag
     jz L1
     push 11
     end
 L1:
-    pushn 621
+    pushn 882
     call flag
     jz L2
     push 7
     end
 L2:
-    pushn 623
+    pushn 884
     call flag
     jz L7
     push 24
@@ -171,27 +172,27 @@ step auto say 0x85 "The signal stopped! You beat Super 13!"
 step auto say 0x85 "Saiyan armor from Capsule Corp, and new allies! See the Switch Character menu."
 step auto say 0x85 "And Goku, you learned the Spirit Bomb! Press L to select it."
 step auto code
-    pushn 622
+    pushn 883
     call set_flag
     pushn 0, 19
     call 0xA4
     pushn 1, 26
     call 0xA4
-    pushn 610
+    pushn 873
     call set_flag
-    pushn 611
+    pushn 874
     call set_flag
-    pushn 612
+    pushn 875
     call set_flag
-    pushn 613
+    pushn 876
     call set_flag
-    pushn 614
+    pushn 877
     call set_flag
-    pushn 615
+    pushn 878
     call set_flag
-    pushn 616
+    pushn 879
     call set_flag
-    pushn 617
+    pushn 880
     call set_flag
     pushn 8, %d
     call 0x%X
@@ -205,7 +206,7 @@ step auto code
     end
 step auto say 0x00 "Android 13 pulls in the broken parts of 14 and 15!"
 step auto code
-    pushn 623
+    pushn 884
     call set_flag
     call play_sfx(24)
     pushn 5, 200, 200, 255, 10
@@ -303,7 +304,7 @@ L2:
     call wait(15)
     loop L2
     call 0xE5(0)
-    pushn 621
+    pushn 882
     call set_flag
     call max_hp
     set hp
@@ -321,7 +322,7 @@ step auto code
     end
 step auto say 0x85 "You beat all nine! Majin Buu, Super Janemba and Kid Buu join you. See Switch Character."
 step auto code
-    pushn 641
+    pushn 887
     call set_flag
     push 24
     end
@@ -334,7 +335,7 @@ def tournament_npc(src):
     """The West City resident who ran the World Tournament now sends you to Hercule City. A debug zone build also uses him as a test's way into that city."""
     head, old = src.split('step 1 say', 1)
     warp = '    call 0xE4\n    call 0x95\n    call 0xE3\n' if '--trailer' in sys.argv else '    pushn 3, 1, 1, 208, 134\n'     # a trailer build takes the room from RAM a filming script pokes
-    hook = '    pushn 660\n    call flag\n    jz L0\n    call 0x78(30)\n' + warp + '    call 0x77\n    call 0x79(30)\n    push 4\n    end\nL0:\n' if '--zone' in sys.argv else ''
+    hook = '    pushn 862\n    call flag\n    jz L0\n    call 0x78(30)\n' + warp + '    call 0x77\n    call 0x79(30)\n    push 4\n    end\nL0:\n' if '--zone' in sys.argv else ''
     credits = '''step 2 say 0x00 "Buu's Fury: Ultimate Edition\\nComing Soon"
 step auto say 0x00 "An unofficial fan project. Dragon Ball Z and Buu's Fury belong to their owners."
 step auto say 0x00 "Broly Full Power sprites by Azure-Oni, ripped by DBZdogs."
@@ -344,7 +345,7 @@ step auto code
     end
 ''' if '--trailer' in sys.argv else None
     if credits:
-        return head + 'step 1 code\n' + hook.replace('push 4', 'push 7') + """    pushn 622
+        return head + 'step 1 code\n' + hook.replace('push 4', 'push 7') + """    pushn 883
     call flag
     jz L2
     push 5
@@ -355,7 +356,7 @@ L2:
 step auto code
     end
 """
-    return head + 'step 1 code\n' + hook + """    pushn 622
+    return head + 'step 1 code\n' + hook + """    pushn 883
     call flag
     jz L2
     push 2
@@ -382,23 +383,24 @@ def hub_npc(src):
     trials = zone26.TRIALS
     won = lambda k: zone26.TRIAL_WON + k
     paid = lambda k: zone26.TRIAL_PAID + k
-    start = """    pushn 622
+    picker_first = '    call 0x8D\n    call 0x%X\n    push {END}\n    end\n' % DEBUG_NATIVE if os.environ.get('BFU_SLOT_TEST') else ''   # test_slots.py: open Switch Character and save here
+    start = picker_first + """    pushn 883
     call not_flag
     jz L0
     end
 L0:
-    pushn 643
+    pushn 889
     call flag
-    pushn 644
+    pushn 890
     call not_flag
     and
     jz L1
     push {tour_won}
     end
 L1:
-    pushn 642
+    pushn 888
     call flag
-    pushn 641
+    pushn 887
     call not_flag
     and
     jz L2
@@ -503,13 +505,13 @@ L1:
         code(name + '_skip', '    push {%s}\n    end\n' % nxt)
         say(name + '_todo', todo)
         code(name + '_next', '    push {%s}\n    end\n' % nxt)
-    status('rewards', 641, "Boss Rush: cleared! Majin Buu, Super Janemba and Kid Buu are on your side.", "Boss Rush: win it and Majin Buu, Super Janemba and Kid Buu join you.", 'rew2')
-    status('rew2', 644, "World Tournament: cleared! Each win pays 100,000 Zenie.", "World Tournament: each win pays 100,000 Zenie.", 'rew3')
+    status('rewards', 887, "Boss Rush: cleared! Majin Buu, Super Janemba and Kid Buu are on your side.", "Boss Rush: win it and Majin Buu, Super Janemba and Kid Buu join you.", 'rew2')
+    status('rew2', 890, "World Tournament: cleared! Each win pays 100,000 Zenie.", "World Tournament: each win pays 100,000 Zenie.", 'rew3')
     status('rew3', zone26.TRIAL_ALL, "Trials: all four cleared! You earned the Geromantium Bandana.", "Trials: Zenie and gear each. All four: Geromantium Bandana and ten Senzu Beans.", 'END')
     say('tour_won', "You won the World Tournament! That's 100,000 Zenie. Come back any time.")
-    code('tour_won_go', '    pushn 644\n    call set_flag\n    push {END}\n    end\n')
+    code('tour_won_go', '    pushn 890\n    call set_flag\n    push {END}\n    end\n')
     say('rush_won', "You beat all nine! Majin Buu, Super Janemba and Kid Buu join you. See Switch Character.")
-    code('rush_won_go', '    pushn 641\n    call set_flag\n    push {END}\n    end\n')
+    code('rush_won_go', '    pushn 887\n    call set_flag\n    push {END}\n    end\n')
     for k, t in enumerate(trials):
         say('trial%d' % k, "Well done, %s! You beat %s! Take 30,000 Zenie and the %s." % (t[1], t[4], t[6]))
         code('trial%d_go' % k, '    pushn %d\n    call set_flag\n    pushn %d\n    call 0x%X\n    call 0x93(%d)\n    push {END}\n    end\n' % (paid(k), zone26.TRIAL_PRIZE, zone26.ADD_ZENIE, t[5]))
@@ -568,14 +570,16 @@ def unlock_edits_paths():
 
 
 def save_stub(addr):
-    """Thumb native: sub_08004962(&G, slot 0, position, 0), the game's full save call."""
+    """Thumb native: sub_08004962(&G, the slot being played, position, 0), the game's full save call."""
     src = """.syntax unified
 .thumb
 push {r4, lr}
 sub sp, #8
 ldr r0, =0x03001068
-movs r1, #0
-str r1, [sp]
+ldr r1, =0x03001910
+ldrb r1, [r1]
+movs r2, #0
+str r2, [sp]
 movs r2, #120
 str r2, [sp, #4]
 mov r2, sp
@@ -805,7 +809,7 @@ def add_outfits(rom, clean, at):
     c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\nconst u8 ss2_rows[] = {%s,255};\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs), ','.join(str(v) for k, v in fm.items() if k.endswith(('_ss2', '_ss2_b'))))
     open(d + '/o.c', 'w').write(c)
     import zone26
-    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DFORM_KID_BUU=%d' % fm['kid_buu'], '-DFORM_MAJIN_BUU=%d' % fm['majin_buu'], '-DFORM_JANEMBA=%d' % fm['super_janemba'], '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DTOUR_PICK_FLAG=%d' % zone26.TOUR_PICKS, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
+    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DHEAP_WORDS=0x%X' % HEAP_WORDS, '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DFORM_KID_BUU=%d' % fm['kid_buu'], '-DFORM_MAJIN_BUU=%d' % fm['majin_buu'], '-DFORM_JANEMBA=%d' % fm['super_janemba'], '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DTOUR_PICK_FLAG=%d' % zone26.TOUR_PICKS, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
     syms = ['-Wl,--defsym=form_table=0x%X' % (ROM_BASE + SPACE), '-Wl,-Ttext=0x%X' % (ROM_BASE + at), '-Wl,-e,picker_update', '-Wl,--no-warn-rwx-segments']
     lib = subprocess.run(['arm-none-eabi-gcc', '-mthumb', '-mcpu=arm7tdmi', '-print-libgcc-file-name'], capture_output=True, text=True, check=True).stdout.strip()
     subprocess.run(['arm-none-eabi-gcc'] + flags + syms + [d + '/o.c', lib, '-o', d + '/o.elf'], check=True)
@@ -862,6 +866,22 @@ def add_outfits(rom, clean, at):
         sys.exit('Super Saiyan skill rows changed')
     struct.pack_into('<I', rom, row + 8, sym['ss_use'] | 1)
     struct.pack_into('<I', rom, SKILLS + 24 * 22 + 4, sym['ss3_can'] | 1)
+    # The flag array runs into other bit arrays: map rooms visited at G+0x8D (flag 448 up) and Scouter entries at G+0xC5 . Custom flags live in their gaps: see zone26.py.
+    rooms = max(struct.unpack_from('<H', rom, struct.unpack_from('<I', rom, struct.unpack_from('<I', rom, 0x74C948 + 4 * w)[0] - ROM_BASE + 0x18 + 4 * i)[0] - ROM_BASE + 2)[0]
+                for w in range(0x37) for i in range(struct.unpack_from('<i', rom, struct.unpack_from('<I', rom, 0x74C948 + 4 * w)[0] - ROM_BASE + 0x14)[0]))
+    if rooms >= 410:
+        sys.exit('map rooms now reach flag %d' % (448 + rooms))
+    guests = [(o['form'] if isinstance(o['form'], int) else fm[o['form']]) for o in cfg['8']]
+    if guests != [fm[k] for k in ('broly', 'broly_fp', 'android13', 'super13', 'piccolo', 'future_trunks', 'android17', 'android18', 'krillin', 'videl', 'majin_buu', 'super_janemba', 'kid_buu')]:
+        sys.exit('guest list changed: update bench_group in outfit.c')
+    HEAP = 0x3D4D0                   # the heap's setup: heap_init replaces it, keeping the top of work RAM out of the heap
+    if rom[HEAP:HEAP + 8] != bytes.fromhex('97489849984a0860') or struct.unpack_from('<I', rom, 0x3D738)[0] != 0xFDFE:
+        sys.exit('heap setup changed')
+    rom[HEAP:HEAP + 8] = bytes.fromhex('004b1847') + struct.pack('<I', sym['heap_init'] | 1)
+    WRITE = 0x3FBDE                  # the EEPROM write: save_write replaces it. The address isn't word-aligned, so the literal starts 10 bytes in
+    if rom[WRITE:WRITE + 14] != bytes.fromhex('f8b50068171c0e1c1d1c002825d0'):
+        sys.exit('EEPROM write changed: %s' % rom[WRITE:WRITE + 14].hex())
+    rom[WRITE:WRITE + 14] = bytes.fromhex('10b4014ca44610bc6047') + struct.pack('<I', sym['save_write'] | 1)
     DAMAGE = 0xE9D8                  # Combat_Damage's first 8 bytes: combat_orig runs them, then comes back
     if rom[DAMAGE:DAMAGE + 8] != bytes.fromhex('f0b5061c0c1c0831'):
         sys.exit('Combat_Damage changed: %s' % rom[DAMAGE:DAMAGE + 8].hex())

@@ -54,6 +54,160 @@ static void guest_sync(void) {
     if (r[0x15] >= r[0x0C]) r[0x15] = 0;
 }
 
+/* Separate progress for the guest slot's fighters. The party still has nine records; the one in slot 8 belongs to whichever guest is out, and the others wait on a bench.
+   Nothing here touches the game's save blocks: the bench has its own space after them, and a save that never swapped a guest never writes it.
+   Which bench goes with which save is decided by a generation number kept in three spare bytes of the save itself, so a reload without saving, a new game,
+   a deleted game or another slot simply fails to match and reads the right bench or none. */
+#define G_BYTES ((u8 *)0x03001068)
+#define GEN_AT 0x4F1                         /* padding after the byte at 0x4F0: generation (2 bytes), then who is out, plus one */
+#define OUT_FIGHTER (G_BYTES[GEN_AT + 2])
+#define MIRROR (*(u8 **)0x03004A64)
+#define BENCH_OFFSET 0x1A20                  /* the three game blocks end here; EEPROM ends at 0x2000 */
+#define BENCH_MAGIC 0x31484342
+#define BENCH_GROUPS 13
+#define SAVE_BLOCK 0x8B0
+struct bench_entry { u8 used, gear[4], vitals[8], exp[4], stats[4], unspent, levels[14]; };
+struct bench { u32 magic, gen, sum; u8 spare[16]; struct bench_entry e[BENCH_GROUPS]; };     /* spare: room for more saved data per game */
+#define BENCH (*(struct bench *)0x0203F000)
+typedef char bench_size_ok[sizeof(struct bench) == 496 ? 1 : -1];
+#define Recalculate ((void (*)(void *))0x08013C67)
+#define FRAMES (*(volatile u32 *)0x03000F94)
+#define VCOUNT (*(volatile u16 *)0x04000006)
+/* Which fighter an outfit belongs to: Full Power is Broly and Super 13 is Android 13. Order follows the guest list in outfits.json; build.py checks it. */
+static const u8 bench_group[] = {0, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+static int group_of(int form) {
+    int first = outfit_index[8][0], n = outfit_index[8][1], i;
+    for (i = 0; i < n && i < (int)sizeof bench_group; i++)
+        if (outfit_table[first + i].form == form || outfit_table[first + i].also == form) return bench_group[i];
+    return -1;
+}
+static void bytes_copy(u8 *to, const u8 *from, int n) { while (n-- > 0) *to++ = *from++; }
+static u32 gen_of(const u8 *game) { return game[GEN_AT] | game[GEN_AT + 1] << 8; }
+static u32 bench_sum(const struct bench *b) {
+    const u8 *p = (const u8 *)b->e; u32 sum = b->gen ^ 0x5A5A, i;
+    for (i = 0; i < sizeof b->e; i++) sum = sum * 31 + p[i];
+    return sum;
+}
+static const struct bench *saved_bench(int slot) { return (const struct bench *)(MIRROR + BENCH_OFFSET + slot * sizeof(struct bench)); }
+static int bench_valid(const struct bench *b, u32 gen) { return b->magic == BENCH_MAGIC && b->gen == gen && b->sum == bench_sum(b); }
+
+/* Make the bench in memory the one that goes with this game. */
+static void bench_ready(void) {
+    u32 gen = gen_of(G_BYTES); int s;
+    u8 *clear;
+    if (gen && BENCH.magic == BENCH_MAGIC && BENCH.gen == gen) return;
+    if (gen && MIRROR)
+        for (s = 0; s < 3; s++)
+            if (bench_valid(saved_bench(s), gen)) { bytes_copy((u8 *)&BENCH, (const u8 *)saved_bench(s), sizeof(struct bench)); return; }
+    clear = (u8 *)&BENCH;
+    for (s = 0; s < (int)sizeof(struct bench); s++) clear[s] = 0;
+    BENCH.magic = BENCH_MAGIC; BENCH.gen = gen;
+}
+
+#define NO_GEAR ((const int *)0x080555B8)            /* each equipment slot's empty row */
+#define BAG_COUNT (*(int *)(G_BYTES + 0xE4))
+#define BAG ((u32 *)(G_BYTES + 0xE8))                /* row, with the wearer's slot plus one in the top four bits */
+#define GUEST_WEARS (9u << 28)
+
+/* Gear goes back in the bag when its wearer sits out, so it can't be worn twice; bench_fetch puts it back on if nobody else has taken it. */
+static void bench_store(struct bench_entry *e, u8 *r) {
+    int i;
+    e->used = 1;
+    for (i = 0; i < 4; i++) {
+        e->gear[i] = *(const u32 *)(r + 0x3C + i * 4);
+        *(u32 *)(r + 0x3C + i * 4) = NO_GEAR[i];
+    }
+    for (i = 0; i < BAG_COUNT; i++) if (BAG[i] >> 28 == 9) BAG[i] &= 0x0FFFFFFF;
+    bytes_copy(e->vitals, r + 0x16, 8); bytes_copy(e->exp, r + 0x24, 4); bytes_copy(e->stats, r + 0x28, 4);
+    e->unspent = r[0x2C]; bytes_copy(e->levels, r + 0x2E, 14);
+}
+static void bench_fetch(const struct bench_entry *e, u8 *r) {
+    int i, k;
+    for (i = 0; i < 4; i++) {
+        if ((int)e->gear[i] == NO_GEAR[i]) continue;
+        for (k = 0; k < BAG_COUNT; k++)
+            if (BAG[k] == e->gear[i]) { BAG[k] |= GUEST_WEARS; *(u32 *)(r + 0x3C + i * 4) = e->gear[i]; break; }
+    }
+    bytes_copy(r + 0x16, e->vitals, 8); bytes_copy(r + 0x24, e->exp, 4); bytes_copy(r + 0x28, e->stats, 4);
+    r[0x2C] = e->unspent; bytes_copy(r + 0x2E, e->levels, 14);
+    if (*(short *)(r + 0x16) < 1) *(short *)(r + 0x16) = 1;   /* nobody comes back knocked out */
+}
+
+/* Slot 8's record goes with the fighter whose outfit is on. `was` is the outfit before this choice, for a save that has never swapped.
+   A story form in slot 8 (Hercule, say) has no bench entry and changes nothing, exactly as before. */
+static void bench_settle(int was) {
+    u8 *r = RECORDS + 8 * RECORD_SIZE;
+    int now = group_of(FORM_OF(8)), out = OUT_FIGHTER - 1;
+    u32 gen;
+    if (now < 0) return;
+    if (out < 0 || out >= BENCH_GROUPS) out = group_of(was);
+    if (out < 0 || out == now) return;
+    bench_ready();
+    bench_store(&BENCH.e[out], r);
+    if (BENCH.e[now].used) bench_fetch(&BENCH.e[now], r);
+    else {
+        /* A first swap starts level with the guest who was out, rested and with nothing equipped. */
+        *(u16 *)(r + 0x16) = *(u16 *)(r + 0x18);
+        *(u16 *)(r + 0x1A) = *(u16 *)(r + 0x1C);
+    }
+    gen = (BENCH.gen * 25173 + 13849 + FRAMES * 16 + VCOUNT) & 0xFFFF;
+    if (!gen || gen == BENCH.gen) gen = (BENCH.gen + 1) & 0xFFFF;
+    if (!gen) gen = 1;
+    BENCH.gen = gen;
+    G_BYTES[GEN_AT] = gen; G_BYTES[GEN_AT + 1] = gen >> 8; OUT_FIGHTER = now + 1;
+    Recalculate(r);
+}
+
+/* The game's EEPROM write, whole, with the bench written after a game block when that slot doesn't already hold it. Same steps as the original at 0x0803FBDE. */
+#define Copy ((void (*)(void *, const void *, int))0x08049145)
+#define SoundPause ((void (*)(u32))0x0803F279)
+#define SoundResume ((void (*)(u32))0x0803F28F)
+#define TimersStop ((void (*)(void))0x080401DB)
+#define TimersStart ((void (*)(void))0x080401F5)
+#define EepromWrite8 ((void (*)(int, const void *))0x08040B5D)
+#define IME (*(volatile u16 *)0x04000208)
+#define SOUND_OBJ (**(u32 **)0x0803FCA8)
+static void eeprom_write(int offset, const void *src, int len) {
+    int i;
+    Copy(MIRROR + offset, src, len);
+    SoundPause(SOUND_OBJ);
+    TimersStop();
+    IME = 0;
+    for (i = 0; i < len; i += 8) EepromWrite8((offset + i) >> 3 & 0xFFFF, (const u8 *)src + i);
+    IME = 1;
+    TimersStart();
+    SoundResume(SOUND_OBJ);
+}
+void save_write(int *save, int offset, const u8 *src, int len) {
+    int slot;
+    u32 gen;
+    if (!*save) return;
+    eeprom_write(offset, src, len);
+    if (len != SAVE_BLOCK || offset < 0x10) return;
+    slot = (offset - 0x10) / SAVE_BLOCK;
+    if (slot > 2 || offset != 0x10 + slot * SAVE_BLOCK) return;
+    gen = gen_of(src);
+    if (!gen || gen != gen_of(G_BYTES)) return;              /* nothing swapped, or a deleted game */
+    bench_ready();
+    BENCH.sum = bench_sum(&BENCH);
+    if (saved_bench(slot)->magic == BENCH_MAGIC && saved_bench(slot)->gen == gen && saved_bench(slot)->sum == BENCH.sum) return;
+    eeprom_write(BENCH_OFFSET + slot * sizeof(struct bench), &BENCH, sizeof(struct bench));
+}
+
+/* The heap's first block, as the game sets it up, a little shorter: the top of work RAM is kept for this code's variables. Only those are cleared, since boot timing is tight. */
+void heap_init(void) {
+    u16 *block = (u16 *)0x02000800;
+    volatile u32 *vars = (volatile u32 *)0x0203FF20;
+    int i;
+    for (i = 0; i < 24; i++) vars[i] = 0;
+    BENCH.magic = 0;
+    *(u32 *)0x03003488 = (u32)block;
+    block[0] = 0; block[1] = HEAP_WORDS; block[2] = 0;
+    *((u8 *)block + 6) = 0;
+    block[4] = 0; block[5] = 0;
+}
+
 static u32 *field(void *obj, int off) { return (u32 *)((u8 *)obj + off); }
 
 static void snapshot(void *obj) {
@@ -157,6 +311,7 @@ static void restore_borrowed(void *obj) {
 int picker_update(void *obj) {
     int first = LABEL_OWNER != ((u32)obj ^ SNAP_MAGIC), r;
     if (first) restore_borrowed(obj);
+    if (first && OUT_FIGHTER) bench_settle(FORM_OF(8));    /* restore_borrowed may have put a different guest on */
     if (KEYS_NEW & KEY_UP) cycle(obj, -1);
     else if (KEYS_NEW & KEY_DOWN) cycle(obj, 1);
     update_label(obj);
@@ -169,6 +324,7 @@ int picker_input(void *obj, void *widget, int id, int extra) {
     if (id == 0 || id == 1) LABEL_OWNER = 0;
     if ((id == 0 || id == 1) && SNAP_OWNER == ((u32)obj ^ SNAP_MAGIC)) {
         if (id == 1) { int i; for (i = 0; i < 9; i++) FORM_OF(i) = SNAP_FORMS[i]; guest_sync(); }
+        else bench_settle(SNAP_FORMS[8]);
         SNAP_OWNER = 0;
     }
     return orig_input(obj, widget, id, extra);

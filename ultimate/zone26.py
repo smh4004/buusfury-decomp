@@ -162,16 +162,21 @@ TOUR_HP = (15000, 20000, 30000)                     # each opponent adds 10 per 
 TOUR_STATS = ((145, 60, 40, 60), (145, 70, 50, 65), (150, 75, 85, 70))     # level + 50, Strength, Power, Endurance
 TOUR_NAMES = (('Yamu', 'Spopovich', 'Idasa', 'Olibu', 'Ninja Boss', 'Knight Destroyer'), ('Pikkon', 'Goten', 'Trunks', 'Dabura', 'Pharoah', 'Airship Warlord'),
               ('Super Janemba', 'Broly', 'Majin Buu', 'Super Buu', 'Kid Buu', 'Super 13'))
-TOUR_PICKS, TOUR_PICK, TOUR_GET = 651, 0xE1, 0xE2     # flags 651-659 hold each round's opponent, 3 bits a round; natives tour_pick(round, place) and tour_get(round)
+# Custom flag numbers. A flag is a bit counted from G+0x55, and the story's flags stop at 447: above that the same bits are the map's rooms visited (G+0x8D, 410 used, so flags 448-857)
+# then the Scouter's entries (G+0xC5 to G+0xE1, flags 896-1127). Only the gaps are free:
+#   858-863   858-860 story outfits, 862 debug hook, 861 and 863 spare
+#   864-895   864-872 Super Saiyan 2 by owner, 873-880 rewards, 881-886 Super 13, 887-890 Boss Rush and tournament, 891-894 trials won, 895 all trials
+#   1128-1143 1128-1131 trials paid, 1132-1140 tournament picks, 1141 ordered tournament test, 1142-1143 spare
+TOUR_PICKS, TOUR_PICK, TOUR_GET = 1132, 0xE1, 0xE2    # flags 1132-1140 hold each round's opponent, 3 bits a round; natives tour_pick(round, place) and tour_get(round)
 TRIALS = ((0, 'Goku', 91, 224, 'Pikkon', 39, 'Titanium Breastplate'), (1, 'Gohan', 18, 73, 'Dabura', 70, 'Enhanced Energy Gloves'),
           (3, 'Vegeta', 28, 43, 'Majin Buu', 108, 'Clean Boots'), (4, 'Trunks', 39, 123, 'Goten', 159, 'Clean Belt'))     # party slot, name, enemy row, character, opponent, equipment row, its name
 TRIAL_GEAR = 160                                   # all four: Geromantium Bandana, with the Senzu Beans below
 TRIAL_HP, TRIAL_STATS, TRIAL_PRIZE, TRIAL_ITEM, TRIAL_ITEMS = 40000, (148, 65, 60, 65), 30000, 11, 10    # all four: ten Senzu Beans (item 11)
-TRIAL_WON, TRIAL_PAID, TRIAL_ALL = 661, 665, 669
+TRIAL_WON, TRIAL_PAID, TRIAL_ALL = 891, 1128, 895
 HUB_AT = (208, 112)                                # where the tournament official stands in Hercule City; wins come home just below him
-TOUR_ORDERED = 650                                 # a test sets this to walk every opponent in turn instead of drawing
-TOUR_ROOM, TOUR_PRIZE, TOUR_WON, ADD_ZENIE = (7, 6), 100000, 643, 0xE0
-RUSH_FIRST, RUSH_WON = 19, 642   # room of the first fight, flag for a win not yet rewarded
+TOUR_ORDERED = 1141                                 # a test sets this to walk every opponent in turn instead of drawing
+TOUR_ROOM, TOUR_PRIZE, TOUR_WON, ADD_ZENIE = (7, 6), 100000, 889, 0xE0
+RUSH_FIRST, RUSH_WON = 19, 888   # room of the first fight, flag for a win not yet rewarded
 RUSH_HP = (10000, 40000, 25840, 20240, 30000, 32000, 34000, 36000, 55000)    # shorter than the story's, since all nine share one health bar
 
 
@@ -188,8 +193,8 @@ def boss_stats(W, rom, stats):
         rom[r + 0xC:r + 0x10] = bytes(stat)
         rom[r + 0x10] = phys
         struct.pack_into('<II', rom, r + 0x14, 0x08708920, death(flag, area))     # this handler is the one that runs death scripts
-    row(PHASE1_ROW, 40000, 30000, (150, 60, 90, 90), 128, 620, 16)
-    row(BOSS_ROW, 96175, 75000, (160, 70, 115, 105), 96, 625, 18)
+    row(PHASE1_ROW, 40000, 30000, (150, 60, 90, 90), 128, 881, 16)
+    row(BOSS_ROW, 96175, 75000, (160, 70, 115, 105), 96, 886, 18)
 
 
 def tour_first():
@@ -266,10 +271,10 @@ def hub_person(W, rom):
     ptrs = list(struct.unpack_from('<%dI' % count, rom, lst))
     old = next(p for p in ptrs if struct.unpack_from('<I', rom, p - BASE)[0] == 0x08017DA3 and struct.unpack_from('<I', rom, p - BASE + 0x10)[0] == 205)
     rec = bytearray(rom[old - BASE:old - BASE + 32])
-    struct.pack_into('<I', rom, old - BASE + 4, condition(W, '    pushn 622\n    call not_flag\n    end\n'))
+    struct.pack_into('<I', rom, old - BASE + 4, condition(W, '    pushn 883\n    call not_flag\n    end\n'))
     wander = bytearray(rom[struct.unpack_from('<I', rec, 0x18)[0] - BASE:struct.unpack_from('<I', rec, 0x18)[0] - BASE + 16])
     struct.pack_into('<4H', wander, 8, HUB_AT[0], HUB_AT[1], HUB_AT[0], HUB_AT[1])
-    struct.pack_into('<I', rec, 4, condition(W, '    pushn 622\n    call flag\n    end\n'))
+    struct.pack_into('<I', rec, 4, condition(W, '    pushn 883\n    call flag\n    end\n'))
     struct.pack_into('<I', rec, 8, HUB_AT[1] << 16 | HUB_AT[0])
     struct.pack_into('<I', rec, 0x10, 192)
     struct.pack_into('<I', rec, 0x18, W.put(bytes(wander)))
@@ -309,11 +314,11 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
             o = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], x0, y0, x1, y1, dest, ay << 16 | ax))
             param = 0
             if a == 14 and d['to'] == 15:                 # coming back mid-fight: straight to Super 13
-                param = condition(W, '    pushn 623\n    call not_flag\n    pushn 625\n    call flag\n    or\n    end\n')
+                param = condition(W, '    pushn 884\n    call not_flag\n    pushn 886\n    call flag\n    or\n    end\n')
             exits.append((param, o))
             if a == 14 and d['to'] == 15:
                 o2 = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], x0, y0, x1, y1, d['key'] | 26 << 8 | 17 << 16 | 1 << 24, ay << 16 | ax))
-                exits.append((condition(W, '    pushn 623\n    call flag\n    pushn 625\n    call not_flag\n    and\n    end\n'), o2))
+                exits.append((condition(W, '    pushn 884\n    call flag\n    pushn 886\n    call not_flag\n    and\n    end\n'), o2))
         objs = []
         for e in ac.get('enemies', []):
             objs.append(W.put(struct.pack('<8I', 0x0800FD55, (condition(W, e['script']) if 'script' in e else e.get('condition', 0)), e['row'], e['y'] << 16 | e['x'],

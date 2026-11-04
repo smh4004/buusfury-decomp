@@ -5,22 +5,22 @@
    {
     "form": 10,
     "name": "School uniform",
-    "flag": 600
+    "flag": 858
    },
    {
     "form": 15,
     "name": "Green training gi",
-    "flag": 601
+    "flag": 859
    },
    {
     "form": 13,
     "name": "Orange gi",
-    "flag": 602
+    "flag": 860
    },
    {
     "form": "gohan_armor",
     "name": "Saiyan armor",
-    "flag": 610
+    "flag": 873
    }
   ],
   "3": [
@@ -32,7 +32,7 @@
    {
     "form": "trunks_armor",
     "name": "Saiyan armor",
-    "flag": 611
+    "flag": 874
    }
   ],
   "4": [
@@ -45,7 +45,7 @@
    {
     "form": "vegeta_armor",
     "name": "Saiyan armor",
-    "flag": 612
+    "flag": 875
    }
   ],
   "8": [
@@ -56,63 +56,63 @@
    },
    {
     "form": "broly_fp",
-    "flag": 613,
+    "flag": 876,
     "name": "Full Power"
    },
    {
     "form": "android13",
-    "flag": 614,
+    "flag": 877,
     "name": "Android 13"
    },
    {
     "form": "super13",
-    "flag": 614,
+    "flag": 877,
     "name": "Super 13"
    },
    {
     "form": "piccolo",
-    "flag": 616,
+    "flag": 879,
     "name": "Piccolo"
    },
    {
     "form": "future_trunks",
     "also": "future_trunks_ss",
-    "flag": 617,
+    "flag": 880,
     "name": "Future Trunks"
    },
    {
     "form": "android17",
-    "flag": 617,
+    "flag": 880,
     "name": "Android 17"
    },
    {
     "form": "android18",
-    "flag": 617,
+    "flag": 880,
     "name": "Android 18"
    },
    {
     "form": "krillin",
-    "flag": 617,
+    "flag": 880,
     "name": "Krillin"
    },
    {
     "form": "videl",
-    "flag": 617,
+    "flag": 880,
     "name": "Videl"
    },
    {
     "form": "majin_buu",
-    "flag": 641,
+    "flag": 887,
     "name": "Majin Buu"
    },
    {
     "form": "super_janemba",
-    "flag": 641,
+    "flag": 887,
     "name": "Super Janemba"
    },
    {
     "form": "kid_buu",
-    "flag": 641,
+    "flag": 887,
     "name": "Kid Buu"
    }
   ],
@@ -120,18 +120,18 @@
    {
     "form": 41,
     "also": 44,
-    "flag": 615,
+    "flag": 878,
     "name": "Gogeta"
    },
    {
     "form": "gogeta_dbs",
     "also": "gogeta_dbs_ss",
-    "flag": 615,
+    "flag": 878,
     "name": "DBS Gogeta"
    },
    {
     "form": "gogeta_ssb_skin",
-    "flag": 615,
+    "flag": 878,
     "name": "SSB Gogeta"
    }
   ]
@@ -139,47 +139,47 @@
  "unlocks": [
   {
    "list": "gUnknown_08783B68",
-   "flag": 600,
+   "flag": 858,
    "find": "    pushn 1, 107\n    call 0x9D\n"
   },
   {
    "list": "gUnknown_0877D1D4",
-   "flag": 601,
+   "flag": 859,
    "find": "    pushn 1, 112\n    call 0x9D\n"
   },
   {
    "list": "gUnknown_08794168",
-   "flag": 602,
+   "flag": 860,
    "find": "    pushn 1, 110\n    call 0x9D\n"
   },
   {
    "_note": "Goku shows Majin Buu Super Saiyan, then the level beyond it, on the way to Super Saiyan 3",
    "list": "gUnknown_0877F030",
-   "flag": 630,
+   "flag": 864,
    "find": "    pushn 0, 22\n    call 0xA4\n"
   },
   {
    "_note": "Gohan transforms for Kibito at the tournament: 'There's a level beyond Super Saiyan?'",
    "list": "gUnknown_0878CADC",
-   "flag": 631,
+   "flag": 865,
    "after": "step 28 zcode       ; gUnknown_0878C9B8 (stored compressed)\n"
   },
   {
    "_note": "No canon scene for Trunks: his Super Saiyan 3 fusion scene with Goten, the moment he goes past Super Saiyan",
    "list": "gUnknown_08789724",
-   "flag": 633,
+   "flag": 867,
    "find": "    pushn 5, 22\n    call 0xA4\n"
   },
   {
    "_note": "Vegeta explains why he let Babidi reawaken the evil in him: Majin Vegeta",
    "list": "gUnknown_0878F87C",
-   "flag": 634,
+   "flag": 868,
    "after": "step 22 code        ; gUnknown_0878F844\n"
   },
   {
    "_note": "The Potara fusion",
    "list": "gUnknown_08797E14",
-   "flag": 636,
+   "flag": 870,
    "after": "    pushn 6, 284\n    call 0x9D\n"
   }
  ]
