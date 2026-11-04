@@ -391,9 +391,9 @@ def death_script(src):
     if first not in src: sys.exit('death script changed')
     head, rest = src.split(first, 1)
     line, body = rest.split('\n', 1)
-    new = '    pushn %d\n    call flag\n    pushn %d\n    call flag\n    and\n    jz L9\n    push 9\n    end\nL9:\n' % zone26.CELL_COUNT
-    home = '    call spar_off\n'.replace('    call spar_off\n', zone26.spar_off())
-    return head + first + line + '\n' + new + body.rstrip() + '\nstep 9 code\n' + home + '    call max_hp\n    set hp\n    pushn 0, 0\n    call 0x3C\n    call 0xF7(5)\n    call 0x78(30)\n    pushn 6, 1, 1, %d, %d\n    call 0x77\n    call 0x79(30)\n    end\n' % zone26.SPAR_HOME
+    home = zone26.spar_off() + '    call max_hp\n    set hp\n    pushn 0, 0\n    call 0x3C\n    call 0xF7(5)\n    call 0x78(30)\n    pushn 6, 1, 1, %d, %d\n    call 0x77\n    call 0x79(30)\n    push 4\n    end\n' % zone26.SPAR_HOME     # steps count from 0 here: 4 is the list's end, while just `end` would run on into the next step and the game over
+    new = '    pushn %d\n    call flag\n    pushn %d\n    call flag\n    and\n    jz L9\n' % zone26.CELL_COUNT + home + 'L9:\n'
+    return head + first + line + '\n' + new + body
 
 
 def symbol_items_icon(item):

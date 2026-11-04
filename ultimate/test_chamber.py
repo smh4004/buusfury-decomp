@@ -101,7 +101,7 @@ def lose(tag):
     for w in range(30):
         send('run 100')
         if at() == (1 << 8 | 6): break
-    send('run 100'); sheet('lost_' + tag)
+    send('run 700'); sheet('lost_' + tag)      # past the few seconds after which a mistake here would show the game over
     check('%s: a lost fight comes back to the Lookout, not a game over' % tag, at() == (1 << 8 | 6))
     hp = mem(REC0 + 0x16)[0]
     check('%s: rested' % tag, hp & 0xFFFF > 1)
