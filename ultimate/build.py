@@ -243,7 +243,7 @@ L1:
     call 0x04
     call 0x05
     call 0x06
-    call 0xF4(255)
+    call 0xE6
     call 0xE5(1)
     inc 0x06
     call wait(2)
@@ -262,7 +262,7 @@ L1:
     call 0x04
     call 0x05
     call 0x06
-    call 0xF4(255)
+    call 0xE6
     call 0xE5(1)
     dec 0x05
     call wait(1)
@@ -275,7 +275,7 @@ L3:
     call 0x04
     call 0x05
     call 0x06
-    call 0xF4(255)
+    call 0xE6
     call 0xE5(1)
     call 0x19(10)
     push 0
@@ -853,6 +853,7 @@ def add_outfits(rom, clean, at):
     struct.pack_into('<I', rom, tab + 4 * JOIN_NATIVE, sym['party_join'] | 1)
     struct.pack_into('<I', rom, tab + 4 * 0xE0, sym['add_zenie'] | 1)
     struct.pack_into('<I', rom, tab + 4 * 0xE5, sym['bomb_fx'] | 1)
+    struct.pack_into('<I', rom, tab + 4 * 0xE6, sym['bomb_at'] | 1)
     import zone26
     struct.pack_into('<I', rom, tab + 4 * zone26.TOUR_PICK, sym['tour_pick'] | 1)
     struct.pack_into('<I', rom, tab + 4 * zone26.TOUR_GET, sym['tour_get'] | 1)
@@ -1059,6 +1060,32 @@ def add_eraser(rom, clean, sym, at):
         struct.pack_into('<I', frames_new, k + 8, blue_new + p - ROM_BASE - BLAST_TILES[0])
     rom[sym['blue_blast'] - ROM_BASE:sym['blue_blast'] - ROM_BASE + 192] = frames_new
     rom[BLAST_SITE:BLAST_SITE + 14] = bytes.fromhex('01490847c046') + struct.pack('<I', sym['blast_hook'] | 1) + bytes.fromhex('c046c046')
+    # The Spirit Bomb's sprite: ultimate/art/spirit_bomb.png, a whole picture on plain white. One 64x64 frame per 8 pixels of size: up to 64 across the whole orb, above that its top left quarter.
+    from PIL import Image
+    orb = np.array(Image.open('ultimate/art/spirit_bomb.png').convert('RGB'))
+    colours = {(7, 238, 255): 7, (158, 255, 245): 195, (247, 255, 255): 196, (255, 255, 255): 0}
+    idx = np.zeros(orb.shape[:2], np.uint8)
+    for rgb, v in colours.items(): idx[(orb == rgb).all(2)] = v
+    if len(set(map(tuple, orb.reshape(-1, 3)))) != 4:
+        sys.exit('spirit_bomb.png has colours the build does not know')
+    def nearest(a, w, h):
+        ys = (np.arange(h) * a.shape[0] // h); xs = (np.arange(w) * a.shape[1] // w)
+        return a[ys][:, xs]
+    def linear(img):
+        return b''.join(img[y:y + 8, x:x + 8].tobytes() for y in range(0, 64, 8) for x in range(0, 64, 8))
+    table = sym['bomb_frames'] - ROM_BASE
+    for k in range(12):
+        size = (k + 1) * 8; cell = np.zeros((64, 64), np.uint8)
+        if size <= 64:
+            o = (64 - size) // 2; cell[o:o + size, o:o + size] = nearest(idx, size, size)
+        else:
+            whole = nearest(idx, size, size); q = whole[:size // 2, :size // 2]; cell[64 - size // 2:, 64 - size // 2:] = q
+        struct.pack_into('<I', rom, table + 4 * k, put(linear(cell)))
+    vt = sym['bomb_vt'] - ROM_BASE; BEAM_ACTOR_VT = 0x4AEF8
+    mine = {0: 'bomb_destroy', 2: 'bomb_nop', 3: 'bomb_one', 4: 'bomb_draw_oam', 6: 'bomb_zero', 9: 'bomb_zero', 10: 'bomb_nop'}
+    for k in range(14):
+        fn = (sym[mine[k]] | 1) if k in mine else ROM_BASE + BEAM_ACTOR_VT + struct.unpack_from('<i', clean, BEAM_ACTOR_VT + 4 * k)[0]
+        struct.pack_into('<i', rom, vt + 4 * k, fn - (ROM_BASE + vt))
     if struct.unpack_from('<I', rom, 0x13618)[0] != ROM_BASE + SKILL_ROWS:
         sys.exit('skill table reference moved')
     struct.pack_into('<I', rom, 0x13618, put(bytes(rom[SKILL_ROWS:SKILL_ROWS + 24 * ERASER_SKILL]) + b''.join(rows[k] for k in sorted(rows))))

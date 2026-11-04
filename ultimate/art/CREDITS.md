@@ -9,3 +9,6 @@ Ripped by Mister Man, edited by Azure-Oni. Their sheet came as a JPEG, so `ultim
 
 ## From Legacy of Goku II (the owner's own cart, read at build time, nothing stored here)
 Piccolo's sprites (actor r101) and the Special Beam Cannon beam (frames at 0x086E4560 in the USA ROM).
+
+## Spirit Bomb orb
+`spirit_bomb.png`, supplied by the project owner. Source not recorded.

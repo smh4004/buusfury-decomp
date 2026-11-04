@@ -206,6 +206,7 @@ void heap_init(void) {
     for (i = 0; i < 24; i++) vars[i] = 0;
     BENCH.magic = 0;
     CL.active = 0; CL.cool = 0; CL.surge = 0; CL.p_at = 0; CL.e_at = 0;
+    *(u32 *)0x0203F300 = 0;                /* no bomb sprite */
     *(u32 *)0x03003488 = (u32)block;
     block[0] = 0; block[1] = HEAP_WORDS; block[2] = 0;
     *((u8 *)block + 6) = 0;
@@ -598,13 +599,15 @@ void *slot_area(u8 *buffer)
 #define SetEffect ((void (*)(void *, int, void *))0x0800927F)
 #define EFFECTS (*(u32 **)(*(u32 *)0x08003C44 + 0x10))
 #define ALPHA_MIRROR (*(u8 **)0x08009900)
-struct spirit { u16 frame; u16 phase; int x, y, r; void *old, *old3; u32 ticker[2]; u8 eva, evb; u16 backdrop; u8 dir, speed; u16 travelled; };
+struct spirit { u16 frame; u16 phase; int x, y, r; void *old, *old3; u32 ticker[2]; u8 eva, evb; u16 backdrop; u8 dir, speed; u16 travelled; u8 disc; };
 extern const int spirit_vt[6];
 #define SB (*(struct spirit *)0x0203FF40)
 #define GROW_FRAMES 90
 #define WINDUP_FRAMES 10
 #define THROW_HOLD 22
 #define THROW_DISTANCE 130
+#define THROW_SIDE 100       /* so the blast's centre stays on screen: it starts over his head, so upward it has less room */
+#define THROW_UP 60
 #define BURST_FRAMES 24
 #define SPIRIT_POWER 0x8000
 static const int BURST_RECT[4] = {-100, -80, 200, 160};   /* x, y, width, height */
@@ -630,11 +633,114 @@ static void bomb_glow(int frame)
     (void)frame;
 }
 
+/* The bomb's sprite. A 64x64 sprite holds one 4 KB frame in OBJ memory: sizes up to 64 across are drawn whole, larger ones as a quarter mirrored four ways.
+   build.py writes one frame per 8 pixels of size. If OBJ memory is too full, spirit_draw falls back on the disc. */
+#define Alloc ((u32 *(*)(int))0x0803D5B9)
+#define MemCopy ((void (*)(void *, const void *, int))0x08049139)
+#define FreeMem ((void (*)(void *))0x0803D63D)
+#define BOMB_SIZES 12
+#define BOMB_TILE_BYTES 0x1000
+const u32 bomb_frames[BOMB_SIZES] = {1};
+struct bomb_sprite { u8 *actor; int x, y, size, loaded;  int want; };
+extern const int bomb_vt[14];
+#define BOMB_LIST_REMOVE ((void (*)(void *, void *))0x08011945)
+#define OBJ_ALLOC ((int (*)(void *, int))0x0801124D)
+#define OBJ_MAKE_ROOM ((void (*)(void *, int))0x08011733)
+#define OBJ_FREE ((void (*)(void *, int))0x0801142B)
+#define SCREEN_X (*(int *)0x030019BC)
+#define SCREEN_Y (*(int *)0x030019C0)
+#define OBJ_TILES 0x06010000
+#define ACTOR_LIST ((void *)0x03001C4C)
+#define Actor_Add ((void (*)(void *, void *))0x0801191B)
+#define BS (*(struct bomb_sprite *)0x0203F300)
+
+void bomb_destroy(u8 *actor, int free_it) {
+    OBJ_FREE(ACTOR_LIST, *(u16 *)(actor + 0xC));
+    if (BS.actor == actor) BS.actor = 0;
+    if (free_it) FreeMem(actor);
+}
+void bomb_nop(void) {}
+int bomb_zero(void) { return 0; }
+int bomb_one(void) { return 1; }
+static u32 *bomb_piece(u32 *oam, const u8 *actor, int x, int y, u32 flips) {
+    if (x <= -64 || x >= 240 || y <= -64 || y >= 160) return oam;
+    oam[0] = 0xC0002000 | flips | (x & 0x1FF) << 16 | (y & 0xFF);
+    oam[1] = (*(u16 *)(actor + 0xC) & 0x3FF) | 3 << 10;
+    return oam + 2;
+}
+int bomb_draw_oam(u8 *actor, u32 **cursor) {
+    int x = BS.x - SCREEN_X, y = BS.y - SCREEN_Y;
+    u32 *oam = *cursor;
+    if (BS.size <= 64) oam = bomb_piece(oam, actor, x - 32, y - 32, 0);
+    else {
+        oam = bomb_piece(oam, actor, x - 64, y - 64, 0);
+        oam = bomb_piece(oam, actor, x, y - 64, 1u << 28);
+        oam = bomb_piece(oam, actor, x - 64, y, 1u << 29);
+        oam = bomb_piece(oam, actor, x, y, 3u << 28);
+    }
+    *cursor = oam;
+    return 1;
+}
+static int bomb_show(int x, int y, int r) {
+    int k = r / 4 - 1, i;
+    if (k < 0) k = 0;
+    if (k >= BOMB_SIZES) k = BOMB_SIZES - 1;
+    if (!BS.actor) {
+        u32 *a = Alloc(0x20);
+        int tile;
+        if (!a) return 0;
+        for (i = 0; i < 8; i++) a[i] = 0;
+        tile = OBJ_ALLOC(ACTOR_LIST, BOMB_TILE_BYTES);
+        if (tile == -1) { OBJ_MAKE_ROOM(ACTOR_LIST, BOMB_TILE_BYTES); tile = OBJ_ALLOC(ACTOR_LIST, BOMB_TILE_BYTES); }
+        if (tile == -1) { FreeMem(a); return 0; }
+        a[0] = (u32)bomb_vt;
+        *((u8 *)a + 8) = 0x38;
+        *(u16 *)((u8 *)a + 0xC) = tile;
+        *(u16 *)((u8 *)a + 0xE) = BOMB_TILE_BYTES;
+        BS.actor = (u8 *)a;
+        BS.loaded = -1; BS.want = k;
+        Actor_Add(ACTOR_LIST, a);
+    }
+    /* OAM changes at the next vblank but tile memory changes at once, so a new picture waits one frame for its layout: the switch to the mirrored quarters would otherwise flash. */
+    if (BS.loaded != BS.want) {
+        MemCopy((u8 *)OBJ_TILES + *(u16 *)(BS.actor + 0xC) * 0x20, (void *)bomb_frames[BS.want], BOMB_TILE_BYTES);
+        BS.loaded = BS.want;
+    }
+    BS.want = k;
+    BS.x = x; BS.y = y; BS.size = (k + 1) * 8;
+    ((int *)BS.actor)[1] = y;
+    return 1;
+}
+static void bomb_hide(void) {
+    if (BS.actor) BOMB_LIST_REMOVE(ACTOR_LIST, BS.actor);
+    BS.actor = 0;
+}
+
 static void spirit_draw(void)
 {
-    int st[5] = {4, SB.x, SB.y, SB.r, BOMB_INDEX};
-    NativeDisc(st);
-    bomb_glow(SB.frame);
+    if (SB.phase < 3 && bomb_show(SB.x, SB.y, SB.r)) return;
+    if (!SB.disc) {                 /* the disc takes effect slot 0; whatever was there goes back afterwards. An empty slot can't wait: the game calls every slot it thinks is in use */
+        int st[3] = {2, 100, 15};
+        SB.disc = 1;
+        SB.old = (void *)EFFECTS[0];
+        EFFECTS[0] = 0;
+        SB.eva = ALPHA_MIRROR[2]; SB.evb = ALPHA_MIRROR[3]; SB.backdrop = BOMB_PAL;
+        NativeAlpha(st);
+    }
+    {
+        int st[5] = {4, SB.x, SB.y, SB.r, BOMB_INDEX};
+        NativeDisc(st);
+        bomb_glow(SB.frame);
+        if (SB.phase == 3) bomb_show(SB.x, SB.y, SB.r > 48 ? 48 : SB.r);      /* the orb stays as the bright heart of the blast */
+    }
+}
+
+/* Script native bomb_at(x, y, r): the story's Spirit Bomb, drawn the same way. */
+void bomb_at(int *sp)
+{
+    int n = *sp, x = sp[n - 2], y = sp[n - 1], r = sp[n];
+    *sp = n - 3;
+    if (!bomb_show(x, y, r)) { int st[5] = {4, x, y, r, BOMB_INDEX}; NativeDisc(st); bomb_glow(0); }
 }
 
 /* Impact frames: the whole screen white, black, then white, a few frames each. Keep BLDCNT's other bits for afterwards. */
@@ -665,31 +771,40 @@ void bomb_fx(int *sp)
         SB.frame++; bomb_glow(SB.frame);
         if (player) slot_pose(player, SLOT_ARMS_UP);
     }
-    else if (v == 0) { SB.phase = 0; BLDY = 0; }      /* the next room reloads the palette; restoring it here would turn the disc dull during the fade */
+    else if (v == 0) { SB.phase = 0; BLDY = 0; bomb_hide(); }      /* the next room reloads the palette; restoring it here would turn the disc dull during the fade */
     else { impact(v - 2); }
     *sp = n - 1;
 }
 
 static void spirit_end(void)
 {
-    BOMB_PAL = SB.backdrop;
-    SetEffect(EFFECTS, 0, SB.old);
-    ALPHA_MIRROR[2] = SB.eva; ALPHA_MIRROR[3] = SB.evb;
+    bomb_hide();
+    if (SB.disc) {
+        /* The disc stays on screen for one more frame after its slot goes back, so its colour must wait or it shows as whatever the map keeps in that entry. */
+        SetEffect(EFFECTS, 0, SB.old);
+        ALPHA_MIRROR[2] = SB.eva; ALPHA_MIRROR[3] = SB.evb;
+        SB.disc = 2;
+    }
+    SB.phase = 4; SB.frame = 0;
+}
+
+static void spirit_done(void)
+{
+    if (SB.disc == 2) BOMB_PAL = SB.backdrop;
+    SB.disc = 0;
     SB.phase = 0;
     EFFECTS[3] = SB.old3;
     { int st[6] = {5, 5, 200, 200, 255, 10}; NativeFlash(st); }      /* takes an effect slot itself, so only once the bomb has let go */
 }
 
+const int bomb_vt[14] = {1};
 const int spirit_vt[6] = {0x53A1, 0x53A2, 0x53A3, 0x53A4, 0x53A5, 0x53A6};   /* offsets from itself, filled in by build.py */
 
 void spirit_use(u8 *rec, void *player)
 {
-    int *p = (int *)player, st[3] = {2, 100, 15};
+    int *p = (int *)player;
     Spend(rec, spirit_cost(rec));
-    SB.old = (void *)EFFECTS[0];
-    EFFECTS[0] = 0;
-    SB.eva = ALPHA_MIRROR[2]; SB.evb = ALPHA_MIRROR[3]; SB.backdrop = BOMB_PAL;
-    NativeAlpha(st);
+    SB.disc = 0;
     SB.x = p[0x68] >> 8; SB.y = (p[0x69] >> 8) - 58; SB.r = 4;
     SB.frame = 0; SB.phase = 1;
     SB.old3 = (void *)EFFECTS[3];
@@ -737,17 +852,20 @@ void spirit_update(void)
             SB.travelled += SB.speed;
         }
         spirit_draw();
-        if (SB.travelled >= THROW_DISTANCE) { spirit_burst(player); SB.phase = 3; SB.frame = 0; }
+        if (SB.travelled >= (SB.dir == 1 ? THROW_UP : SB.dir == 0 ? THROW_DISTANCE : THROW_SIDE)) { spirit_burst(player); SB.phase = 3; SB.frame = 0; }
     } else if (SB.phase == 3) {
-        if (SB.r < 96) SB.r += 4;                         /* much larger than this hangs the disc code */
+        if (SB.frame > BURST_FRAMES - 10) SB.r -= 8;      /* the blast collapses at the end instead of blinking out */
+        else if (SB.r < 96) SB.r += 4;                    /* much larger than this hangs the disc code */
         spirit_draw();
         if (SB.frame <= 10) impact(SB.frame - 1);
         if (SB.frame % 6 == 0) spirit_burst(player);      /* it keeps hitting as it bursts */
         if (SB.frame >= BURST_FRAMES) spirit_end();
+    } else if (SB.phase == 4) {
+        if (SB.frame >= 2) spirit_done();
     }
 }
 
-void spirit_destroyed(void) { SB.phase = 0; }     /* a new area clears every effect, this one included */
+void spirit_destroyed(void) { SB.phase = 0; SB.disc = 0; BS.actor = 0; }     /* a new area clears every effect, this one included */
 
 /* Non-zero while Goku is busy with the bomb: the state's normal update is skipped so he stands still. */
 static int spirit_tick(void *player)
