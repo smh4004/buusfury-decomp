@@ -304,11 +304,13 @@ void *slot_area(u8 *buffer)
 #define SetEffect ((void (*)(void *, int, void *))0x0800927F)
 #define EFFECTS (*(u32 **)(*(u32 *)0x08003C44 + 0x10))
 #define ALPHA_MIRROR (*(u8 **)0x08009900)
-struct spirit { u16 frame; u16 phase; int x, y, r; void *old, *old3; u32 ticker[2]; u8 eva, evb; u16 backdrop; };
+struct spirit { u16 frame; u16 phase; int x, y, r; void *old, *old3; u32 ticker[2]; u8 eva, evb; u16 backdrop; u8 dir, speed; u16 travelled; };
 extern const int spirit_vt[6];
 #define SB (*(struct spirit *)0x0203FF40)
 #define GROW_FRAMES 90
-#define FLY_FRAMES 36
+#define WINDUP_FRAMES 10
+#define THROW_HOLD 22
+#define THROW_DISTANCE 130
 #define BURST_FRAMES 24
 #define SPIRIT_POWER 0x8000
 static const int BURST_RECT[4] = {-100, -80, 200, 160};   /* x, y, width, height */
@@ -427,16 +429,21 @@ void spirit_nop(void) {}
 void spirit_update(void)
 {
     void *player = *(void **)0x03001C34;
-    u8 dir = *((u8 *)player + 0x10);
     SB.frame++;
     if (SB.phase == 1) {
         if (SB.r < 48 && SB.frame % 2 == 0) SB.r++;
         spirit_draw();
-        if (SB.frame >= GROW_FRAMES) { SB.phase = 2; SB.frame = 0; }
+        if (SB.frame >= GROW_FRAMES) { SB.phase = 2; SB.frame = 0; SB.dir = *((u8 *)player + 0x10); SB.speed = 0; SB.travelled = 0; }
     } else if (SB.phase == 2) {
-        if (dir == 0) SB.y += 2; else if (dir == 1) SB.y -= 2; else if (dir == 2) SB.x -= 2; else SB.x += 2;
+        /* The throw: the bomb rises a little over the raised arms, then goes the way Goku faced, picking up speed until it lands. */
+        if (SB.frame <= WINDUP_FRAMES) SB.y -= 1;
+        else {
+            if (SB.speed < 7 && SB.frame % 3 == 0) SB.speed++;
+            if (SB.dir == 0) SB.y += SB.speed; else if (SB.dir == 1) SB.y -= SB.speed; else if (SB.dir == 2) SB.x -= SB.speed; else SB.x += SB.speed;
+            SB.travelled += SB.speed;
+        }
         spirit_draw();
-        if (SB.frame >= FLY_FRAMES) { spirit_burst(player); SB.phase = 3; SB.frame = 0; }
+        if (SB.travelled >= THROW_DISTANCE) { spirit_burst(player); SB.phase = 3; SB.frame = 0; }
     } else if (SB.phase == 3) {
         if (SB.r < 96) SB.r += 4;                         /* much larger than this hangs the disc code */
         spirit_draw();
@@ -452,7 +459,10 @@ void spirit_destroyed(void) { SB.phase = 0; }     /* a new area clears every eff
 static int spirit_tick(void *player)
 {
     if (SB.phase == 1) { slot_pose(player, SLOT_ARMS_UP); return 1; }     /* the arms-up pose of the Kid Buu fight */
-    if (SB.phase == 2 && SB.frame < 12) { slot_pose(player, SLOT_THROW); return 1; }
+    if (SB.phase == 2) {
+        if (SB.frame <= WINDUP_FRAMES) { slot_pose(player, SLOT_ARMS_UP); return 1; }
+        if (SB.frame <= WINDUP_FRAMES + THROW_HOLD) { slot_pose(player, SLOT_THROW); return 1; }
+    }
     return 0;
 }
 
