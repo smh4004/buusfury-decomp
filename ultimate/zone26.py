@@ -171,7 +171,7 @@ TOUR_PICKS, TOUR_PICK, TOUR_GET = 1132, 0xE1, 0xE2    # flags 1132-1140 hold eac
 TRIALS = ((0, 'Goku', 91, 224, 'Pikkon', 39, 'Titanium Breastplate'), (1, 'Gohan', 18, 73, 'Dabura', 70, 'Enhanced Energy Gloves'),
           (3, 'Vegeta', 28, 43, 'Majin Buu', 108, 'Clean Boots'), (4, 'Trunks', 39, 123, 'Goten', 159, 'Clean Belt'))     # party slot, name, enemy row, character, opponent, equipment row, its name
 TRIAL_GEAR = 160                                   # all four: Geromantium Bandana, with the Senzu Beans below
-if os.environ.get('BFU_CLASH_TEST'): TRIALS = ((0, 'Goku', 61, 47, 'Kid Buu', 39, 'Titanium Breastplate'),) + TRIALS[1:]     # test_clash.py fights the game's beam user
+if os.environ.get('BFU_CLASH_TEST'): TRIALS = ((int(os.environ.get('BFU_CLASH_SLOT', 0)), 'Goku', 61, 47, 'Kid Buu', 39, 'Titanium Breastplate'),) + TRIALS[1:]     # test_clash.py fights the game's beam user
 TRIAL_HP, TRIAL_STATS, TRIAL_PRIZE, TRIAL_ITEM, TRIAL_ITEMS = 40000, (148, 65, 60, 65), 30000, 11, 10    # all four: ten Senzu Beans (item 11)
 TRIAL_WON, TRIAL_PAID, TRIAL_ALL = 891, 1128, 895
 HUB_AT = (208, 112)                                # where the tournament official stands in Hercule City; wins come home just below him

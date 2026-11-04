@@ -2,7 +2,8 @@
 """Beam clashes against Kid Buu, the game's beam user. Needs a zone debug build made with BFU_CLASH_TEST=1, where the first Trial is Kid Buu:
   BFU_CLASH_TEST=1 BFU_OUT=<dir> python3 ultimate/build.py --debug --zone
   python3 ultimate/test_clash.py <dir> [work dir]
-Drives the emulator live, so it can react to where he is. Exits non-zero on failure."""
+Drives the emulator live, so it can react to where he is. Exits non-zero on failure.
+For a guest in that Trial, build with BFU_CLASH_SLOT=8 too and set CLASH_FORM to the form's number and CLASH_SKILL to a beam skill."""
 import json, os, struct, subprocess, sys, tempfile
 H = 'tools/harness/harness'
 OUT = sys.argv[1]; d = sys.argv[2] if len(sys.argv) > 2 else tempfile.mkdtemp(prefix='clash'); os.makedirs(d, exist_ok=True)
@@ -50,7 +51,7 @@ def into_fight():
     g = Game()
     g.send('guardon 0x09000000', *start, flag_on(862), flag_on(883), *strong); g.sync()
     g.talk(96, 328); g.send('run 200'); g.sync()
-    if FORM: g.send('poke8 %08X 01' % REC0, 'poke8 %08X %02X' % (REC0 + 0x14, FORM), 'poke8 %08X FF' % (REC0 + 0x18), 'poke8 %08X 03' % (REC0 + 0x19), 'poke8 %08X 08' % G); g.sync()
+    if FORM: g.send('poke8 %08X 01' % REC0, 'poke8 %08X %02X' % (REC0 + 0x14, FORM), 'poke8 %08X FF' % (REC0 + 0x18), 'poke8 %08X 03' % (REC0 + 0x19), 'poke8 %08X FF' % (REC0 + 0x1E), 'poke8 %08X 03' % (REC0 + 0x1F)); g.sync()
     g.talk(*zone26.HUB_AT)
     g.send('run 150', 'tap A 150', 'tap DOWN 12', 'tap DOWN 12', 'tap A 150', 'run 150', 'tap A 150', 'tap A 200', 'run 120', 'shot clash_room'); g.sync()
     g.send('poke8 %08X 01' % (REC0 + 0x0C), 'poke8 %08X %02X' % (REC0 + 0x0D, SKILL), 'poke8 %08X 00' % (REC0 + 0x15), *strong); g.sync()
