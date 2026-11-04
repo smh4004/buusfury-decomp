@@ -36,7 +36,7 @@ for wish, name in enumerate(('power', 'rich', 'fighters', 'ss2')):
     check('wish %s: back at the Lookout' % name, at(out) == (1 << 8 | 6) and 'bad pc' not in out)
     check('wish %s: the balls are gone' % name, all(g[2 + zone26.BALL_ITEM + k] == 0 for k in range(7)))
     if name == 'fighters': check('new fighters join', g[0x55 + 887 // 8] >> (887 % 8) & 1)
-    if name == 'ss2': check('Super Saiyan 2 opens', g[0x55 + 864 // 8] == 255)
+    if name == 'ss2': check('Super Saiyan 2 opens', g[0x55 + 864 // 8] & 255 == 255 and g[0x55 + 872 // 8] & 1)
 W2 = Image.new('RGB', (5 * 240, 2 * 160))
 for i, n in enumerate(('sum1', 'sum2', 'sum3', 'wish', 'done_power', 'after_power', 'after_rich')):
     W2.paste(Image.open('%s/%s.png' % (d, n)).convert('RGB'), (i % 5 * 240, i // 5 * 160))

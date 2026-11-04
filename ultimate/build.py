@@ -442,7 +442,7 @@ def popo_npc(src):
         steps.append(('ball%d' % k, 'say 0x00 "You found the %d-Star Dragon Ball!"\n' % (k + 1)))
         code('ball%d_go' % k, '    call 0x80(%d)\n    pushn %d, 0, 0\n    call 0x35\n    push {END}\n    end\n' % (zone26.BALL_ITEM + k, balls['dragon_ball_%d' % (k + 1)] + 9))
     steps.append(('summon', 'say 0x%02X "All seven Dragon Balls! Stand back. I will call the Eternal Dragon."\n' % speaker))
-    code('summon_go', '    call music(40)\n    call play_sfx(23)\n    call 0x7A(20)\n    pushn 4, 20, 2, 120, 176\n    call load_scene\n    call 0x7B(90)\n    end\n')
+    code('summon_go', '    call music(40)\n    call play_sfx(23)\n    call 0x7A(20)\n    pushn 4, 20, 2, 120, 176\n    call load_scene\n    pushn 0, 228, 221\n    call 0x69\n    pushn 1, 244, 221\n    call 0x69\n    pushn 2, 220, 236\n    call 0x69\n    pushn 3, 236, 236\n    call 0x69\n    pushn 4, 252, 236\n    call 0x69\n    pushn 5, 228, 251\n    call 0x69\n    pushn 6, 244, 251\n    call 0x69\n    call 0x64(0)\n    call 0x64(1)\n    call 0x64(2)\n    call 0x64(3)\n    call 0x64(4)\n    call 0x64(5)\n    call 0x64(6)\n    call 0x7B(90)\n    end\n')
     dragon = 0x7A
     steps.append(('wish_say', 'say 0x%02X "You who have gathered the Dragon Balls, speak your wish!"\n' % dragon))
     steps.append(('wish', 'say 0x%02X "- Greater power\\n- Riches\\n- New fighters\\n- Super Saiyan 2"\n' % dragon))
@@ -482,6 +482,7 @@ def hub_npc(src):
     won = lambda k: zone26.TRIAL_WON + k
     paid = lambda k: zone26.TRIAL_PAID + k
     picker_first = '    call 0x8D\n    call 0x%X\n    push {END}\n    end\n' % DEBUG_NATIVE if os.environ.get('BFU_SLOT_TEST') else ''   # test_slots.py: open Switch Character and save here
+    if os.environ.get('BFU_HUB_EVENT'): picker_first = '    pushn %s, 0, 0\n    call run_event\n    push {END}\n    end\n' % os.environ['BFU_HUB_EVENT']     # a test plays one of the game's scripts by talking to the official
     if os.environ.get('BFU_HUB_WARP'): picker_first = '    pushn %s\n    call 0x77\n    push {END}\n    end\n' % os.environ['BFU_HUB_WARP']     # a test goes straight to a room by talking to the official
     start = picker_first + """    pushn 883
     call not_flag

@@ -183,7 +183,7 @@ SPAR = (('Tournament', (('Spopovich', 112, 252), ('Yamu', 148, 303), ('Pui Pui',
         ('Minibosses', (('Airship Warlord', 0, 31), ('Ninja Boss', 80, 201), ('Knight Destroyer', 63, 164), ('War Machine', 140, 291))),
         ('Friends', (('Goten', 39, 123), ('Trunks', 130, 269), ('Gohan', 35, 110), ('Gotenks', 40, 126))))
 # Dragon Ball hunt, after the ending: one ball in each of seven lands, a short walk from the capsule pad you land on. (world, area, x, y). Carrying a ball is the game's own item 16-22.
-BALLS = ()   # filled below
+BALLS = ((5, 1, 264, 344), (7, 1, 152, 112), (8, 1, 144, 104), (11, 1, 160, 40), (13, 1, 96, 120), (15, 1, 368, 352), (14, 1, 96, 128))
 BALL_ITEM, BALL_ZENIE, BALL_NATIVE, WISH_NATIVE = 16, 1000000, 0xEA, 0xEB
 SPAR_EXP, SPAR_MIN_HP, SPAR_ROOM, SPAR_HOME = 4, 2000, (6, 9), (288, 500)
 # Cell Games, from the Challenge Board: LoG2's arena, four fights in a row. Name, row whose behaviour it uses, HP, (level + 50, Strength, Power, Endurance), actor, how many.
