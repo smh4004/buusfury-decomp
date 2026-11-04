@@ -330,8 +330,8 @@ int spirit_usable(u8 *rec)
 static u16 *const BOMB_OLD = (u16 *)0x0203FF78;
 static void bomb_glow(int frame)
 {
-    static const u16 pulse[8] = {0x7E08, 0x7E48, 0x7EA8, 0x7F0A, 0x7F4A, 0x7F0A, 0x7EA8, 0x7E48};
-    BOMB_PAL = pulse[frame >> 1 & 7];
+    BOMB_PAL = 0x7F80;          /* a steady cyan */
+    (void)frame;
 }
 
 static void spirit_draw(void)
@@ -350,13 +350,26 @@ static void impact(int step)
     else { BLDCNT = *BOMB_OLD; BLDY = 0; }
 }
 
+#define SLOT_ARMS_UP 12
+#define SLOT_THROW 8
+static void slot_pose(void *player, int slot) {
+    u8 *actor = (u8 *)*(u32 *)((u8 *)player + 0x58);
+    if (!has_slot(player, slot)) return;
+    if (*(u32 *)((u8 *)player + 0x50) == *(u32 *)(actor + 0x54 + slot * 4)) return;
+    play_slot(player, slot);
+}
+
 /* Script native bomb_fx(n) for the story's Spirit Bomb: 1 glow on, 0 glow off, 2 one frame of the impact sequence starting over */
 void bomb_fx(int *sp)
 {
     int n = *sp, v = sp[n];
-    static u16 saved;
-    if (v == 1) { if (!SB.phase) { saved = BOMB_PAL; SB.phase = 9; } SB.frame++; bomb_glow(SB.frame); }
-    else if (v == 0) { BOMB_PAL = saved; SB.phase = 0; BLDY = 0; }
+    if (v == 1) {
+        void *player = *(void **)0x03001C34;
+        if (!SB.phase) SB.phase = 9;
+        SB.frame++; bomb_glow(SB.frame);
+        if (player) slot_pose(player, SLOT_ARMS_UP);
+    }
+    else if (v == 0) { SB.phase = 0; BLDY = 0; }      /* the next room reloads the palette; restoring it here would turn the disc dull during the fade */
     else { impact(v - 2); }
     *sp = n - 1;
 }
@@ -438,7 +451,8 @@ void spirit_destroyed(void) { SB.phase = 0; }     /* a new area clears every eff
 /* Non-zero while Goku is busy with the bomb: the state's normal update is skipped so he stands still. */
 static int spirit_tick(void *player)
 {
-    if (SB.phase == 1 || (SB.phase == 2 && SB.frame < 12)) { charge_pose(player); return 1; }
+    if (SB.phase == 1) { slot_pose(player, SLOT_ARMS_UP); return 1; }     /* the arms-up pose of the Kid Buu fight */
+    if (SB.phase == 2 && SB.frame < 12) { slot_pose(player, SLOT_THROW); return 1; }
     return 0;
 }
 

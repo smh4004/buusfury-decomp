@@ -265,6 +265,28 @@ L1:
     dec 0x05
     call wait(1)
     loop L1
+    pushn %d, 9, 0
+    call 0x51
+    push 90
+    loop_begin
+L3:
+    call 0x04
+    call 0x05
+    call 0x06
+    call 0xF4(255)
+    call 0xE5(1)
+    call 0x19(10)
+    push 0
+    eq
+    jz L4
+    call play_sfx(24)
+    pushn 5, 200, 200, 255, 10
+    call 0x4C
+L4:
+    call wait(1)
+    loop L3
+    pushn %d, 16, 0
+    call 0x51
     call play_sfx(24)
     call 0xE5(2)
     call wait(3)
@@ -305,7 +327,7 @@ step auto code
     end
 step auto code
     end
-''' % (form_row('super13'), JOIN_NATIVE, form_row('gogeta_dbs'), JOIN_NATIVE, super13, super13, super13, super13)
+''' % (form_row('super13'), JOIN_NATIVE, form_row('gogeta_dbs'), JOIN_NATIVE, super13, super13, super13, super13, super13, super13)
 
 
 def tournament_npc(src):
