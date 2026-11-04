@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+"""Dragon Ball hunt: lands at each of the seven lands after the real ending, walks to the ball and takes it; then, holding all seven, talks to Mr. Popo,
+summons the dragon and tries each wish. Build `--debug --zone` first.
+  python3 ultimate/test_dragon.py [work dir]"""
+import sys
+src = open('ultimate/test_story.py').read().split("land = e + move(p3, 1250, 1200)")[0]
+exec(src)
+sys.path[:0] = ['ultimate', 'ultimate/lib', 'tools/scripts']
+import zone26
+from PIL import Image
+ITEMS = 0x03001068 + 2 + zone26.BALL_ITEM            # the inventory's byte array
+LAND = {5: (2888, 1684), 7: (2024, 2120), 8: (864, 1796), 11: (1576, 1064), 13: (792, 876), 15: (2196, 892), 14: (2192, 1212)}
+fly = lambda x, y: e + move(p3, x, y) + ['run 4', 'tap A 100', 'run 60', 'keys A', 'run 300', 'keys', 'run 100']
+W = Image.new('RGB', (5 * 240, 3 * 160)); cell = [0]
+def paste(name):
+    W.paste(Image.open('%s/%s.png' % (d, name)).convert('RGB'), (cell[0] % 5 * 240, cell[0] // 5 * 160)); cell[0] += 1
+for k, (world, area, x, y) in enumerate(zone26.BALLS):
+    l = fly(*LAND[world]) + ['mem 0300197C 1']
+    out = run(l); check('landing in land %d' % world, at(out) == (area << 8 | world))
+    pl = ptr(l)
+    walk = l + move(pl, x, y + 22) + ['run 40', 'shot ball%d_a' % k, 'run 2', 'keys UP', 'run 6', 'keys', 'run 4', 'tap A 60', 'run 120', 'shot ball%d_b' % k, 'tap A 40', 'run 100', 'shot ball%d_c' % k, 'mem %08X 1' % (ITEMS + k & ~3), 'mem 0300197C 1']
+    out = run(walk); m = [l_ for l_ in out.splitlines() if l_.startswith('mem %08x' % (ITEMS + k & ~3))]
+    got = int(m[-1].split(':')[1].split()[0], 16) >> (8 * ((ITEMS + k) & 3)) & 255
+    check('ball %d is found' % (k + 1), got == 1 and 'bad pc' not in out)
+    paste('ball%d_a' % k); paste('ball%d_c' % k)
+W.save(d + '/balls.png')
+# Summon: hold all seven, land at the Lookout, talk to Mr. Popo.
+pokes = ['poke8 %08X 01' % (ITEMS + k) for k in range(7)]
+look = fly(648, 1076) + pokes + ['mem 0300197C 1']
+out = run(look); check('at the Lookout', at(out) == (1 << 8 | 6))
+pl = ptr(look)
+start_ = look + move(pl, 288, 494) + ['run 2', 'keys UP', 'run 6', 'keys', 'run 4', 'tap A 80', 'run 180', 'shot sum1', 'tap A 20', 'run 500', 'shot sum2', 'tap A 20', 'run 180', 'shot sum3', 'tap A 20', 'run 120', 'shot wish']
+for wish, name in enumerate(('power', 'rich', 'fighters', 'ss2')):
+    t = start_ + ['tap DOWN 12'] * wish + ['tap A 20', 'run 180', 'shot done_' + name, 'tap A 20', 'run 400', 'mem 0300197C 1', 'mem %08X 2' % (ITEMS & ~3), 'mem 0300155C 1', 'shot after_' + name, 'dump g 03001068 8a8']
+    out = run(t); g = open(d + '/g.bin', 'rb').read()
+    check('wish %s: back at the Lookout' % name, at(out) == (1 << 8 | 6) and 'bad pc' not in out)
+    check('wish %s: the balls are gone' % name, all(g[2 + zone26.BALL_ITEM + k] == 0 for k in range(7)))
+    if name == 'fighters': check('new fighters join', g[0x55 + 887 // 8] >> (887 % 8) & 1)
+    if name == 'ss2': check('Super Saiyan 2 opens', g[0x55 + 864 // 8] == 255)
+W2 = Image.new('RGB', (5 * 240, 2 * 160))
+for i, n in enumerate(('sum1', 'sum2', 'sum3', 'wish', 'done_power', 'after_power', 'after_rich')):
+    W2.paste(Image.open('%s/%s.png' % (d, n)).convert('RGB'), (i % 5 * 240, i // 5 * 160))
+W2.save(d + '/summon.png')
+if fails: print('FAILED:', fails); sys.exit(1)
+print('screens in', d)

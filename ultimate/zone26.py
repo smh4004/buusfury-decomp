@@ -182,6 +182,9 @@ SPAR = (('Tournament', (('Spopovich', 112, 252), ('Yamu', 148, 303), ('Pui Pui',
         ('Other World', (('Pikkon', 91, 224), ('Olibu', 85, 206), ('Super Janemba', 122, 154), ('Broly', 10, 38))),
         ('Minibosses', (('Airship Warlord', 0, 31), ('Ninja Boss', 80, 201), ('Knight Destroyer', 63, 164), ('War Machine', 140, 291))),
         ('Friends', (('Goten', 39, 123), ('Trunks', 130, 269), ('Gohan', 35, 110), ('Gotenks', 40, 126))))
+# Dragon Ball hunt, after the ending: one ball in each of seven lands, a short walk from the capsule pad you land on. (world, area, x, y). Carrying a ball is the game's own item 16-22.
+BALLS = ()   # filled below
+BALL_ITEM, BALL_ZENIE, BALL_NATIVE, WISH_NATIVE = 16, 1000000, 0xEA, 0xEB
 SPAR_EXP, SPAR_MIN_HP, SPAR_ROOM, SPAR_HOME = 4, 2000, (6, 9), (288, 500)
 # Cell Games, from the Challenge Board: LoG2's arena, four fights in a row. Name, row whose behaviour it uses, HP, (level + 50, Strength, Power, Endurance), actor, how many.
 # Perfect Cell takes Kid Buu's row: he fires beams, so he can clash with you. All health carries over, as in the Boss Rush.
@@ -233,7 +236,7 @@ def spar_first():
 
 def spar_end():
     """Script run when a sparring partner falls: rested, back on the Lookout beside Mr. Popo."""
-    return '    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 6, 1, 1, %d, %d\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % SPAR_HOME
+    return spar_off() + '    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 6, 1, 1, %d, %d\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % SPAR_HOME
 
 
 def spar_list():
@@ -261,8 +264,18 @@ def cell_next(room, last):
 
 
 def cell_counted(room):
-    return ('    pushn %d\n    call flag\n    jz L1\n    pushn %d\n    call flag\n    jz L2\n    pushn %d\n    call clear_flag\n    pushn %d\n    call clear_flag\n' % (CELL_COUNT[0], CELL_COUNT[1], CELL_COUNT[0], CELL_COUNT[1]) + cell_next(room, False)
-            + 'L2:\n    pushn %d\n    call set_flag\n    end\nL1:\n    pushn %d\n    call set_flag\n    end\n' % (CELL_COUNT[1], CELL_COUNT[0]))
+    a, b = CELL_COUNT
+    return ('    pushn %d\n    call flag\n    jz L1\n    pushn %d\n    call clear_flag\n' % (b, b) + cell_next(room, False)
+            + 'L1:\n    pushn %d\n    call flag\n    jz L2\n    pushn %d\n    call clear_flag\n    pushn %d\n    call set_flag\n    end\nL2:\n    pushn %d\n    call set_flag\n    end\n' % (a, a, b, a))
+
+
+def spar_on():
+    """Both flags together mean a Chamber fight is on: the Cell Juniors' count, which shares them, never sets both."""
+    return ''.join('    pushn %d\n    call set_flag\n' % f for f in CELL_COUNT)
+
+
+def spar_off():
+    return ''.join('    pushn %d\n    call clear_flag\n' % f for f in CELL_COUNT)
 
 
 def tour_list():
@@ -317,7 +330,6 @@ def rush_rows(W, rom, harmless=False):
         r = bytearray(rom[STATS + 28 * row:STATS + 28 * (row + 1)])
         struct.pack_into('<I', r, 0, struct.unpack_from('<I', r, 0)[0] * SPAR_EXP // 10)
         struct.pack_into('<I', r, 4, max(struct.unpack_from('<I', r, 4)[0], SPAR_MIN_HP))
-        if harmless: r[0xD] = r[0xE] = 0
         struct.pack_into('<II', r, 0x14, 0x08708920, end)
         rows += r
     done = []
@@ -358,7 +370,19 @@ def condition(W, text):
     return W.put(bytes(bfscript.asm(text)))
 
 
-def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=False, quest_list=0, ending_list=0):
+def add_balls(W, rom, actor_ids, popo_list):
+    """Each ball stands in its land's person list while you've no such ball and the ending has been seen."""
+    for k, (world, area, x, y) in enumerate(BALLS):
+        e = next(AREAS + 56 * q for q in range(COUNT) if rom[AREAS + 56 * q] == world and rom[AREAS + 56 * q + 1] == area)
+        count = rom[e + 4]; lst = struct.unpack_from('<I', rom, e + 0x14)[0]
+        ptrs = list(struct.unpack_from('<%dI' % count, rom, lst - BASE)) if count else []
+        cond = condition(W, '    call flag(149)\n    call 0x7F(%d)\n    push 0\n    eq\n    and\n    end\n' % (BALL_ITEM + k))
+        rec = W.put(struct.pack('<8I', 0x08017DA3, cond, y << 16 | x, popo_list, actor_ids['dragon_ball_%d' % (k + 1)] + 9, 1, 0x080716EC, 0))
+        struct.pack_into('<I', rom, e + 0x14, W.put(struct.pack('<%dI' % (count + 1), *ptrs, rec)))
+        rom[e + 4] = count + 1
+
+
+def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=False, quest_list=0, ending_list=0, popo_list=0):
     P = open(proto_path, 'rb').read()
     cfg = json.load(open('ultimate/zone26.json')); W = Writer(rom, at); rows = []; info = {}
     masks = {a: floor_mask(P, proto_path, a) for a in range(1, 16)}
@@ -443,7 +467,8 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
     for k, (_, _, char) in enumerate(spar_list()):            # Time Chamber: its white room, empty but for the partner. Its story scene stays behind.
         st = bytearray(white); st[0] = 26; st[1] = spar_first() + k; st[3] = 0
         e = W.put(struct.pack('<8I', 0x0800FD55, 0, STATS_COUNT + len(RUSH) + len(tour_list()) + len(TRIALS) + k, 80 << 16 | 120, char, 0x080555A0, 1, 0x080716EC))
-        struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e))); struct.pack_into('<I', st, 0x10, 0)
+        struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e)))
+        struct.pack_into('<I', st, 0x10, 0)
         rows.append(bytes(st))
     import mapimport
     l2 = open(os.environ['BFU_COMBO'], 'rb').read()[0x800000:]
@@ -459,6 +484,7 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
         struct.pack_into('<I', st, 0x2C, scene); struct.pack_into('<I', st, 0x30, 0); struct.pack_into('<I', st, 0xC, CELL_NAME_UI)
         rows.append(bytes(st))
     hub_person(W, rom)
+    add_balls(W, rom, actor_ids, popo_list)
     if debug_door:          # debug: on Snake Way, x>=96 walk down reaches 26:1; x 48-96 walk up reaches Broly; x<48 starts the ending
         e = next(AREAS + 56 * k for k in range(COUNT) if rom[AREAS + 56 * k] == 1 and rom[AREAS + 56 * k + 1] == 1)
         o = W.put(struct.pack('<2I4H2I', WARP[0], WARP[1], 96, 0, 1024, 1024, 0 | 26 << 8 | 1 << 16 | 1 << 24, 200 << 16 | 120))

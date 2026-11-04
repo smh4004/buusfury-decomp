@@ -218,6 +218,7 @@ void heap_init(void) {
    All beams share one update, so the watch lives there; a beam that stops updating simply stops counting. */
 #define Beam_Update ((void (*)(u8 *, int))0x0802084D)
 #define PLAYER_OBJ (*(u8 **)0x03001C34)
+#define FLAG_BYTE(f) (*(volatile u8 *)(0x03001068 + 0x55 + (f) / 8))
 #define ENEMY_VT 0x0804C484
 #define NewSpark ((void *(*)(int, int *, const void *, int, int, int, int))0x0802A81D)
 #define ListAdd ((void (*)(void *, void *))0x0801191B)
@@ -931,8 +932,27 @@ void add_zenie(int *sp) {
     *sp = n - 1;
 }
 
+/* Script native: which Dragon Ball lives in this room, plus one; 0 anywhere else. */
+void ball_here(int *sp) {
+    static const u16 areas[7] = BALL_AREAS;
+    int i, v = 0, now = *(u32 *)0x0300197C & 0xFFFF;
+    for (i = 0; i < 7; i++) if (areas[i] == now) v = i + 1;
+    *sp += 1; sp[*sp] = v;
+}
+
+/* Script native: the wish for greater power. Every fighter who has joined gains 5 in each stat. */
+void wish_power(int *sp) {
+    int c, i;
+    (void)sp;
+    for (c = 0; c < 9; c++) {
+        u8 *r = RECORDS + c * RECORD_SIZE;
+        if (!(r[0] & 1)) continue;
+        for (i = 0x28; i < 0x2C; i++) r[i] = r[i] > 250 ? 255 : r[i] + 5;
+        Recalculate(r);
+    }
+}
+
 /* World Tournament bracket: each round's opponent lives in three story flags, kept with the save. */
-#define FLAG_BYTE(f) (*(volatile u8 *)(0x03001068 + 0x55 + (f) / 8))
 void tour_pick(int *sp) {
     int n = *sp, round = sp[n - 1], place = sp[n], i;
     for (i = 0; i < 3; i++) {

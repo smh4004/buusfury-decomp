@@ -90,6 +90,21 @@ for c, (cat, people) in enumerate(zone26.SPAR):
         check('%s: the win comes back to the Lookout, rested' % name, at() == (1 << 8 | 6))
         room += 1
 print(exp)
+# Losing: no game over, back to the Lookout rested, and the next fight works.
+def lose(tag):
+    room = zone26.spar_first() + 10                              # Kid Buu hits hard and often
+    talk(288, 472); send('run 220', 'tap A 20', 'run 100', 'tap DOWN 12', 'tap DOWN 12', 'tap A 20', 'run 100', 'tap DOWN 12', 'tap DOWN 12', 'tap A 20', 'run 160')
+    check('%s: in the Chamber' % tag, at() == (room << 8 | 26))
+    for k in range(40):
+        if at() != (room << 8 | 26) or (k and mem(REC0 + 0x16)[0] & 0xFFFF == 0): break
+        foe = mem(ENEMIES)[0]; x, y = mem(foe + 0x1A0, 2); pl = mem(PLAYER)[0]
+        send('poke8 %08X 01' % (REC0 + 0x16), 'poke8 %08X 00' % (REC0 + 0x17), 'poke %08X %08X' % (pl + 0x1A0, x), 'poke %08X %08X' % (pl + 0x1A4, y + (24 << 8)), 'run 200')
+        print('   hp', hex(mem(REC0 + 0x16)[0]), hex(at()), flush=True)
+    send('run 800'); sheet('lost_' + tag)
+    check('%s: a lost fight comes back to the Lookout, not a game over' % tag, at() == (1 << 8 | 6))
+    hp = mem(REC0 + 0x16)[0]
+    print('   hp now', hex(hp)); check('%s: rested' % tag, hp & 0xFFFF > 1)
+lose('first'); lose('again')
 check('partners pay EXP', any(v > 0 for _, v in exp))
 check('no bad jumps', not bad[0])
 W.save(D + '/chamber.png'); p.stdin.close()

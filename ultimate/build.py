@@ -49,7 +49,7 @@ NEW_MOVES = (('eraser', ERASER_SKILL, (2.95, 2.85, 2.45), 'Eraser Cannon', 'Pres
              ('disc', DISC_SKILL, (2.4, 2.2, 2), 'Destructo Disc', 'Press the B Button and release to throw a spinning disc of energy that explodes on contact.  Hold the B Button longer to make the attack stronger.', (1, 0, 0.85, 0.15, 0.1, 0.8)))
 SUPER_BLUE_SKILL = 21            # a skill row with stubs only: becomes Super Saiyan Blue
 BROLY_DEFEAT = 'assets/scripts/gUnknown_0879321C.evt'
-DEBUG_NATIVE = 0xF7              # debug builds only: "save to slot 1" (not used by any game script)
+DEBUG_NATIVE = 0xF5              # debug builds only: "save to slot 1". Not 0xF7: the death script uses that one
 OUT = os.environ.get('BFU_OUT', 'ultimate/out')
 SAIYAMAN = [(10, 14), (15, 'saiyaman_from_green'), (13, 'saiyaman_from_orange')]
 ACTORS_FILE = 'assets/areas/a033_w01_01_Snakeway.actors'
@@ -68,9 +68,10 @@ def new_actor_ids():
     """Ids add_actors will give: actors.json's new actors in order, then Super 13 and Android 13. Checked after the build."""
     cfg = json.load(open('ultimate/actors.json'))
     n = ACTOR_BASE + sum(1 for k, a in cfg.items() if not k.startswith('_') and 'replace' not in a)
-    return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2, 'gogeta_dbs': n + 3, 'gogeta_dbs_ss': n + 4, 'gogeta_ssb': n + 5, 'android13_player': n + 6, 'super13_player': n + 7, 'goku_ss2': n + 8, 'goku_ss2_b': n + 9, 'gohan_ss2': n + 10, 'gohan_green_ss2': n + 11, 'vegeta_ss2': n + 12, 'vegeta_ss2_b': n + 13, 'vegeta_armor_ss2': n + 14, 'gohan_armor_ss2': n + 15, 'trunks_ss2': n + 16, 'trunks_armor_ss2': n + 17, 'vegito_ss2': n + 18, 'super17': n + 19, 'android13_absorb': n + 20, 'cell_imperfect': n + 21, 'cell_semi': n + 22, 'cell_perfect': n + 23, 'cell_junior': n + 24}
+    return {'super13': n, 'android13': n + 1, 'broly_fp': n + 2, 'gogeta_dbs': n + 3, 'gogeta_dbs_ss': n + 4, 'gogeta_ssb': n + 5, 'android13_player': n + 6, 'super13_player': n + 7, 'goku_ss2': n + 8, 'goku_ss2_b': n + 9, 'gohan_ss2': n + 10, 'gohan_green_ss2': n + 11, 'vegeta_ss2': n + 12, 'vegeta_ss2_b': n + 13, 'vegeta_armor_ss2': n + 14, 'gohan_armor_ss2': n + 15, 'trunks_ss2': n + 16, 'trunks_armor_ss2': n + 17, 'vegito_ss2': n + 18, 'super17': n + 19, 'android13_absorb': n + 20, 'cell_imperfect': n + 21, 'cell_semi': n + 22, 'cell_perfect': n + 23, 'cell_junior': n + 24, **{'dragon_ball_%d' % (k + 1): n + 25 + k for k in range(7)}}
 
 
+DEATH_SCRIPT = 'assets/scripts/gUnknown_0877C5A4.evt'
 POPO_NPC = 'assets/scripts/gUnknown_08786E68.evt'   # Mr. Popo on the Lookout: after the ending, the Hyperbolic Time Chamber
 HUB_NPC = 'assets/scripts/gUnknown_08783D30.evt'    # a Hercule City resident: post-game, the tournament official's Challenge Board
 TOUR_NPC = 'assets/scripts/gUnknown_08785590.evt'   # the West City resident to the west
@@ -383,6 +384,27 @@ step auto code
 """
 
 
+def death_script(src):
+    """The game's death script: a lost Time Chamber fight rests you and goes back to the Lookout, the way the Lazarus Crystal revives you."""
+    import zone26
+    first = 'step 7 zcode'
+    if first not in src: sys.exit('death script changed')
+    head, rest = src.split(first, 1)
+    line, body = rest.split('\n', 1)
+    new = '    pushn %d\n    call flag\n    pushn %d\n    call flag\n    and\n    jz L9\n    push 9\n    end\nL9:\n' % zone26.CELL_COUNT
+    home = '    call spar_off\n'.replace('    call spar_off\n', zone26.spar_off())
+    return head + first + line + '\n' + new + body.rstrip() + '\nstep 9 code\n' + home + '    call max_hp\n    set hp\n    pushn 0, 0\n    call 0x3C\n    call 0xF7(5)\n    call 0x78(30)\n    pushn 6, 1, 1, %d, %d\n    call 0x77\n    call 0x79(30)\n    end\n' % zone26.SPAR_HOME
+
+
+def symbol_items_icon(item):
+    """Where the item's menu icon is in the base ROM (items.csv names it)."""
+    import csv
+    rows = list(csv.reader(open('assets/tables/items.csv', encoding='latin1')))
+    head = next(r for r in rows if r and r[0] == 'index')
+    row = next(r for r in rows if r and r[0] == str(item))
+    return int(row[head.index('icon')].split('_')[1], 16) - ROM_BASE
+
+
 def popo_npc(src):
     """After the ending Mr. Popo opens the Hyperbolic Time Chamber: a category, then a partner, up to four to a page. Before it he says what he always said."""
     import zone26
@@ -412,8 +434,25 @@ def popo_npc(src):
         for name, row, _ in people:
             gate = '    call flag(111)\n    jz L1\n' if name == 'Broly' else ''
             tail = 'L1:\n    push {locked}\n    end\n' if name == 'Broly' else ''
-            code('p%d' % room, gate + '    call 0x78(30)\n    pushn 26, %d, 1, 120, 150\n    call 0x77\n    call 0x79(30)\n    push {END}\n    end\n' % room + tail)
+            code('p%d' % room, gate + zone26.spar_on() + '    call 0x78(30)\n    pushn 26, %d, 1, 120, 150\n    call 0x77\n    call 0x79(30)\n    push {END}\n    end\n' % room + tail)
             room += 1
+    # The Dragon Balls. A ball on the map starts this same list, so the first thing it does is ask where it is.
+    balls = new_actor_ids()
+    for k in range(7):
+        steps.append(('ball%d' % k, 'say 0x00 "You found the %d-Star Dragon Ball!"\n' % (k + 1)))
+        code('ball%d_go' % k, '    call 0x80(%d)\n    pushn %d, 0, 0\n    call 0x35\n    push {END}\n    end\n' % (zone26.BALL_ITEM + k, balls['dragon_ball_%d' % (k + 1)] + 9))
+    steps.append(('summon', 'say 0x%02X "All seven Dragon Balls! Stand back. I will call the Eternal Dragon."\n' % speaker))
+    code('summon_go', '    call music(40)\n    call play_sfx(23)\n    call 0x7A(20)\n    pushn 4, 20, 2, 120, 176\n    call load_scene\n    call 0x7B(90)\n    end\n')
+    dragon = 0x7A
+    steps.append(('wish_say', 'say 0x%02X "You who have gathered the Dragon Balls, speak your wish!"\n' % dragon))
+    steps.append(('wish', 'say 0x%02X "- Greater power\\n- Riches\\n- New fighters\\n- Super Saiyan 2"\n' % dragon))
+    choose('wish_go', ['w_power', 'w_rich', 'w_fighters', 'w_ss2'])
+    code('w_power', '    call 0x%X\n    push {done}\n    end\n' % zone26.WISH_NATIVE)
+    code('w_rich', '    pushn %d\n    call 0x%X\n    push {done}\n    end\n' % (zone26.BALL_ZENIE, zone26.ADD_ZENIE))
+    code('w_fighters', '    pushn 887\n    call set_flag\n    push {done}\n    end\n')
+    code('w_ss2', ''.join('    pushn %d\n    call set_flag\n' % (SS2_FLAG + k) for k in range(9)) + '    push {done}\n    end\n')
+    steps.append(('done', 'say 0x%02X "It is done. Farewell!"\n' % dragon))
+    code('wish_end', ''.join('    call take_item(%d)\n' % (zone26.BALL_ITEM + k) for k in range(7)) + '    call 0x7A(30)\n    pushn 6, 1, 1, %d, %d\n    call 0x77\n    call 0x7B(40)\n    push {END}\n    end\n' % zone26.SPAR_HOME)
     code('last', '    end\n')
     number = {n: k + 2 for k, (n, _) in enumerate(steps)}; number['END'] = len(steps) + 2      # counted from 0; the first two are his old line
     head, old = src.split('step 1 code', 1)
@@ -421,7 +460,10 @@ def popo_npc(src):
         sys.exit("Mr. Popo's script changed")
     old = old.replace('    push 5\n', '    push %d\n' % number['END']).rstrip()
     old = old[:-len('end')] + 'push %d\n    end\n' % number['END']
-    first = '\n    call flag(149)\n    jz L9\n    push %d\n    end\nL9:' % number['hello']
+    first = ''.join('\n    call 0x%X\n    push %d\n    eq\n    jz B%d\n    push %d\n    end\nB%d:' % (zone26.BALL_NATIVE, k + 1, k, number['ball%d' % k], k) for k in range(7))
+    all7 = ''.join('\n    call 0x7F(%d)%s' % (zone26.BALL_ITEM + k, '\n    and' if k else '') for k in range(7))
+    first += all7 + '\n    jz A9\n    call flag(149)\n    jz A9\n    push %d\n    end\nA9:' % number['summon']
+    first += '\n    call flag(149)\n    jz L9\n    push %d\n    end\nL9:' % number['hello']
     line, rest = old.split('\n', 1)
     return head + 'step 1 code' + line + first + '\n' + rest + ''.join('step auto %s' % re.sub(r'\{(\w+)\}', lambda m: str(number[m.group(1)]), t) for _, t in steps)
 
@@ -574,7 +616,9 @@ L1:
     status('rewards', 887, "Boss Rush: cleared! Majin Buu, Super Janemba and Kid Buu are on your side.", "Boss Rush: win it and Majin Buu, Super Janemba and Kid Buu join you.", 'rew2')
     status('rew2', 890, "World Tournament: cleared! Each win pays 100,000 Zenie.", "World Tournament: each win pays 100,000 Zenie.", 'rew3')
     status('rew3', zone26.TRIAL_ALL, "Trials: all four cleared! You earned the Geromantium Bandana.", "Trials: Zenie and gear each. All four: Geromantium Bandana and ten Senzu Beans.", 'rew5')
-    status('rew5', zone26.CELL_PAID, "Cell Games: cleared! You earned 200,000 Zenie.", "Cell Games: beat all four fights to win 200,000 Zenie.", 'rew4')
+    status('rew5', zone26.CELL_PAID, "Cell Games: cleared! You earned 200,000 Zenie.", "Cell Games: beat all four fights to win 200,000 Zenie.", 'rew6')
+    say('rew6', "Dragon Balls: seven lie near the landing pads of seven lands. Bring them to Mr. Popo.")
+    code('rew6_go', '    push {rew4}\n    end\n')
     say('rew4', "Time Chamber: Mr. Popo on Kami's Lookout lets you spar with old foes, for less EXP.")
     code('rew4_go', '    push {END}\n    end\n')
     say('more', "- Cell Games\\n- Rewards\\n- Back")
@@ -826,6 +870,10 @@ def add_actors(rom, clean):
     for name, rec in (('cell_imperfect', 'r25'), ('cell_semi', 'r26'), ('cell_perfect', 'r27'), ('cell_junior', 'r28')):      # LoG2's own sprites, whole: 64x64 like the prototype's Super 13 (the Juniors are smaller)
         cfg[name] = {'template': 38, 'stretch': True, 'reserve': 1024 if name == 'cell_junior' else 4096, 'log2_record': rec,
                      'log2_slots': {**{str(k): 0 for k in range(22)}, '1': 1, '2': 1, '4': 6, '5': 7, '6': 7, '7': '3@0:1' if name != 'cell_junior' else '2@0:1', '8': 5, '9': 5, '10': 5, '13': 5, '14': 6, '15': 2, '16': 3 if name != 'cell_junior' else 2, '17': 3 if name != 'cell_junior' else 2, '18': 5, '19': 5, '20': 6, '21': 5}}
+    for k in range(7):                                   # the game's own item icons, as things you can walk up to
+        p = symbol_items_icon(16 + k)
+        t, size = struct.unpack_from('<II', clean, p); icon = np.frombuffer(bytes(wfz.decompress_stream(clean, p + 8, size)[0]), np.uint8).reshape(16, 16)
+        cfg['dragon_ball_%d' % (k + 1)] = {'template': 152, 'raw_frames': {str(sl): [[icon], [icon], [icon]] for sl in (0, 1)}}
     cfg['_powerup'] = [101, 104, 105, 273, 274, 261, 276, 'vegeta_armor_ss', 'gohan_armor_ss', 'trunks_armor_ss']
     ids, end = sprites.build_actors(rom, cfg, clean_dir, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal), open(PROTO, 'rb').read())
     return ids, end
@@ -908,7 +956,7 @@ def add_outfits(rom, clean, at):
     c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\nconst u8 ss2_rows[] = {%s,255};\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs), ','.join(str(v) for k, v in fm.items() if k.endswith(('_ss2', '_ss2_b'))))
     open(d + '/o.c', 'w').write(c)
     import zone26
-    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DHEAP_WORDS=0x%X' % HEAP_WORDS, '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DWAVE_SKILL=%d' % WAVE_SKILL, '-DSUPER13_SKILL=%d' % SUPER13_SKILL, '-DSUPER17_SKILL=%d' % SUPER17_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DFORM_KID_BUU=%d' % fm['kid_buu'], '-DFORM_MAJIN_BUU=%d' % fm['majin_buu'], '-DFORM_JANEMBA=%d' % fm['super_janemba'], '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DTOUR_PICK_FLAG=%d' % zone26.TOUR_PICKS, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DFORM_S17=%d' % fm['super17'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
+    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DHEAP_WORDS=0x%X' % HEAP_WORDS, '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DWAVE_SKILL=%d' % WAVE_SKILL, '-DSUPER13_SKILL=%d' % SUPER13_SKILL, '-DSUPER17_SKILL=%d' % SUPER17_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DFORM_KID_BUU=%d' % fm['kid_buu'], '-DFORM_MAJIN_BUU=%d' % fm['majin_buu'], '-DFORM_JANEMBA=%d' % fm['super_janemba'], '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DTOUR_PICK_FLAG=%d' % zone26.TOUR_PICKS, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DBALL_AREAS={%s}' % ','.join(str(b[1] << 8 | b[0]) for b in zone26.BALLS), '-DFORM_S13=%d' % fm['super13'], '-DFORM_S17=%d' % fm['super17'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
     syms = ['-Wl,--defsym=form_table=0x%X' % (ROM_BASE + SPACE), '-Wl,-Ttext=0x%X' % (ROM_BASE + at), '-Wl,-e,picker_update', '-Wl,--no-warn-rwx-segments']
     lib = subprocess.run(['arm-none-eabi-gcc', '-mthumb', '-mcpu=arm7tdmi', '-print-libgcc-file-name'], capture_output=True, text=True, check=True).stdout.strip()
     subprocess.run(['arm-none-eabi-gcc'] + flags + syms + [d + '/o.c', lib, '-o', d + '/o.elf'], check=True)
@@ -945,6 +993,8 @@ def add_outfits(rom, clean, at):
     struct.pack_into('<I', rom, tab + 4 * JOIN_NATIVE, sym['party_join'] | 1)
     struct.pack_into('<I', rom, tab + 4 * 0xE0, sym['add_zenie'] | 1)
     struct.pack_into('<I', rom, tab + 4 * 0xE5, sym['bomb_fx'] | 1)
+    struct.pack_into('<I', rom, tab + 4 * zone26.BALL_NATIVE, sym['ball_here'] | 1)
+    struct.pack_into('<I', rom, tab + 4 * zone26.WISH_NATIVE, sym['wish_power'] | 1)
     struct.pack_into('<I', rom, tab + 4 * 0xE6, sym['bomb_at'] | 1)
     import zone26
     struct.pack_into('<I', rom, tab + 4 * zone26.TOUR_PICK, sym['tour_pick'] | 1)
@@ -1284,6 +1334,8 @@ def main():
         open(HUB_NPC, 'w').write(hub_npc(saved[HUB_NPC]))
         saved.setdefault(POPO_NPC, open(POPO_NPC).read())
         open(POPO_NPC, 'w').write(popo_npc(saved[POPO_NPC]))
+        saved.setdefault(DEATH_SCRIPT, open(DEATH_SCRIPT).read())
+        open(DEATH_SCRIPT, 'w').write(death_script(saved[DEATH_SCRIPT]))
         if debug:
             debug_edits(FORM_COUNT)
         subprocess.run(['make', 'modern'], check=True, stdout=subprocess.DEVNULL)
@@ -1302,7 +1354,7 @@ def main():
     free = add_portraits(rom, clean, free)
     sys.path.insert(0, 'ultimate')
     import zone26
-    zone_end, zone_info = zone26.apply(rom, clean, PROTO, LOG2, actors_end, actors, debug and '--zone' in sys.argv, symbol('gUnknown_08785580'), symbol('gUnknown_08796114'))
+    zone_end, zone_info = zone26.apply(rom, clean, PROTO, LOG2, actors_end, actors, debug and '--zone' in sys.argv, symbol('gUnknown_08785580'), symbol('gUnknown_08796114'), symbol('gUnknown_08786E68'))
     print('zone 26 tiles:', zone_info)
     actors_end = zone_end
     if {k: actors[k] for k in new_actor_ids()} != new_actor_ids():
