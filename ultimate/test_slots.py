@@ -51,7 +51,7 @@ DOWN = lambda n: ['tap DOWN 30'] * n
 UP = lambda n: ['tap UP 30'] * n
 CONFIRM = ['tap A 200', 'run 120']
 CANCEL = ['tap B 200', 'run 120']
-ORDER = ['broly', 'broly_fp', 'android13', 'super13', 'piccolo', 'future_trunks', 'android17', 'android18', 'krillin', 'videl', 'majin_buu', 'super_janemba', 'kid_buu']
+ORDER = ['broly', 'broly_fp', 'android13', 'piccolo', 'future_trunks', 'android17', 'android18', 'krillin', 'videl', 'majin_buu', 'super_janemba', 'kid_buu']
 
 # 1. A save from before this change is the same save: same route, same bytes, with the new area untouched.
 one = open('tools/harness/long.txt').read().split('\n')[:93] + ['tap A 60', 'tap A 60', 'run 30'] + TO_GUEST + CONFIRM + ['run 80'] + state('o')

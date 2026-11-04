@@ -33,8 +33,8 @@ extern const u8 form_table[];
 
 /* The guest slot has one skill list but different fighters, so the list follows the outfit. A story form (Hercule, say) leaves it alone. */
 static void guest_sync(void) {
-    static const u8 broly[] = {3, 7, 8, ERASER_SKILL}, thirteen[] = {4, 7, 8, BOMBER_SKILL, WAVE_SKILL}, piccolo[] = {3, 7, 17, BEAM_SKILL},
-        fighter[] = {2, 7, 8}, a17[] = {4, 7, 8, BLITZ_SKILL, WAVE_SKILL}, a18[] = {4, 7, BLITZ_SKILL, DISC_SKILL, WAVE_SKILL}, krillin[] = {3, 7, 15, DISC_SKILL}, videl[] = {1, 7},
+    static const u8 broly[] = {3, 7, 8, ERASER_SKILL}, thirteen[] = {5, 7, 8, BOMBER_SKILL, WAVE_SKILL, SUPER13_SKILL}, piccolo[] = {3, 7, 17, BEAM_SKILL},
+        fighter[] = {2, 7, 8}, a17[] = {5, 7, 8, BLITZ_SKILL, WAVE_SKILL, SUPER17_SKILL}, a18[] = {4, 7, BLITZ_SKILL, DISC_SKILL, WAVE_SKILL}, krillin[] = {3, 7, 15, DISC_SKILL}, videl[] = {1, 7},
         trunks[] = {4, 7, 20, 4, 11};            /* Future Trunks: the same moves as Trunks */
     u8 *r = RECORDS + 8 * RECORD_SIZE;
     int form = FORM_OF(8), i;
@@ -42,7 +42,7 @@ static void guest_sync(void) {
     if (form == FORM_BROLY || form == FORM_FP) list = broly;
     else if (form == FORM_A13 || form == FORM_S13) list = thirteen;
     else if (form == FORM_PICCOLO) list = piccolo;
-    else if (form == FORM_ANDROID17) list = a17;
+    else if (form == FORM_ANDROID17 || form == FORM_S17) list = a17;
     else if (form == FORM_ANDROID18) list = a18;
     else if (form == FORM_KRILLIN) list = krillin;
     else if (form == FORM_VIDEL) list = videl;
@@ -74,7 +74,7 @@ typedef char bench_size_ok[sizeof(struct bench) == 496 ? 1 : -1];
 #define FRAMES (*(volatile u32 *)0x03000F94)
 #define VCOUNT (*(volatile u16 *)0x04000006)
 /* Which fighter an outfit belongs to: Full Power is Broly and Super 13 is Android 13. Order follows the guest list in outfits.json; build.py checks it. */
-static const u8 bench_group[] = {0, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+static const u8 bench_group[] = {0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
 static int group_of(int form) {
     int first = outfit_index[8][0], n = outfit_index[8][1], i;
@@ -269,7 +269,12 @@ static void clash_end(int won) {
     u8 *foe = *(u8 **)(CL.e + 0x50), *me = PLAYER_OBJ;
     CL.active = 0;
     CL.cool = FRAMES + CLASH_COOLDOWN;
-    if (won) {
+    if (won && *(u32 *)foe != ENEMY_VT) {
+        /* A rival built on the player's own object, as a versus mode's will be: it stops firing the way the player does. Its damage belongs to that mode. */
+        int vt = *(int *)foe;
+        ((void (*)(u8 *, int))(*(int *)(vt + 0x28) + vt))(foe, 0);
+        CL.surge = FRAMES + CLASH_SURGE;
+    } else if (won) {
         /* The enemy's attack runs out as it normally does, which ends its beam safely, and the player's carries on into him. */
         u8 *stats = *(u8 **)(foe + 0x224);
         int hurt = (*(int *)(stats + 4) << 10) / 8, hp = *(int *)(foe + 0x28C);
@@ -325,7 +330,7 @@ void beam_update(u8 *b, int arg) {
     if (state == 0 && owner == PLAYER_OBJ) { CL.p = b; CL.p_at = FRAMES; return; }
     if (state != 1) return;
     if (owner == PLAYER_OBJ) { CL.p = b; CL.p_at = FRAMES; }
-    else if (owner && *(u32 *)owner == ENEMY_VT) { CL.e = b; CL.e_at = FRAMES; clash_answer(b); }
+    else if (owner) { CL.e = b; CL.e_at = FRAMES; clash_answer(b); }     /* any fighter's beam can clash: it needs only to be a beam with an owner other than the player */
     else return;
     if (!CL.active) {
         if (CL.p_at + 1 >= FRAMES && CL.e_at + 1 >= FRAMES) clash_begin();
@@ -835,6 +840,36 @@ static void spirit_burst(void *player)
 /* The bomb keeps going even if Goku is knocked about, so it runs from an effect slot, which the game updates every frame. */
 void spirit_nop(void) {}
 
+/* Android 13 and Android 17 transform with Super Saiyan's mechanics, then the white flash from Gero's Legacy: a quick strobe, hold white, fade. It shares the bomb's effect slot, so the two never overlap. */
+#define WAIT_PHASE 10
+#define FLASH_PHASE 11
+static const u8 flash_levels[46] = {6, 12, 16, 16, 16, 16, 10, 4, 0, 8, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 15, 14, 14, 13, 12, 12, 11, 10, 10, 9, 8, 8, 7, 6, 6, 5, 4, 4, 3, 2, 2, 1, 0};
+#define SS_Can ((int (*)(u8 *))0x0801A4C5)
+/* Android 13's power-up is Super Saiyan's without the gold aura, which would hide the two cores he is pulling in. */
+const int absorb_vt[14] = {1};
+void absorb_start(u32 *state, void *sprite) {
+    state[2] = 0; state[3] = 0;
+    ((void (*)(void *, void *))0x0800DE61)(state, sprite);
+    PlaySound((void *)0x03003E5C, (u8 *)*(u32 *)0x0801C6A4 + 0x288, 0x40, 0);      /* the power-up's own sound, as the state it replaces finds it */
+}
+int super_can(u8 *record) { return SB.phase ? 0 : SS_Can(record); }
+void super_use(u8 *record, void *sprite) {
+    if (!(form_table[record[0x14] * 24] & 1)) {
+        SB.phase = WAIT_PHASE; SB.frame = 0; SB.disc = 0;
+        SB.old3 = (void *)EFFECTS[3];
+        SB.ticker[0] = (u32)spirit_vt;
+        EFFECTS[3] = (u32)SB.ticker;
+    }
+    if (record[0x14] == FORM_A13) {
+        u32 *state = Alloc(0x10);
+        if (state) { *(u8 *)&state[1] = 4; state[0] = (u32)absorb_vt; }
+        play_slot(sprite, 10);
+        Sprite_SetBehaviour(sprite, state);
+        return;
+    }
+    ((void (*)(u8 *, void *))0x0801A513)(record, sprite);
+}
+
 void spirit_update(void)
 {
     void *player = *(void **)0x03001C34;
@@ -862,10 +897,20 @@ void spirit_update(void)
         if (SB.frame >= BURST_FRAMES) spirit_end();
     } else if (SB.phase == 4) {
         if (SB.frame >= 2) spirit_done();
+    } else if (SB.phase == WAIT_PHASE) {
+        /* Waiting for the power-up to finish: the white flash starts on the frame the form changes. */
+        if (form_table[FORM_OF(*(u8 *)0x03001068) * 24] & 1) { SB.phase = FLASH_PHASE; SB.frame = 0; *BOMB_OLD = BLDCNT; }
+        else if (SB.frame > 240) { SB.phase = 0; EFFECTS[3] = SB.old3; }
+    } else if (SB.phase == FLASH_PHASE) {
+        if (SB.frame > (int)sizeof flash_levels) { BLDCNT = *BOMB_OLD; BLDY = 0; SB.phase = 0; EFFECTS[3] = SB.old3; }
+        else { BLDCNT = 0x00BF; BLDY = flash_levels[SB.frame - 1]; }
     }
 }
 
-void spirit_destroyed(void) { SB.phase = 0; SB.disc = 0; BS.actor = 0; }     /* a new area clears every effect, this one included */
+void spirit_destroyed(void) {
+    if (SB.phase == FLASH_PHASE) { BLDCNT = *BOMB_OLD; BLDY = 0; }
+    SB.phase = 0; SB.disc = 0; BS.actor = 0;
+}     /* a new area clears every effect, this one included */
 
 /* Non-zero while Goku is busy with the bomb: the state's normal update is skipped so he stands still. */
 static int spirit_tick(void *player)
@@ -1044,7 +1089,7 @@ const u8 *blast_frames(int facing) {
     const u8 *frames = (const u8 *)0x0871370C;
     if (*(u8 *)0x03001068 == 8) {
         int form = FORM_OF(8);
-        if (form == FORM_A13 || form == FORM_S13 || form == FORM_ANDROID17 || form == FORM_ANDROID18) frames = blue_blast;
+        if (form == FORM_A13 || form == FORM_S13 || form == FORM_ANDROID17 || form == FORM_S17 || form == FORM_ANDROID18) frames = blue_blast;
     }
     return frames + facing * 48;
 }
@@ -1091,7 +1136,7 @@ void combat_hook(void *defender, int *hit) {
     int scale = hit[1], form = FORM_OF(*(u8 *)0x03001068);
     u16 *stats = (u16 *)((u8 *)hit[3] + 0x1B0), strength = stats[0], power = stats[1];
     if ((hit[0] & 255) == 2) {
-        if (is_ss2(form)) hit[1] = scale + (scale >> 1);
+        if (is_ss2(form) || form == FORM_S13 || form == FORM_S17) hit[1] = scale + (scale >> 1);
         else if ((form_table[form * 24] & 2) && strength > 10 && power > 10) {
             hit[1] = scale + (scale >> 1) + (scale >> 2);
             stats[0] = strength - 10; stats[1] = power - 10;

@@ -1,5 +1,5 @@
 {
- "_note": "New rows appended to the form table (first new row = 54). copy = existing row used as the template; character = actor id + 9; owner = party slot (8 = shared guest slot); name = UI string; portrait = speaker id from the scouter table. edit = changes to original rows. down = form to return to. flags 0x51 = Super Saiyan.",
+ "_note": "New rows appended to the form table (first new row = 54). copy = existing row used as the template; character = actor id + 9; owner = party slot (8 = shared guest slot); name = UI string; portrait = speaker id from the scouter table. edit = changes to original rows. down = form to return to. flags 0x51 = Super Saiyan. flags 0x10 = earns EXP: every playable form needs it (the row Broly and the other guests were copied from has none, so they never levelled). flags 1 also sets the Super Saiyan behaviour object.",
  "rows": [
   {
    "id": "broly",
@@ -7,7 +7,8 @@
    "character": 38,
    "owner": 8,
    "name": 1034,
-   "portrait": 16
+   "portrait": 16,
+   "flags": 16
   },
   {
    "id": "super_janemba",
@@ -15,7 +16,8 @@
    "owner": 8,
    "name": 1044,
    "portrait": 81,
-   "actor": "super_janemba_player"
+   "actor": "super_janemba_player",
+   "flags": 16
   },
   {
    "id": "kid_buu",
@@ -23,7 +25,8 @@
    "owner": 8,
    "name": 1036,
    "portrait": 85,
-   "actor": "kid_buu_player"
+   "actor": "kid_buu_player",
+   "flags": 16
   },
   {
    "id": "majin_buu",
@@ -31,7 +34,8 @@
    "owner": 8,
    "name": 1028,
    "portrait": 91,
-   "actor": "majin_buu_player"
+   "actor": "majin_buu_player",
+   "flags": 16
   },
   {
    "id": "gohan_orange_ss",
@@ -114,21 +118,26 @@
    "actor": "broly_fp",
    "owner": 8,
    "name": 1034,
-   "portrait": 16
+   "portrait": 16,
+   "flags": 16
   },
   {
    "id": "android13",
    "copy": 47,
    "actor": "android13_player",
    "owner": 8,
-   "name": 1052
+   "name": 1052,
+   "up": "super13",
+   "flags": 16
   },
   {
    "id": "super13",
    "copy": 47,
    "actor": "super13_player",
    "owner": 8,
-   "name": 1056
+   "name": 1056,
+   "down": "android13",
+   "flags": 81
   },
   {
    "id": "gogeta_dbs",
@@ -173,7 +182,8 @@
    "copy": 49,
    "actor": "piccolo",
    "owner": 8,
-   "name": 169
+   "name": 169,
+   "flags": 16
   },
   {
    "id": "goku_ss2",
@@ -277,25 +287,30 @@
    "actor": "android17",
    "owner": 8,
    "name": 1544,
-   "portrait": 163
+   "portrait": 163,
+   "up": "super17",
+   "flags": 16
   },
   {
    "id": "android18",
    "copy": 46,
    "actor": "android18",
-   "owner": 8
+   "owner": 8,
+   "flags": 16
   },
   {
    "id": "krillin",
    "copy": 48,
    "actor": "krillin",
-   "owner": 8
+   "owner": 8,
+   "flags": 16
   },
   {
    "id": "videl",
    "copy": 52,
    "actor": "videl_player",
-   "owner": 8
+   "owner": 8,
+   "flags": 16
   },
   {
    "id": "future_trunks",
@@ -317,6 +332,16 @@
    "up": 255,
    "down": "future_trunks",
    "portrait": 165
+  },
+  {
+   "id": "super17",
+   "copy": 46,
+   "actor": "super17",
+   "owner": 8,
+   "name": 1544,
+   "portrait": 163,
+   "flags": 81,
+   "down": "android17"
   }
  ],
  "edit": {

@@ -70,12 +70,12 @@ check('Broly Full Power can be chosen, walks and attacks', 'bad pc' not in o and
 R7, R8 = 0x03001560 + 7 * REC, 0x03001560 + 8 * REC
 post = ['guardon 0x09000000'] + route + ['poke8 %08X 03' % R7] + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5
 sav3 = os.path.join(d, 'post.sav')
-o = run(rom, post + ['tap DOWN 40', 'tap DOWN 40', 'shot ssb_menu', 'tap RIGHT 40', 'tap DOWN 40', 'tap DOWN 40', 'tap DOWN 40', 'shot s13_menu', 'tap LEFT 40', 'tap A 200', 'run 200', 'dump a 03001068 8a8'], d, sav3)
+o = run(rom, post + ['tap DOWN 40', 'tap DOWN 40', 'shot ssb_menu', 'tap RIGHT 40', 'tap DOWN 40', 'tap DOWN 40', 'shot s13_menu', 'tap LEFT 40', 'tap A 200', 'run 200', 'dump a 03001068 8a8'], d, sav3)
 a = open(d + '/a.bin', 'rb').read()
-check('post-game: SSB Gogeta and Super 13 can be chosen together', 'bad pc' not in o and a[0] == 7 and a[0x4F8 + 7 * REC + FORM] == forms['gogeta_ssb_skin'] and a[0x4F8 + 8 * REC + FORM] == forms['super13'])
+check('post-game: SSB Gogeta and Android 13 can be chosen together', 'bad pc' not in o and a[0] == 7 and a[0x4F8 + 7 * REC + FORM] == forms['gogeta_ssb_skin'] and a[0x4F8 + 8 * REC + FORM] == forms['android13'])
 o = run(rom, ['guardon 0x09000000', 'run 600', 'tap START 60', 'tap START 60', 'tap A 90', 'tap A 90', 'tap A 200', 'run 300', 'dump b 03001068 8a8'], d, sav3)
 b = open(d + '/b.bin', 'rb').read()
-check('post-game: both survive saving and loading', 'bad pc' not in o and b[0] == 7 and b[0x4F8 + 7 * REC + FORM] == forms['gogeta_ssb_skin'] and b[0x4F8 + 8 * REC + FORM] == forms['super13'])
+check('post-game: both survive saving and loading', 'bad pc' not in o and b[0] == 7 and b[0x4F8 + 7 * REC + FORM] == forms['gogeta_ssb_skin'] and b[0x4F8 + 8 * REC + FORM] == forms['android13'])
 # Skills pick frames by number: Super 13's short animations once sent the Ghost Attack, used facing sideways, into garbage. This sequence crashed there.
 R = 0x03001560 + 8 * REC
 seq = ['guardon 0x09000000'] + route + ['poke8 %08X %02X' % (R + 0x14, forms['super13']), 'tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['tap A 200', 'run 60']
@@ -87,25 +87,25 @@ check('Super 13 can use every attack skill in a row', 'bad pc' not in o)
 # The guest's third skill follows the fighter: Eraser Cannon on Broly's forms, SS Deadly Bomber on Android 13's and Super 13's, and Cancel puts it back.
 g3 = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['mem %08X 1' % (R + 0x0C), 'tap DOWN 40', 'tap DOWN 40', 'mem %08X 1' % (R + 0x0C), 'tap DOWN 40', 'mem %08X 1' % (R + 0x0C), 'tap B 60', 'mem %08X 1' % (R + 0x0C)]
 o = run(rom, g3, d); got = [int(l.split(':')[1].split()[0], 16) >> 24 & 255 for l in o.splitlines() if l.startswith('mem %08x' % (R + 0x0C))]
-check('guest skill follows the outfit', 'bad pc' not in o and len(got) == 4 and got[0] != got[1] and got[1] == got[2] and got[3] == got[0])
+check('guest skill follows the outfit', 'bad pc' not in o and len(got) == 4 and got[0] != got[1] and got[1] != got[2] and got[3] == got[0])
 print('   guest skill bytes', got)
 # The androids: Full Power Energy Wave, and blue blasts for them alone (Broly above, and everyone else, keep the game's).
-for who_, downs_, form_ in (('Android 13', 2, 'android13'), ('Super 13', 3, 'super13'), ('Android 17', 6, 'android17'), ('Android 18', 7, 'android18')):
+for who_, downs_, form_ in (('Android 13', 2, 'android13'), ('Android 17', 5, 'android17'), ('Android 18', 6, 'android18')):
     an = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['tap DOWN 40'] * downs_ + ['tap A 200', 'run 60', 'dump p 03001068 8a8']
     an += ['poke8 %08X 00' % (R + 0x15), 'run 2', 'keys B', 'run 8', 'keys', 'run 14', 'shot blast_' + form_, 'mem %08X 1' % (R + 0x0C), 'run 100']
     an += ['poke8 %08X FF' % (R + 0x1A), 'poke8 %08X 00' % (R + 0x1B), 'keys LEFT', 'run 6', 'keys', 'run 10', 'poke8 %08X %02X' % (R + 0x15, 3 if form_ != 'android18' else 3), 'run 2', 'keys B', 'run 16', 'shot charge_' + form_, 'run 40', 'shot wave_' + form_, 'run 60', 'keys', 'run 200']
     o = run(rom, an, d); p = open(d + '/p.bin', 'rb').read(); r8 = p[0x4F8 + 8 * REC:0x4F8 + 9 * REC]
-    check('%s has the Full Power Energy Wave' % who_, p[0] == 8 and r8[0x14] == forms[form_] and r8[0x0C] == 4 and r8[0x10] == 29)
+    check('%s has the Full Power Energy Wave' % who_, p[0] == 8 and r8[0x14] == forms[form_] and r8[0x0C] == (4 if form_ == 'android18' else 5) and r8[0x10] == 29)
     check('%s fires blasts and the wave with no bad jumps' % who_, 'bad pc' not in o)
 # Piccolo: fifth guest outfit, with Masenko and Special Beam Cannon, and every attack working.
-pc = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['tap DOWN 40'] * 4 + ['tap A 200', 'run 60', 'dump p 03001068 8a8', 'keys RIGHT', 'run 20', 'keys', 'tap A 12', 'tap A 12', 'tap A 12', 'run 40']
+pc = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['tap DOWN 40'] * 3 + ['tap A 200', 'run 60', 'dump p 03001068 8a8', 'keys RIGHT', 'run 20', 'keys', 'tap A 12', 'tap A 12', 'tap A 12', 'run 40']
 for i_ in (0, 1, 2):
     pc += ['poke8 %08X %02X' % (R + 0x15, i_), 'poke8 %08X FF' % (R + 0x1A), 'poke8 %08X 00' % (R + 0x1B), 'run 2', 'keys B', 'run 90', 'keys', 'run 200', 'shot piccolo%d' % i_]
 o = run(rom, pc, d); p = open(d + '/p.bin', 'rb').read(); r8 = p[0x4F8 + 8 * REC:0x4F8 + 9 * REC]
 check('Piccolo can be chosen and has Energy Blast, Masenko and Special Beam Cannon', p[0] == 8 and r8[0x14] == forms['piccolo'] and list(r8[0x0C:0x10]) == [3, 7, 17, 26])
 check('Piccolo attacks and uses all three skills with no bad jumps', 'bad pc' not in o)
 # The Super 13 reward also brings Future Trunks, Android 17 and 18, Krillin and Videl to the guest slot, each with their own moves.
-for name_, downs_, want_ in (('Future Trunks', 5, [4, 7, 20, 4, 11]), ('Android 17', 6, [4, 7, 8, 27, 29]), ('Android 18', 7, [4, 7, 27, 28, 29]), ('Krillin', 8, [3, 7, 15, 28]), ('Videl', 9, [1, 7]), ('Majin Buu', 10, [2, 7, 8]), ('Super Janemba', 11, [2, 7, 8]), ('Kid Buu', 12, [2, 7, 8])):
+for name_, downs_, want_ in (('Future Trunks', 4, [4, 7, 20, 4, 11]), ('Android 18', 6, [4, 7, 27, 28, 29]), ('Krillin', 7, [3, 7, 15, 28]), ('Videl', 8, [1, 7]), ('Majin Buu', 9, [2, 7, 8]), ('Super Janemba', 10, [2, 7, 8]), ('Kid Buu', 11, [2, 7, 8])):
     gl = ['guardon 0x09000000'] + route + ['tap A 60', 'tap A 60', 'run 30'] + ['tap RIGHT 40'] * 5 + ['tap DOWN 40'] * downs_ + ['tap A 200', 'run 60', 'dump p 03001068 8a8', 'keys RIGHT', 'run 8', 'keys', 'tap A 12', 'tap A 12', 'tap A 12', 'keys A', 'run 60', 'keys', 'run 60']
     for i_ in range(want_[0]):
         gl += ['poke8 %08X %02X' % (R + 0x15, i_), 'poke8 %08X FF' % (R + 0x1A), 'poke8 %08X 03' % (R + 0x1B), 'run 2', 'keys B', 'run 60', 'keys', 'run 200', 'mem %08X 1' % (R + 0x14), 'shot %s%d' % (name_.replace(' ', ''), i_)]

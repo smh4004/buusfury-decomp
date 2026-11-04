@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Emulator test of the story-side unlocks (build `--debug --zone` first; set BFU_PROTO). Uses that build's Snake Way debug doors: x 48-96 up = story Broly, x<48 = the
 game's real ending from its last scene. Checks: beating Broly adds him to the party; the ending flies you out free and you can land in West City and be sent to Zone 26;
-the Super 13 reward adds Super 13's forms and DBS Gogeta, and keeps Broly's outfit if he had already joined."""
+the Super 13 reward adds Android 13, who can become Super 13, and DBS Gogeta, and keeps Broly's outfit if he had already joined."""
 import json, os, struct, subprocess, sys, tempfile
 H, ROM = 'tools/harness/harness', 'ultimate/out/BFU_debug_zone_PERSONAL_USE_ONLY.gba'
 d = sys.argv[1] if len(sys.argv) > 1 else tempfile.mkdtemp(prefix='story')

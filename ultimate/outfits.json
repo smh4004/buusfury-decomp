@@ -62,12 +62,8 @@
    {
     "form": "android13",
     "flag": 877,
-    "name": "Android 13"
-   },
-   {
-    "form": "super13",
-    "flag": 877,
-    "name": "Super 13"
+    "name": "Android 13",
+    "also": "super13"
    },
    {
     "form": "piccolo",
@@ -83,7 +79,8 @@
    {
     "form": "android17",
     "flag": 880,
-    "name": "Android 17"
+    "name": "Android 17",
+    "also": "super17"
    },
    {
     "form": "android18",

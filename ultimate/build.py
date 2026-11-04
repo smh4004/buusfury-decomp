@@ -38,6 +38,8 @@ PORTRAITS = (20, 90, 94)         # LoG2 portrait table: Android 17, Future Trunk
 SS2_FLAG = 864                   # + the owner's party slot: set where the story reaches Super Saiyan 2
 BLITZ_SKILL = 27                 # Android 17 and 18
 DISC_SKILL = 28                  # Krillin and Android 18: LoG2's spinning gold disc on Big Bang's code
+POWER_UP_VT = 0x4E2B0            # the state a transformation runs in
+SUPER13_SKILL, SUPER17_SKILL = 30, 31     # Android 13 and Android 17 transform: Super Saiyan's mechanics under their own names
 WAVE_SKILL = 29                  # Full Power Energy Wave, from Gero's Legacy: the Electric Kamehameha's code with green frames
 BEAM_SKILL = 26                  # Special Beam Cannon: the Kamehameha's code with gold and purple frames
 # Strength against Big Bang per skill level: 2.5x and 2x in total damage. Each hit rounds down, which costs low levels more, so they get a bigger multiplier (measured on Android 13 at Power 80).
@@ -102,7 +104,7 @@ def quest_npc(src):
     """Post-game, this resident sends you to Zone 26, and rewards you once Super 13 is beaten (his death script runs this list).
     A step's `push N` jumps to the Nth step counting from 0, the same number the following step's position gets; past the last step ends the list."""
     head, old = src.split('step 1 say', 1)
-    ids = new_actor_ids(); super13 = ids['super13'] + 9
+    ids = new_actor_ids(); super13 = ids['super13'] + 9; a13 = ids['android13'] + 9
     return head + '''step 1 code
     pushn 888
     call flag
@@ -214,9 +216,20 @@ step auto code
     call 0x4C
     pushn %d, 120, 214
     call 0x35
+    pushn %d, 10, 0
+    call 0x51
+    call wait(70)
+    call 0x7A(6)
+    call 0x7B(6)
+    call 0x7A(6)
+    call 0x7B(6)
+    call 0x7A(24)
+    pushn %d, 120, 214
+    call 0x35
     pushn %d, 17, 0
     call 0x51
-    call wait(90)
+    call 0x7B(40)
+    call wait(50)
     pushn 5, 200, 200, 255, 10
     call 0x4C
     pushn %d, 20, 0
@@ -329,7 +342,7 @@ step auto code
     end
 step auto code
     end
-''' % (form_row('super13'), JOIN_NATIVE, form_row('gogeta_dbs'), JOIN_NATIVE, super13, super13, super13, super13, super13, super13)
+''' % (form_row('android13'), JOIN_NATIVE, form_row('gogeta_dbs'), JOIN_NATIVE, a13, a13, super13, super13, super13, super13, super13, super13)
 
 
 def tournament_npc(src):
@@ -609,7 +622,7 @@ def find_once(rom, needle, what):
 
 
 ANDROID13_SLOTS = {str(s): 'a13_idle' for s in range(22)}
-ANDROID13_SLOTS.update({'1': 'a13_walk', '2': 'a13_walk', '4': 'a13_lunge', '5': 'a13_lunge', '6': 'a13_lunge', '9': 'a13_lunge', '18': 'a13_lunge', '19': 'a13_lunge', '20': 'a13_lunge', '21': 'a13_lunge'})
+ANDROID13_SLOTS.update({'10': 'a13_absorb!front', '1': 'a13_walk', '2': 'a13_walk', '4': 'a13_lunge', '5': 'a13_lunge', '6': 'a13_lunge', '9': 'a13_lunge', '18': 'a13_lunge', '19': 'a13_lunge', '20': 'a13_lunge', '21': 'a13_lunge'})
 
 
 def android13_frames(out, usable, pal):
@@ -641,6 +654,8 @@ def android13_frames(out, usable, pal):
     save('a13_idle', [cell(d, 1) for d in (DOWN, UP, RIGHT)])
     save('a13_walk', [cell(d, c) for d in (DOWN, UP, RIGHT) for c in (1, 0, 1, 2)])
     save('a13_lunge', [cell(d, c) for d in (DOWN, UP, RIGHT) for c in (0, 2)])
+    for i in range(6):                                      # absorbing 14's and 15's cores: the owner's sheet as cleaned for Gero's Legacy, already in the game's OBJ colours
+        Image.fromarray(np.array(Image.open('ultimate/art/android13_absorb/a%d.png' % i))).save('%s/a13_absorb_%02d.png' % (out, i))
 
 
 # Broly Full Power: made by Azure-Oni, ripped by DBZdogs. Frames as (x0, x1) on the down, up and side rows.
@@ -739,11 +754,13 @@ def add_actors(rom, clean):
             rec = sprites.log2_rec(combo[0x800000:], a['log2_record'])
             has = struct.unpack_from('<I', combo, 0x800000 + rec + 0x4C + 16 * 18 + 8)[0]
             a.setdefault('log2_overrides', {}).setdefault('18', 18 if 0x08800000 <= has < 0x09000000 else 5)
-    cfg['android13_player'] = {'template': 93, 'slots': ANDROID13_SLOTS, 'stretch': True, 'grow': lengths}    # the boss's small record can't carry a playable form
-    cfg['super13_player'] = {'proto_actor': 230, 'fill': {8: 9, 10: 9, 11: 0, 12: 0, 13: 9, 14: 4, 15: 7, 16: 17}, 'grow': lengths}
+    cfg['android13_player'] = {'template': 93, 'slots': ANDROID13_SLOTS, 'stretch': True, 'grow': lengths, 'reserve': 4096}    # the boss's small record can't carry a playable form
+    cfg['super13_player'] = {'proto_actor': 230, 'stance_back': True, 'fill': {8: 9, 10: 9, 11: 0, 12: 0, 13: 9, 14: 4, 15: 7, 16: 17}, 'grow': lengths}
     bright = (one(np.array((96, 248, 248))), one(np.array((200, 248, 248))))     # cyan: Super Saiyan 2's lightning
     for name, source in (('goku_ss2', 109), ('goku_ss2_b', 110), ('gohan_ss2', 104), ('gohan_green_ss2', 105), ('vegeta_ss2', 273), ('vegeta_ss2_b', 274), ('vegeta_armor_ss2', 'vegeta_armor_ss'), ('gohan_armor_ss2', 'gohan_armor_ss2_art'), ('trunks_ss2', 261), ('trunks_armor_ss2', 'trunks_armor_ss'), ('vegito_ss2', 276)):
         cfg[name] = {'bolts_of': source, 'bolt_colours': bright}
+    cfg['android17']['reserve'] = 2048                  # the same as Super 17's: a change of size on transforming re-allocates OBJ memory and scrambled other sprites
+    cfg['super17'] = {**cfg['android17'], 'size_scale': [1.12, 1.1], 'reserve': 2048}     # slightly taller and bulkier, as in Gero's Legacy
     cfg['_powerup'] = [101, 104, 105, 273, 274, 261, 276, 'vegeta_armor_ss', 'gohan_armor_ss', 'trunks_armor_ss']
     ids, end = sprites.build_actors(rom, cfg, clean_dir, ACTORS_AT, combo[0x800000:], lambda act: (usable, pal), open(PROTO, 'rb').read())
     return ids, end
@@ -767,6 +784,7 @@ def patch_forms(rom, clean, cfg, actors):
             row[off] = v if isinstance(v, int) else FORM_COUNT + ids[v]
         if 'flags' in r:
             struct.pack_into('<H', row, 0, r['flags'])
+            if r['flags'] & 1: struct.pack_into('<I', row, 8, 0x03001B78)     # the Super Saiyan behaviour object: a guest's row was copied from a form without it
         rows += row
         index[r['id']] = FORM_COUNT + k
     for k, e in cfg.get('edit', {}).items():
@@ -779,6 +797,15 @@ def patch_forms(rom, clean, cfg, actors):
             rec = struct.unpack_from('<I', rom, ACTORS_AT + 4 * (char - 9))[0] - ROM_BASE
             if struct.unpack_from('<I', rom, rec)[0] & 0xFF <= 10 or not struct.unpack_from('<I', rom, rec + 0x54 + 40)[0]:
                 sys.exit('form %d can transform but its actor has no slot 10' % f)
+    for f in range(len(rows) // FORM_SIZE):                 # changing back plays slot 11, and an empty one draws junk from address 0 over other sprites' tiles: a short stance instead
+        char = struct.unpack_from('<H', rows, FORM_SIZE * f + 0x0E)[0]
+        if rows[FORM_SIZE * f] & 1 and rows[FORM_SIZE * f + 0x17] != 255 and char >= 9:
+            rec = struct.unpack_from('<I', rom, ACTORS_AT + 4 * (char - 9))[0] - ROM_BASE
+            if rom[rec] <= 11:
+                sys.exit('form %d changes back but its actor has no slot 11' % f)
+            if not struct.unpack_from('<I', rom, rec + 0x54 + 44)[0]:
+                print('form %d: slot 11 was empty' % f)
+                struct.pack_into('<I', rom, rec + 0x54 + 44, struct.unpack_from('<I', rom, rec + 0x54)[0])
     if len(rows) // FORM_SIZE > 255:
         sys.exit('too many forms: 255 is the "none" marker')
     rom[SPACE:SPACE + len(rows)] = rows
@@ -816,7 +843,7 @@ def add_outfits(rom, clean, at):
     c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\nconst u8 ss2_rows[] = {%s,255};\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs), ','.join(str(v) for k, v in fm.items() if k.endswith(('_ss2', '_ss2_b'))))
     open(d + '/o.c', 'w').write(c)
     import zone26
-    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DHEAP_WORDS=0x%X' % HEAP_WORDS, '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DWAVE_SKILL=%d' % WAVE_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DFORM_KID_BUU=%d' % fm['kid_buu'], '-DFORM_MAJIN_BUU=%d' % fm['majin_buu'], '-DFORM_JANEMBA=%d' % fm['super_janemba'], '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DTOUR_PICK_FLAG=%d' % zone26.TOUR_PICKS, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
+    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DHEAP_WORDS=0x%X' % HEAP_WORDS, '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DWAVE_SKILL=%d' % WAVE_SKILL, '-DSUPER13_SKILL=%d' % SUPER13_SKILL, '-DSUPER17_SKILL=%d' % SUPER17_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DFORM_KID_BUU=%d' % fm['kid_buu'], '-DFORM_MAJIN_BUU=%d' % fm['majin_buu'], '-DFORM_JANEMBA=%d' % fm['super_janemba'], '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DTOUR_PICK_FLAG=%d' % zone26.TOUR_PICKS, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DFORM_S13=%d' % fm['super13'], '-DFORM_S17=%d' % fm['super17'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
     syms = ['-Wl,--defsym=form_table=0x%X' % (ROM_BASE + SPACE), '-Wl,-Ttext=0x%X' % (ROM_BASE + at), '-Wl,-e,picker_update', '-Wl,--no-warn-rwx-segments']
     lib = subprocess.run(['arm-none-eabi-gcc', '-mthumb', '-mcpu=arm7tdmi', '-print-libgcc-file-name'], capture_output=True, text=True, check=True).stdout.strip()
     subprocess.run(['arm-none-eabi-gcc'] + flags + syms + [d + '/o.c', lib, '-o', d + '/o.elf'], check=True)
@@ -880,7 +907,7 @@ def add_outfits(rom, clean, at):
     if rooms >= 410:
         sys.exit('map rooms now reach flag %d' % (448 + rooms))
     guests = [(o['form'] if isinstance(o['form'], int) else fm[o['form']]) for o in cfg['8']]
-    if guests != [fm[k] for k in ('broly', 'broly_fp', 'android13', 'super13', 'piccolo', 'future_trunks', 'android17', 'android18', 'krillin', 'videl', 'majin_buu', 'super_janemba', 'kid_buu')]:
+    if guests != [fm[k] for k in ('broly', 'broly_fp', 'android13', 'piccolo', 'future_trunks', 'android17', 'android18', 'krillin', 'videl', 'majin_buu', 'super_janemba', 'kid_buu')]:
         sys.exit('guest list changed: update bench_group in outfit.c')
     HEAP = 0x3D4D0                   # the heap's setup: heap_init replaces it, keeping the top of work RAM out of the heap
     if rom[HEAP:HEAP + 8] != bytes.fromhex('97489849984a0860') or struct.unpack_from('<I', rom, 0x3D738)[0] != 0xFDFE:
@@ -1048,6 +1075,13 @@ def add_eraser(rom, clean, sym, at):
     struct.pack_into('<I', row, 20, sym['wave_use'] | 1)
     rows[WAVE_SKILL] = bytes(row)
     strings += [put(t.encode('utf-16-le') + b'\0\0') for t in ('Full Power Energy Wave', 'Press the B Button and hold it to charge, then release to fire a wave of green energy.  Hold the B Button to keep firing.')]
+    for skill, name, text in ((SUPER13_SKILL, 'Super 13', 'Press the B Button to absorb the cores of Android 14 and Android 15 and become Super 13: attacks hit 1.5x as hard. Press it again to change back.'),
+                              (SUPER17_SKILL, 'Super 17', 'Press the B Button to become Super 17: attacks hit 1.5x as hard. Press it again to change back.')):
+        row = bytearray(clean[SKILL_ROWS + 24 * 20:SKILL_ROWS + 24 * 21])
+        struct.pack_into('<HH', row, 12, ERASER_UI + len(strings), ERASER_UI + len(strings) + 1)
+        struct.pack_into('<II', row, 16, sym['super_can'] | 1, sym['super_use'] | 1)
+        rows[skill] = bytes(row)
+        strings += [put(t.encode('utf-16-le') + b'\0\0') for t in (name, text)]
     BLAST_TILES, BLAST_TABLE, BLAST_SITE = (0x71300C, 0x71370C), 0x71370C, 0x197F2
     if rom[BLAST_SITE:BLAST_SITE + 14] != bytes.fromhex('207cbc4a41000918090189182165'):
         sys.exit('player blast code changed')
@@ -1085,6 +1119,10 @@ def add_eraser(rom, clean, sym, at):
     mine = {0: 'bomb_destroy', 2: 'bomb_nop', 3: 'bomb_one', 4: 'bomb_draw_oam', 6: 'bomb_zero', 9: 'bomb_zero', 10: 'bomb_nop'}
     for k in range(14):
         fn = (sym[mine[k]] | 1) if k in mine else ROM_BASE + BEAM_ACTOR_VT + struct.unpack_from('<i', clean, BEAM_ACTOR_VT + 4 * k)[0]
+        struct.pack_into('<i', rom, vt + 4 * k, fn - (ROM_BASE + vt))
+    vt = sym['absorb_vt'] - ROM_BASE
+    for k in range(14):
+        fn = (sym['absorb_start'] | 1) if k == 0 else ROM_BASE + POWER_UP_VT + struct.unpack_from('<i', clean, POWER_UP_VT + 4 * k)[0]
         struct.pack_into('<i', rom, vt + 4 * k, fn - (ROM_BASE + vt))
     if struct.unpack_from('<I', rom, 0x13618)[0] != ROM_BASE + SKILL_ROWS:
         sys.exit('skill table reference moved')

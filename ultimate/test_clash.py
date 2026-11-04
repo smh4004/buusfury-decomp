@@ -11,6 +11,8 @@ sys.path[:0] = ['ultimate', 'ultimate/lib', 'tools/scripts']
 import zone26
 G = 0x03001068; REC0 = 0x03001560; CL = 0x0203F200; PLAYER = 0x03001C34; ENEMIES = 0x03001BB4; PL = 0x0202E8E4
 SKILL = int(os.environ.get('CLASH_SKILL', '15'))
+FORM = int(os.environ.get('CLASH_FORM', '0'))      # a guest's form number: that fighter takes the beam instead of Goku, on the guest slot
+if FORM: REC0 += 8 * 0x68
 fails = []
 def check(name, ok):
     print(('PASS ' if ok else 'FAIL ') + name, flush=True)
@@ -21,7 +23,7 @@ x0, y0, x1, y1 = door['rect']; KEYS = 'DOWN UP LEFT RIGHT'.split()
 flag_on = lambda n: 'poke8 %08X %02X' % (G + 0x55 + n // 8, 1 << n % 8)
 start = open('tools/harness/long.txt').read().split('\n')[1:93] + ['tap A 60'] * 4 + ['run 60', 'keys DOWN', 'run 30', 'keys', 'run 200']
 start += ['poke %08X %08X' % (PL + 0x1A0, (x0 + x1) // 2 << 8), 'poke %08X %08X' % (PL + 0x1A4, ((y0 + y1) // 2) << 8), 'keys ' + KEYS[door['key']], 'run 12', 'keys', 'run 110']
-strong = ['poke8 03001588 96', 'poke8 03001589 96', 'poke8 0300158A 96', 'poke8 0300158B 96', 'poke8 03001576 FF', 'poke8 03001577 7F']
+strong = ['poke8 %08X %s' % (REC0 + o, v) for o, v in ((0x28, '96'), (0x29, '96'), (0x2A, '96'), (0x2B, '96'), (0x16, 'FF'), (0x17, '7F'))]
 
 class Game:
     def __init__(self):
@@ -48,6 +50,7 @@ def into_fight():
     g = Game()
     g.send('guardon 0x09000000', *start, flag_on(862), flag_on(883), *strong); g.sync()
     g.talk(96, 328); g.send('run 200'); g.sync()
+    if FORM: g.send('poke8 %08X 01' % REC0, 'poke8 %08X %02X' % (REC0 + 0x14, FORM), 'poke8 %08X FF' % (REC0 + 0x18), 'poke8 %08X 03' % (REC0 + 0x19), 'poke8 %08X 08' % G); g.sync()
     g.talk(*zone26.HUB_AT)
     g.send('run 150', 'tap A 150', 'tap DOWN 12', 'tap DOWN 12', 'tap A 150', 'run 150', 'tap A 150', 'tap A 200', 'run 120', 'shot clash_room'); g.sync()
     g.send('poke8 %08X 01' % (REC0 + 0x0C), 'poke8 %08X %02X' % (REC0 + 0x0D, SKILL), 'poke8 %08X 00' % (REC0 + 0x15), *strong); g.sync()
@@ -60,7 +63,7 @@ def clash(g, mash, tag):
         if not n: return None
         foe = g.mem(ENEMIES)[0]
         fx, fy = g.mem(foe + 0x1A0, 2)
-        g.send('poke %08X %08X' % (pl + 0x1A0, fx), 'poke %08X %08X' % (pl + 0x1A4, fy + (90 << 8)), 'poke8 %08X 01' % (pl + 0x10), 'poke8 03001576 FF', 'poke8 03001577 7F', 'poke8 0300157A 64', 'poke8 0300157B 00', 'bp 08033002 8')
+        g.send('poke %08X %08X' % (pl + 0x1A0, fx), 'poke %08X %08X' % (pl + 0x1A4, fy + (90 << 8)), 'poke8 %08X 01' % (pl + 0x10), 'poke8 %08X FF' % (REC0 + 0x16), 'poke8 %08X 7F' % (REC0 + 0x17), 'poke8 %08X 64' % (REC0 + 0x1A), 'poke8 %08X 00' % (REC0 + 0x1B), 'bp 08033002 8')
         while True:
             l = g.p.stdout.readline()
             if 'bad pc' in l: g.bad = True

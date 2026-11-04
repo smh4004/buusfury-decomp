@@ -12,3 +12,4 @@ Piccolo's sprites (actor r101) and the Special Beam Cannon beam (frames at 0x086
 
 ## Spirit Bomb orb
 `spirit_bomb.png`, supplied by the project owner. Source not recorded.
+- `android13_absorb/`: Android 13 absorbing the cores of 14 and 15, the project owner's 6-frame sheet, cleaned to game colours for Gero's Legacy.

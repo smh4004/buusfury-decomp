@@ -69,7 +69,7 @@ def at(out):
     return int([l for l in out.splitlines() if l.startswith('mem 0300197c')][-1].split(':')[1].split()[0], 16) & 0xFFFF
 base = route + ['run 30', 'shot arena']
 hp1 = boss(base, 30000)[0]; check('Android 13 is in the arena with 30000 HP', hp1 is not None)
-phase = kill(base, 30000) + ['poke8 03001577 7F'] + ['tap A 25'] * 11 + ['run 170', 'shot change', 'mem 0300197C 1']
+phase = kill(base, 30000) + ['poke8 03001577 7F'] + ['tap A 25'] * 11 + ['run 40', 'shot absorb0', 'run 30', 'shot absorb1', 'run 30', 'shot absorb2', 'run 30', 'shot absorb3', 'run 40', 'shot change', 'mem 0300197C 1']
 out = run(phase); check('beating Android 13 starts his change', at(out) == (16 << 8 | 26))
 two = phase + ['shot change_say', 'tap A 60', 'tap A 60', 'tap A 60', 'run 300', 'keys UP', 'run 60', 'keys', 'run 120', 'shot phase2', 'mem 0300197C 1']
 out = run(two); check('walking up to him starts phase two', at(out) == (17 << 8 | 26))
@@ -87,8 +87,8 @@ reward = talk(home + ['poke8 %08X 02' % (0x03001560 + 8 * 0x68), 'poke8 %08X 02'
 out = run(reward); g = open(d + '/g.bin', 'rb').read()
 check('the resident gives the rewards: Saiyan armor and Broly Full Power', all(flag(n) for n in (873, 874, 875, 876, 877, 878, 879, 883)))
 forms = json.load(open('ultimate/out/BFU_debug_zone.map.json'))['forms']; rec = lambda c: g[0x4F8 + c * 0x68:0x4F8 + (c + 1) * 0x68]
-check('the reward adds DBS Gogeta and Super 13 to the party', rec(7)[0] & 1 == 1 and rec(8)[0] & 1 == 1 and rec(7)[0x14] == forms['gogeta_dbs'] and rec(8)[0x14] == forms['super13'])
-check('joining as Super 13, the guest has SS Deadly Bomber, not Eraser Cannon', list(rec(8)[0x0C:0x11]) == [4, 7, 8, 25, 29])
+check('the reward adds DBS Gogeta and Android 13 to the party', rec(7)[0] & 1 == 1 and rec(8)[0] & 1 == 1 and rec(7)[0x14] == forms['gogeta_dbs'] and rec(8)[0x14] == forms['android13'])
+check('joining as Android 13, the guest has SS Deadly Bomber, not Eraser Cannon, and can become Super 13', list(rec(8)[0x0C:0x12]) == [5, 7, 8, 25, 29, 30])
 check('Gohan learns Special Beam Cannon from the reward', 26 in list(rec(1)[0x0D:0x0D + rec(1)[0x0C]]))
 check('DBS Gogeta keeps his own moves and gains both transformations', list(rec(7)[0x0C:0x12]) == [5, 7, 3, 5, 20, 21])
 print('   Gogeta joined at', list(rec(7)[0x28:0x2B]), 'guest at', list(rec(8)[0x28:0x2B]))
