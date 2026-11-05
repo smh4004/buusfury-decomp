@@ -885,7 +885,7 @@ def add_actors(rom, clean):
     cfg = json.load(open('ultimate/actors.json'))
     slots = cfg.pop('_slots')
     for k, a in cfg.items():
-        if not k.startswith('_') and 'replace' not in a and 'log2_record' in a: a['log2_slots'] = slots
+        if not k.startswith('_') and 'replace' not in a and 'log2_record' in a: a['log2_slots'] = {k: v for k, v in slots.items() if int(k) not in a.get('keep_own', ())}
     pal = np.frombuffer(clean[0x701B0 + 768:0x701B0 + 1536], np.uint8).reshape(256, 3)
     usable = [i for i in range(1, 256) if i not in artclean.MENU_SLOTS]
     cfg['super13'] = {'proto_actor': 230}

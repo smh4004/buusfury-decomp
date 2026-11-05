@@ -220,7 +220,12 @@ def build_actors(rom, cfg, clean_dir, at, l2=None, colour_ctx=None, proto=None):
         if 'log2_record' in a and l2 is not None:          # animations taken from a LoG2 actor
             usable, pal_rgb = colour_ctx(a.get('act'))
             cmap = log2_colour_map(l2, usable, pal_rgb); cache = {}
-            edit = None
+            edit = None; post = None
+            if a.get('head_of') is not None:               # another character's head on these frames: lib/headswap.py
+                import headswap
+                src = log2_rec(l2, a['log2_record'])
+                hs = headswap.HeadSwap({v: cmap[headswap.l2_stand(l2, src, v)] for v in (0, 1, 2)}, {v: headswap.bf_stand(rom, ACTOR_LIST, a['head_of'], v) for v in (0, 1, 2)}, {int(k): v for k, v in a['head_shift'].items()}, pal_rgb)
+                post = hs.apply
             if a.get('log2_edit'):                         # {"onearm": [mode per direction], "ssj": bool, "skip": [anims]}
                 import onearm                              # applies to the actor's own log2_record only
                 ed = a['log2_edit']; modes, skip, ssj = ed.get('onearm'), ed.get('skip', []), ed.get('ssj')
@@ -240,7 +245,7 @@ def build_actors(rom, cfg, clean_dir, at, l2=None, colour_ctx=None, proto=None):
                 if str(k).startswith('r'): src, k = str(k).split(':', 1)    # "r51:3@0:2" = LoG2 actor 51, anim 3
                 k, sl = (str(k).split('@') + [None])[:2]
                 sl = ([int(v) for v in sl.split(',')] if ',' in sl else slice(*map(int, sl.split(':')))) if sl else None   # a..b or an exact list of frames
-                ptr = log2_anim(ins, l2, log2_rec(l2, src), int(k), cmap, cache, want, sl, edit, a.get('log2_scale', {}).get(str(src)), a.get('size_scale'), a.get('reserve', 1024))
+                ptr = log2_anim(ins, l2, log2_rec(l2, src), int(k), cmap, cache, want, sl, edit, a.get('log2_scale', {}).get(str(src)), a.get('size_scale'), a.get('reserve', 1024), post)
                 if ptr: struct.pack_into('<I', rec, 0x54 + 4 * int(slot), ptr)
         if 'raw_frames' in a:                              # frames given as arrays of BF OBJ indices (tools/doors.py:
             ins.oy = a.get('origin_dy', 0)                 # map door regions already draw with the BF OBJ palette)
@@ -318,7 +323,7 @@ def log2_colour_map(l2, usable, pal_rgb):
     return m.astype(np.uint8)
 
 
-def log2_anim(ins, l2, rec, k, cmap, cache, want=0, sl=None, edit=None, scale=None, grow=None, limit=1024):
+def log2_anim(ins, l2, rec, k, cmap, cache, want=0, sl=None, edit=None, scale=None, grow=None, limit=1024, post=None):
     """Convert LoG2 animation k of the actor record at slice offset `rec` into a BF animation. Returns ptr or 0.
     sl = frames a..b-1 only (a slice with a step, e.g. 3:-5:-1, plays them backwards); want = repeat frames evenly to
     that count (the replaced BF slot's own frame count). edit(k, d, pixels) -> (key, pixels): optional pixel edit of each
@@ -359,6 +364,7 @@ def log2_anim(ins, l2, rec, k, cmap, cache, want=0, sl=None, edit=None, scale=No
                 if scale:
                     img, fbox = _shrink_fit(img, x, y, scale)
                 bf = cmap[img]
+                if post: bf = post(bf, None if len(set(dirs)) == 1 else min(d, 2))
                 if grow: bf, fbox = grow_box(bf, fbox, *grow)
                 hh, ww = bf.shape
                 data = bf.reshape(hh // 8, 8, ww // 8, 8).transpose(0, 2, 1, 3).reshape(-1).tobytes()
