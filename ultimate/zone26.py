@@ -197,6 +197,17 @@ SPAR = (('Tournament', (('Spopovich', 112, 252), ('Yamu', 148, 303), ('Pui Pui',
 BALLS = ((5, 1, 264, 344), (7, 1, 152, 112), (8, 1, 144, 104), (11, 1, 160, 40), (13, 1, 96, 120), (15, 1, 368, 352), (14, 1, 96, 128))
 BALL_ITEM, BALL_ZENIE, BALL_NATIVE, WISH_NATIVE = 16, 1000000, 0xEA, 0xEB
 BUILDING = (0, 92)
+MORE_FLAG, MORE_GET, MORE_PUT = 2000, 0xE7, 0xF0    # flags past the story's, kept with the bench (32 of them): an outfit's flag from 2000 up, and natives more_get(n), more_put(n, value)
+MORE_YAMCHA, MORE_TIEN, MORE_PIKKON, MORE_HERCULE = 0, 1, 2, 3
+MORE_TIER, MORE_RACE, MORE_MUSEUM, MORE_RANK_NEW, MORE_HARD, MORE_HARD_PAID, MORE_ENDLESS_NEW, MORE_HERC_WON = 4, 5, 6, 7, 13, 14, 15, 24    # 8-10 best rank, 11-12 last rank, 16-23 best Endless run (see ladder in outfit.c)
+LADDER = 0xDC                                       # native ladder(op): 0 start Endless, gives the first room; 1 is it on; 2 a win: pays, gives the next room; 3 it ended; 4 this run's wins; 5 best run; 6 rank(hp, max); 7 last rank; 8 best rank (1 C, 2 B, 3 A, 4 S)
+ENDLESS_STEP, ENDLESS_CAP = 20000, 1000000          # an Endless win pays this times the run's wins, up to the cap
+RANK_PRIZE = (50000, 100000, 200000, 300000)        # C, B, A, S
+HARD_PRIZE, RACE_PRIZE, MUSEUM_PRIZE, MUSEUM_ITEM, MUSEUM_ITEMS = 300000, 50000, 1000000, 13, 5   # the museum: five Lazarus Crystals as well
+# Harder copies of the tournament: tier 1 is the Hard bracket, tier 2 only comes up in Endless. HP and stats by round, as TOUR_HP and TOUR_STATS.
+TIER_HP = ((30000, 40000, 60000), (60000, 80000, 120000))
+TIER_STATS = (((150, 75, 70, 75), (152, 82, 80, 80), (155, 90, 100, 90)), ((158, 100, 110, 100), (160, 105, 120, 105), (160, 110, 130, 110)))
+HERCULE_ROW, HERCULE_CHAR, HERCULE_HP, HERCULE_STATS = 45, 138, 300, (100, 5, 5, 5)     # the dare: he falls at once
 SPAR_EXP, SPAR_MIN_HP, SPAR_ROOM, SPAR_HOME = 4, 2000, (6, 9), (288, 500)
 # Cell Games, from the Challenge Board: LoG2's arena, four fights in a row. Name, row whose behaviour it uses, HP, (level + 50, Strength, Power, Endurance), actor, how many.
 # Perfect Cell takes Kid Buu's row: he fires beams, so he can clash with you. All health carries over, as in the Boss Rush.
@@ -264,6 +275,19 @@ def building_room():
     return cell_first() + len(CELL)
 
 
+def tier_first(t):
+    """First room of this tier's tournament."""
+    return tour_first() if t == 0 else building_room() + 1 + len(tour_list()) * (t - 1)
+
+
+def hercule_room():
+    return building_room() + 1 + len(tour_list()) * len(TIER_HP)
+
+
+def tier_rooms():
+    return ','.join(str(tier_first(t)) for t in range(len(TIER_HP) + 1))
+
+
 def cell_rows():
     """(room, stats base row, HP, stats, actor, x, y) for each fighter: one room each, but the Cell Juniors share theirs."""
     out = []; room = cell_first()
@@ -299,18 +323,20 @@ def tour_list():
     return [(rnd, place, row, char) for rnd, pool in enumerate(TOUR_POOLS) for place, (row, char) in enumerate(pool)]
 
 
-def tour_draw(rnd):
+def tour_draw(rnd, tier=0):
     """Script: go to this round's opponent, drawn or picked at the resident's menu."""
-    base = tour_first() + sum(len(p) for p in TOUR_POOLS[:rnd])
+    base = tier_first(tier) + sum(len(p) for p in TOUR_POOLS[:rnd])
     return '    call 0x78(30)\n    push 26\n    call 0x%X(%d)\n    push %d\n    add\n    pushn 1, 360, 420\n    call 0x77\n    call 0x79(30)\n' % (TOUR_GET, rnd, base)
 
 
-def tour_next(k, rnd):
-    """Script run when opponent k falls."""
-    prize = '    pushn %d\n    call set_flag\n    pushn %d\n    call 0x%X\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 3, 1, 1, 208, 134\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % (TOUR_WON, TOUR_PRIZE, ADD_ZENIE)
+def tour_next(k, rnd, tier=0):
+    """Script run when opponent k falls. In Endless every opponent just leads to the next."""
+    home = '    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 3, 1, 1, 208, 134\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n'
+    prize = ('    pushn %d\n    call set_flag\n    pushn %d\n    call 0x%X\n' % (TOUR_WON, TOUR_PRIZE, ADD_ZENIE) if tier == 0 else '    pushn %d, 1\n    call 0x%X\n    pushn %d\n    call 0x%X\n' % (MORE_HARD, MORE_PUT, HARD_PRIZE, ADD_ZENIE)) + home
+    endless = '    pushn 1\n    call 0x%X\n    jz L0\n    call 0x78(30)\n    push 26\n    pushn 2\n    call 0x%X\n    pushn 1, 360, 420\n    call 0x77\n    call 0x79(30)\n    end\nL0:\n' % (LADDER, LADDER)
     last = len(tour_list()) - 1
-    ordered = ('    pushn %d\n    call flag\n    jz L1\n' % TOUR_ORDERED + ('    call 0x78(30)\n    pushn 26, %d, 1, 360, 420\n    call 0x77\n    call 0x79(30)\n    end\n' % (tour_first() + k + 1) if k < last else prize) + 'L1:\n')
-    return ordered + (prize if rnd == len(TOUR_POOLS) - 1 else tour_draw(rnd + 1) + '    end\n')
+    ordered = ('    pushn %d\n    call flag\n    jz L1\n' % TOUR_ORDERED + ('    call 0x78(30)\n    pushn 26, %d, 1, 360, 420\n    call 0x77\n    call 0x79(30)\n    end\n' % (tier_first(tier) + k + 1) if k < last else prize) + 'L1:\n')
+    return endless + ordered + (prize if rnd == len(TOUR_POOLS) - 1 else tour_draw(rnd + 1, tier) + '    end\n')
 
 
 def rush_rows(W, rom, harmless=False):
@@ -323,7 +349,7 @@ def rush_rows(W, rom, harmless=False):
         if harmless: r[0xD] = r[0xE] = 0      # debug zone build only: bosses that can't end the test before it reaches the next room
         last = k == len(RUSH) - 1
         if last:     # home to West City, where the resident pays out: a scene can't start in a room that held a boss
-            text = '    pushn %d\n    call set_flag\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 3, 1, 1, 208, 134\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % RUSH_WON
+            text = '    call hp\n    call max_hp\n    pushn 6\n    call 0x%X\n' % LADDER + '    pushn %d\n    call set_flag\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 3, 1, 1, 208, 134\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % RUSH_WON
         else:
             text = '    call 0x78(30)\n    pushn 26, %d, 1, %d, %d\n    call 0x77\n    call 0x79(30)\n    end\n' % (RUSH_FIRST + k + 1, 120, 276)
         struct.pack_into('<II', r, 0x14, 0x08708920, W.put(bytes(bfscript.asm(text))))
@@ -357,6 +383,18 @@ def rush_rows(W, rom, harmless=False):
         last = room == cell_rows()[-1][0]
         struct.pack_into('<II', r, 0x14, 0x08708920, W.put(bytes(bfscript.asm(cell_counted(room) if shared else cell_next(room, last)))))
         rows += r
+    for tier in range(len(TIER_HP)):
+        for k, (rnd, place, row, _) in enumerate(tour_list()):
+            r = bytearray(rom[STATS + 28 * row:STATS + 28 * (row + 1)])
+            struct.pack_into('<I', r, 4, TIER_HP[tier][rnd] + 10 * place)
+            r[0xC:0x10] = bytes(TIER_STATS[tier][rnd])
+            if harmless and tier == 0: r[0xD] = r[0xE] = 0     # the top tier stays dangerous, for the test of losing in Endless
+            struct.pack_into('<II', r, 0x14, 0x08708920, W.put(bytes(bfscript.asm(tour_next(k, rnd, tier + 1)))))
+            rows += r
+    r = bytearray(rom[STATS + 28 * HERCULE_ROW:STATS + 28 * (HERCULE_ROW + 1)])
+    struct.pack_into('<I', r, 4, HERCULE_HP); r[0xC:0x10] = bytes(HERCULE_STATS)
+    struct.pack_into('<II', r, 0x14, 0x08708920, W.put(bytes(bfscript.asm('    pushn %d, 1\n    call 0x%X\n    call max_hp\n    set hp\n    call max_ki\n    set ki\n    call 0x78(60)\n    pushn 3, 1, 1, 208, 134\n    call 0x77\n    call 0x79(30)\n    call 0x2F\n    call 0x33(0)\n    end\n' % (MORE_HERC_WON, MORE_PUT)))))
+    rows += r
     at = W.put(bytes(rows))
     for o in STATS_REFS:
         if struct.unpack_from('<I', rom, o)[0] != BASE + STATS:
@@ -515,6 +553,17 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
     if changed != 1: sys.exit('the house in room 2 changed: %d doors' % changed)
     house[0] = 26; house[1] = building_room(); struct.pack_into('<I', house, 0x10, W.put(struct.pack('<%dI' % (2 * n), *ex)))
     rows.append(bytes(house))
+    tier_row = base_row + len(fighters)
+    for tier in range(len(TIER_HP)):
+        for k, (_, _, _, char) in enumerate(tour_list()):
+            st = bytearray(stadium); st[0] = 26; st[1] = tier_first(tier + 1) + k; st[3] = 0
+            e = W.put(struct.pack('<8I', 0x0800FD55, 0, tier_row, 366 << 16 | 360, actor_ids[char] + 9 if isinstance(char, str) else char, 0x080555A0, 1, 0x080716EC)); tier_row += 1
+            struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e))); struct.pack_into('<I', st, 0x10, 0)
+            rows.append(bytes(st))
+    st = bytearray(stadium); st[0] = 26; st[1] = hercule_room(); st[3] = 0
+    e = W.put(struct.pack('<8I', 0x0800FD55, 0, tier_row, 366 << 16 | 360, HERCULE_CHAR, 0x080555A0, 1, 0x080716EC))
+    struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e))); struct.pack_into('<I', st, 0x10, 0)
+    rows.append(bytes(st))
     hub_person(W, rom)
     add_balls(W, rom, actor_ids, popo_list)
     if debug_door:          # debug: on Snake Way, Down on the very spot you start reaches 26:1 and the rest of the road stays walkable; x 48-96 walk up reaches Broly; x<48 starts the ending

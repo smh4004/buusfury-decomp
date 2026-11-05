@@ -147,6 +147,8 @@ check('beating the last one brings you back to the board', at(out) == HUB)
 done = talk_at(rush + ['poke8 %08X %02X' % (0x03001068 + 0x55 + 888 // 8, 1 << 888 % 8)], *zone26.HUB_AT) + ['shot rushtalk', 'tap A 60', 'tap A 60', 'tap A 60', 'tap A 60', 'run 60', 'shot rushdone', 'dump g 03001068 8a8']
 out = run(done); g = open(d + '/g.bin', 'rb').read()
 check('the board pays the reward', flag(887) == 1 and 'bad pc' not in out)
+out = run(done + ['mem 0203F00C 1']); more = int([l for l in out.splitlines() if l.startswith('mem 0203f00c')][-1].split()[-1], 16)
+check('the Boss Rush earns a rank, and its message is over', more >> 8 & 7 in (1, 2, 3, 4) and not more >> 7 & 1)
 again = talk_at(done, *zone26.HUB_AT) + ['shot rushagain', 'run 150', 'tap A 150', 'tap A 200', 'tap A 200', 'run 120', 'mem %s 1' % AT]
 out = run(again); check('after the reward the board still offers the Boss Rush', at(out) == (zone26.RUSH_FIRST << 8 | 26))
 print('rush screens in', d)

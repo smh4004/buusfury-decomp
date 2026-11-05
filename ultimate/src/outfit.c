@@ -35,6 +35,7 @@ extern const u8 form_table[];
 static void guest_sync(void) {
     static const u8 broly[] = {3, 7, 8, ERASER_SKILL}, thirteen[] = {5, 7, 8, BOMBER_SKILL, WAVE_SKILL, SUPER13_SKILL}, piccolo[] = {3, 7, 17, BEAM_SKILL},
         fighter[] = {2, 7, 8}, a17[] = {5, 7, 8, BLITZ_SKILL, WAVE_SKILL, SUPER17_SKILL}, a18[] = {4, 7, BLITZ_SKILL, DISC_SKILL, WAVE_SKILL}, krillin[] = {3, 7, 15, DISC_SKILL}, videl[] = {1, 7},
+        tien[] = {3, 7, 15, BLITZ_SKILL}, yamcha[] = {2, 7, 15}, pikkon[] = {3, 7, 8, WAVE_SKILL}, hercule[] = {1, 7},
         trunks[] = {4, 7, 20, 4, 11};            /* Future Trunks: the same moves as Trunks */
     u8 *r = RECORDS + 8 * RECORD_SIZE;
     int form = FORM_OF(8), i;
@@ -46,6 +47,10 @@ static void guest_sync(void) {
     else if (form == FORM_ANDROID18) list = a18;
     else if (form == FORM_KRILLIN) list = krillin;
     else if (form == FORM_VIDEL) list = videl;
+    else if (form == FORM_TIEN) list = tien;
+    else if (form == FORM_YAMCHA) list = yamcha;
+    else if (form == FORM_PIKKON) list = pikkon;
+    else if (form == FORM_HERCULE) list = hercule;
     else if (form == FORM_FUTURE_TRUNKS) list = trunks;
     else if (form == FORM_KID_BUU || form == FORM_MAJIN_BUU || form == FORM_JANEMBA) list = fighter;
     else return;
@@ -64,17 +69,20 @@ static void guest_sync(void) {
 #define MIRROR (*(u8 **)0x03004A64)
 #define BENCH_OFFSET 0x1A20                  /* the three game blocks end here; EEPROM ends at 0x2000 */
 #define BENCH_MAGIC 0x31484342
-#define BENCH_GROUPS 13
+#define FULL_GROUPS 11                       /* older fighters: a whole entry each */
+#define SMALL_GROUPS 4                       /* newer fighters share what was left: no room for gear, which simply goes back in the bag */
+#define BENCH_GROUPS (FULL_GROUPS + SMALL_GROUPS)
 #define SAVE_BLOCK 0x8B0
 struct bench_entry { u8 used, gear[4], vitals[8], exp[4], stats[4], unspent, levels[14]; };
-struct bench { u32 magic, gen, sum; u8 spare[16]; struct bench_entry e[BENCH_GROUPS]; };     /* spare: room for more saved data per game */
+#define SMALL_SIZE 21                        /* used, exp[3], stats[4], unspent, levels[12] */
+struct bench { u32 magic, gen, sum; u8 flags[4], more[12]; struct bench_entry e[FULL_GROUPS]; u8 tail[72]; };     /* a game saved before these existed has zero in flags, more and tail */
 #define BENCH (*(struct bench *)0x0203F000)
 typedef char bench_size_ok[sizeof(struct bench) == 496 ? 1 : -1];
 #define Recalculate ((void (*)(void *))0x08013C67)
 #define FRAMES (*(volatile u32 *)0x03000F94)
 #define VCOUNT (*(volatile u16 *)0x04000006)
 /* Which fighter an outfit belongs to: Full Power is Broly and Super 13 is Android 13. Order follows the guest list in outfits.json; build.py checks it. */
-static const u8 bench_group[] = {0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+static const u8 bench_group[] = {0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
 
 static int group_of(int form) {
     int first = outfit_index[8][0], n = outfit_index[8][1], i;
@@ -86,7 +94,9 @@ static void bytes_copy(u8 *to, const u8 *from, int n) { while (n-- > 0) *to++ = 
 static u32 gen_of(const u8 *game) { return game[GEN_AT] | game[GEN_AT + 1] << 8; }
 static u32 bench_sum(const struct bench *b) {
     const u8 *p = (const u8 *)b->e; u32 sum = b->gen ^ 0x5A5A, i;
-    for (i = 0; i < sizeof b->e; i++) sum = sum * 31 + p[i];
+    for (i = 0; i < sizeof b->e + sizeof b->tail; i++) sum = sum * 31 + p[i];
+    p = b->flags;
+    for (i = 0; i < sizeof b->flags + sizeof b->more; i++) if (p[i]) sum = sum * 31 + p[i] + i;     /* all zero leaves an older save's sum as it was */
     return sum;
 }
 static const struct bench *saved_bench(int slot) { return (const struct bench *)(MIRROR + BENCH_OFFSET + slot * sizeof(struct bench)); }
@@ -136,27 +146,115 @@ static void bench_fetch(const struct bench_entry *e, u8 *r) {
 
 /* Slot 8's record goes with the fighter whose outfit is on. `was` is the outfit before this choice, for a save that has never swapped.
    A story form in slot 8 (Hercule, say) has no bench entry and changes nothing, exactly as before. */
+/* A small entry's bytes run through the tail, then on into more[]. */
+static u8 *small_byte(int group, int i) {
+    int at = (group - FULL_GROUPS) * SMALL_SIZE + i;
+    return at < (int)sizeof BENCH.tail ? &BENCH.tail[at] : &BENCH.more[at - sizeof BENCH.tail];
+}
+static void small_store(int group, u8 *r) {
+    int i;
+    for (i = 0; i < 4; i++) *(u32 *)(r + 0x3C + i * 4) = NO_GEAR[i];
+    for (i = 0; i < BAG_COUNT; i++) if (BAG[i] >> 28 == 9) BAG[i] &= 0x0FFFFFFF;
+    *small_byte(group, 0) = 1;
+    { u32 exp = *(u32 *)(r + 0x24) >> 4; for (i = 0; i < 3; i++) *small_byte(group, 1 + i) = exp >> (8 * i); }     /* in sixteens: three bytes reach past level 150 */
+    for (i = 0; i < 4; i++) *small_byte(group, 4 + i) = r[0x28 + i];
+    *small_byte(group, 8) = r[0x2C];
+    for (i = 0; i < 12; i++) *small_byte(group, 9 + i) = r[0x2E + i];
+}
+static void small_fetch(int group, u8 *r) {
+    int i;
+    { u32 exp = 0; for (i = 0; i < 3; i++) exp |= (u32)*small_byte(group, 1 + i) << (8 * i); *(u32 *)(r + 0x24) = exp << 4; }
+    for (i = 0; i < 4; i++) r[0x28 + i] = *small_byte(group, 4 + i);
+    r[0x2C] = *small_byte(group, 8);
+    for (i = 0; i < 12; i++) r[0x2E + i] = *small_byte(group, 9 + i);
+}
+static int group_used(int g) { return g < FULL_GROUPS ? BENCH.e[g].used : *small_byte(g, 0); }
+static void bench_bump(void) {
+    u32 gen = (BENCH.gen * 25173 + 13849 + FRAMES * 16 + VCOUNT) & 0xFFFF;
+    if (!gen || gen == BENCH.gen) gen = (BENCH.gen + 1) & 0xFFFF;
+    if (!gen) gen = 1;
+    BENCH.gen = gen;
+    G_BYTES[GEN_AT] = gen; G_BYTES[GEN_AT + 1] = gen >> 8;
+}
+
+/* Saved flags past the story's, kept with the bench. The story's flag array has no room left. */
+int more_flag(int f) { bench_ready(); return BENCH.flags[f >> 3] >> (f & 7) & 1; }
+static void more_flag_set(int f, int on) {
+    bench_ready();
+    if ((BENCH.flags[f >> 3] >> (f & 7) & 1) == on) return;
+    if (on) BENCH.flags[f >> 3] |= 1 << (f & 7); else BENCH.flags[f >> 3] &= ~(1 << (f & 7));
+    bench_bump();
+}
+/* Script natives: more_get(n) and more_put(n, value). */
+void more_get(int *sp) { int n = *sp; sp[n] = more_flag(sp[n]); }
+void more_put(int *sp) { int n = *sp; more_flag_set(sp[n - 1], sp[n] != 0); *sp = n - 2; }
+
+#define MORE_FLAG 0x7D0                      /* an outfit's flag from here up is more_flag(flag - MORE_FLAG) */
+static int outfit_open(const struct outfit *o) {
+    if (!o->flag) return 1;
+#ifdef DEBUG_OPEN
+    if (o->flag >= MORE_FLAG) return 1;                  /* debug builds start with everyone, and with a save that hasn't touched the bench */
+#endif
+    return o->flag >= MORE_FLAG ? more_flag(o->flag - MORE_FLAG) : GetFlag((void *)0x03001068, o->flag);
+}
+
+/* Endless and the Boss Rush rank. The run itself lives in memory only, so a reset can't leave one going; the best of each is saved in the flags above. */
+#define ENDLESS_ON (*(u32 *)0x0203FFA0)
+#define ENDLESS_WINS (*(u32 *)0x0203FFA4)
+static const u8 tier_rooms[] = {TIER_ROOMS};
+static int more_bits(int f, int n) { int v = 0, i; for (i = 0; i < n; i++) v |= more_flag(f + i) << i; return v; }
+static void more_bits_set(int f, int n, int v) { int i; for (i = 0; i < n; i++) more_flag_set(f + i, v >> i & 1); }
+static int endless_room(void) {
+    int wins = ENDLESS_WINS, tier = wins < 6 ? 0 : wins < 12 ? 1 : 2;
+    return tier_rooms[tier] + 6 * (wins % 3) + ((FRAMES * 25173 + VCOUNT) >> 4 & 0xFFFF) % 6;
+}
+void ladder(int *sp) {
+    int n = *sp, op = sp[n], out = -1;
+    switch (op) {
+    case 0: ENDLESS_ON = 1; ENDLESS_WINS = 0; out = endless_room(); break;
+    case 1: out = ENDLESS_ON; break;
+    case 2: {
+        u32 pay = ++ENDLESS_WINS * ENDLESS_STEP;
+        *(u32 *)0x0300155C += pay > ENDLESS_CAP ? ENDLESS_CAP : pay;
+        if ((int)ENDLESS_WINS > more_bits(16, 8) && ENDLESS_WINS < 256) more_bits_set(16, 8, ENDLESS_WINS);
+        out = endless_room(); break; }
+    case 3: ENDLESS_ON = 0; more_flag_set(15, 1); break;
+    case 4: out = ENDLESS_WINS; break;
+    case 5: out = more_bits(16, 8); break;
+    case 6: {
+        int hp = sp[n - 2], max = sp[n - 1], pct = max > 0 ? hp * 100 / max : 0, rank = pct >= 75 ? 4 : pct >= 50 ? 3 : pct >= 25 ? 2 : 1;
+        more_bits_set(11, 2, rank - 1);
+        if (rank > more_bits(8, 3)) more_bits_set(8, 3, rank);
+        more_flag_set(7, 1);
+        *sp = n - 3; return; }
+    case 7: out = more_bits(11, 2) + 1; break;
+    case 8: out = more_bits(8, 3); break;
+    }
+    if (out >= 0) sp[n] = out; else *sp = n - 1;
+}
+
 static void bench_settle(int was) {
     u8 *r = RECORDS + 8 * RECORD_SIZE;
     int now = group_of(FORM_OF(8)), out = OUT_FIGHTER - 1;
-    u32 gen;
     if (now < 0) return;
     if (out < 0 || out >= BENCH_GROUPS) out = group_of(was);
     if (out < 0 || out == now) return;
     bench_ready();
-    bench_store(&BENCH.e[out], r);
-    if (BENCH.e[now].used) bench_fetch(&BENCH.e[now], r);
-    else {
+    if (out < FULL_GROUPS) bench_store(&BENCH.e[out], r); else small_store(out, r);
+    if (!group_used(now)) {
         /* A first swap starts level with the guest who was out, rested and with nothing equipped. */
         *(u16 *)(r + 0x16) = *(u16 *)(r + 0x18);
         *(u16 *)(r + 0x1A) = *(u16 *)(r + 0x1C);
     }
-    gen = (BENCH.gen * 25173 + 13849 + FRAMES * 16 + VCOUNT) & 0xFFFF;
-    if (!gen || gen == BENCH.gen) gen = (BENCH.gen + 1) & 0xFFFF;
-    if (!gen) gen = 1;
-    BENCH.gen = gen;
-    G_BYTES[GEN_AT] = gen; G_BYTES[GEN_AT + 1] = gen >> 8; OUT_FIGHTER = now + 1;
+    else if (now < FULL_GROUPS) bench_fetch(&BENCH.e[now], r);
+    else small_fetch(now, r);
+    bench_bump();
+    OUT_FIGHTER = now + 1;
     Recalculate(r);
+    if (now >= FULL_GROUPS && group_used(now)) {         /* a small entry keeps no health: back rested */
+        *(u16 *)(r + 0x16) = *(u16 *)(r + 0x18);
+        *(u16 *)(r + 0x1A) = *(u16 *)(r + 0x1C);
+    }
 }
 
 /* The game's EEPROM write, whole, with the bench written after a game block when that slot doesn't already hold it. Same steps as the original at 0x0803FBDE. */
@@ -207,6 +305,7 @@ void heap_init(void) {
     BENCH.magic = 0;
     CL.active = 0; CL.cool = 0; CL.surge = 0; CL.p_at = 0; CL.e_at = 0;
     *(u32 *)0x0203F300 = 0;                /* no bomb sprite */
+    ENDLESS_ON = 0; ENDLESS_WINS = 0;
     *(u32 *)0x03003488 = (u32)block;
     block[0] = 0; block[1] = HEAP_WORDS; block[2] = 0;
     *((u8 *)block + 6) = 0;
@@ -371,7 +470,7 @@ static void cycle(void *obj, int dir) {
     if (at < 0 || n < 2) return;       /* transformed or story form: leave it alone */
     for (i = 1; i < n; i++) {
         const struct outfit *o = &outfit_table[first + (at + dir * i + n * 2) % n];
-        if (o->flag && !GetFlag((void *)0x03001068, o->flag)) continue;
+        if (!outfit_open(o)) continue;
         snapshot(obj);
         FORM_OF(c) = o->form;
         guest_sync();
@@ -442,7 +541,7 @@ static void restore_borrowed(void *obj) {
         if (have) continue;
         for (i = 0; i < count; i++) {
             const struct outfit *o = &outfit_table[first + i];
-            if (o->flag && !GetFlag((void *)0x03001068, o->flag)) continue;
+            if (!outfit_open(o)) continue;
             FORM_OF(c) = o->form;
             guest_sync();
             Sprite_SetCharacter((void *)*field(obj, OBJ_LIST + 4 + s * 8), Form_Sprite((void *)(form_table + o->form * 24)));

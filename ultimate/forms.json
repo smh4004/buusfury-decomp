@@ -342,6 +342,34 @@
    "portrait": 163,
    "flags": 81,
    "down": "android17"
+  },
+  {
+   "id": "tien",
+   "copy": 51,
+   "actor": "tien_player",
+   "owner": 8,
+   "flags": 16
+  },
+  {
+   "id": "yamcha",
+   "copy": 53,
+   "actor": "yamcha_player",
+   "owner": 8,
+   "flags": 16
+  },
+  {
+   "id": "pikkon",
+   "copy": 50,
+   "actor": "pikkon_player",
+   "owner": 8,
+   "flags": 16
+  },
+  {
+   "id": "hercule",
+   "copy": 47,
+   "actor": "hercule_player",
+   "owner": 8,
+   "flags": 16
   }
  ],
  "edit": {

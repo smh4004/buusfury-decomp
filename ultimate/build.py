@@ -393,7 +393,8 @@ def death_script(src):
     line, body = rest.split('\n', 1)
     home = zone26.spar_off() + '    call max_hp\n    set hp\n    pushn 0, 0\n    call 0x3C\n    call 0xF7(5)\n    call 0x78(30)\n    pushn 6, 1, 1, %d, %d\n    call 0x77\n    call 0x79(30)\n    push 4\n    end\n' % zone26.SPAR_HOME     # steps count from 0 here: 4 is the list's end, while just `end` would run on into the next step and the game over
     new = '    pushn %d\n    call flag\n    pushn %d\n    call flag\n    and\n    jz L9\n' % zone26.CELL_COUNT + home + 'L9:\n'
-    return head + first + line + '\n' + new + body
+    endless = '    pushn 1\n    call 0x%X\n    jz L8\n    pushn 3\n    call 0x%X\n    call max_hp\n    set hp\n    pushn 0, 0\n    call 0x3C\n    call 0xF7(5)\n    call 0x78(30)\n    pushn 3, 1, 1, 208, 134\n    call 0x77\n    call 0x79(30)\n    push 4\n    end\nL8:\n' % (zone26.LADDER, zone26.LADDER)
+    return head + first + line + '\n' + endless + new + body
 
 
 def symbol_items_icon(item):
@@ -484,11 +485,18 @@ def hub_npc(src):
     picker_first = '    call 0x8D\n    call 0x%X\n    push {END}\n    end\n' % DEBUG_NATIVE if os.environ.get('BFU_SLOT_TEST') else ''   # test_slots.py: open Switch Character and save here
     if os.environ.get('BFU_HUB_EVENT'): picker_first = '    pushn %s, 0, 0\n    call run_event\n    push {END}\n    end\n' % os.environ['BFU_HUB_EVENT']     # a test plays one of the game's scripts by talking to the official
     if os.environ.get('BFU_HUB_WARP'): picker_first = '    pushn %s\n    call 0x77\n    push {END}\n    end\n' % os.environ['BFU_HUB_WARP']     # a test goes straight to a room by talking to the official
+    more = lambda n: '    pushn %d\n    call 0x%X\n' % (n, zone26.MORE_GET)
+    put = lambda n, v: '    pushn %d, %d\n    call 0x%X\n' % (n, v, zone26.MORE_PUT)
+    lad = lambda op: '    pushn %d\n    call 0x%X\n' % (op, zone26.LADDER)
+    def pending(test, name, lab): return test + '    jz %s\n    push {%s}\n    end\n%s:\n' % (lab, name, lab)
+    museum_done = '    pushn 341, 5\n    call 0xBA\n    push 25\n    eq\n    pushn 346, 4\n    call 0xBA\n    push 15\n    eq\n    and\n'
+    race_won = '    call 0x7F(61)\n    pushn 234\n    call flag\n    or\n'
     start = picker_first + """    pushn 883
     call not_flag
     jz L0
     end
 L0:
+""" + pending(more(zone26.MORE_RANK_NEW), 'rank', 'P1') + pending(more(zone26.MORE_ENDLESS_NEW), 'endless_done', 'P2') + pending(more(zone26.MORE_HARD) + more(zone26.MORE_HARD_PAID) + '    push 0\n    eq\n    and\n', 'hard_won', 'P3') + pending(more(zone26.MORE_HERC_WON) + more(zone26.MORE_HERCULE) + '    push 0\n    eq\n    and\n', 'herc_won', 'P4') + pending(race_won + more(zone26.MORE_RACE) + '    push 0\n    eq\n    and\n', 'race_won', 'P5') + pending(museum_done + more(zone26.MORE_MUSEUM) + '    push 0\n    eq\n    and\n', 'museum_won', 'P6') + """
     pushn 889
     call flag
     pushn 890
@@ -537,7 +545,7 @@ L1:
     push 1
     eq
     jz L2
-    push {mode}
+    push {bracket}
     end
 L2:
     call 0x18
@@ -565,6 +573,27 @@ L4:
     push {END}
     end
 """ % zone26.RUSH_FIRST)
+    code('bracket', '    pushn 890\n    call flag\n    jz L1\n    push {tier}\n    end\nL1:\n' + put(zone26.MORE_TIER, 0) + '    push {mode}\n    end\n')
+    say('tier', "- Normal bracket\\n- Hard bracket\\n- Endless\\n- Not now")
+    code('tier_go', '    call 0x18\n    push 0\n    eq\n    jz L1\n' + put(zone26.MORE_TIER, 0) + '    push {mode}\n    end\nL1:\n    call 0x18\n    push 1\n    eq\n    jz L2\n' + put(zone26.MORE_TIER, 1) + '    push {mode}\n    end\nL2:\n    call 0x18\n    push 2\n    eq\n    jz L3\n' + more(zone26.MORE_HARD) + '    jz L4\n    push {endless}\n    end\nL4:\n    push {locked}\n    end\nL3:\n    push {END}\n    end\n')
+    say('locked', "Win the Hard bracket first and Endless opens up.")
+    code('locked_go', '    push {END}\n    end\n')
+    say('endless', "Endless! Fight until you fall. Every win pays more, and you keep it all.")
+    code('endless_go', '    call 0x78(30)\n    push 26\n' + lad(0) + '    pushn 1, 360, 420\n    call 0x77\n    call 0x79(30)\n    push {END}\n    end\n')
+    steps.append(('endless_done', 'saycode 0x%02X "That run: %%d wins. Your best: %%d."\n' % speaker + lad(4) + lad(5) + '    end\n'))
+    code('endless_done_go', put(zone26.MORE_ENDLESS_NEW, 0) + '    push {start}\n    end\n')
+    say('hard_won', "Hard bracket cleared! 300,000 Zenie, Endless is open, and Pikkon joins you.")
+    code('hard_won_go', put(zone26.MORE_HARD_PAID, 1) + put(zone26.MORE_PIKKON, 1) + '    push {start}\n    end\n')
+    say('herc_won', "Hercule says he let you win, and he's joining your team to teach you more!")
+    code('herc_won_go', put(zone26.MORE_HERCULE, 1) + '    push {start}\n    end\n')
+    say('race_won', "You beat the school's race record! Here's 50,000 Zenie.")
+    code('race_won_go', put(zone26.MORE_RACE, 1) + '    pushn %d\n    call 0x%X\n    push {start}\n    end\n' % (zone26.RACE_PRIZE, zone26.ADD_ZENIE))
+    say('museum_won', "The museum is complete, all 40 exhibits! A million Zenie and five Lazarus Crystals!")
+    code('museum_won_go', put(zone26.MORE_MUSEUM, 1) + '    pushn %d\n    call 0x%X\n    pushn %d, %d\n    call 0x81\n    push {start}\n    end\n' % (zone26.MUSEUM_PRIZE, zone26.ADD_ZENIE, zone26.MUSEUM_ITEM, zone26.MUSEUM_ITEMS))
+    code('rank', ''.join(lad(7) + '    push %d\n    eq\n    jz R%d\n    push {rank%d}\n    end\nR%d:\n' % (r, r, r, r) for r in (4, 3, 2)) + '    push {rank1}\n    end\n')
+    for r, (letter, words) in enumerate((('C', "You made it, barely."), ('B', "A solid run."), ('A', "A fine run!"), ('S', "Barely a scratch!")), 1):
+        say('rank%d' % r, "Boss Rush rank: %s! %s That's %s Zenie." % (letter, words, format(zone26.RANK_PRIZE[r - 1], ',')))
+        code('rank%d_go' % r, put(zone26.MORE_RANK_NEW, 0) + '    pushn %d\n    call 0x%X\n    push {start}\n    end\n' % (zone26.RANK_PRIZE[r - 1], zone26.ADD_ZENIE))
     say('mode', "How's your bracket?\\n- Random draw\\n- Pick my opponents\\n- Not now")
     draw = ''.join('    pushn %d\n    call 0x19(%d)\n    call 0x%X\n' % (r, len(p), zone26.TOUR_PICK) for r, p in enumerate(zone26.TOUR_POOLS))
     code('mode_go', """    call 0x18
@@ -592,7 +621,7 @@ L2:
         code('a%d_go' % r, picks(0) + '    call 0x18\n    push 3\n    eq\n    jz L9\n    push {b%d}\n    end\nL9:\n    push {END}\n    end\n' % r)
         say('b%d' % r, '\\n'.join('- ' + n for n in names[3:] + ('Back',)))
         code('b%d_go' % r, picks(3) + '    push {a%d}\n    end\n' % r)
-    code('enter', """    pushn %d
+    code('enter', more(zone26.MORE_TIER) + '    jz H1\n    pushn %d\n    call flag\n    jz H2\n    call 0x78(30)\n    pushn 26, %d, 1, 360, 420\n    call 0x77\n    call 0x79(30)\n    push {END}\n    end\nH2:\n' % (zone26.TOUR_ORDERED, zone26.tier_first(1)) + zone26.tour_draw(0, 1) + '    push {END}\n    end\nH1:\n' + """    pushn %d
     call flag
     jz L1
     call 0x78(30)
@@ -621,23 +650,39 @@ L1:
     say('rew6', "Dragon Balls: seven lie near the landing pads of seven lands. Bring them to Mr. Popo.")
     code('rew6_go', '    push {rew4}\n    end\n')
     say('rew4', "Time Chamber: Mr. Popo on Kami's Lookout lets you spar with old foes, for less EXP.")
-    code('rew4_go', '    push {END}\n    end\n')
-    say('more', "- Cell Games\\n- Rewards\\n- Back")
-    code('more_go', '    call 0x18\n    push 0\n    eq\n    jz L1\n    push {cell}\n    end\nL1:\n    call 0x18\n    push 1\n    eq\n    jz L2\n    push {rewards}\n    end\nL2:\n    push {menu}\n    end\n')
+    code('rew4_go', '    push {rew_rank}\n    end\n')
+    code('rew_rank', ''.join(lad(8) + '    push %d\n    eq\n    jz R%d\n    push {best%d}\n    end\nR%d:\n' % (r, r, r, r) for r in (4, 3, 2, 1)) + '    push {best0}\n    end\n')
+    for r, text in enumerate(("Boss Rush rank: not yet earned. The more health you finish with, the better.", "Boss Rush best rank: C.", "Boss Rush best rank: B.", "Boss Rush best rank: A.", "Boss Rush best rank: S!")):
+        say('best%d' % r, text)
+        code('best%d_go' % r, '    push {rew_ladder}\n    end\n')
+    steps.append(('rew_ladder', 'saycode 0x%02X "Endless: your best run is %%d wins."\n' % speaker + lad(5) + '    end\n'))
+    steps.append(('rew_museum', 'saycode 0x%02X "Museum: %%d of 25 Hercule and %%d of 15 Z-Fighter exhibits."\n' % speaker + '    pushn 341, 5\n    call 0xBA\n    pushn 346, 4\n    call 0xBA\n    end\n'))
+    code('rew_museum_go', '    push {END}\n    end\n')
+    say('more', "- Cell Games\\n- Rewards\\n- Hercule's dare\\n- Back")
+    code('more_go', '    call 0x18\n    push 0\n    eq\n    jz L1\n    push {cell}\n    end\nL1:\n    call 0x18\n    push 1\n    eq\n    jz L2\n    push {rewards}\n    end\nL2:\n    call 0x18\n    push 2\n    eq\n    jz L3\n    pushn 890\n    call flag\n    jz L4\n    push {dare}\n    end\nL4:\n    push {no_dare}\n    end\nL3:\n    push {menu}\n    end\n')
+    say('no_dare', "Hercule only fights champions. Win a tournament first!")
+    code('no_dare_go', '    push {END}\n    end\n')
+    say('dare', "Hercule dares you to fight him! He's sure it's a dream match. For him, that is.")
+    code('dare_go', '    call 0x78(30)\n    pushn 26, %d, 1, 360, 420\n    call 0x77\n    call 0x79(30)\n    push {END}\n    end\n' % zone26.hercule_room())
     say('cell', "The Cell Games! Four fights in a row at the old arena. Your health carries over. Good luck!")
     code('cell_go', '    pushn %d\n    call clear_flag\n    pushn %d\n    call clear_flag\n    call 0x78(30)\n    pushn 26, %d, 1, %d, %d\n    call 0x77\n    call 0x79(30)\n    push {END}\n    end\n' % (*zone26.CELL_COUNT, zone26.cell_first(), *zone26.CELL_START))
     say('cell_won', "You beat Perfect Cell! Here's 200,000 Zenie, champion!")
     code('cell_won_go', '    pushn %d\n    call set_flag\n    pushn %d\n    call 0x%X\n    push {END}\n    end\n' % (zone26.CELL_PAID, zone26.CELL_PRIZE, zone26.ADD_ZENIE))
-    say('tour_won', "You won the World Tournament! That's 100,000 Zenie. Come back any time.")
-    code('tour_won_go', '    pushn 890\n    call set_flag\n    push {END}\n    end\n')
+    say('tour_won', "You won the World Tournament! 100,000 Zenie, and Yamcha wants to join you!")
+    code('tour_won_go', '    pushn 890\n    call set_flag\n' + put(zone26.MORE_YAMCHA, 1) + '    push {END}\n    end\n')
     say('rush_won', "You beat all nine! Majin Buu, Super Janemba and Kid Buu join you. See Switch Character.")
     code('rush_won_go', '    pushn 887\n    call set_flag\n    push {END}\n    end\n')
     for k, t in enumerate(trials):
         say('trial%d' % k, "Well done, %s! You beat %s! Take 30,000 Zenie and the %s." % (t[1], t[4], t[6]))
-        code('trial%d_go' % k, '    pushn %d\n    call set_flag\n    pushn %d\n    call 0x%X\n    call 0x93(%d)\n    push {END}\n    end\n' % (paid(k), zone26.TRIAL_PRIZE, zone26.ADD_ZENIE, t[5]))
+        code('trial%d_go' % k, '    pushn %d\n    call set_flag\n    pushn %d\n    call 0x%X\n    call 0x93(%d)\n' % (paid(k), zone26.TRIAL_PRIZE, zone26.ADD_ZENIE, t[5]) + more(zone26.MORE_TIEN) + '    jz L1\n    push {END}\n    end\nL1:\n    push {tien}\n    end\n')
+    say('tien', "Tien saw that fight, and he'd like to join you. See Switch Character.")
+    code('tien_go', put(zone26.MORE_TIEN, 1) + '    push {END}\n    end\n')
     say('all_won', "All four trials cleared! Take this Geromantium Bandana and ten Senzu Beans.")
     code('all_won_go', '    pushn %d\n    call set_flag\n    pushn %d, %d\n    call 0x81\n    call 0x93(%d)\n    push {END}\n    end\n' % (zone26.TRIAL_ALL, zone26.TRIAL_ITEM, zone26.TRIAL_ITEMS, zone26.TRIAL_GEAR))
     code('last', '    end\n')
+    for name, text in steps:
+        for m in re.finditer(r'saycode 0x\w+ "([^"]*)"', text):
+            n = len(m.group(1)); assert n < 100 and not 64 <= n <= 67, m.group(1)
     number = {n: k for k, (n, _) in enumerate(steps)}; number['END'] = len(steps)
     return head + ''.join('step auto %s' % re.sub(r'\{(\w+)\}', lambda m: str(number[m.group(1)]), t) for _, t in steps)
 
@@ -645,7 +690,8 @@ L1:
 def debug_edits(first_form):
     """Join Vegito and guest Broly at the start, and open the picker, then save, when the intro ends."""
     heal = ''.join('    push %d\n    set %s\n' % (v, n) for v, n in ((500, 'max_hp'), (500, 'hp'), (100, 'max_ki'), (100, 'ki')))
-    flags = ''.join('    pushn %d\n    call set_flag\n' % f for f in sorted({o['flag'] for l in json.load(open('ultimate/outfits.json'))['characters'].values() for o in l if o['flag']}))
+    import zone26
+    flags = ''.join('    pushn %d\n    call set_flag\n' % f for f in sorted({o['flag'] for l in json.load(open('ultimate/outfits.json'))['characters'].values() for o in l if o['flag'] and o['flag'] < zone26.MORE_FLAG}))
     flags += ''.join('    pushn %d\n    call set_flag\n' % u['flag'] for u in json.load(open('ultimate/outfits.json'))['unlocks'] if u['flag'] >= SS2_FLAG)
     if '--zone' in sys.argv: flags += '    pushn 149\n    call set_flag\n    pushn 0, 19\n    call 0xA4\n'
     join = ('step auto code\n' + flags + '    call 0x97(1)\n    call 0x97(3)\n    call 0x97(4)\n    call 0x97(6)\n    call 0x97(8)\n    call 0x95(3)\n' + heal + '    call 0xD0(21)\n    call 0x95(4)\n' + heal + '    call 0xD0(26)\n    call 0x95(1)\n' + heal + '    call 0xD0(15)\n    pushn 1, 107\n    call 0x9D\n    call 0xA4(1, 18)\n    call 0xA4(1, %d)\n' % BEAM_SKILL + '    call 0x95(6)\n' + heal + '    call 0x95(8)\n' + heal + '    pushn 8, 8\n    call 0xA4\n    pushn 8, %d\n    call 0xA4\n' % ERASER_SKILL +
@@ -853,7 +899,7 @@ def add_actors(rom, clean):
     for actor, form in (('gogeta_dbs', 'base'), ('gogeta_dbs_ss', 'ssj'), ('gogeta_ssb', 'ssb')):
         gogeta.write_frames(clean_dir, form, one)
         cfg[actor] = {'template': 93, 'slots': gogeta.slots(form), 'stretch': True, 'grow': lengths}
-    for name in ('piccolo', 'android17', 'android18', 'krillin', 'future_trunks', 'future_trunks_ss', 'videl_player', 'kid_buu_player', 'majin_buu_player', 'super_janemba_player'):
+    for name in ('piccolo', 'android17', 'android18', 'krillin', 'future_trunks', 'future_trunks_ss', 'videl_player', 'kid_buu_player', 'majin_buu_player', 'super_janemba_player', 'tien_player', 'yamcha_player', 'pikkon_player', 'hercule_player'):
         cfg[name]['grow'] = lengths
     for a in cfg.values():      # slot 18 is the pose held while firing a skill: LoG2's own firing pose when it has one, else its ki pose
         if isinstance(a, dict) and 'log2_record' in a and 'replace' not in a:
@@ -957,7 +1003,7 @@ def add_outfits(rom, clean, at):
     c = open('ultimate/src/outfit.c').read() + '\nconst u16 outfit_index[9][2] = {%s};\nconst struct outfit outfit_table[] = {%s};\nconst u8 saiyaman_map[][2] = {%s};\nconst int saiyaman_count = %d;\nconst u8 ss2_rows[] = {%s,255};\n' % (','.join(index), ','.join(table) or '{0,0,0,0}', ','.join(pairs), len(pairs), ','.join(str(v) for k, v in fm.items() if k.endswith(('_ss2', '_ss2_b'))))
     open(d + '/o.c', 'w').write(c)
     import zone26
-    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DHEAP_WORDS=0x%X' % HEAP_WORDS, '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DWAVE_SKILL=%d' % WAVE_SKILL, '-DSUPER13_SKILL=%d' % SUPER13_SKILL, '-DSUPER17_SKILL=%d' % SUPER17_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DFORM_KID_BUU=%d' % fm['kid_buu'], '-DFORM_MAJIN_BUU=%d' % fm['majin_buu'], '-DFORM_JANEMBA=%d' % fm['super_janemba'], '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DTOUR_PICK_FLAG=%d' % zone26.TOUR_PICKS, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DBALL_AREAS={%s}' % ','.join(str(b[1] << 8 | b[0]) for b in zone26.BALLS), '-DFORM_S13=%d' % fm['super13'], '-DFORM_S17=%d' % fm['super17'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
+    flags = ['-mthumb', '-mcpu=arm7tdmi', '-O2', '-ffreestanding', '-fno-builtin', '-nostdlib', '-fshort-wchar', '-DHEAP_WORDS=0x%X' % HEAP_WORDS, '-DERASER_SKILL=%d' % ERASER_SKILL, '-DBOMBER_SKILL=%d' % BOMBER_SKILL, '-DBEAM_SKILL=%d' % BEAM_SKILL, '-DWAVE_SKILL=%d' % WAVE_SKILL, '-DSUPER13_SKILL=%d' % SUPER13_SKILL, '-DSUPER17_SKILL=%d' % SUPER17_SKILL, '-DBLITZ_SKILL=%d' % BLITZ_SKILL, '-DFORM_KID_BUU=%d' % fm['kid_buu'], '-DFORM_MAJIN_BUU=%d' % fm['majin_buu'], '-DFORM_JANEMBA=%d' % fm['super_janemba'], '-DDISC_SKILL=%d' % DISC_SKILL, '-DFORM_ANDROID17=%d' % fm['android17'], '-DFORM_ANDROID18=%d' % fm['android18'], '-DFORM_KRILLIN=%d' % fm['krillin'], '-DFORM_VIDEL=%d' % fm['videl'], *(['-DDEBUG_OPEN'] if '--debug' in sys.argv else []), '-DTIER_ROOMS=%s' % zone26.tier_rooms(), '-DENDLESS_STEP=%d' % zone26.ENDLESS_STEP, '-DENDLESS_CAP=%d' % zone26.ENDLESS_CAP, '-DFORM_TIEN=%d' % fm['tien'], '-DFORM_YAMCHA=%d' % fm['yamcha'], '-DFORM_PIKKON=%d' % fm['pikkon'], '-DFORM_HERCULE=%d' % fm['hercule'], '-DFORM_FUTURE_TRUNKS=%d' % fm['future_trunks'], '-DSS2_FLAG=%d' % SS2_FLAG, '-DTOUR_PICK_FLAG=%d' % zone26.TOUR_PICKS, '-DFORM_BROLY=%d' % fm['broly'], '-DFORM_FP=%d' % fm['broly_fp'], '-DFORM_PICCOLO=%d' % fm['piccolo'], '-DFORM_A13=%d' % fm['android13'], '-DBALL_AREAS={%s}' % ','.join(str(b[1] << 8 | b[0]) for b in zone26.BALLS), '-DFORM_S13=%d' % fm['super13'], '-DFORM_S17=%d' % fm['super17'], '-DSOUND_MOVE=0x%X' % symbol('gUnknown_0831947C'), '-DFONT=0x%X' % symbol('gUnknown_0807012C'), '-DMELEE_RECTS=0x083C344C', '-DSOUND_HIT=0x%X' % symbol('gUnknown_083192A8')]
     syms = ['-Wl,--defsym=form_table=0x%X' % (ROM_BASE + SPACE), '-Wl,-Ttext=0x%X' % (ROM_BASE + at), '-Wl,-e,picker_update', '-Wl,--no-warn-rwx-segments']
     lib = subprocess.run(['arm-none-eabi-gcc', '-mthumb', '-mcpu=arm7tdmi', '-print-libgcc-file-name'], capture_output=True, text=True, check=True).stdout.strip()
     subprocess.run(['arm-none-eabi-gcc'] + flags + syms + [d + '/o.c', lib, '-o', d + '/o.elf'], check=True)
@@ -993,6 +1039,9 @@ def add_outfits(rom, clean, at):
         sys.exit('native 0x%X changed' % JOIN_NATIVE)
     struct.pack_into('<I', rom, tab + 4 * JOIN_NATIVE, sym['party_join'] | 1)
     struct.pack_into('<I', rom, tab + 4 * 0xE0, sym['add_zenie'] | 1)
+    struct.pack_into('<I', rom, tab + 4 * zone26.MORE_GET, sym['more_get'] | 1)
+    struct.pack_into('<I', rom, tab + 4 * zone26.LADDER, sym['ladder'] | 1)
+    struct.pack_into('<I', rom, tab + 4 * zone26.MORE_PUT, sym['more_put'] | 1)
     struct.pack_into('<I', rom, tab + 4 * 0xE5, sym['bomb_fx'] | 1)
     struct.pack_into('<I', rom, tab + 4 * zone26.BALL_NATIVE, sym['ball_here'] | 1)
     struct.pack_into('<I', rom, tab + 4 * zone26.WISH_NATIVE, sym['wish_power'] | 1)
@@ -1023,7 +1072,7 @@ def add_outfits(rom, clean, at):
     if rooms >= 410:
         sys.exit('map rooms now reach flag %d' % (448 + rooms))
     guests = [(o['form'] if isinstance(o['form'], int) else fm[o['form']]) for o in cfg['8']]
-    if guests != [fm[k] for k in ('broly', 'broly_fp', 'android13', 'piccolo', 'future_trunks', 'android17', 'android18', 'krillin', 'videl', 'majin_buu', 'super_janemba', 'kid_buu')]:
+    if guests != [fm[k] for k in ('broly', 'broly_fp', 'android13', 'piccolo', 'future_trunks', 'android17', 'android18', 'krillin', 'videl', 'majin_buu', 'super_janemba', 'kid_buu', 'tien', 'yamcha', 'pikkon', 'hercule')]:
         sys.exit('guest list changed: update bench_group in outfit.c')
     HEAP = 0x3D4D0                   # the heap's setup: heap_init replaces it, keeping the top of work RAM out of the heap
     if rom[HEAP:HEAP + 8] != bytes.fromhex('97489849984a0860') or struct.unpack_from('<I', rom, 0x3D738)[0] != 0xFDFE:

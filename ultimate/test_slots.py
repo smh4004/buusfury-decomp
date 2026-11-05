@@ -169,5 +169,21 @@ shutil.copy(broken, after); s7 = talk_at(BOOT, *zone26.HUB_AT, sav=after) + TO_G
 out = from_save(s7, broken); q = read('q')
 check('a damaged bench starts empty', 'bad pc' not in out and q['form'] == forms['broly'] and q['exp'] == h['exp'] and q['gear'] == EMPTY)
 
+# 7. The newest fighters' smaller records, Hercule's running on past the tail, and the saved flags beside them.
+t1 = hub + poke_rec(exp=500016, stat=9, gear=ROW) + TO_GUEST + DOWN(12) + CONFIRM + state('t1')
+out = fresh(t1); a = read('t1')
+check('small: Tien on, and gear back in the bag', 'bad pc' not in out and a['form'] == forms['tien'] and a['bag'] == (ROW,))
+t2 = talk_at(t1, *zone26.HUB_AT) + poke_rec(exp=600000, stat=31) + TO_GUEST + DOWN(3) + CONFIRM + state('t2')
+out = fresh(t2); a = read('t2')
+check('small: Hercule on, level with the guest who was out', 'bad pc' not in out and a['form'] == forms['hercule'] and a['exp'] == 600000)
+t3 = talk_at(t2, *zone26.HUB_AT) + poke_rec(exp=700000, stat=41, hp=5) + ['poke8 %08X 3C' % (BENCH + 12)] + TO_GUEST + UP(3) + CONFIRM + state('t3') + ['dump m 0203F00C 4']
+out = fresh(t3); a = read('t3')
+check('small: back to Tien, his own progress, rested', 'bad pc' not in out and a['form'] == forms['tien'] and a['exp'] == 600000 and a['stat'] == 31 and a['hp'] == a['maxhp'])
+check('small: only three bench sizes of data: the save stops where it should', set(eeprom(sav)[BENCH_OFFSET + BENCH_SIZE:]) == {255})
+shutil.copy(sav, after); t4 = talk_at(BOOT, *zone26.HUB_AT, sav=after) + TO_GUEST + DOWN(3) + CONFIRM + state('t4') + ['dump m 0203F00C 4']
+out = from_save(t4); a = read('t4')
+check('small: Hercule comes back from the save', 'bad pc' not in out and a['form'] == forms['hercule'] and a['exp'] == 700000 and a['stat'] == 41)
+check('the saved flags come back too', open(d + '/m.bin', 'rb').read()[0] == 0x3C)
+
 print('fails:', fails) if fails else print('ALL PASS')
 sys.exit(1 if fails else 0)

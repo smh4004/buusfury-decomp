@@ -111,6 +111,26 @@
     "form": "kid_buu",
     "flag": 887,
     "name": "Kid Buu"
+   },
+   {
+    "form": "tien",
+    "flag": 2001,
+    "name": "Tien"
+   },
+   {
+    "form": "yamcha",
+    "flag": 2000,
+    "name": "Yamcha"
+   },
+   {
+    "form": "pikkon",
+    "flag": 2002,
+    "name": "Pikkon"
+   },
+   {
+    "form": "hercule",
+    "flag": 2003,
+    "name": "Hercule"
    }
   ],
   "7": [
