@@ -147,7 +147,7 @@ def door(cfg, a, side, s, e, masks):
 def links(cfg, masks):
     out = {}
     for a, extra in cfg.get('doors', {}).items():
-        for d in extra: out.setdefault(int(a), []).append(dict(rect=tuple(d['rect']), key=d['key'], world=d['world'], to=d['to'], arrive=tuple(d['arrive'])))
+        for d in extra: out.setdefault(int(a), []).append(dict(rect=tuple(d['rect']), key=d['key'], world=d['world'], to=building_room() if d['to'] == 'building' else d['to'], arrive=tuple(d['arrive'])))
     for a, sa, s0, e0, b, sb, s1, e1 in cfg['links']:
         if isinstance(b, list):                       # an exit out of the zone: [world, area, x, y]
             ra, ka, _ = door(cfg, a, sa, s0, e0, masks)
@@ -196,6 +196,7 @@ SPAR = (('Tournament', (('Spopovich', 112, 252), ('Yamu', 148, 303), ('Pui Pui',
 # Dragon Ball hunt, after the ending: one ball in each of seven lands, a short walk from the capsule pad you land on. (world, area, x, y). Carrying a ball is the game's own item 16-22.
 BALLS = ((5, 1, 264, 344), (7, 1, 152, 112), (8, 1, 144, 104), (11, 1, 160, 40), (13, 1, 96, 120), (15, 1, 368, 352), (14, 1, 96, 128))
 BALL_ITEM, BALL_ZENIE, BALL_NATIVE, WISH_NATIVE = 16, 1000000, 0xEA, 0xEB
+BUILDING = (0, 92)
 SPAR_EXP, SPAR_MIN_HP, SPAR_ROOM, SPAR_HOME = 4, 2000, (6, 9), (288, 500)
 # Cell Games, from the Challenge Board: LoG2's arena, four fights in a row. Name, row whose behaviour it uses, HP, (level + 50, Strength, Power, Endurance), actor, how many.
 # Perfect Cell takes Kid Buu's row: he fires beams, so he can clash with you. All health carries over, as in the Boss Rush.
@@ -256,6 +257,11 @@ def spar_list():
 
 def cell_first():
     return spar_first() + len(spar_list())
+
+
+def building_room():
+    """The house in room 2: a copy of the story's room whose door leads back out to room 2, not to West City."""
+    return cell_first() + len(CELL)
 
 
 def cell_rows():
@@ -500,6 +506,15 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
         st[4] = len(here); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<%dI' % len(here), *here))); struct.pack_into('<I', st, 0x10, 0)
         struct.pack_into('<I', st, 0x2C, scene); struct.pack_into('<I', st, 0x30, 0); struct.pack_into('<I', st, 0xC, CELL_NAME_UI)
         rows.append(bytes(st))
+    house = bytearray(next(rom[AREAS + 56 * q:AREAS + 56 * q + 56] for q in range(COUNT) if (rom[AREAS + 56 * q], rom[AREAS + 56 * q + 1]) == BUILDING))
+    n = house[3]; p = struct.unpack_from('<I', house, 0x10)[0] - BASE; ex = list(struct.unpack_from('<%dI' % (2 * n), rom, p)); changed = 0
+    for i in range(n):
+        o = ex[2 * i + 1] - BASE
+        if struct.unpack_from('<I', rom, o)[0] == WARP[0]:
+            r = bytearray(rom[o:o + 24]); struct.pack_into('<II', r, 16, 0 | 26 << 8 | 2 << 16 | 1 << 24, 124 << 16 | 188); ex[2 * i + 1] = W.put(bytes(r)); changed += 1
+    if changed != 1: sys.exit('the house in room 2 changed: %d doors' % changed)
+    house[0] = 26; house[1] = building_room(); struct.pack_into('<I', house, 0x10, W.put(struct.pack('<%dI' % (2 * n), *ex)))
+    rows.append(bytes(house))
     hub_person(W, rom)
     add_balls(W, rom, actor_ids, popo_list)
     if debug_door:          # debug: on Snake Way, Down on the very spot you start reaches 26:1 and the rest of the road stays walkable; x 48-96 walk up reaches Broly; x<48 starts the ending

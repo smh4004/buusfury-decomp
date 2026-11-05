@@ -34,7 +34,7 @@ def path(a, frm, door):
         prev = {s: None}; q = collections.deque([s])
         while q:
             c = q.popleft()
-            if x0 <= c[0] < x1 and y0 <= c[1] < y1:
+            if x0 <= c[0] < x1 and y0 <= c[1] < y1 and zone26.walkable(m, *c):
                 out = []
                 while c: out.append(c); c = prev[c]
                 return out[::-1]
@@ -71,12 +71,14 @@ tx('keys LEFT', 'run 40', 'keys', 'run 2')
 p = rd(0x03001C34); tx('poke %08X %08X' % (p + 0x1A0, x0 << 8), 'poke %08X %08X' % (p + 0x1A4, y0 << 8), 'keys DOWN', 'run 30', 'keys', 'run 200')
 check('Snake Way: Down on the starting spot reaches Zone 26', room() == HERE(1))
 def go(a, b):
+    if a == zone26.building_room():
+        tx('keys DOWN', 'run 120', 'keys', 'run 90'); ok = room() == HERE(2); check('the house in room 2 leads back to room 2', ok); return ok
     tx('poke8 03001576 FF', 'poke8 03001577 7F')       # Android 13 may hit you on the way out of his room
-    door = [x for x in D[a] if x['to'] == b and 'world' not in x][0]
+    door = [x for x in D[a] if x['to'] == b and x.get('world', 26) == 26][0]
     tx('run 40'); e = through(a, door); tx('run 60')
     check('%2d -> %2d on foot%s' % (a, b, ': ' + e if e else ''), not e and room() == HERE(b))
     return not e
-route = (1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 10, 11, 12, 13, 14, 15)
+route = (1, 2, zone26.building_room(), 2, 3, 4, 5, 6, 7, 8, 9, 8, 10, 11, 12, 13, 14, 15)
 for a, b in zip(route, route[1:]):
     if not go(a, b): break
 else:

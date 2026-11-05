@@ -290,7 +290,7 @@ for a in (1,):
     go(shop, [x for x in D[a] if x['to'] == 2 and 'world' not in x][0], PL, 'to2')
 go(shop, [x for x in D[2] if 'world' in x][0], PL, 'shop')
 out = run(shop); ats = [l for l in out.splitlines() if l.startswith('mem 0300197c')]
-check("the Z-Mart door opens the shop", int(ats[-1].split(':')[1].split()[0], 16) & 0xFFFF == 92 << 8)
+check("the Z-Mart door opens the shop in its own copy of the room", int(ats[-1].split(':')[1].split()[0], 16) & 0xFFFF == zone26.building_room() << 8 | 26)
 
 # Before the ending (flag 149 clear) he still only talks about ghosts: no way in.
 early = list(start); go(early, [x for x in D[1] if 'world' in x][0], PL, 'home2')
