@@ -259,8 +259,9 @@ for k, t in enumerate(zone26.TRIALS):
         if 'bad pc' in out or at(out) != room: break
     print('   trial %d took %d tries' % (k + 1, attempt + 1))
     check('winning trial %d brings you back to the board' % (k + 1), at(out) == HUB and 'bad pc' not in out)
-    trial = talk_at(trial + ['mem 0300155C 1'], *zone26.HUB_AT) + ['shot trialpay%d' % k, 'run 150', 'tap A 120', 'run 30', 'mem 0300155C 1', 'dump g 03001068 8a8']
+    trial = talk_at(trial + ['mem 0300155C 1'], *zone26.HUB_AT) + ['shot trialpay%d' % k, 'run 150', 'tap A 120', 'run 30', 'mem 0300155C 1', 'dump g 03001068 8a8'] + (['shot tien', 'tap A 120', 'run 30', 'mem 0203F00C 1'] if k == 0 else [])
     out = run(trial); g = open(d + '/g.bin', 'rb').read()
+    if k == 0: check('the first trial won brings Tien', int([l for l in out.splitlines() if l.startswith('mem 0203f00c')][-1].split()[-1], 16) >> zone26.MORE_TIEN & 1 == 1)
     z = [int(l.split()[-1], 16) for l in out.splitlines() if l.startswith('mem 0300155c')]
     check('trial %d pays 30,000 Zenie at the board' % (k + 1), flag(zone26.TRIAL_PAID + k) == 1 and z[-1] - z[-2] == zone26.TRIAL_PRIZE)
     gear = struct.unpack_from('<%dI' % struct.unpack_from('<I', g, 0xE4)[0], g, 0xE8)
