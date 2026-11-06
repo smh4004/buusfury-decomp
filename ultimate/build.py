@@ -1251,6 +1251,7 @@ def add_eraser(rom, clean, sym, at):
     if ERASER_UI + len(strings) > z26.CELL_NAME_UI: sys.exit('move CELL_NAME_UI up')
     while ERASER_UI + len(strings) < z26.CELL_NAME_UI: strings.append(put(b'\0\0'))
     strings.append(put('The Cell Games Arena'.encode('utf-16-le') + b'\0\0'))
+    strings.append(put('Glacier'.encode('utf-16-le') + b'\0\0'))
     BLAST_TILES, BLAST_TABLE, BLAST_SITE = (0x71300C, 0x71370C), 0x71370C, 0x197F2
     if rom[BLAST_SITE:BLAST_SITE + 14] != bytes.fromhex('207cbc4a41000918090189182165'):
         sys.exit('player blast code changed')

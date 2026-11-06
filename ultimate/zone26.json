@@ -1,5 +1,4 @@
 {
- "music": 6,
  "sizes": {
   "1": [
    272,
@@ -235,7 +234,7 @@
      "x": 144,
      "y": 182,
      "actor": "android13",
-     "condition": 131692
+     "script": "    pushn 886\n    call not_flag\n    end\n"
     }
    ]
   }

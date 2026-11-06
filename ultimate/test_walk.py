@@ -86,6 +86,26 @@ else:
     back = route[::-1]
     for a, b in zip(back, back[1:]):
         if not go(a, b): break
+# Once he's beaten: back in through the arena door, no one there, and out again the same way, all the way to West City.
+SONG = 0x083BB78C + 20 * zone26.GLACIER_SONG
+check('Glacier plays Era of Darkness', rd(0x030038B0) == SONG)
+G = 0x03001068
+def on(n):
+    a = G + 0x55 + n // 8; tx('poke8 %08X %02X' % (a, (rd(a & ~3) >> (8 * (a & 3)) & 255) | 1 << n % 8))
+for n in (884, 885, 886, 882): on(n)
+p = rd(0x03001C34); door = [x for x in D[14] if x['to'] == 15][0]; x0, y0, x1, y1 = door['rect']
+route = (1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14)
+for a, b in zip(route, route[1:]):
+    d = [x for x in D[a] if x['to'] == b and x.get('world', 26) == 26][0]; x0, y0, x1, y1 = d['rect']; p = rd(0x03001C34)
+    tx('poke %08X %08X' % (p + 0x1A0, (x0 + x1) // 2 << 8), 'poke %08X %08X' % (p + 0x1A4, (y0 + y1) // 2 << 8), 'keys ' + 'DOWN UP LEFT RIGHT'.split()[d['key']], 'run 12', 'keys', 'run 110')
+check('after the win: back at the arena door', room() == HERE(14))
+go(14, 15); tx('run 120', 'shot walk_after_win')
+check('after the win: nobody in the arena', room() == HERE(15) and rd(0x03001BB0) == 0)
+back = (15, 14, 13, 12, 11, 10, 8, 7, 6, 5, 4, 3, 2, 1)
+for a, b in zip(back, back[1:]):
+    if not go(a, b): break
+d = [x for x in D[1] if x.get('world') == 4][0]; tx('run 30'); e = through(1, d)
+check('after the win: on foot all the way out to West City%s' % (': ' + e if e else ''), not e and room() & 255 == 4)
 tx('shot walk_end'); h.stdin.close(); h.wait(10)
 print('FAILED:' if fails else 'all passed', fails or '')
 sys.exit(1 if fails else 0)

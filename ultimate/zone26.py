@@ -11,7 +11,9 @@ TABLE_LIT, COUNT_INSN, AREAS, COUNT = 0x8A58, 0x125E0, 0x8E2E0, 452
 WARP = (0x08007675, 0x0800776D)
 TRIGGER = (0x0800742D, 0x080077DF)   # an exit that runs a step list when you're inside its rectangle
 LAYER_FN = 0x08008087
+GLACIER_NAME_UI = 1534 + 41                          # the banner on the way in
 MUSIC_FIELD = 6
+GLACIER_SONG, GLACIER_LOG2_SONG = 52, 7              # BF's song table has spare slots 2 and 52: nothing uses them. LoG2 song 7 is "Era of Darkness"
 
 
 class Writer:
@@ -455,6 +457,8 @@ def final_masks(P, proto_path, log2_path, cfg):
 def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=False, quest_list=0, ending_list=0, popo_list=0):
     P = open(proto_path, 'rb').read()
     cfg = json.load(open('ultimate/zone26.json')); W = Writer(rom, at); rows = []; info = {}
+    import music
+    W.cur = music.port(rom, open(os.environ['BFU_COMBO'], 'rb').read()[0x800000:0x1000000], GLACIER_LOG2_SONG, W.cur, GLACIER_SONG)
     masks, doors, res = final_masks(P, proto_path, log2_path, cfg)
     boss_stats(W, rom, STATS)
     rush_rows(W, rom, debug_door)
@@ -481,10 +485,10 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
                                           actor_ids[e['actor']] + 9, 0x080555A0, 1, 0x080716EC)))
         struct.pack_into('<I', ent, 0, 26 | a << 8 | 1 << 16 | len(exits) << 24)
         struct.pack_into('<I', ent, 4, len(objs))
-        struct.pack_into('<I', ent, 0xC, ac.get('name', struct.unpack_from('<I', temp, 0xC)[0]))
+        struct.pack_into('<I', ent, 0xC, ac.get('name', GLACIER_NAME_UI))
         struct.pack_into('<I', ent, 0x10, W.put(b''.join(struct.pack('<II', *x) for x in exits)) if exits else 0)
         struct.pack_into('<I', ent, 0x14, W.put(b''.join(struct.pack('<I', o) for o in objs)) if objs else 0)
-        struct.pack_into('<I', ent, 0x24, ac.get('music', cfg.get('music', MUSIC_FIELD)))
+        struct.pack_into('<I', ent, 0x24, ac.get('music', GLACIER_SONG))
         struct.pack_into('<I', ent, 0x2C, W.put(struct.pack('<I', M + 4)))
         struct.pack_into('<I', ent, 0x30, 0)
         rows.append(bytes(ent))
@@ -508,7 +512,7 @@ def apply(rom, clean, proto_path, log2_path, at, actor_ids=None, debug_door=Fals
                 struct.pack_into('<I', st, 0x10, W.put(b''.join(struct.pack('<II', *x) for x in ex)) if ex else 0)
                 rows.append(bytes(st))
             for k, (_, char) in enumerate(RUSH):    # Boss Rush: one room per boss
-                st = bytearray(base_ent); st[1] = RUSH_FIRST + k
+                st = bytearray(base_ent); st[1] = RUSH_FIRST + k; struct.pack_into('<I', st, 0x24, MUSIC_FIELD)
                 e = W.put(struct.pack('<8I', 0x0800FD55, 0, STATS_COUNT + k, 214 << 16 | 120, actor_ids[char] + 9 if isinstance(char, str) else char, 0x080555A0, 1, 0x080716EC))
                 struct.pack_into('<I', st, 4, 1); struct.pack_into('<I', st, 0x14, W.put(struct.pack('<I', e)))
                 st[3] = len(exits); struct.pack_into('<I', st, 0x10, W.put(b''.join(struct.pack('<II', *x) for x in exits)) if exits else 0)
